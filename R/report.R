@@ -122,7 +122,7 @@ renderPlausiRepresentation <- function(desc_out, source){
 #'
 #' @export
 #'
-createMarkdown_ <- function(utils, outdir = tempdir(), headless = FALSE){
+createMarkdown_ <- function(rv = rv, utils, outdir = tempdir(), headless = FALSE){
   msg <- "Creating report "
   cat("\n", msg, "\n")
   if (isFALSE(headless)){

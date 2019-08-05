@@ -111,12 +111,13 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
   gc()
 
   # create report
-  createMarkdown_(utils = utils, outdir = "./", headless = headless)
+  createMarkdown_(rv = rv, utils = utils, outdir = "./", headless = headless)
 
   # set end.time
   rv$end.time <- format(Sys.time(), usetz = T, tz = "CET")
   # calc time-diff
   rv$duration <- difftime(rv$end.time, rv$start.time, units = "mins")
 
+  print(rv$duration)
   return(TRUE)
 }
