@@ -1,0 +1,107 @@
+calcDescription <- function(desc_dat, rv, sourcesystem){
+  if (nrow(desc_dat)>1){
+    description <- list()
+    description$source_data <- list(name = desc_dat[get("source_system")==sourcesystem, get("name")],
+                                    description = desc_dat[get("source_system")==sourcesystem, get("description")],
+                                    var_name = desc_dat[get("source_system")==sourcesystem, get("source_variable_name")],
+                                    table_name = desc_dat[get("source_system")==sourcesystem, get("source_table_name")],
+                                    fhir_name = desc_dat[get("source_system")==sourcesystem, get("fhir")],
+                                    checks = list(var_type = desc_dat[get("source_system")==sourcesystem, get("variable_type")],
+                                                  value_set = desc_dat[get("source_system")==sourcesystem, get("value_set")],
+                                                  value_threshold = desc_dat[get("source_system")==sourcesystem, get("value_threshold")],
+                                                  missing_threshold = desc_dat[get("source_system")==sourcesystem, get("missing_threshold")]))
+
+    description$target_data <- list(var_name = desc_dat[get("source_system")==rv$db_target, get("source_variable_name")],
+                                    table_name = desc_dat[get("source_system")==rv$db_target, get("source_table_name")],
+                                    fhir_name = desc_dat[get("source_system")==rv$db_target, get("fhir")],
+                                    checks = list(var_type = desc_dat[get("source_system")==rv$db_target, get("variable_type")],
+                                                  value_set = desc_dat[get("source_system")==rv$db_target, get("value_set")],
+                                                  value_threshold = desc_dat[get("source_system")==rv$db_target, get("value_threshold")],
+                                                  missing_threshold = desc_dat[get("source_system")==rv$db_target, get("missing_threshold")]))
+    return(description)
+  } else {
+    return(NULL)
+  }
+}
+
+calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, plausibility = FALSE){
+  counts <- list()
+  tryCatch({
+    if (isFALSE(plausibility)){
+      counts$source_data$cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==sourcesystem, get("source_table_name")]]], count_key, sourcesystem, plausibility)
+    } else {
+      counts$source_data$cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==sourcesystem, get("key")]]], count_key, sourcesystem, plausibility)
+    }
+    counts$source_data$type <- cnt_dat[get("source_system")==sourcesystem, get("variable_type")]
+  }, error=function(e){
+    cat("\nError occured when counting source_data\n")
+    print(e)
+    return(NULL)
+  })
+
+  # for target_data; our data is in rv$data_target$key
+  tryCatch({
+    counts$target_data$cnt <- countUnique(rv$data_target[[cnt_dat[get("source_system")==rv$db_target, get("key")]]], count_key, sourcesystem = rv$db_target, plausibility = plausibility)
+    counts$target_data$type <- cnt_dat[get("source_system")==rv$db_target, get("variable_type")]
+  }, error=function(e){
+    cat("\nError occured when counting target_data\n")
+    print(e)
+    return(NULL)
+  })
+
+  return(counts)
+}
+
+calcCatStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FALSE){
+  statistics <- list()
+
+  tryCatch({
+    if (isFALSE(plausibility)){
+      # for source_data; our data is in rv$data_source$source_table_name
+      statistics$source_data <- categoricalAnalysis(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]], stat_key)
+    } else {
+      statistics$source_data <- categoricalAnalysis(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]], stat_key)
+    }
+    statistics$target_data <- categoricalAnalysis(rv$data_target[[stat_dat[get("source_system")==rv$db_target, get("key")]]], stat_key)
+    return(statistics)
+  }, error=function(e){
+    cat("\nError occured when calculating catStats\n")
+    print(e)
+    return(NULL)
+  })
+}
+
+calcNumStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FALSE){
+  statistics <- list()
+
+  if (stat_dat[get("source_system")==sourcesystem,get("variable_type")!="date"]){
+    tryCatch({
+      if (isFALSE(plausibility)){
+        # for source_data; our data is in rv$data_source$source_table_name
+        statistics$source_data <- extensiveSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]][, get(stat_key)])
+      } else {
+        statistics$source_data <- extensiveSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]][, get(stat_key)])
+      }
+      statistics$target_data <- extensiveSummary(rv$data_target[[stat_dat[get("source_system")==rv$db_target, get("key")]]][, get(stat_key)])
+      return(statistics)
+    }, error=function(e){
+      cat("\nError occured when calculating simple numStats\n")
+      print(e)
+      return(NULL)
+    })
+  } else {
+    tryCatch({
+      if (isFALSE(plausibility)){
+        statistics$source_data <- simpleSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]][, get(stat_key)])
+      } else {
+        statistics$source_data <- simpleSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]][, get(stat_key)])
+      }
+      statistics$target_data <- simpleSummary(rv$data_target[[stat_dat[get("source_system")==rv$db_target, get("key")]]][, get(stat_key)])
+      return(statistics)
+    }, error=function(e){
+      cat("\nError occured when calculating simple numStats\n")
+      print(e)
+      return(NULL)
+    })
+  }
+}

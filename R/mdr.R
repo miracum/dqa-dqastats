@@ -1,0 +1,91 @@
+#' @title readMDR_ helper function
+#'
+#' @description Internal function to read the meta data repository (MDR).
+#'
+#' @inheritParams DQA
+#'
+#' @export
+#'
+readMDR_ <- function(utils){
+  mdr <- data.table::fread(paste0(utils, "MDR/mdr.csv"), header = T)
+  mdr[,("value_set"):=gsub("\"\"", "\"", get("value_set"))][get("value_set")=="",("value_set"):=NA]
+  return(mdr)
+}
+
+
+#' @title createHelperVars_ helper function
+#'
+#' @description Internal function to create necessar variables from the meta data repository (MDR).
+#'
+#' @param mdr A data.table object containing the MDR.
+#' @inheritParams DQA
+#'
+#' @export
+#'
+# create variables from mdr
+createHelperVars_ <- function(mdr, target_db, source_db){
+
+  outlist <- list()
+
+  # get keys
+  outlist$keys_target <- mdr[get("key")!="undefined",][get("source_system")==target_db,unique(get("key"))]
+  if (source_db == "csv"){
+    # TODO workaround for csv-files
+    outlist$keys_source <- mdr[get("key")!="undefined",][get("source_system")==source_db & !grepl("^pl\\.", get("key")), unique(get("source_table_name"))]
+  }
+
+
+  # get list of DQ-variables of interest
+  outlist$dqa_assessment <- mdr[get("source_system")==source_db & get("dqa_assessment") == 1,][order(get("source_table_name")),c("name",
+                                                                                                                             "source_variable_name",
+                                                                                                                             "variable_name",
+                                                                                                                             "variable_type",
+                                                                                                                             "key",
+                                                                                                                             "source_table_name"), with=F]
+
+  # get list of dqa_vars for catgeorical and numerical analyses
+  outlist$dqa_vars <- outlist$dqa_assessment[grepl("^dt\\.", get("key")),]
+
+  # variable_list
+  variable_list <- outlist$dqa_vars[order(get("name"))]
+  outlist$variable_list <- sapply(variable_list[,get("name")], function(x){
+    variable_list[get("name")==x, get("variable_name")]
+  }, simplify = F, USE.NAMES = T)
+
+  # get list of pl_vars for plausibility analyses
+  pl_vars <- mdr[grepl("^pl\\.", get("key")) & get("dqa_assessment") == 1,][order(get("source_table_name")),c("name",
+                                                                                                              "source_system",
+                                                                                                              "source_variable_name",
+                                                                                                              "variable_name",
+                                                                                                              "variable_type",
+                                                                                                              "key",
+                                                                                                              "source_table_name"), with=F]
+  outlist$pl_vars <- sapply(unique(pl_vars[,get("name")]), function(x){
+    pl_vars[get("name")==x & get("source_system")==source_db, get("key")]
+  }, simplify = F, USE.NAMES = T)
+
+  outlist$pl_vars <- c(outlist$pl_vars,
+                       sapply(unique(pl_vars[,get("name")]), function(x){
+                         pl_vars[get("name")==x & get("source_system")==target_db, get("key")]
+                       }, simplify = F, USE.NAMES = T))
+
+  outlist$pl_vars_filter <- sapply(unique(pl_vars[,get("name")]), function(x){
+    gsub("_source|_target", "", outlist$pl_vars[unique(names(outlist$pl_vars))][[x]])
+  }, simplify = F, USE.NAMES = T)
+
+
+  # get variables for type-transformations
+  # get categorical variables
+  outlist$cat_vars <- outlist$dqa_vars[get("variable_type") == "factor", get("variable_name")]
+
+  # get date variables
+  outlist$date_vars <- outlist$dqa_vars[get("variable_type") == "date", get("variable_name")]
+
+  # get variable names, that need to be transformed (cleaning neccessary due to i2b2-prefixes)
+  # this is yet hard-coded
+  outlist$trans_vars <- c("encounter_hospitalization_dischargeDisposition", "encounter_hospitalization_class",
+                          "condition_code_coding_code", "procedure_code_coding_code", "encounter_hospitalization_admitSource",
+                          "condition_category_encounter_diagnosis")
+
+  return(outlist)
+}

@@ -1,0 +1,9 @@
+_settings/
+tests/testthat/testdata
+DQA_report.pdf
+_header/
+DQA_report.md
+DQA_report.tex
+.Rhistory
+*.Rproj
+.Rproj*

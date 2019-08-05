@@ -1,0 +1,10 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^LICENSE\.md$
+^docker$
+^_settings$
+^DQA_report\.pdf$
+^_header$
+^DQA_report\.md$
+^DQA_report\.tex$
