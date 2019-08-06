@@ -1,6 +1,6 @@
 # DQAstats (!!! currently under development !!!)
 
-This is the repository of the R package 'DQAstats'. It provides the functionality to perfrom data quality assessment (DQA) of electronic health record data (EHR).  
+This is the repository of the R package 'DQAstats'. It provides core functionalities to perfrom data quality assessment (DQA) of electronic health record data (EHR).  
 
 Corrently implemented features are: 
 
@@ -26,7 +26,7 @@ devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqastats.git")
 
 ## Example
 
-This is a basic example to demonstrate how to perform the data quality assesment with DQAstats:
+This is a basic example to demonstrate how to perform the data quality assessment with DQAstats:
 
 ``` r
 library(DQAstats)
