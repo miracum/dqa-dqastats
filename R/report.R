@@ -70,12 +70,12 @@ renderPlausis <- function(results){
     stat_out <- results[[i]]$statistics
 
     # title of variable
-    cat(paste0("\n## ", desc_out$source_data$name, "  \n"))
+    cat(paste0("\n### ", desc_out$source_data$name, "  \n"))
     # description of variable
     cat(paste0("\n", desc_out$source_data$description, "  \n"))
 
     # representation in the source system
-    cat("\n### Representation in source data system  \n")
+    cat("\n#### Representation in source data system  \n")
     renderPlausiRepresentation(desc_out, "source_data")
 
     # overview
@@ -87,7 +87,7 @@ renderPlausis <- function(results){
     print(kableTable(stat_out$source_data))
 
     # representation in the target system
-    cat("\n### Representation in target data system  \n")
+    cat("\n#### Representation in target data system  \n")
     renderPlausiRepresentation(desc_out, "target_data")
 
     # overview

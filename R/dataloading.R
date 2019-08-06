@@ -6,7 +6,6 @@ fireSQL <- function(rv, db_con, sql, headless = FALSE){
 
   # Errorhandling
   if (!is.null(sql)){
-
     # avoid sql-injection
     # https://db.rstudio.com/best-practices/run-queries-safely/
     sql <- DBI::sqlInterpolate(db_con, sql)
@@ -18,7 +17,7 @@ fireSQL <- function(rv, db_con, sql, headless = FALSE){
 }
 
 # load csv files
-loadCSV <- function(rv, filename, headless = FALSE){
+loadCSV <- function(rv, filename){
 
   if (tolower(filename) == "fall.csv"){
     # only import necessary columns
@@ -52,16 +51,7 @@ loadCSV <- function(rv, filename, headless = FALSE){
                      OPS_Datum = "integer64")
   }
 
-  if (isFALSE(headless)){
-    shiny::withProgress(
-      message = paste0("Reading ", filename, " file from directory"), value = 0, {
-        shiny::incProgress(1/1, detail = "...working hard to read data ...")
-        # get data
-        outdat <- data.table::fread(paste0(rv$sourcefiledir, "/", filename), select = names(select_cols), colClasses = select_cols, header = T, na.strings = "", stringsAsFactors = TRUE)
-      })
-  } else {
-    outdat <- data.table::fread(paste0(rv$sourcefiledir, "/", filename), select = names(select_cols), colClasses = select_cols, header = T, na.strings = "", stringsAsFactors = TRUE)
-  }
+  outdat <- data.table::fread(paste0(rv$sourcefiledir, "/", filename), select = names(select_cols), colClasses = select_cols, header = T, na.strings = "", stringsAsFactors = TRUE)
 
   return(outdat)
 }
@@ -82,34 +72,30 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
   # initialize outlist
   outlist <- list()
 
+  if (isFALSE(headless)){
+    # Create a Progress object
+    progress <- shiny::Progress$new()
+    # Make sure it closes when we exit this reactive, even if there's an error
+    on.exit(progress$close())
+    progress$set(message = "Reading CSV file from directory", value = 0)
+  }
+
   # read sourcedata
   outlist <- sapply(keys_to_test, function(i){
+
     msg <- paste("Reading", i, "from CSV.")
     cat("\n", msg, "\n")
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
+      # Increment the progress bar, and update the detail text.
+      progress$inc(1/length(keys_to_test), detail = paste("... working hard to read", i, "..."))
     }
-    loadCSV(rv, i, headless)
+
+    loadCSV(rv, i)
   }, simplify = F, USE.NAMES = T)
 
   # datatransformation source:
   for (i in keys_to_test){
-
-    # workaround to hide shiny-stuff, when going headless
-    msg <- paste("Transforming source variable types", i)
-    cat("\n", msg, "\n")
-    if (isFALSE(headless)){
-      shinyjs::logjs(msg)
-
-      # Create a Progress object
-      progress <- shiny::Progress$new()
-      # Make sure it closes when we exit this reactive, even if there's an error
-      on.exit(progress$close())
-      progress$set(message = "Transforming source variable types", value = 0)
-
-      # Increment the progress bar, and update the detail text.
-      progress$inc(1/length(keys_to_test), detail = paste("... transforming", i, "..."))
-    }
 
     # get column names
     col_names <- colnames(outlist[[i]])
@@ -118,7 +104,24 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
     # var_names of interest:
     var_names <- rv$mdr[get("source_table_name")==i,][grepl("dt\\.", get("key")),get("source_variable_name")]
 
+    if (isFALSE(headless)){
+      # Create a Progress object
+      progress <- shiny::Progress$new()
+      # Make sure it closes when we exit this reactive, even if there's an error
+      on.exit(progress$close())
+      progress$set(message = paste("Transforming source variable types of:", i), value = 0)
+    }
+
     for (j in col_names){
+
+      # workaround to hide shiny-stuff, when going headless
+      msg <- paste("Transforming source variable types", j)
+      cat("\n", msg, "\n")
+      if (isFALSE(headless)){
+        shinyjs::logjs(msg)
+        # Increment the progress bar, and update the detail text.
+        progress$inc(1/length(col_names), detail = paste("... transforming", j, "..."))
+      }
 
       if (j %in% var_names){
         vn <- rv$mdr[get("source_table_name")==i,][grepl("dt\\.", get("key")),][get("source_variable_name")==j,get("variable_name")]
@@ -143,6 +146,14 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
 
   # load plausis
   # read source plausibilities after data transformation
+  if (isFALSE(headless)){
+    # Create a Progress object
+    progress <- shiny::Progress$new()
+    # Make sure it closes when we exit this reactive, even if there's an error
+    on.exit(progress$close())
+    progress$set(message = "Getting plausibilities", value = 0)
+  }
+
   for (i in unique(names(rv$pl_vars))){
 
     if (grepl("_source", rv$pl_vars[[i]])){
@@ -152,17 +163,11 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
       cat("\n", msg, "\n")
       # workaround to hide shiny-stuff, when going headless
       if (isFALSE(headless)){
-        shinyjs::logjs()
-
-        # Create a Progress object
-        progress <- shiny::Progress$new()
-        # Make sure it closes when we exit this reactive, even if there's an error
-        on.exit(progress$close())
-        progress$set(message = "Getting plausibilities", value = 0)
-
+        shinyjs::logjs(msg)
         # Increment the progress bar, and update the detail text.
         progress$inc(1/length(unique(names(rv$pl_vars))), detail = paste("... getting", j, "..."))
       }
+
       outlist[[j]] <- loadSourcePlausibilities(j, outlist, headless = headless)
     }
   }
@@ -182,13 +187,26 @@ loadTarget_ <- function(rv, keys_to_test, headless = FALSE){
   # initialize outlist
   outlist <- list()
 
+  if (isFALSE(headless)){
+    # Create a Progress object
+    progress <- shiny::Progress$new()
+    # Make sure it closes when we exit this reactive, even if there's an error
+    on.exit(progress$close())
+    progress$set(message = "Reading data from database", value = 0)
+  }
+
   # read target data
   outlist <- sapply(keys_to_test, function(i){
+
     msg <- paste("Getting", i, "from database.")
     cat("\n", msg, "\n")
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
+
+      # Increment the progress bar, and update the detail text.
+      progress$inc(1/length(keys_to_test), detail = paste("... working hard to read", i, "..."))
     }
+
     fireSQL(rv = rv, db_con = rv$db_con_target, sql = rv$sql_target[[i]], headless = headless)
   }, simplify = F, USE.NAMES = T)
   RPostgres::dbDisconnect(rv$db_con_target)
@@ -196,9 +214,9 @@ loadTarget_ <- function(rv, keys_to_test, headless = FALSE){
 
   for (i in keys_to_test){
 
-    # workaround to hide shiny-stuff, when going headless
-    msg <- paste("Transforming target variable types", i)
-    cat("\n", msg, "\n")
+    # get column names
+    col_names <- colnames(outlist$list_target[[i]])
+
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
 
@@ -206,17 +224,19 @@ loadTarget_ <- function(rv, keys_to_test, headless = FALSE){
       progress <- shiny::Progress$new()
       # Make sure it closes when we exit this reactive, even if there's an error
       on.exit(progress$close())
-      progress$set(message = "Transforming target variable types", value = 0)
-
-      # Increment the progress bar, and update the detail text.
-      progress$inc(1/length(keys_to_test), detail = paste("... transforming", i, "..."))
+      progress$set(message = paste("Transforming target variable types of:", i), value = 0)
     }
-
-    # get column names
-    col_names <- colnames(outlist$list_target[[i]])
 
     # check, if column name in variables of interest
     for (j in col_names){
+
+      # workaround to hide shiny-stuff, when going headless
+      msg <- paste("Transforming target variable types", i)
+      cat("\n", msg, "\n")
+      if (isFALSE(headless)){
+        # Increment the progress bar, and update the detail text.
+        progress$inc(1/length(col_names), detail = paste("... transforming", j, "..."))
+      }
 
       if (j %in% rv$trans_vars){
         outlist[[i]][,(j):=transformFactors_(vector = get(j), transformation = j)]

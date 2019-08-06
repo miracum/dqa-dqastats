@@ -114,6 +114,6 @@ getConfig_ <- function(config_file, config_key){
 #' @export
 #'
 loadSQLs_ <- function(utils, db){
-  return(jsonlite::fromJSON(paste0("./", utils, "SQL/SQL_", db, ".JSON")))
+  return(jsonlite::fromJSON(paste0(utils, "SQL/SQL_", db, ".JSON")))
 }
 
