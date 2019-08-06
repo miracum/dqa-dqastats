@@ -93,7 +93,9 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
 
     loadCSV(rv, i)
   }, simplify = F, USE.NAMES = T)
-  progress$close()
+  if (isFALSE(headless)){
+    progress$close()
+  }
 
   # datatransformation source:
   for (i in keys_to_test){
@@ -143,7 +145,9 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
         }
       }
     }
-    progress$close()
+    if (isFALSE(headless)){
+      progress$close()
+    }
   }
 
   # load plausis
@@ -161,7 +165,7 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
     if (grepl("_source", rv$pl_vars[[i]])){
       j <- rv$pl_vars[[i]]
 
-      msg <- paste("Getting plausibilities:", i)
+      msg <- paste("Getting source plausibilities:", i)
       cat("\n", msg, "\n")
       # workaround to hide shiny-stuff, when going headless
       if (isFALSE(headless)){
@@ -173,7 +177,9 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
       outlist[[j]] <- loadSourcePlausibilities(j, outlist, headless = headless)
     }
   }
-  progress$close()
+  if (isFALSE(headless)){
+    progress$close()
+  }
   return(outlist)
 }
 
@@ -213,7 +219,9 @@ loadTarget_ <- function(rv, keys_to_test, headless = FALSE){
     fireSQL(rv = rv, db_con = rv$db_con_target, sql = rv$sql_target[[i]], headless = headless)
   }, simplify = F, USE.NAMES = T)
 
-  progress$close()
+  if (isFALSE(headless)){
+    progress$close()
+  }
 
   RPostgres::dbDisconnect(rv$db_con_target)
 
@@ -253,7 +261,9 @@ loadTarget_ <- function(rv, keys_to_test, headless = FALSE){
         outlist[[i]][,(j):=factor(get(j))]
       }
     }
-    progress$close()
+    if (isFALSE(headless)){
+      progress$close()
+    }
   }
   return(outlist)
 }
