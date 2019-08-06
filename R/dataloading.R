@@ -97,6 +97,14 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
     progress$close()
   }
 
+
+  if (isFALSE(headless)){
+    # Create a Progress object
+    progress <- shiny::Progress$new()
+    # Make sure it closes when we exit this reactive, even if there's an error
+    on.exit(progress$close())
+    progress$set(message = "Transforming source variable types", value = 0)
+  }
   # datatransformation source:
   for (i in keys_to_test){
 
@@ -107,24 +115,16 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
     # var_names of interest:
     var_names <- rv$mdr[get("source_table_name")==i,][grepl("dt\\.", get("key")),get("source_variable_name")]
 
+    # workaround to hide shiny-stuff, when going headless
+    msg <- paste("Transforming source variable types", i)
+    cat("\n", msg, "\n")
     if (isFALSE(headless)){
-      # Create a Progress object
-      progress <- shiny::Progress$new()
-      # Make sure it closes when we exit this reactive, even if there's an error
-      on.exit(progress$close())
-      progress$set(message = paste("Transforming source variable types of:", i), value = 0)
+      shinyjs::logjs(msg)
+      # Increment the progress bar, and update the detail text.
+      progress$inc(1/length(keys_to_test), detail = paste("... transforming", i, "..."))
     }
 
     for (j in col_names){
-
-      # workaround to hide shiny-stuff, when going headless
-      msg <- paste("Transforming source variable types", j)
-      cat("\n", msg, "\n")
-      if (isFALSE(headless)){
-        shinyjs::logjs(msg)
-        # Increment the progress bar, and update the detail text.
-        progress$inc(1/length(col_names), detail = paste("... transforming", j, "..."))
-      }
 
       if (j %in% var_names){
         vn <- rv$mdr[get("source_table_name")==i,][grepl("dt\\.", get("key")),][get("source_variable_name")==j,get("variable_name")]
@@ -225,32 +225,30 @@ loadTarget_ <- function(rv, keys_to_test, headless = FALSE){
 
   RPostgres::dbDisconnect(rv$db_con_target)
 
+  if (isFALSE(headless)){
+    # Create a Progress object
+    progress <- shiny::Progress$new()
+    # Make sure it closes when we exit this reactive, even if there's an error
+    on.exit(progress$close())
+    progress$set(message = "Transforming target variable types", value = 0)
+  }
 
   for (i in keys_to_test){
 
-    # get column names
-    col_names <- colnames(outlist$list_target[[i]])
-
+    # workaround to hide shiny-stuff, when going headless
+    msg <- paste("Transforming target variable types", i)
+    cat("\n", msg, "\n")
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
-
-      # Create a Progress object
-      progress <- shiny::Progress$new()
-      # Make sure it closes when we exit this reactive, even if there's an error
-      on.exit(progress$close())
-      progress$set(message = paste("Transforming target variable types of:", i), value = 0)
+      # Increment the progress bar, and update the detail text.
+      progress$inc(1/length(keys_to_test), detail = paste("... transforming", i, "..."))
     }
+
+    # get column names
+    col_names <- colnames(outlist[[i]])
 
     # check, if column name in variables of interest
     for (j in col_names){
-
-      # workaround to hide shiny-stuff, when going headless
-      msg <- paste("Transforming target variable types", i)
-      cat("\n", msg, "\n")
-      if (isFALSE(headless)){
-        # Increment the progress bar, and update the detail text.
-        progress$inc(1/length(col_names), detail = paste("... transforming", j, "..."))
-      }
 
       if (j %in% rv$trans_vars){
         outlist[[i]][,(j):=transformFactors_(vector = get(j), transformation = j)]
@@ -261,9 +259,9 @@ loadTarget_ <- function(rv, keys_to_test, headless = FALSE){
         outlist[[i]][,(j):=factor(get(j))]
       }
     }
-    if (isFALSE(headless)){
-      progress$close()
-    }
+  }
+  if (isFALSE(headless)){
+    progress$close()
   }
   return(outlist)
 }

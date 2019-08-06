@@ -12,6 +12,24 @@ descriptiveResults_ <- function(rv, source_db, headless = FALSE){
   # initialize outlist
   outlist <- list()
 
+  if (isFALSE(headless)){
+    # Create a Progress object
+    progress1 <- shiny::Progress$new()
+    # Make sure it closes when we exit this reactive, even if there's an error
+    on.exit(progress1$close())
+    progress1$set(message = "Getting variable descriptions", value = 0)
+
+    # progress 2
+    progress2 <- shiny::Progress$new()
+    on.exit(progress2$close())
+    progress2$set(message = "Calculating variable counts", value = 0)
+
+    # progress 3
+    progress3 <- shiny::Progress$new()
+    on.exit(progress3$close())
+    progress3$set(message = "Calculating variable statistics", value = 0)
+  }
+
   for (i in names(rv$variable_list)){
 
     # workaround to hide shiny-stuff, when going headless
@@ -19,15 +37,8 @@ descriptiveResults_ <- function(rv, source_db, headless = FALSE){
     cat("\n", msg, "\n")
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
-
-      # Create a Progress object
-      progress <- shiny::Progress$new()
-      # Make sure it closes when we exit this reactive, even if there's an error
-      on.exit(progress$close())
-      progress$set(message = "Getting variable descriptions", value = 0)
-
       # Increment the progress bar, and update the detail text.
-      progress$inc(1/length(names(rv$variable_list)), detail = paste("... working at description of", i, "..."))
+      progress1$inc(1/length(names(rv$variable_list)), detail = paste("... working at description of", i, "..."))
     }
 
     # generate descriptions
@@ -50,15 +61,8 @@ descriptiveResults_ <- function(rv, source_db, headless = FALSE){
     cat("\n", msg, "\n")
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
-
-      # Create a Progress object
-      progress <- shiny::Progress$new()
-      # Make sure it closes when we exit this reactive, even if there's an error
-      on.exit(progress$close())
-      progress$set(message = "Calculating variable counts", value = 0)
-
       # Increment the progress bar, and update the detail text.
-      progress$inc(1/length(names(rv$variable_list)), detail = paste("... calculating counts of", i, "..."))
+      progress2$inc(1/length(names(rv$variable_list)), detail = paste("... calculating counts of", i, "..."))
     }
 
     # generate counts
@@ -72,15 +76,8 @@ descriptiveResults_ <- function(rv, source_db, headless = FALSE){
     cat("\n", msg, "\n")
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
-
-      # Create a Progress object
-      progress <- shiny::Progress$new()
-      # Make sure it closes when we exit this reactive, even if there's an error
-      on.exit(progress$close())
-      progress$set(message = "Calculating variable statistics", value = 0)
-
       # Increment the progress bar, and update the detail text.
-      progress$inc(1/length(names(rv$variable_list)), detail = paste("... calculating statistics of", i, "..."))
+      progress3$inc(1/length(names(rv$variable_list)), detail = paste("... calculating statistics of", i, "..."))
     }
 
 
@@ -93,6 +90,11 @@ descriptiveResults_ <- function(rv, source_db, headless = FALSE){
     } else {
       outlist[[rv$variable_list[[i]]]]$statistics <- calcNumStats(stat_dat, rv$variable_list[[i]], rv, sourcesystem = source_db)
     }
+  }
+  if (isFALSE(headless)){
+    progress1$close()
+    progress2$close()
+    progress3$close()
   }
   return(outlist)
 }

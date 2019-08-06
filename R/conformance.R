@@ -14,8 +14,25 @@ valueConformance_ <- function(results, headless = FALSE){
   # initialize final list to output
   outlist <- list()
 
+  if (isFALSE(headless)){
+    # Create a Progress object
+    progress <- shiny::Progress$new()
+    # Make sure it closes when we exit this reactive, even if there's an error
+    on.exit(progress$close())
+    progress$set(message = "Performing value conformance check", value = 0)
+  }
+
   # loop over objects
   for (i in obj_names){
+
+    msg <- paste("Performing value conformance check", i)
+    cat("\n", msg, "\n")
+    if (isFALSE(headless)){
+      shinyjs::logjs(msg)
+      # Increment the progress bar, and update the detail text.
+      progress$inc(1/length(obj_names), detail = paste("... checking", i, "..."))
+    }
+
     desc_out <- results[[i]]$description
     count_out <- results[[i]]$counts
     stat_out <- results[[i]]$statistics
@@ -27,21 +44,6 @@ valueConformance_ <- function(results, headless = FALSE){
       value_set <- d_out$checks$value_set
 
       if (!is.na(value_set)){
-
-        msg <- paste("Performing value conformance check", i)
-        cat("\n", msg, "\n")
-        if (isFALSE(headless)){
-          shinyjs::logjs(msg)
-
-          # Create a Progress object
-          progress <- shiny::Progress$new()
-          # Make sure it closes when we exit this reactive, even if there's an error
-          on.exit(progress$close())
-          progress$set(message = "Performing value conformance check", value = 0)
-
-          # Increment the progress bar, and update the detail text.
-          progress$inc(1/1, detail = paste("... checking", i, "..."))
-        }
 
         # initialize outlist
         outlist2 <- list()
@@ -89,6 +91,10 @@ valueConformance_ <- function(results, headless = FALSE){
       }
     }
 
+  }
+
+  if (isFALSE(headless)){
+    progress$close()
   }
 
   return(outlist)
