@@ -13,14 +13,14 @@ test_that("correct functioning of DQA",{
                   source_config = paste0(prefix, "testdata/config_csv.yml"),
                   target_db = "i2b2",
                   source_db = "csv",
-                  utils = paste0(prefix, "testdata/_utilities")))
+                  utils = system.file("application/_utilities", package = "miRacumDQA")))
 
 })
 
 
-prefix <- "tests/testthat/"
-target_config = paste0(prefix, "testdata/config_i2b2.yml")
-source_config = paste0(prefix, "testdata/config_csv.yml")
-target_db = "i2b2"
-source_db = "csv"
-utils = paste0(prefix, "testdata/_utilities")
+# prefix <- "tests/testthat/"
+# target_config = paste0(prefix, "testdata/config_i2b2.yml")
+# source_config = paste0(prefix, "testdata/config_csv.yml")
+# target_db = "i2b2"
+# source_db = "csv"
+# utils = system.file("application/_utilities", package = "miRacumDQA")

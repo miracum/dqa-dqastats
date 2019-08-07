@@ -27,14 +27,13 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
     is.character(source_db)
   )
 
-  # set headless
-  headless <- TRUE
-
-  # clean paths
-  utils <- cleanPathName_(utils)
-
   # initialize rv-list
   rv <- list()
+  # set headless
+  rv$headless <- TRUE
+
+  # clean utils paths
+  rv$utilspath <- cleanPathName_(utils)
 
   # save db-names
   rv$db_target <- target_db
@@ -45,7 +44,7 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
   rv$settings_source <- getConfig_(config_file = source_config, config_key = rv$db_source)
 
   # read MDR
-  rv$mdr <- readMDR_(utils)
+  rv$mdr <- readMDR_(rv$utilspath)
   stopifnot(data.table::is.data.table(rv$mdr))
 
   reactive_to_append <- createHelperVars_(mdr = rv$mdr, target_db = rv$db_target, source_db = rv$db_source)
@@ -59,40 +58,40 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
   rv$sourcefiledir <- cleanPathName_(rv$settings_source$dir)
 
   # test source_db
-  test_source <- testSourceDB_(source_settings = rv$settings_source, source_db = rv$db_source, headless = headless)
+  test_source <- testSourceDB_(source_settings = rv$settings_source, source_db = rv$db_source, headless = rv$headless)
   stopifnot(isTRUE(test_source))
 
   # set start.time (e.g. when clicking the 'Load Data'-button in shiny
   rv$start.time <- format(Sys.time(), usetz = T, tz = "CET")
 
   # load source data
-  rv$data_source <- loadSource_(rv = rv, keys_to_test = rv$keys_source, headless = headless)
+  rv$data_source <- loadSource_(rv = rv, keys_to_test = rv$keys_source, headless = rv$headless)
 
   # import target SQL
-  rv$sql_target <- loadSQLs_(utils = utils, db = rv$db_target)
+  rv$sql_target <- loadSQLs_(utils = rv$utilspath, db = rv$db_target)
   stopifnot(is.list(rv$sql_target))
 
   # test target_db
-  test_target <- testTargetDB_(target_settings = rv$settings_target, headless = headless)
+  test_target <- testTargetDB_(target_settings = rv$settings_target, headless = rv$headless)
   stopifnot(!is.null(test_target))
   rv$db_con_target <- test_target
   rm(test_target)
 
   # load target data
-  rv$data_target <- loadTarget_(rv = rv, keys_to_test = rv$keys_target, headless = headless)
+  rv$data_target <- loadTarget_(rv = rv, keys_to_test = rv$keys_target, headless = rv$headless)
 
   # calculate descriptive results
-  rv$results_descriptive <- descriptiveResults_(rv = rv, source_db = rv$db_source, headless = headless)
+  rv$results_descriptive <- descriptiveResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
 
   # get time_interval
   rv$time_interval <- timeInterval_(rv$results_descriptive$EpisodeOfCare_period_end)
 
   # calculate plausibilites
-  rv$results_plausibility_atemporal <- atempPausiResults_(rv = rv, source_db = rv$db_source, headless = headless)
+  rv$results_plausibility_atemporal <- atempPausiResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
 
   # conformance
-  rv$conformance$value_conformance <- valueConformance_(rv$results_descriptive, headless = headless)
-  value_conformance <- valueConformance_(rv$results_plausibility_atemporal, headless = headless)
+  rv$conformance$value_conformance <- valueConformance_(rv$results_descriptive, headless = rv$headless)
+  value_conformance <- valueConformance_(rv$results_plausibility_atemporal, headless = rv$headless)
 
   # workaround, to keep "rv" an reactiveValues object in shiny app
   for (i in names(value_conformance)){
@@ -111,7 +110,7 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
   gc()
 
   # create report
-  createMarkdown_(rv = rv, utils = utils, outdir = "./", headless = headless)
+  createMarkdown_(rv = rv, utils = rv$utilspath, outdir = "./", headless = rv$headless)
 
   # set end.time
   rv$end.time <- format(Sys.time(), usetz = T, tz = "CET")
