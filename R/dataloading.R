@@ -145,9 +145,9 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
         }
       }
     }
-    if (isFALSE(headless)){
-      progress$close()
-    }
+  }
+  if (isFALSE(headless)){
+    progress$close()
   }
 
   # load plausis
