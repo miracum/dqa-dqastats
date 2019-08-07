@@ -12,8 +12,8 @@ LazyData: true
 URL: https://gitlab.miracum.org/miracum-dqa/dqastats
 BugReports: https://gitlab.miracum.org/miracum-dqa/dqastats/issues
 Encoding: UTF-8
-Copyright: MIRACUM - Medical Informatics in Research and Medicine
-Date/Publication: 2019-08-05 14:36:09 UTC
+Copyright: Universitätsklinikum Erlangen
+Date/Publication: 2019-08-07 13:20:46 UTC
 Imports: 
     data.table,
     shiny,

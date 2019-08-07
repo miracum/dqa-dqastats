@@ -11,7 +11,7 @@ my_desc$set_authors(c(
   person("Lorenz", "Kapsner", email = "lorenz.kapsner@uk-erlangen.de", role = c('cre', 'aut')))) #,
 #  person("Name2", "Surname2", email = "mail@2", role = 'aut')))
 # Set copyright
-my_desc$set("Copyright", "MIRACUM - Medical Informatics in Research and Medicine")
+my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
@@ -32,7 +32,7 @@ my_desc$set("License", "GPL-3")
 my_desc$write(file = "DESCRIPTION")
 
 # License
-usethis::use_gpl3_license(name="MIRACUM - Medical Informatics in Research and Medicine")
+usethis::use_gpl3_license(name="Universitätsklinikum Erlangen")
 
 
 # add Imports and Depends

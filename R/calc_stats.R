@@ -1,3 +1,19 @@
+# DQAstats - A package, created to perform data quality assessment (DQA) of electronic health records (EHR)
+# Copyright (C) 2019 Universitätsklinikum Erlangen
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 calcDescription <- function(desc_dat, rv, sourcesystem){
   if (nrow(desc_dat)>1){
     description <- list()
