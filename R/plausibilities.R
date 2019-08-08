@@ -36,7 +36,7 @@ loadSourcePlausibilities <- function(plausi, data_source, headless=FALSE){
                      by.y = "encounter_identifier_value",
                      all.x = TRUE)
 
-  } else if (plausi == "pl.atemp.item03source"){
+  } else if (plausi == "pl.atemp.item03_source"){
     # item04
     outlist <- merge(data_source[["ICD.CSV"]][grepl("C6[0-3]", get("condition_code_coding_code")),c("condition_encounter_identifier_value", "condition_code_coding_code"), with=F],
                      data_source[["FALL.CSV"]][,c("encounter_identifier_value", "patient_gender", "patient_identifier_value"), with=F],

@@ -8,3 +8,4 @@
 ^_header$
 ^DQA_report\.md$
 ^DQA_report\.tex$
+^DQA_report\.*$
