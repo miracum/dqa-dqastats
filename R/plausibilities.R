@@ -18,7 +18,7 @@
 # read hard coded source plausibilities
 loadSourcePlausibilities <- function(plausi, data_source, headless=FALSE){
 
-  if (plausi == "pl.item02_source"){
+  if (plausi == "pl.atemp.item01_source"){
     # item02
     outlist <- merge(data_source[["ICD.CSV"]][grepl("O[0-9]", get("condition_code_coding_code")),c("condition_encounter_identifier_value", "condition_code_coding_code"), with=F],
                      data_source[["FALL.CSV"]][,c("encounter_identifier_value", "patient_gender", "patient_identifier_value"), with=F],
@@ -27,7 +27,7 @@ loadSourcePlausibilities <- function(plausi, data_source, headless=FALSE){
                      all.x = TRUE)
 
 
-  } else if (plausi == "pl.item03_source"){
+  } else if (plausi == "pl.atemp.item02_source"){
 
     # item03
     outlist <- merge(data_source[["ICD.CSV"]][grepl("C5[1-8]", get("condition_code_coding_code")),c("condition_encounter_identifier_value", "condition_code_coding_code"), with=F],
@@ -36,7 +36,7 @@ loadSourcePlausibilities <- function(plausi, data_source, headless=FALSE){
                      by.y = "encounter_identifier_value",
                      all.x = TRUE)
 
-  } else if (plausi == "pl.item04_source"){
+  } else if (plausi == "pl.atemp.item03source"){
     # item04
     outlist <- merge(data_source[["ICD.CSV"]][grepl("C6[0-3]", get("condition_code_coding_code")),c("condition_encounter_identifier_value", "condition_code_coding_code"), with=F],
                      data_source[["FALL.CSV"]][,c("encounter_identifier_value", "patient_gender", "patient_identifier_value"), with=F],
@@ -44,7 +44,7 @@ loadSourcePlausibilities <- function(plausi, data_source, headless=FALSE){
                      by.y = "encounter_identifier_value",
                      all.x = TRUE)
 
-  } else if (plausi == "pl.item05_source"){
+  } else if (plausi == "pl.atemp.item04_source"){
     # item05
     outlist <- data_source[["FALL.CSV"]][grepl("05xx", get("encounter_hospitalization_class")),c("encounter_identifier_value",
                                                                            "patient_gender",
