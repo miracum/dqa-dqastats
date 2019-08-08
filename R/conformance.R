@@ -126,6 +126,7 @@ valueConformance_ <- function(results, headless = FALSE){
 #' @export
 #'
 valueConformanceChecks_ <- function(results){
+
   # get names
   obj_names <- names(results)
 
