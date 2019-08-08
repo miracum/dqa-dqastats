@@ -118,6 +118,10 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
     rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
   }
 
+  # generate datamap
+  rv$datamap$target <- generateDatamap_(results = rv$results_descriptive, mdr = rv$mdr, headless = rv$headless)
+  rv$datamap$source <- generateDatamap_(results = rv$results_descriptive, mdr = rv$mdr, headless = rv$headless)
+
   # checks$value_conformance
   rv$checks$value_conformance <- valueConformanceChecks_(rv$conformance$value_conformance)
 
