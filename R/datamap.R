@@ -5,15 +5,16 @@
 #' @inheritParams etlChecks_
 #' @inheritParams createHelperVars_
 #' @inheritParams testTargetDB_
+#' @inheritParams loadSQLs_
 #'
 #' @export
 #'
-generateDatamap_ <- function(results, mdr, headless = FALSE){
+generateDatamap_ <- function(results, mdr, db, headless = FALSE){
 
   # get names
-  obj_names <- mdr[get("data_map") == 1 & get("source_system") == db, get("variable_name")]
+  data_map <- mdr[get("data_map") == 1 & get("source_system") == db, c("variable_name", "name"), with=F]
 
-  if (length(obj_names) < 1){
+  if (nrow(data_map) < 1){
     msg <- "No variables suitable for the data map found in the MDR"
     cat("\n", msg, "\n")
     if (isFALSE(headless)){
@@ -21,6 +22,8 @@ generateDatamap_ <- function(results, mdr, headless = FALSE){
     }
     return(NULL)
   } else {
+
+    obj_names <- data_map[,get("variable_name")]
 
     outlist <- list()
 
@@ -32,7 +35,7 @@ generateDatamap_ <- function(results, mdr, headless = FALSE){
                                     "missings" = character(0))
 
       for (j in obj_names){
-        out <- rbind(out, data.table::data.table("variable" = j,
+        out <- rbind(out, data.table::data.table("variable" = data_map[get("variable_name")==j, get("name")],
                                                  "distinct" = results[[j]]$counts[[i]]$cnt$distinct,
                                                  "valids" = results[[j]]$counts[[i]]$cnt$valids,
                                                  "missings" = results[[j]]$counts[[i]]$cnt$missings))

@@ -4,12 +4,14 @@
 \alias{generateDatamap_}
 \title{generateDatamap_ helper function}
 \usage{
-generateDatamap_(results, mdr, headless = FALSE)
+generateDatamap_(results, mdr, db, headless = FALSE)
 }
 \arguments{
 \item{results}{A list object. The list should contain the results 'rv$results_descriptive'.}
 
 \item{mdr}{A data.table object containing the MDR.}
+
+\item{db}{A character string. The name of the corresponding database.}
 
 \item{headless}{A boolean (default: FALSE). Indicating, if the function is run only in the console (headless = TRUE) or on a GUI frontend (headless = FALSE).}
 }
