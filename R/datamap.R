@@ -5,14 +5,14 @@
 #' @inheritParams etlChecks_
 #' @inheritParams createHelperVars_
 #' @inheritParams testTargetDB_
-#' @inheritParams loadSQLs_
+#' @inheritParams testSourceDB_
 #'
 #' @export
 #'
-generateDatamap_ <- function(results, mdr, db, headless = FALSE){
+generateDatamap_ <- function(results, mdr, source_db, headless = FALSE){
 
   # get names
-  data_map <- mdr[get("data_map") == 1 & get("source_system") == db, c("variable_name", "name"), with=F]
+  data_map <- mdr[get("data_map") == 1 & get("source_system") == source_db, c("variable_name", "name"), with=F]
 
   if (nrow(data_map) < 1){
     msg <- "No variables suitable for the data map found in the MDR"
