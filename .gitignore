@@ -8,3 +8,4 @@ DQA_report.tex
 *.Rproj
 .Rproj*
 .Rproj.user
+.RData

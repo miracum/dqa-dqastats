@@ -13,26 +13,22 @@ URL: https://gitlab.miracum.org/miracum-dqa/dqastats
 BugReports: https://gitlab.miracum.org/miracum-dqa/dqastats/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date/Publication: 2019-08-07 13:20:46 UTC
+Date/Publication: 2019-08-08 08:43:08 UTC
 Imports: 
     data.table,
     shiny,
     shinyjs,
-    ggplot2,
     magrittr,
     stats,
-    graphics,
-    ggpubr,
-    DT,
+    config,
     jsonlite,
     RPostgres,
     DBI,
     e1071,
     knitr,
     rmarkdown,
-    config,
+    tinytex,
     kableExtra
 Suggests: 
     testthat,
     processx
-RoxygenNote: 6.1.1

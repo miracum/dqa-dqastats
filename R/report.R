@@ -155,6 +155,16 @@ createMarkdown_ <- function(rv = rv, utils, outdir = tempdir(), headless = FALSE
     progress$inc(1/1, detail = "... working hard to create pdf ...")
   }
 
+  tryCatch({
+    if (tinytex::tinytex_root() == ""){
+      tinytex::install_tinytex()
+    }
+  }, error = function(e){
+    print(e)
+  }, warning = function(w){
+    print(w)
+  })
+
   knitr::knit(input= paste0(utils, "RMD/DQA_report.Rmd"), output=paste0(outdir, "/DQA_report.md"), encoding = "UTF-8")
   # copy header-folder to tempdir to make files available for the next command
   file.copy(paste0(utils, "RMD/_header"), outdir, recursive=TRUE)
