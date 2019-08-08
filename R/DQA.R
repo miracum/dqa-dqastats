@@ -52,6 +52,9 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
   # clean utils paths
   rv$utilspath <- cleanPathName_(utils)
 
+  # current date
+  rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
+
   # save db-names
   rv$db_target <- target_db
   rv$db_source <- source_db
