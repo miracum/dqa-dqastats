@@ -116,3 +116,128 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
   }
   return(outlist)
 }
+
+
+
+#' @title uniqPausiResults_ helper function
+#'
+#' @description Internal function to generate the results of the 'Uniqueness Plausibility' checks.
+#'
+#' @param pl.uniq_vars A data.table object. The object is created by \code{createHelperVars_} from the data represented in the metadata repository.
+#'
+#' @inheritParams atempPausiResults_
+#' @inheritParams createHelperVars_
+#'
+#' @export
+#'
+uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE){
+  # pl.uniq_vars = rv$pl.uniq_vars
+  # mdr = rv$mdr
+  # sourcesystem = "csv"
+  # headless = T
+
+  outlist <- list()
+
+  # get uniqueness checks from json
+  uniques <- list()
+  for (i in pl.uniq_vars[get("source_system") == source_db, get("variable_name")]){
+    uniques[[i]] <- jsonlite::fromJSON(pl.uniq_vars[get("source_system") == source_db & get("variable_name") == i, get("plausibility_relation")])
+  }
+
+  # iterate over uniqueness checks
+  for (i in names(uniques)){
+
+    if (isFALSE(headless)){
+      # Create a Progress object
+      progress <- shiny::Progress$new()
+      # Make sure it closes when we exit this reactive, even if there's an error
+      on.exit(progress$close())
+      progress$set(message = paste("Getting uniqueness plausibilities for", i), value = 0)
+    }
+
+    for (j in names(uniques[[i]])){
+      u <- uniques[[i]][[j]]
+
+      # workaround to hide shiny-stuff, when going headless
+      msg <- paste("Getting uniqueness plausibility", u$name)
+      cat("\n", msg, "\n")
+      if (isFALSE(headless)){
+        shinyjs::logjs(msg)
+        # Increment the progress bar, and update the detail text.
+        progress$inc(1/length(names(uniques[[i]])), detail = paste("... working hard ..."))
+      }
+
+      outlist[[u$name]]$description = u$description
+      if (!is.null(u$filter)){
+        outlist[[u$name]]$filter = u$filter
+      }
+
+      # get information on source data
+      for (k in c("source_data", "target_data")){
+        # TODO this is yet tailored to §21
+        if (k == "source_data"){
+          u.key <- mdr[get("source_system") == source_db & get("variable_name") == j & get("dqa_assessment") == 1, get("source_table_name")]
+          raw_data <- "data_source"
+        } else {
+          u.key <- mdr[get("source_system") == rv$db_target & get("variable_name") == j & get("dqa_assessment") == 1, get("key")]
+          raw_data <- "data_target"
+        }
+
+        if (i %in% colnames(rv[[raw_data]][[u.key]])){
+          if (!is.null(u$filter)){
+            group_data <- unique(rv[[raw_data]][[u.key]][get(j)==u$filter,get(j), by = get(i)])
+          } else {
+            group_data <- unique(rv[[raw_data]][[u.key]][,get(j), by = get(i)])
+          }
+        } else {
+
+          msg <- paste(i, "not in", colnames(rv[[raw_data]][[u.key]]))
+          cat("\n", msg, "\n")
+          if (isFALSE(headless)){
+            shinyjs::logjs(msg)
+          }
+          # we need to find the correct data and merge
+          m1.data <- rv[[raw_data]][[u.key]]
+          if (k == "source_data"){
+            m.key <- mdr[get("source_system") == source_db & get("variable_name") == i & get("dqa_assessment") == 1, get("source_table_name")]
+          } else {
+            m.key <- mdr[get("source_system") == rv$db_target & get("variable_name") == i & get("dqa_assessment") == 1, get("key")]
+          }
+
+          if (!is.null(u$filter)){
+            m.x <- rv[[raw_data]][[u.key]][get(j)==u$filter,]
+          } else {
+            m.x <- rv[[raw_data]][[u.key]]
+          }
+
+          merge_data <- merge(x = m.x,
+                              y = rv[[raw_data]][[m.key]],
+                              by.x = j,
+                              by.y = colnames(rv[[raw_data]][[m.key]])[grepl(j, colnames(rv[[raw_data]][[m.key]]))],
+                              all = T,
+                              suffixes = c("", ""))
+          group_data <- unique(merge_data[,get(j), by = get(i)])
+          rm(merge_data)
+          gc()
+        }
+        colnames(group_data) <- c(i, j)
+        get_dupl <- as.character(group_data[duplicated(get(i)),get(i)])
+        rm(group_data)
+        gc()
+
+        outlist[[u$name]][[k]]$message <- ifelse(length(get_dupl) > 0,
+                                                 paste0("Found ", length(get_dupl), " duplicate occurrences of ", i, " in association with ", j, "."),
+                                                 paste0("No duplicate occurrences of ", i, " found in association with ", j, "."))
+        outlist[[u$name]][[k]]$error <- ifelse(length(get_dupl) > 0,
+                                               paste0(get_dupl, collapse = ", "),
+                                               as.character(FALSE))
+      }
+    }
+
+    if (isFALSE(headless)){
+      progress$close()
+    }
+
+  }
+  return(outlist)
+}

@@ -26,6 +26,7 @@
 readMDR_ <- function(utils){
   mdr <- data.table::fread(paste0(utils, "MDR/mdr.csv"), header = T)
   mdr[,("value_set"):=gsub("\"\"", "\"", get("value_set"))][get("value_set")=="",("value_set"):=NA]
+  mdr[,("plausibility_relation"):=gsub("\"\"", "\"", get("plausibility_relation"))][get("plausibility_relation")=="",("plausibility_relation"):=NA]
   return(mdr)
 }
 
@@ -54,11 +55,11 @@ createHelperVars_ <- function(mdr, target_db, source_db){
 
   # get list of DQ-variables of interest
   outlist$dqa_assessment <- mdr[get("source_system")==source_db & get("dqa_assessment") == 1,][order(get("source_table_name")),c("name",
-                                                                                                                             "source_variable_name",
-                                                                                                                             "variable_name",
-                                                                                                                             "variable_type",
-                                                                                                                             "key",
-                                                                                                                             "source_table_name"), with=F]
+                                                                                                                                 "source_variable_name",
+                                                                                                                                 "variable_name",
+                                                                                                                                 "variable_type",
+                                                                                                                                 "key",
+                                                                                                                                 "source_table_name"), with=F]
 
   # get list of dqa_vars for catgeorical and numerical analyses
   outlist$dqa_vars <- outlist$dqa_assessment[grepl("^dt\\.", get("key")),]
@@ -71,24 +72,34 @@ createHelperVars_ <- function(mdr, target_db, source_db){
 
   # get list of pl_vars for plausibility analyses
   pl.atemp_vars <- mdr[grepl("^pl\\.atemp\\.", get("key")) & get("dqa_assessment") == 1,][order(get("source_table_name")),c("name",
-                                                                                                              "source_system",
-                                                                                                              "source_variable_name",
-                                                                                                              "variable_name",
-                                                                                                              "variable_type",
-                                                                                                              "key",
-                                                                                                              "source_table_name"), with=F]
+                                                                                                                            "source_system",
+                                                                                                                            "source_variable_name",
+                                                                                                                            "variable_name",
+                                                                                                                            "variable_type",
+                                                                                                                            "key",
+                                                                                                                            "source_table_name"), with=F]
   outlist$pl.atemp_vars <- sapply(unique(pl.atemp_vars[,get("name")]), function(x){
     pl.atemp_vars[get("name")==x & get("source_system")==source_db, get("key")]
   }, simplify = F, USE.NAMES = T)
 
   outlist$pl.atemp_vars <- c(outlist$pl.atemp_vars,
-                       sapply(unique(pl.atemp_vars[,get("name")]), function(x){
-                         pl.atemp_vars[get("name")==x & get("source_system")==target_db, get("key")]
-                       }, simplify = F, USE.NAMES = T))
+                             sapply(unique(pl.atemp_vars[,get("name")]), function(x){
+                               pl.atemp_vars[get("name")==x & get("source_system")==target_db, get("key")]
+                             }, simplify = F, USE.NAMES = T))
 
   outlist$pl.atemp_vars_filter <- sapply(unique(pl.atemp_vars[,get("name")]), function(x){
     gsub("_source|_target", "", outlist$pl.atemp_vars[unique(names(outlist$pl.atemp_vars))][[x]])
   }, simplify = F, USE.NAMES = T)
+
+
+  outlist$pl.uniq_vars <- mdr[get("plausibility_check") == "uniqueness",][order(get("source_table_name")),c("name",
+                                                                                                            "source_system",
+                                                                                                            "source_variable_name",
+                                                                                                            "variable_name",
+                                                                                                            "variable_type",
+                                                                                                            "key",
+                                                                                                            "source_table_name",
+                                                                                                            "plausibility_relation"), with=F]
 
 
   # get variables for type-transformations

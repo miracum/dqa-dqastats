@@ -32,3 +32,4 @@ Imports:
 Suggests: 
     testthat,
     processx
+RoxygenNote: 6.1.1

@@ -108,6 +108,7 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
 
   # calculate plausibilites
   rv$results_plausibility_atemporal <- atempPausiResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
+  rv$results_plausibility_uniqueness <- uniqPausiResults_(rv = rv, pl.uniq_vars = rv$pl.uniq_vars, mdr = rv$mdr, source_db = rv$db_source, headless = rv$headless)
 
   # conformance
   rv$conformance$value_conformance <- valueConformance_(rv$results_descriptive, headless = rv$headless)
