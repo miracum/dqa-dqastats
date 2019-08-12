@@ -2,7 +2,7 @@ Package: DQAstats
 Title: DQAstats - Data Quality Assesment Utilities Package
 Version: 0.0.0.9002
 Authors@R: 
-    person(given = "Lorenz",
+    person(given = "Lorenz A.",
            family = "Kapsner",
            role = c("cre", "aut"),
            email = "lorenz.kapsner@uk-erlangen.de")
@@ -13,7 +13,7 @@ URL: https://gitlab.miracum.org/miracum-dqa/dqastats
 BugReports: https://gitlab.miracum.org/miracum-dqa/dqastats/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date/Publication: 2019-08-08 15:40:51 UTC
+Date/Publication: 2019-08-12 09:41:15 UTC
 Imports: 
     data.table,
     shiny,
@@ -32,4 +32,3 @@ Imports:
 Suggests: 
     testthat,
     processx
-RoxygenNote: 6.1.1
