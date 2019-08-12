@@ -16,16 +16,16 @@
 
 
 # report
-renderResults <- function(results){
+renderResults <- function(descriptive_results, valueconformance_results){
 
   # get names
-  obj_names <- names(results)
+  obj_names <- names(descriptive_results)
 
   # loop over objects
   for (i in obj_names){
-    desc_out <- results[[i]]$description
-    count_out <- results[[i]]$counts
-    stat_out <- results[[i]]$statistics
+    desc_out <- descriptive_results[[i]]$description
+    count_out <- descriptive_results[[i]]$counts
+    stat_out <- descriptive_results[[i]]$statistics
 
     # title of variable
     cat(paste0("\n## ", desc_out$source_data$name, "  \n"))
@@ -44,6 +44,12 @@ renderResults <- function(results){
     cat("\n **Results:**  \n")
     print(kableTable(stat_out$source_data))
 
+    # conformance checks
+    if (i %in% names(valueconformance_results)){
+      cat("\n **Value conformance:**  \n")
+      renderValueConformance(valueconformance_results[[i]], desc_out, "source_data")
+    }
+
 
     # representation in the target system
     cat("\n### Representation in target data system  \n")
@@ -56,35 +62,61 @@ renderResults <- function(results){
     # statistics
     cat("\n **Results:**  \n")
     print(kableTable(stat_out$target_data))
+
+    # conformance checks
+    if (i %in% names(valueconformance_results)){
+      cat("\n **Value conformance:**  \n")
+      renderValueConformance(valueconformance_results[[i]], desc_out, "target_data")
+    }
   }
 }
 
 renderRepresentation <- function(desc_out, source){
   # source either "source_data" or "target_data"
-  cat(paste0("\n- Variable: ", desc_out[[source]]$var_name, "  \n"))
+  cat(paste0("\n- Variable: ", desc_out[[source]]$var_name, "\n"))
   cat(paste0("- Table: ", desc_out[[source]]$table_name, "  \n  \n"))
 }
 
 renderCounts <- function(count_out, source){
   # source either "source_data" or "target_data"
-  cat(paste0("\n- Variable name: ", count_out[[source]]$cnt$variable, "  \n"))
-  cat(paste0("\n- Variable type: ", count_out[[source]]$type, "  \n  \n"))
-  cat(paste0("    + Distinct values: ", count_out[[source]]$cnt$distinct, "  \n"))
-  cat(paste0("    + Valid values: ", count_out[[source]]$cnt$valids, "  \n"))
+  cat(paste0("\n- Variable name: ", count_out[[source]]$cnt$variable, "\n"))
+  cat(paste0("- Variable type: ", count_out[[source]]$type), "  \n")
+  cat(paste0("    + Distinct values: ", count_out[[source]]$cnt$distinct, "\n"))
+  cat(paste0("    + Valid values: ", count_out[[source]]$cnt$valids, "\n"))
   cat(paste0("    + Missing values: ", count_out[[source]]$cnt$missings, "  \n  \n"))
 }
 
+renderValueConformance <- function(results, desc_out, source){
 
-renderPlausis <- function(results){
+  cat(paste0("\n- Coformance check: ", ifelse(results[[source]]$conformance_error, "failed", "passed"), "\n"))
+
+  # get value set
+  json_obj <- jsonlite::fromJSON(desc_out[[source]]$checks$value_set)
+
+  if (desc_out[[source]]$checks$var_type == "factor"){
+    cat("- Value set: ", json_obj[["value_set"]])
+  } else if (desc_out[[source]]$checks$var_type %in% c("integer", "numeric")){
+    cat(paste0("- Value set:"))
+    print(kableTable(as.data.table(json_obj)))
+  }
+
+  if (isTRUE(results[[source]]$conformance_error)){
+    cat("\n- ", paste0(results[[source]]$conformance_results, "  \n  \n"))
+  } else {
+    cat("  \n  \n")
+  }
+}
+
+renderPlausis <- function(plausiresults, valueconformance_results){
 
   # get names
-  obj_names <- names(results)
+  obj_names <- names(plausiresults)
 
   # loop over objects
   for (i in obj_names){
-    desc_out <- results[[i]]$description
-    count_out <- results[[i]]$counts
-    stat_out <- results[[i]]$statistics
+    desc_out <- plausiresults[[i]]$description
+    count_out <- plausiresults[[i]]$counts
+    stat_out <- plausiresults[[i]]$statistics
 
     # title of variable
     cat(paste0("\n### ", desc_out$source_data$name, "  \n"))
@@ -103,6 +135,12 @@ renderPlausis <- function(results){
     cat("\n **Results:**  \n")
     print(kableTable(stat_out$source_data))
 
+    # conformance checks
+    if (i %in% names(valueconformance_results)){
+      cat("\n **Value conformance:**  \n")
+      renderValueConformance(valueconformance_results[[i]], desc_out, "source_data")
+    }
+
     # representation in the target system
     cat("\n#### Representation in target data system  \n")
     renderPlausiRepresentation(desc_out, "target_data")
@@ -114,17 +152,23 @@ renderPlausis <- function(results){
     # statistics
     cat("\n **Results:**  \n")
     print(kableTable(stat_out$target_data))
+
+    # conformance checks
+    if (i %in% names(valueconformance_results)){
+      cat("\n **Value conformance:**  \n")
+      renderValueConformance(valueconformance_results[[i]], desc_out, "target_data")
+    }
   }
 }
 
 renderPlausiRepresentation <- function(desc_out, source){
   # source either "source_data" or "target_data"
-  cat(paste0("\n- Variable: ", desc_out[[source]]$var_name, "  \n"))
-  cat(paste0("- Tabele: ", desc_out[[source]]$table_name, "  \n"))
-  cat(paste0("- FROM (SQL): ", desc_out[[source]]$sql_from, "  \n"))
-  cat(paste0("- JOIN TABLE (SQL): ", desc_out[[source]]$sql_join_table, "  \n"))
-  cat(paste0("- JOIN TYPE (SQL): ", desc_out[[source]]$sql_join_type, "  \n"))
-  cat(paste0("- JOIN ON (SQL): ", desc_out[[source]]$sql_join_on, "  \n"))
+  cat(paste0("\n- Variable: ", desc_out[[source]]$var_name, "\n"))
+  cat(paste0("- Tabele: ", desc_out[[source]]$table_name, "\n"))
+  cat(paste0("- FROM (SQL): ", desc_out[[source]]$sql_from, "\n"))
+  cat(paste0("- JOIN TABLE (SQL): ", desc_out[[source]]$sql_join_table, "\n"))
+  cat(paste0("- JOIN TYPE (SQL): ", desc_out[[source]]$sql_join_type, "\n"))
+  cat(paste0("- JOIN ON (SQL): ", desc_out[[source]]$sql_join_on, "\n"))
   cat(paste0("- WHERE (SQL): ", desc_out[[source]]$sql_where, "  \n  \n"))
 }
 

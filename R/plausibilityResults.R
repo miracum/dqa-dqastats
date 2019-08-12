@@ -46,7 +46,7 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     progress3$set(message = "Calculating plausibility statistics", value = 0)
   }
 
-  for (i in names(rv$pl_vars_filter)){
+  for (i in names(rv$pl.atemp_vars_filter)){
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Getting plausibility descriptions of", i)
@@ -54,17 +54,17 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
-      progress1$inc(1/length(names(rv$pl_vars_filter)), detail = paste("... working at description of", i, "..."))
+      progress1$inc(1/length(names(rv$pl.atemp_vars_filter)), detail = paste("... working at description of", i, "..."))
     }
 
     # generate descriptions
-    desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.", get("key")),][get("name")==i,c("name", "source_system", "source_variable_name",
+    desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("name")==i,c("name", "source_system", "source_variable_name",
                                                                                                  "source_table_name", "description",
                                                                                                  "sql_from", "sql_join_on", "sql_join_table", "sql_join_type", "sql_where",
                                                                                                  "variable_type", "value_set", "value_threshold", "missing_threshold"), with=F]
 
     if (nrow(desc_dat)>1){
-      outlist[[rv$pl_vars_filter[[i]]]]$description <- calcPlausiDescription(desc_dat, rv, sourcesystem = source_db)
+      outlist[[rv$pl.atemp_vars_filter[[i]]]]$description <- calcPlausiDescription(desc_dat, rv, sourcesystem = source_db)
     } else {
       cat("\nError occured during creating descriptions of source system\n")
     }
@@ -76,15 +76,15 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
-      progress2$inc(1/length(names(rv$pl_vars_filter)), detail = paste("... working at counts of", i, "..."))
+      progress2$inc(1/length(names(rv$pl.atemp_vars_filter)), detail = paste("... working at counts of", i, "..."))
     }
 
     # generate counts
-    cnt_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.", get("key")),][get("name")==i,c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
+    cnt_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("name")==i,c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
 
 
     if (length(cnt_dat[,unique(get("variable_name"))]) == 1){
-      outlist[[rv$pl_vars_filter[[i]]]]$counts <- calcCounts(cnt_dat, cnt_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
+      outlist[[rv$pl.atemp_vars_filter[[i]]]]$counts <- calcCounts(cnt_dat, cnt_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
     } else {
       cat("\nError occured during creating counts\n")
     }
@@ -96,17 +96,17 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
-      progress3$inc(1/length(names(rv$pl_vars_filter)), detail = paste("... working at statistics of", i, "..."))
+      progress3$inc(1/length(names(rv$pl.atemp_vars_filter)), detail = paste("... working at statistics of", i, "..."))
     }
 
     # generate counts
-    stat_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.", get("key")),][get("name")==i,c("source_system", "source_variable_name", "source_table_name", "variable_name", "variable_type", "key"),with=F]
+    stat_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("name")==i,c("source_system", "source_variable_name", "source_table_name", "variable_name", "variable_type", "key"),with=F]
 
     if (stat_dat[,unique(get("variable_type"))] == "factor"){
-      outlist[[rv$pl_vars_filter[[i]]]]$statistics <- calcCatStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
+      outlist[[rv$pl.atemp_vars_filter[[i]]]]$statistics <- calcCatStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
       # for target_data; our data is in rv$list_target$key
     } else {
-      outlist[[rv$pl_vars_filter[[i]]]]$statistics <- calcNumStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
+      outlist[[rv$pl.atemp_vars_filter[[i]]]]$statistics <- calcNumStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
     }
   }
   if (isFALSE(headless)){

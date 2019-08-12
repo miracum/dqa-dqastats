@@ -70,24 +70,24 @@ createHelperVars_ <- function(mdr, target_db, source_db){
   }, simplify = F, USE.NAMES = T)
 
   # get list of pl_vars for plausibility analyses
-  pl_vars <- mdr[grepl("^pl\\.", get("key")) & get("dqa_assessment") == 1,][order(get("source_table_name")),c("name",
+  pl.atemp_vars <- mdr[grepl("^pl\\.atemp\\.", get("key")) & get("dqa_assessment") == 1,][order(get("source_table_name")),c("name",
                                                                                                               "source_system",
                                                                                                               "source_variable_name",
                                                                                                               "variable_name",
                                                                                                               "variable_type",
                                                                                                               "key",
                                                                                                               "source_table_name"), with=F]
-  outlist$pl_vars <- sapply(unique(pl_vars[,get("name")]), function(x){
-    pl_vars[get("name")==x & get("source_system")==source_db, get("key")]
+  outlist$pl.atemp_vars <- sapply(unique(pl.atemp_vars[,get("name")]), function(x){
+    pl.atemp_vars[get("name")==x & get("source_system")==source_db, get("key")]
   }, simplify = F, USE.NAMES = T)
 
-  outlist$pl_vars <- c(outlist$pl_vars,
-                       sapply(unique(pl_vars[,get("name")]), function(x){
-                         pl_vars[get("name")==x & get("source_system")==target_db, get("key")]
+  outlist$pl.atemp_vars <- c(outlist$pl.atemp_vars,
+                       sapply(unique(pl.atemp_vars[,get("name")]), function(x){
+                         pl.atemp_vars[get("name")==x & get("source_system")==target_db, get("key")]
                        }, simplify = F, USE.NAMES = T))
 
-  outlist$pl_vars_filter <- sapply(unique(pl_vars[,get("name")]), function(x){
-    gsub("_source|_target", "", outlist$pl_vars[unique(names(outlist$pl_vars))][[x]])
+  outlist$pl.atemp_vars_filter <- sapply(unique(pl.atemp_vars[,get("name")]), function(x){
+    gsub("_source|_target", "", outlist$pl.atemp_vars[unique(names(outlist$pl.atemp_vars))][[x]])
   }, simplify = F, USE.NAMES = T)
 
 

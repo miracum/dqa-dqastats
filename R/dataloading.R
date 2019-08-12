@@ -177,10 +177,10 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
     progress$set(message = "Getting plausibilities", value = 0)
   }
 
-  for (i in unique(names(rv$pl_vars))){
+  for (i in unique(names(rv$pl.atemp_vars))){
 
-    if (grepl("_source", rv$pl_vars[[i]])){
-      j <- rv$pl_vars[[i]]
+    if (grepl("_source", rv$pl.atemp_vars[[i]])){
+      j <- rv$pl.atemp_vars[[i]]
 
       msg <- paste("Getting source plausibilities:", i)
       cat("\n", msg, "\n")
@@ -188,7 +188,7 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
       if (isFALSE(headless)){
         shinyjs::logjs(msg)
         # Increment the progress bar, and update the detail text.
-        progress$inc(1/length(unique(names(rv$pl_vars))), detail = paste("... getting", j, "..."))
+        progress$inc(1/length(unique(names(rv$pl.atemp_vars))), detail = paste("... getting", j, "..."))
       }
 
       outlist[[j]] <- loadSourcePlausibilities(j, outlist, headless = headless)
