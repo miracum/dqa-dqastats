@@ -40,6 +40,19 @@ calcDescription <- function(desc_dat, rv, sourcesystem){
   }
 }
 
+calcAtempPlausiDescription <- function(dat, plausis_atemporal, desc_dat, sourcesystem){
+  description <- list(name = dat$name,
+                      description = dat$description,
+                      var_dependent = dat$var_dependent,
+                      var_independent = dat$var_independent,
+                      filter = dat$filter,
+                      join_crit =dat$join_crit)
+  description$source_data <- c(plausis_atemporal$source_data$checks, list(var_type = desc_dat[get("source_system")==sourcesystem, get("variable_type")]))
+  description$target_data <- c(plausis_atemporal$target_data$checks, list(var_type = desc_dat[get("source_system")==rv$db_target, get("variable_type")]))
+
+  return(description)
+}
+
 calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, plausibility = FALSE){
   counts <- list()
   tryCatch({

@@ -46,7 +46,9 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     progress3$set(message = "Calculating plausibility statistics", value = 0)
   }
 
-  for (i in names(rv$pl.atemp_vars_filter)){
+  for (i in names(rv$data_plausibility$atemporal)){
+
+    dat <- rv$data_plausibility$atemporal[[i]]
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Getting plausibility descriptions of", i)
@@ -54,20 +56,28 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
-      progress1$inc(1/length(names(rv$pl.atemp_vars_filter)), detail = paste("... working at description of", i, "..."))
+      progress1$inc(1/length(names(rv$data_plausibility$atemporal)), detail = paste("... working at description of", i, "..."))
     }
 
-    # generate descriptions
-    desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("name")==i,c("name", "source_system", "source_variable_name",
-                                                                                                 "source_table_name", "description",
-                                                                                                 "sql_from", "sql_join_on", "sql_join_table", "sql_join_type", "sql_where",
-                                                                                                 "variable_type", "value_set", "value_threshold", "missing_threshold"), with=F]
+    # # generate descriptions
+    # desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("name")==i,c("name", "source_system", "source_variable_name",
+    #                                                                                              "source_table_name", "description",
+    #                                                                                              "sql_from", "sql_join_on", "sql_join_table", "sql_join_type", "sql_where",
+    #                                                                                              "variable_type", "value_set", "value_threshold", "missing_threshold"), with=F]
+    #
+    # if (nrow(desc_dat)>1){
+    #   outlist[[rv$pl.atemp_vars_filter[[i]]]]$description <- calcPlausiDescription(desc_dat, rv, sourcesystem = source_db)
+    # } else {
+    #   cat("\nError occured during creating descriptions of source system\n")
+    # }
 
-    if (nrow(desc_dat)>1){
-      outlist[[rv$pl.atemp_vars_filter[[i]]]]$description <- calcPlausiDescription(desc_dat, rv, sourcesystem = source_db)
-    } else {
-      cat("\nError occured during creating descriptions of source system\n")
-    }
+    # add the raw data to data_target and data_source
+    desc_dat <- rv$pl.atemp_vars[get("variable_name")==dat$var_dependent, c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
+    # workaround, to get old calcCounts function working with new cnt_dat
+    desc_dat[source_system == source_db,("key"):=paste0(i, "_source")]
+    desc_dat[source_system == rv$db_target,("key"):=paste0(i, "_target")]
+
+    outlist[[i]]$description <- calcAtempPlausiDescription(dat, rv$data_plausibility$atemporal[[i]], desc_dat, sourcesystem = source_db)
 
 
     # workaround to hide shiny-stuff, when going headless
@@ -76,15 +86,18 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
-      progress2$inc(1/length(names(rv$pl.atemp_vars_filter)), detail = paste("... working at counts of", i, "..."))
+      progress2$inc(1/length(names(rv$data_plausibility$atemporal)), detail = paste("... working at counts of", i, "..."))
     }
 
     # generate counts
-    cnt_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("name")==i,c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
+    # cnt_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("name")==i,c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
 
+    cnt_dat <- desc_dat
 
     if (length(cnt_dat[,unique(get("variable_name"))]) == 1){
-      outlist[[rv$pl.atemp_vars_filter[[i]]]]$counts <- calcCounts(cnt_dat, cnt_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
+      outlist[[i]]$counts <- calcCounts(cnt_dat = cnt_dat,
+                                        count_key = cnt_dat[,unique(get("variable_name"))],
+                                        rv, sourcesystem = source_db, plausibility = TRUE)
     } else {
       cat("\nError occured during creating counts\n")
     }
@@ -96,17 +109,18 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     if (isFALSE(headless)){
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
-      progress3$inc(1/length(names(rv$pl.atemp_vars_filter)), detail = paste("... working at statistics of", i, "..."))
+      progress3$inc(1/length(names(rv$data_plausibility$atemporal)), detail = paste("... working at statistics of", i, "..."))
     }
 
     # generate counts
-    stat_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("name")==i,c("source_system", "source_variable_name", "source_table_name", "variable_name", "variable_type", "key"),with=F]
+    # stat_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("name")==i,c("source_system", "source_variable_name", "source_table_name", "variable_name", "variable_type", "key"),with=F]
+    stat_dat <- cnt_dat
 
     if (stat_dat[,unique(get("variable_type"))] == "factor"){
-      outlist[[rv$pl.atemp_vars_filter[[i]]]]$statistics <- calcCatStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
+      outlist[[i]]$statistics <- calcCatStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
       # for target_data; our data is in rv$list_target$key
     } else {
-      outlist[[rv$pl.atemp_vars_filter[[i]]]]$statistics <- calcNumStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
+      outlist[[i]]$statistics <- calcNumStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
     }
   }
   if (isFALSE(headless)){
@@ -141,7 +155,7 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE
   # get uniqueness checks from json
   uniques <- list()
   for (i in pl.uniq_vars[get("source_system") == source_db, get("variable_name")]){
-    uniques[[i]] <- jsonlite::fromJSON(pl.uniq_vars[get("source_system") == source_db & get("variable_name") == i, get("plausibility_relation")])
+    uniques[[i]] <- jsonlite::fromJSON(pl.uniq_vars[get("source_system") == source_db & get("variable_name") == i, get("plausibility_relation")])[["uniqueness"]]
   }
 
   # iterate over uniqueness checks
@@ -155,8 +169,9 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE
       progress$set(message = paste("Getting uniqueness plausibilities for", i), value = 0)
     }
 
-    for (j in names(uniques[[i]])){
+    for (j in 1:length(uniques[[i]])){
       u <- uniques[[i]][[j]]
+      u$variable_name <- names(uniques[[i]])[j]
 
       # workaround to hide shiny-stuff, when going headless
       msg <- paste("Getting uniqueness plausibility", u$name)
@@ -176,18 +191,18 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE
       for (k in c("source_data", "target_data")){
         # TODO this is yet tailored to §21
         if (k == "source_data"){
-          u.key <- mdr[get("source_system") == source_db & get("variable_name") == j & get("dqa_assessment") == 1, get("source_table_name")]
+          u.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == source_db & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("source_table_name")]
           raw_data <- "data_source"
         } else {
-          u.key <- mdr[get("source_system") == rv$db_target & get("variable_name") == j & get("dqa_assessment") == 1, get("key")]
+          u.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == rv$db_target & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("key")]
           raw_data <- "data_target"
         }
 
         if (i %in% colnames(rv[[raw_data]][[u.key]])){
           if (!is.null(u$filter)){
-            group_data <- unique(rv[[raw_data]][[u.key]][get(j)==u$filter,get(j), by = get(i)])
+            group_data <- unique(rv[[raw_data]][[u.key]][get(u$variable_name)==u$filter,get(u$variable_name), by = get(i)])
           } else {
-            group_data <- unique(rv[[raw_data]][[u.key]][,get(j), by = get(i)])
+            group_data <- unique(rv[[raw_data]][[u.key]][,get(u$variable_name), by = get(u$variable_name)])
           }
         } else {
 
@@ -197,37 +212,38 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE
             shinyjs::logjs(msg)
           }
           # we need to find the correct data and merge
-          m1.data <- rv[[raw_data]][[u.key]]
           if (k == "source_data"){
-            m.key <- mdr[get("source_system") == source_db & get("variable_name") == i & get("dqa_assessment") == 1, get("source_table_name")]
+            m.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == source_db & get("variable_name") == i & get("dqa_assessment") == 1, get("source_table_name")]
           } else {
-            m.key <- mdr[get("source_system") == rv$db_target & get("variable_name") == i & get("dqa_assessment") == 1, get("key")]
+            m.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == rv$db_target & get("variable_name") == i & get("dqa_assessment") == 1, get("key")]
           }
 
           if (!is.null(u$filter)){
-            m.x <- rv[[raw_data]][[u.key]][get(j)==u$filter,]
+            m.x <- rv[[raw_data]][[u.key]][get(u$variable_name)==u$filter,]
           } else {
             m.x <- rv[[raw_data]][[u.key]]
           }
 
+          m.y <- rv[[raw_data]][[m.key]]
+
           merge_data <- merge(x = m.x,
-                              y = rv[[raw_data]][[m.key]],
-                              by.x = j,
-                              by.y = colnames(rv[[raw_data]][[m.key]])[grepl(j, colnames(rv[[raw_data]][[m.key]]))],
+                              y = m.y,
+                              by.x = u$variable_name,
+                              by.y = colnames(m.y)[grepl(u$variable_name, colnames(m.y))],
                               all = T,
                               suffixes = c("", ""))
-          group_data <- unique(merge_data[,get(j), by = get(i)])
-          rm(merge_data)
+          group_data <- unique(merge_data[,get(u$variable_name), by = get(i)])
+          rm(merge_data, m.x, m.y)
           gc()
         }
-        colnames(group_data) <- c(i, j)
+        colnames(group_data) <- c(i, u$variable_name)
         get_dupl <- as.character(group_data[duplicated(get(i)),get(i)])
         rm(group_data)
         gc()
 
         outlist[[u$name]][[k]]$message <- ifelse(length(get_dupl) > 0,
-                                                 paste0("Found ", length(get_dupl), " duplicate occurrences of ", i, " in association with ", j, "."),
-                                                 paste0("No duplicate occurrences of ", i, " found in association with ", j, "."))
+                                                 paste0("Found ", length(get_dupl), " duplicate occurrences of ", i, " in association with ", u$variable_name, "."),
+                                                 paste0("No duplicate occurrences of ", i, " found in association with ", u$variable_name, "."))
         outlist[[u$name]][[k]]$error <- ifelse(length(get_dupl) > 0,
                                                paste0(get_dupl, collapse = ", "),
                                                as.character(FALSE))

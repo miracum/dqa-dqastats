@@ -70,41 +70,46 @@ createHelperVars_ <- function(mdr, target_db, source_db){
     variable_list[get("name")==x, get("variable_name")]
   }, simplify = F, USE.NAMES = T)
 
+  # # get list of pl_vars for plausibility analyses
+  # pl.atemp_vars <- mdr[grepl("^pl\\.atemp\\.", get("key")) & get("dqa_assessment") == 1,][order(get("source_table_name")),c("name",
+  #                                                                                                                           "source_system",
+  #                                                                                                                           "source_variable_name",
+  #                                                                                                                           "variable_name",
+  #                                                                                                                           "variable_type",
+  #                                                                                                                           "key",
+  #                                                                                                                           "source_table_name"), with=F]
+  # outlist$pl.atemp_vars <- sapply(unique(pl.atemp_vars[,get("name")]), function(x){
+  #   pl.atemp_vars[get("name")==x & get("source_system")==source_db, get("key")]
+  # }, simplify = F, USE.NAMES = T)
+  #
+  # outlist$pl.atemp_vars <- c(outlist$pl.atemp_vars,
+  #                            sapply(unique(pl.atemp_vars[,get("name")]), function(x){
+  #                              pl.atemp_vars[get("name")==x & get("source_system")==target_db, get("key")]
+  #                            }, simplify = F, USE.NAMES = T))
+  #
+  # outlist$pl.atemp_vars_filter <- sapply(unique(pl.atemp_vars[,get("name")]), function(x){
+  #   gsub("_source|_target", "", outlist$pl.atemp_vars[unique(names(outlist$pl.atemp_vars))][[x]])
+  # }, simplify = F, USE.NAMES = T)
+
   # get list of pl_vars for plausibility analyses
-  pl.atemp_vars <- mdr[grepl("^pl\\.atemp\\.", get("key")) & get("dqa_assessment") == 1,][order(get("source_table_name")),c("name",
-                                                                                                                            "source_system",
-                                                                                                                            "source_variable_name",
-                                                                                                                            "variable_name",
-                                                                                                                            "variable_type",
-                                                                                                                            "key",
-                                                                                                                            "source_table_name"), with=F]
-  outlist$pl.atemp_vars <- sapply(unique(pl.atemp_vars[,get("name")]), function(x){
-    pl.atemp_vars[get("name")==x & get("source_system")==source_db, get("key")]
-  }, simplify = F, USE.NAMES = T)
+  pl_vars <- mdr[get("plausibility_check") == "1",][order(get("source_table_name")),c("name",
+                                                                                      "source_system",
+                                                                                      "source_variable_name",
+                                                                                      "variable_name",
+                                                                                      "variable_type",
+                                                                                      "key",
+                                                                                      "source_table_name",
+                                                                                      "plausibility_relation"), with=F]
+  ap.filter <- lapply(pl_vars[,get("plausibility_relation")], function(x){names(jsonlite::fromJSON(x))}) == "atemporal"
+  up.filter <- lapply(pl_vars[,get("plausibility_relation")], function(x){names(jsonlite::fromJSON(x))}) == "uniqueness"
 
-  outlist$pl.atemp_vars <- c(outlist$pl.atemp_vars,
-                             sapply(unique(pl.atemp_vars[,get("name")]), function(x){
-                               pl.atemp_vars[get("name")==x & get("source_system")==target_db, get("key")]
-                             }, simplify = F, USE.NAMES = T))
-
-  outlist$pl.atemp_vars_filter <- sapply(unique(pl.atemp_vars[,get("name")]), function(x){
-    gsub("_source|_target", "", outlist$pl.atemp_vars[unique(names(outlist$pl.atemp_vars))][[x]])
-  }, simplify = F, USE.NAMES = T)
-
-
-  outlist$pl.uniq_vars <- mdr[get("plausibility_check") == "uniqueness",][order(get("source_table_name")),c("name",
-                                                                                                            "source_system",
-                                                                                                            "source_variable_name",
-                                                                                                            "variable_name",
-                                                                                                            "variable_type",
-                                                                                                            "key",
-                                                                                                            "source_table_name",
-                                                                                                            "plausibility_relation"), with=F]
+  outlist$pl.atemp_vars <- pl_vars[ap.filter,]
+  outlist$pl.uniq_vars <- pl_vars[up.filter,]
 
 
   # get variables for type-transformations
   # get categorical variables
-  outlist$cat_vars <- outlist$dqa_vars[get("variable_type") == "factor", get("variable_name")]
+  outlist$cat_vars <- unique(mdr[get("variable_type") == "factor", get("variable_name")])
 
   # get date variables
   outlist$date_vars <- outlist$dqa_vars[get("variable_type") == "date", get("variable_name")]

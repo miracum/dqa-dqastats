@@ -88,3 +88,166 @@ calcPlausiDescription <- function(desc_dat, rv, sourcesystem){
     return(NULL)
   }
 }
+
+getPlausisFromMDR <- function(sourcesystem, pl.atemp_vars){
+  uniques <- list()
+  for (i in pl.atemp_vars[get("source_system") == sourcesystem, get("variable_name")]){
+    uniques[[i]] <- jsonlite::fromJSON(pl.atemp_vars[get("source_system") == sourcesystem & get("variable_name") == i, get("plausibility_relation")])[["atemporal"]]
+  }
+  return(uniques)
+}
+
+
+#' @title getAtempPlausis_ helper function
+#'
+#' @description Internal function to generate raw data for the 'Atemporal Plausibility' checks.
+#'
+#' @param pl.atemp_vars A data.table object. The object is created by \code{createHelperVars_} from the data represented in the metadata repository.
+#'
+#' @inheritParams atempPausiResults_
+#' @inheritParams createHelperVars_
+#'
+#' @export
+#'
+getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, source_db, headless = FALSE){
+  # pl.atemp_vars = rv$pl.atemp_vars
+  # mdr = rv$mdr
+  # sourcesystem = "csv"
+  # headless = T
+
+  outlist <- list()
+
+  # get uniqueness checks from json
+  uniques <- getPlausisFromMDR(sourcesystem = source_db, pl.atemp_vars = pl.atemp_vars)
+
+  # iterate over uniqueness checks
+  for (i in names(uniques)){
+
+    if (isFALSE(headless)){
+      # Create a Progress object
+      progress <- shiny::Progress$new()
+      # Make sure it closes when we exit this reactive, even if there's an error
+      on.exit(progress$close())
+      progress$set(message = paste("Getting atemporal plausibilities for", i), value = 0)
+    }
+
+    for (j in 1:length(uniques[[i]])){
+      u <- uniques[[i]][[j]]
+      u$variable_name <- names(uniques[[i]])[j]
+
+      # workaround to hide shiny-stuff, when going headless
+      msg <- paste("Getting atemporal plausibility", u$name)
+      cat("\n", msg, "\n")
+      if (isFALSE(headless)){
+        shinyjs::logjs(msg)
+        # Increment the progress bar, and update the detail text.
+        progress$inc(1/length(uniques[[i]]), detail = paste("... working hard ..."))
+      }
+
+      # save some additional information about variable in output data
+      outname <- tolower(u$name)
+
+      # get information on source data
+      for (k in c("source_data", "target_data")){
+
+        # get descriptions
+        db <- ifelse(k == "source_data", source_db, rv$db_target)
+        d <- getPlausisFromMDR(sourcesystem = db, pl.atemp_vars = pl.atemp_vars)
+
+        outlist[[outname]][[k]]$name = d$name
+        outlist[[outname]][[k]]$description = d$description
+        outlist[[outname]][[k]]$var_dependent = i
+        outlist[[outname]][[k]]$var_independent = d$variable_name
+        if (!is.null(d$filter)){
+          outlist[[outname]][[k]]$filter = d$filter
+        }
+        if (!is.null(d$join_crit)){
+          outlist[[outname]][[k]]$join_crit = d$join_crit
+        }
+
+        outlist[[outname]][[k]]$checks <- d$checks
+
+        # TODO this is yet tailored to §21
+        if (k == "source_data"){
+          u.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == source_db & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("source_table_name")]
+          raw_data <- "data_source"
+        } else {
+          u.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == rv$db_target & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("key")]
+          raw_data <- "data_target"
+        }
+
+        if (i %in% colnames(rv[[raw_data]][[u.key]])){
+          if (!is.null(u$filter)){
+            group_data <- rv[[raw_data]][[u.key]][grepl(u$filter, get(u$variable_name)),c(i, u$variable_name),with=F]
+          } else {
+            group_data <- rv[[raw_data]][[u.key]][!is.na(get(u$variable_name)),c(i, u$variable_name),with=F]
+          }
+        } else {
+
+          msg <- paste(i, "not in", colnames(rv[[raw_data]][[u.key]]))
+          cat("\n", msg, "\n")
+          if (isFALSE(headless)){
+            shinyjs::logjs(msg)
+          }
+          # we need to find the correct data and merge
+          if (k == "source_data"){
+            m.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == source_db & get("variable_name") == i & get("dqa_assessment") == 1, get("source_table_name")]
+          } else {
+            m.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == rv$db_target & get("variable_name") == i & get("dqa_assessment") == 1, get("key")]
+          }
+
+          if (!is.null(u$filter)){
+            m.x <- rv[[raw_data]][[u.key]][grepl(u$filter, get(u$variable_name)),]
+          } else {
+            m.x <- rv[[raw_data]][[u.key]]
+          }
+
+          # look, if join_crit is already in our target table, if so, create m.y directly
+          if (any(grepl(u$join_crit, colnames(rv[[raw_data]][[m.key]])))){
+            m.y <- rv[[raw_data]][[m.key]]
+          }  else {
+            # else join another table
+            if (k == "source_data"){
+              j.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == source_db & get("variable_name") == u$join_crit & get("dqa_assessment") == 1, get("source_table_name")]
+            } else {
+              j.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == rv$db_target & get("variable_name") == u$join_crit & get("dqa_assessment") == 1, get("key")]
+            }
+
+            # get colnames
+            coln.x <- colnames(rv[[raw_data]][[m.key]])
+            coln.y <- colnames(rv[[raw_data]][[j.key]])
+            # find matching colname
+            coln.x <- coln.x[lapply(coln.x, function(i){any(grepl(i, coln.y))}) == TRUE]
+            coln.y <- coln.y[grepl(coln.x, coln.y)]
+
+            m.y <- merge(x = rv[[raw_data]][[m.key]],
+                                y = rv[[raw_data]][[j.key]],
+                                by.x = coln.x,
+                                by.y = coln.y,
+                                all = T,
+                                suffixes = c("", ""))
+
+          }
+
+          group_data <- merge(x = m.x,
+                              y = m.y,
+                              by.x = colnames(m.x)[grepl(u$join_crit, colnames(m.x))],
+                              by.y = colnames(m.y)[grepl(u$join_crit, colnames(m.y))],
+                              all.x = T,
+                              suffixes = c("", ""))
+          rm(m.x, m.y)
+          gc()
+        }
+        outlist[[outname]][[k]][[raw_data]] <- group_data
+        rm(group_data)
+        gc()
+      }
+    }
+
+    if (isFALSE(headless)){
+      progress$close()
+    }
+
+  }
+  return(outlist)
+}

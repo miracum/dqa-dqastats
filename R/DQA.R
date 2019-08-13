@@ -100,6 +100,22 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
   # load target data
   rv$data_target <- loadTarget_(rv = rv, keys_to_test = rv$keys_target, headless = rv$headless)
 
+  # get atemporal plausibilities
+  rv$data_plausibility$atemporal <- getAtempPlausis_(rv = rv, pl.atemp_vars = rv$pl.atemp_vars, mdr = rv$mdr, source_db = rv$db_source, headless = rv$headless)
+
+  # add the plausibility raw data to data_target and data_source
+  pl.atemp_vars_filter <- character()
+  for (i in names(rv$data_plausibility$atemporal)){
+    for (k in c("source_data", "target_data")){
+      w <- gsub("_data", "", k)
+      n.key <- paste0(i, "_", w)
+      raw_data <- paste0("data_", w)
+      rv[[raw_data]][[n.key]] <- rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
+      rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
+      gc()
+    }
+  }
+
   # calculate descriptive results
   rv$results_descriptive <- descriptiveResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
 

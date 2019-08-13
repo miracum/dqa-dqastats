@@ -169,34 +169,34 @@ loadSource_ <- function(rv, keys_to_test, headless = FALSE){
 
   # load plausis
   # read source plausibilities after data transformation
-  if (isFALSE(headless)){
-    # Create a Progress object
-    progress <- shiny::Progress$new()
-    # Make sure it closes when we exit this reactive, even if there's an error
-    on.exit(progress$close())
-    progress$set(message = "Getting plausibilities", value = 0)
-  }
-
-  for (i in unique(names(rv$pl.atemp_vars))){
-
-    if (grepl("_source", rv$pl.atemp_vars[[i]])){
-      j <- rv$pl.atemp_vars[[i]]
-
-      msg <- paste("Getting source plausibilities:", i)
-      cat("\n", msg, "\n")
-      # workaround to hide shiny-stuff, when going headless
-      if (isFALSE(headless)){
-        shinyjs::logjs(msg)
-        # Increment the progress bar, and update the detail text.
-        progress$inc(1/length(unique(names(rv$pl.atemp_vars))), detail = paste("... getting", j, "..."))
-      }
-
-      outlist[[j]] <- loadSourcePlausibilities(j, outlist, headless = headless)
-    }
-  }
-  if (isFALSE(headless)){
-    progress$close()
-  }
+  # if (isFALSE(headless)){
+  #   # Create a Progress object
+  #   progress <- shiny::Progress$new()
+  #   # Make sure it closes when we exit this reactive, even if there's an error
+  #   on.exit(progress$close())
+  #   progress$set(message = "Getting plausibilities", value = 0)
+  # }
+  #
+  # for (i in unique(names(rv$pl.atemp_vars))){
+  #
+  #   if (grepl("_source", rv$pl.atemp_vars[[i]])){
+  #     j <- rv$pl.atemp_vars[[i]]
+  #
+  #     msg <- paste("Getting source plausibilities:", i)
+  #     cat("\n", msg, "\n")
+  #     # workaround to hide shiny-stuff, when going headless
+  #     if (isFALSE(headless)){
+  #       shinyjs::logjs(msg)
+  #       # Increment the progress bar, and update the detail text.
+  #       progress$inc(1/length(unique(names(rv$pl.atemp_vars))), detail = paste("... getting", j, "..."))
+  #     }
+  #
+  #     outlist[[j]] <- loadSourcePlausibilities(j, outlist, headless = headless)
+  #   }
+  # }
+  # if (isFALSE(headless)){
+  #   progress$close()
+  # }
   return(outlist)
 }
 
