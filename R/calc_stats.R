@@ -41,25 +41,35 @@ calcDescription <- function(desc_dat, rv, sourcesystem){
 }
 
 calcAtempPlausiDescription <- function(dat, plausis_atemporal, desc_dat, sourcesystem){
-  description <- list(name = dat$name,
-                      description = dat$description,
-                      var_dependent = dat$var_dependent,
-                      var_independent = dat$var_independent,
-                      filter = dat$filter,
-                      join_crit =dat$join_crit)
-  description$source_data <- c(plausis_atemporal$source_data$checks, list(var_type = desc_dat[get("source_system")==sourcesystem, get("variable_type")]))
-  description$target_data <- c(plausis_atemporal$target_data$checks, list(var_type = desc_dat[get("source_system")==rv$db_target, get("variable_type")]))
+  description <- list()
+  description$source_data <- list(name = dat$source_data$name,
+                                  description = dat$source_data$description,
+                                  var_dependent = dat$source_data$var_dependent,
+                                  var_independent = dat$source_data$var_independent,
+                                  filter = dat$source_data$filter,
+                                  join_crit =dat$source_data$join_crit,
+                                  checks = c(plausis_atemporal$source_data$checks,
+                                             list(var_type = desc_dat[get("source_system")==sourcesystem, get("variable_type")]))
+                                  )
+  description$target_data <- list(name = dat$target_data$name,
+                                  var_dependent = dat$target_data$var_dependent,
+                                  var_independent = dat$target_data$var_independent,
+                                  filter = dat$target_data$filter,
+                                  join_crit =dat$target_data$join_crit,
+                                  checks = c(plausis_atemporal$target_data$checks,
+                                             list(var_type = desc_dat[get("source_system")==rv$db_target, get("variable_type")]))
+                                  )
 
   return(description)
 }
 
-calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, plausibility = FALSE){
+calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, datamap = TRUE){
   counts <- list()
   tryCatch({
-    if (isFALSE(plausibility)){
-      counts$source_data$cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==sourcesystem, get("source_table_name")]]], count_key, sourcesystem, plausibility)
+    if (isTRUE(datamap)){
+      counts$source_data$cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==sourcesystem, get("source_table_name")]]], count_key, sourcesystem, datamap = datamap)
     } else {
-      counts$source_data$cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==sourcesystem, get("key")]]], count_key, sourcesystem, plausibility)
+      counts$source_data$cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==sourcesystem, get("key")]]], count_key, sourcesystem, datamap = datamap)
     }
     counts$source_data$type <- cnt_dat[get("source_system")==sourcesystem, get("variable_type")]
   }, error=function(e){
@@ -70,7 +80,7 @@ calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, plausibility = FALS
 
   # for target_data; our data is in rv$data_target$key
   tryCatch({
-    counts$target_data$cnt <- countUnique(rv$data_target[[cnt_dat[get("source_system")==rv$db_target, get("key")]]], count_key, sourcesystem = rv$db_target, plausibility = plausibility)
+    counts$target_data$cnt <- countUnique(rv$data_target[[cnt_dat[get("source_system")==rv$db_target, get("key")]]], count_key, sourcesystem = rv$db_target, datamap = datamap)
     counts$target_data$type <- cnt_dat[get("source_system")==rv$db_target, get("variable_type")]
   }, error=function(e){
     cat("\nError occured when counting target_data\n")

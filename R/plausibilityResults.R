@@ -72,12 +72,15 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     # }
 
     # add the raw data to data_target and data_source
-    desc_dat <- rv$pl.atemp_vars[get("variable_name")==dat$var_dependent, c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
+    desc_dat <- rv$pl.atemp_vars[get("variable_name")==dat$source_data$var_dependent, c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
     # workaround, to get old calcCounts function working with new cnt_dat
     desc_dat[source_system == source_db,("key"):=paste0(i, "_source")]
     desc_dat[source_system == rv$db_target,("key"):=paste0(i, "_target")]
 
-    outlist[[i]]$description <- calcAtempPlausiDescription(dat, rv$data_plausibility$atemporal[[i]], desc_dat, sourcesystem = source_db)
+    outlist[[i]]$description <- calcAtempPlausiDescription(dat,
+                                                           plausis_atemporal = rv$data_plausibility$atemporal[[i]],
+                                                           desc_dat,
+                                                           sourcesystem = source_db)
 
 
     # workaround to hide shiny-stuff, when going headless
@@ -97,7 +100,7 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     if (length(cnt_dat[,unique(get("variable_name"))]) == 1){
       outlist[[i]]$counts <- calcCounts(cnt_dat = cnt_dat,
                                         count_key = cnt_dat[,unique(get("variable_name"))],
-                                        rv, sourcesystem = source_db, plausibility = TRUE)
+                                        rv, sourcesystem = source_db, datamap = FALSE)
     } else {
       cat("\nError occured during creating counts\n")
     }
@@ -245,7 +248,7 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE
                                                  paste0("Found ", length(get_dupl), " duplicate occurrences of ", i, " in association with ", u$variable_name, "."),
                                                  paste0("No duplicate occurrences of ", i, " found in association with ", u$variable_name, "."))
         outlist[[u$name]][[k]]$error <- ifelse(length(get_dupl) > 0,
-                                               paste0(get_dupl, collapse = ", "),
+                                               "Error", #paste0(get_dupl, collapse = ", "),
                                                as.character(FALSE))
       }
     }
@@ -255,5 +258,5 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE
     }
 
   }
-  return(outlist)
+  return(outlist[order(names(outlist))])
 }

@@ -152,12 +152,12 @@ getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, source_db, headless = FALSE
 
         # get descriptions
         db <- ifelse(k == "source_data", source_db, rv$db_target)
-        d <- getPlausisFromMDR(sourcesystem = db, pl.atemp_vars = pl.atemp_vars)
+        d <- getPlausisFromMDR(sourcesystem = db, pl.atemp_vars = pl.atemp_vars)[[i]][[j]]
 
         outlist[[outname]][[k]]$name = d$name
         outlist[[outname]][[k]]$description = d$description
         outlist[[outname]][[k]]$var_dependent = i
-        outlist[[outname]][[k]]$var_independent = d$variable_name
+        outlist[[outname]][[k]]$var_independent = u$variable_name
         if (!is.null(d$filter)){
           outlist[[outname]][[k]]$filter = d$filter
         }
@@ -165,7 +165,7 @@ getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, source_db, headless = FALSE
           outlist[[outname]][[k]]$join_crit = d$join_crit
         }
 
-        outlist[[outname]][[k]]$checks <- d$checks
+        outlist[[outname]][[k]]$checks$value_set <- jsonlite::toJSON(d$checks)
 
         # TODO this is yet tailored to §21
         if (k == "source_data"){

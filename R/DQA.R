@@ -104,7 +104,6 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
   rv$data_plausibility$atemporal <- getAtempPlausis_(rv = rv, pl.atemp_vars = rv$pl.atemp_vars, mdr = rv$mdr, source_db = rv$db_source, headless = rv$headless)
 
   # add the plausibility raw data to data_target and data_source
-  pl.atemp_vars_filter <- character()
   for (i in names(rv$data_plausibility$atemporal)){
     for (k in c("source_data", "target_data")){
       w <- gsub("_data", "", k)
@@ -112,8 +111,8 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
       raw_data <- paste0("data_", w)
       rv[[raw_data]][[n.key]] <- rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
       rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
-      gc()
     }
+    gc()
   }
 
   # calculate descriptive results
@@ -127,8 +126,8 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
   rv$results_plausibility_uniqueness <- uniqPausiResults_(rv = rv, pl.uniq_vars = rv$pl.uniq_vars, mdr = rv$mdr, source_db = rv$db_source, headless = rv$headless)
 
   # conformance
-  rv$conformance$value_conformance <- valueConformance_(rv$results_descriptive, headless = rv$headless)
-  value_conformance <- valueConformance_(rv$results_plausibility_atemporal, headless = rv$headless)
+  rv$conformance$value_conformance <- valueConformance_(results = rv$results_descriptive, headless = rv$headless)
+  value_conformance <- valueConformance_(results = rv$results_plausibility_atemporal, headless = rv$headless)
 
   # workaround, to keep "rv" an reactiveValues object in shiny app
   for (i in names(value_conformance)){

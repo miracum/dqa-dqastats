@@ -85,7 +85,7 @@ descriptiveResults_ <- function(rv, source_db, headless = FALSE){
     # generate counts
     cnt_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^dt\\.", get("key")),][get("variable_name")==rv$variable_list[[i]],c("source_system", "source_variable_name", "source_table_name", "variable_type", "key"),with=F]
 
-    outlist[[rv$variable_list[[i]]]]$counts <- calcCounts(cnt_dat, rv$variable_list[[i]], rv, sourcesystem = source_db)
+    outlist[[rv$variable_list[[i]]]]$counts <- calcCounts(cnt_dat, rv$variable_list[[i]], rv, sourcesystem = source_db, datamap = TRUE)
 
 
     # workaround to hide shiny-stuff, when going headless

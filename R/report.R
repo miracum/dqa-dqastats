@@ -88,7 +88,7 @@ renderCounts <- function(count_out, source){
 
 renderValueConformance <- function(results, desc_out, source){
 
-  cat(paste0("\n- Coformance check: ", ifelse(results[[source]]$conformance_error, "failed", "passed"), "\n"))
+  cat(paste0("\n- Conformance check: ", ifelse(results[[source]]$conformance_error, "failed", "passed"), "\n"))
 
   # get value set
   json_obj <- jsonlite::fromJSON(desc_out[[source]]$checks$value_set)
@@ -107,7 +107,47 @@ renderValueConformance <- function(results, desc_out, source){
   }
 }
 
-renderPlausis <- function(plausiresults, valueconformance_results){
+renderDataMap <- function(datamap){
+  colnames(datamap) <- c("Variable", "# Distinct", "# Valid", "# Missing")
+  print(kableTable(datamap))
+}
+
+renderUniqPlausis <- function(plausiresults){
+  # get names
+  obj_names <- names(plausiresults)
+
+  # loop over objects
+  for (i in obj_names){
+
+    pl.item <- plausiresults[[i]]
+
+    # title of variable
+    cat(paste0("\n### ", i, "  \n"))
+
+    # description of variable
+    cat(paste0("\n", pl.item$description, "  \n"))
+
+    # representation in the source system
+    cat("\n#### Representation in source data system  \n")
+    renderUniqPlausiRepresentation(pl.item, "source_data")
+
+    # representation in the source system
+    cat("\n#### Representation in target data system  \n")
+    renderUniqPlausiRepresentation(pl.item, "target_data")
+  }
+}
+
+renderUniqPlausiRepresentation <- function(pl.item, source){
+  # source either "source_data" or "target_data"
+  cat(paste0("\n- Plausibility check: ", ifelse(pl.item[[source]]$error == "FALSE", "passed", "failed"), "\n"))
+  if (!is.null(pl.item[[source]]$filter)){
+    cat(paste0("- Filter criterion: ", pl.item[[source]]$filter, "\n"))
+  }
+  cat(paste0("- Message: ", pl.item[[source]]$message, "\n"))
+}
+
+
+renderAtempPlausis <- function(plausiresults, valueconformance_results){
 
   # get names
   obj_names <- names(plausiresults)
@@ -125,7 +165,7 @@ renderPlausis <- function(plausiresults, valueconformance_results){
 
     # representation in the source system
     cat("\n#### Representation in source data system  \n")
-    renderPlausiRepresentation(desc_out, "source_data")
+    renderAtempPlausiRepresentation(desc_out, "source_data")
 
     # overview
     cat("\n **Overview:**  \n")
@@ -143,7 +183,7 @@ renderPlausis <- function(plausiresults, valueconformance_results){
 
     # representation in the target system
     cat("\n#### Representation in target data system  \n")
-    renderPlausiRepresentation(desc_out, "target_data")
+    renderAtempPlausiRepresentation(desc_out, "target_data")
 
     # overview
     cat("\n **Overview:**  \n")
@@ -161,15 +201,12 @@ renderPlausis <- function(plausiresults, valueconformance_results){
   }
 }
 
-renderPlausiRepresentation <- function(desc_out, source){
+renderAtempPlausiRepresentation <- function(desc_out, source){
   # source either "source_data" or "target_data"
-  cat(paste0("\n- Variable: ", desc_out[[source]]$var_name, "\n"))
-  cat(paste0("- Tabele: ", desc_out[[source]]$table_name, "\n"))
-  cat(paste0("- FROM (SQL): ", desc_out[[source]]$sql_from, "\n"))
-  cat(paste0("- JOIN TABLE (SQL): ", desc_out[[source]]$sql_join_table, "\n"))
-  cat(paste0("- JOIN TYPE (SQL): ", desc_out[[source]]$sql_join_type, "\n"))
-  cat(paste0("- JOIN ON (SQL): ", desc_out[[source]]$sql_join_on, "\n"))
-  cat(paste0("- WHERE (SQL): ", desc_out[[source]]$sql_where, "  \n  \n"))
+  cat(paste0("\n- Variable 1: ", desc_out[[source]]$var_dependent, "\n"))
+  cat(paste0("- Variable 2: ", desc_out[[source]]$var_independent, "\n"))
+  cat(paste0("- Filter criterion variable 2 (regex): ", desc_out[[source]]$filter, "\n"))
+  cat(paste0("- Join criterion: ", desc_out[[source]]$join_crit, "\n"))
 }
 
 
