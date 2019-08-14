@@ -80,6 +80,7 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     outlist[[i]]$description <- calcAtempPlausiDescription(dat,
                                                            plausis_atemporal = rv$data_plausibility$atemporal[[i]],
                                                            desc_dat,
+                                                           rv,
                                                            sourcesystem = source_db)
 
 

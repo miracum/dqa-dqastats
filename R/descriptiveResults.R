@@ -108,6 +108,7 @@ descriptiveResults_ <- function(rv, source_db, headless = FALSE){
       outlist[[rv$variable_list[[i]]]]$statistics <- calcNumStats(stat_dat, rv$variable_list[[i]], rv, sourcesystem = source_db)
     }
   }
+  gc()
   if (isFALSE(headless)){
     progress1$close()
     progress2$close()

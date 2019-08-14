@@ -40,7 +40,7 @@ calcDescription <- function(desc_dat, rv, sourcesystem){
   }
 }
 
-calcAtempPlausiDescription <- function(dat, plausis_atemporal, desc_dat, sourcesystem){
+calcAtempPlausiDescription <- function(dat, plausis_atemporal, desc_dat, rv, sourcesystem){
   description <- list()
   description$source_data <- list(name = dat$source_data$name,
                                   description = dat$source_data$description,
