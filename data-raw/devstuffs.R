@@ -15,11 +15,11 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.0.9002")
+my_desc$set_version("0.0.0.9003")
 # The title of your package
 my_desc$set(Title = "DQAstats - Data Quality Assesment Utilities Package")
 # The description of your package
-my_desc$set(Description = "A package, created to perform data quality assessment (DQA) of electronic health records (EHR).")
+my_desc$set(Description = "Perform data quality assessment (DQA) of electronic health records (EHR).")
 # The description of your package
 my_desc$set("Date/Publication" = paste(as.character(Sys.time()), "UTC"))
 # The urls
