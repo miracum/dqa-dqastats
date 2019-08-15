@@ -4,8 +4,11 @@
 ^LICENSE\.md$
 ^docker$
 ^_settings$
-^DQA_report\.pdf$
 ^_header$
+^DQA_report\.pdf$
 ^DQA_report\.md$
+^DQA_report\.log$
+^DQA_report\.aux$
 ^DQA_report\.tex$
-^DQA_report\.*$
+^DQA_report\.toc$
+^DQA_report\.out$

@@ -74,8 +74,8 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     # add the raw data to data_target and data_source
     desc_dat <- rv$pl.atemp_vars[get("variable_name")==dat$source_data$var_dependent, c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
     # workaround, to get old calcCounts function working with new cnt_dat
-    desc_dat[source_system == source_db,("key"):=paste0(i, "_source")]
-    desc_dat[source_system == rv$db_target,("key"):=paste0(i, "_target")]
+    desc_dat[get("source_system") == source_db,("key"):=paste0(i, "_source")]
+    desc_dat[get("source_system") == rv$db_target,("key"):=paste0(i, "_target")]
 
     outlist[[i]]$description <- calcAtempPlausiDescription(dat,
                                                            plausis_atemporal = rv$data_plausibility$atemporal[[i]],
