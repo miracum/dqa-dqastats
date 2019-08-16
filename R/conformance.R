@@ -73,7 +73,11 @@ valueConformance_ <- function(results, headless = FALSE){
           # get levels from results
           levels_results <-s_out[,levels(get(colnames(s_out)[1]))]
           # compare levels from results to constraints from valueset (TRUE = constraint_error)
-          outlist2$conformance_error <- any(levels_results %!in% value_set)
+          if (is.null(levels_results)){
+            outlist2$conformance_error <- TRUE
+          } else {
+            outlist2$conformance_error <- any(levels_results %!in% value_set)
+          }
           # if TRUE, get those values, that do not fit
           outlist2$conformance_results <- ifelse(isTRUE(outlist2$conformance_error),
                                                  paste0("Levels that are not conform with the value set:  \n", paste(levels_results[levels_results %!in% value_set], collapse = "  \n")),
