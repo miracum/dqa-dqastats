@@ -118,7 +118,7 @@ calcCatStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FA
   })
 
   statistics$target_data <- tryCatch({
-    categoricalAnalysis(rv$data_target[[stat_dat[get("source_system")==rv$db_target, get("key")]]], stat_key)
+    target_data <- categoricalAnalysis(rv$data_target[[stat_dat[get("source_system")==rv$db_target, get("key")]]], stat_key)
   }, error = function(e){
     cat("\nError occured when calculating target catStats\n")
     print(e)
