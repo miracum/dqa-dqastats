@@ -17,10 +17,18 @@ test_that("correct functioning of DQA",{
 
 })
 
-
+# i2b2
 # prefix <- "tests/testthat/"
 # target_config = paste0(prefix, "testdata/config_i2b2.yml")
 # source_config = paste0(prefix, "testdata/config_csv.yml")
 # target_db = "i2b2"
+# source_db = "csv"
+# utils = system.file("application/_utilities", package = "miRacumDQA")
+
+# omop
+# prefix <- "tests/testthat/"
+# target_config = paste0(prefix, "testdata/config_omop.yml")
+# source_config = paste0(prefix, "testdata/config_csv.yml")
+# target_db = "omop"
 # source_db = "csv"
 # utils = system.file("application/_utilities", package = "miRacumDQA")

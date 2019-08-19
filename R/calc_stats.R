@@ -65,28 +65,36 @@ calcAtempPlausiDescription <- function(dat, plausis_atemporal, desc_dat, rv, sou
 
 calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, datamap = TRUE){
   counts <- list()
-  tryCatch({
+  counts$source_data$cnt <- tryCatch({
     if (isTRUE(datamap)){
-      counts$source_data$cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==sourcesystem, get("source_table_name")]]], count_key, sourcesystem, datamap = datamap)
+      cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==sourcesystem, get("source_table_name")]]], count_key, sourcesystem, datamap = datamap)
     } else {
-      counts$source_data$cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==sourcesystem, get("key")]]], count_key, sourcesystem, datamap = datamap)
+      cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==sourcesystem, get("key")]]], count_key, sourcesystem, datamap = datamap)
     }
-    counts$source_data$type <- cnt_dat[get("source_system")==sourcesystem, get("variable_type")]
   }, error=function(e){
     cat("\nError occured when counting source_data\n")
     print(e)
-    return(NULL)
+    cnt <- NULL
+  }, finally = function(f){
+    return(cnt)
   })
 
+  counts$source_data$type <- cnt_dat[get("source_system")==sourcesystem, get("variable_type")]
+
+
   # for target_data; our data is in rv$data_target$key
-  tryCatch({
-    counts$target_data$cnt <- countUnique(rv$data_target[[cnt_dat[get("source_system")==rv$db_target, get("key")]]], count_key, sourcesystem = rv$db_target, datamap = datamap)
-    counts$target_data$type <- cnt_dat[get("source_system")==rv$db_target, get("variable_type")]
+  counts$target_data$cnt <- tryCatch({
+    cnt <- countUnique(rv$data_target[[cnt_dat[get("source_system")==rv$db_target, get("key")]]], count_key, sourcesystem = rv$db_target, datamap = datamap)
+
   }, error=function(e){
     cat("\nError occured when counting target_data\n")
     print(e)
-    return(NULL)
+    cnt <- NULL
+  }, finally = function(f){
+    return(cnt)
   })
+
+  counts$target_data$type <- cnt_dat[get("source_system")==rv$db_target, get("variable_type")]
 
   return(counts)
 }
@@ -94,53 +102,90 @@ calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, datamap = TRUE){
 calcCatStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FALSE){
   statistics <- list()
 
-  tryCatch({
+  statistics$source_data <- tryCatch({
     if (isFALSE(plausibility)){
       # for source_data; our data is in rv$data_source$source_table_name
-      statistics$source_data <- categoricalAnalysis(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]], stat_key)
+      source_data <- categoricalAnalysis(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]], stat_key)
     } else {
-      statistics$source_data <- categoricalAnalysis(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]], stat_key)
+      source_data <- categoricalAnalysis(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]], stat_key)
     }
-    statistics$target_data <- categoricalAnalysis(rv$data_target[[stat_dat[get("source_system")==rv$db_target, get("key")]]], stat_key)
-    return(statistics)
   }, error=function(e){
-    cat("\nError occured when calculating catStats\n")
+    cat("\nError occured when calculating source catStats\n")
     print(e)
-    return(NULL)
+    source_data <- NULL
+  }, finally = function(f){
+    return(source_data)
   })
+
+  statistics$target_data <- tryCatch({
+    categoricalAnalysis(rv$data_target[[stat_dat[get("source_system")==rv$db_target, get("key")]]], stat_key)
+  }, error = function(e){
+    cat("\nError occured when calculating target catStats\n")
+    print(e)
+    target_data <- NULL
+  }, finally = function(f){
+    return(target_data)
+  })
+
+  return(statistics)
 }
 
 calcNumStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FALSE){
   statistics <- list()
 
   if (stat_dat[get("source_system")==sourcesystem,get("variable_type")!="date"]){
-    tryCatch({
+    statistics$source_data <- tryCatch({
       if (isFALSE(plausibility)){
         # for source_data; our data is in rv$data_source$source_table_name
-        statistics$source_data <- extensiveSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]][, get(stat_key)])
+        source_data <- extensiveSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]][, get(stat_key)])
       } else {
-        statistics$source_data <- extensiveSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]][, get(stat_key)])
+        source_data <- extensiveSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]][, get(stat_key)])
       }
-      statistics$target_data <- extensiveSummary(rv$data_target[[stat_dat[get("source_system")==rv$db_target, get("key")]]][, get(stat_key)])
-      return(statistics)
     }, error=function(e){
-      cat("\nError occured when calculating simple numStats\n")
+      cat("\nError occured when calculating simple source numStats\n")
       print(e)
-      return(NULL)
+      source_data <- NULL
+    }, finally = function(f){
+      return(source_data)
     })
-  } else {
-    tryCatch({
-      if (isFALSE(plausibility)){
-        statistics$source_data <- simpleSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]][, get(stat_key)])
-      } else {
-        statistics$source_data <- simpleSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]][, get(stat_key)])
-      }
-      statistics$target_data <- simpleSummary(rv$data_target[[stat_dat[get("source_system")==rv$db_target, get("key")]]][, get(stat_key)])
-      return(statistics)
+
+    statistics$target_data <- tryCatch({
+      target_data <- extensiveSummary(rv$data_target[[stat_dat[get("source_system")==rv$db_target, get("key")]]][, get(stat_key)])
     }, error=function(e){
-      cat("\nError occured when calculating simple numStats\n")
+      cat("\nError occured when calculating simple target numStats\n")
       print(e)
-      return(NULL)
+      target_data <- NULL
+    }, finally = function(f){
+      return(target_data)
+    })
+
+
+  } else {
+
+    statistics$source_data <- tryCatch({
+      if (isFALSE(plausibility)){
+        source_data <- simpleSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]][, get(stat_key)])
+      } else {
+        source_data <- simpleSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]][, get(stat_key)])
+      }
+    }, error=function(e){
+      cat("\nError occured when calculating simple source numStats\n")
+      print(e)
+      source_data <- NULL
+    }, finally = function(f){
+      return(source_data)
+    })
+
+    statistics$target_data <- tryCatch({
+      target_data <- simpleSummary(rv$data_target[[stat_dat[get("source_system")==rv$db_target, get("key")]]][, get(stat_key)])
+    }, error=function(e){
+      cat("\nError occured when calculating simple target numStats\n")
+      print(e)
+      target_data <- NULL
+    }, finally = function(f){
+      return(target_data)
     })
   }
+
+  return(statistics)
 }
