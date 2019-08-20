@@ -4,7 +4,7 @@
 \alias{getAtempPlausis_}
 \title{getAtempPlausis_ helper function}
 \usage{
-getAtempPlausis_(rv, pl.atemp_vars, mdr, source_db, headless = FALSE)
+getAtempPlausis_(rv, pl.atemp_vars, mdr, headless = FALSE)
 }
 \arguments{
 \item{rv}{A list object. Internal list simulating Shiny's 'reactive values'.}
@@ -12,8 +12,6 @@ getAtempPlausis_(rv, pl.atemp_vars, mdr, source_db, headless = FALSE)
 \item{pl.atemp_vars}{A data.table object. The object is created by \code{createHelperVars_} from the data represented in the metadata repository.}
 
 \item{mdr}{A data.table object containing the MDR.}
-
-\item{source_db}{A character string. The name of the source database. This string must be conform with the corresponding config section in the config.yml-file.}
 
 \item{headless}{A boolean (default: FALSE). Indicating, if the function is run only in the console (headless = TRUE) or on a GUI frontend (headless = FALSE).}
 }

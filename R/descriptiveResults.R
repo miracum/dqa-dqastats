@@ -24,7 +24,7 @@
 #'
 #' @export
 #'
-descriptiveResults_ <- function(rv, source_db, headless = FALSE){
+descriptiveResults_ <- function(rv, headless = FALSE){
 
   # initialize outlist
   outlist <- list()
@@ -64,7 +64,7 @@ descriptiveResults_ <- function(rv, source_db, headless = FALSE){
                                                                                                                               "variable_type", "value_set", "value_threshold", "missing_threshold"),with=F]
 
     if (nrow(desc_dat)>1){
-      outlist[[rv$variable_list[[i]]]]$description <- calcDescription(desc_dat, rv, sourcesystem = source_db)
+      outlist[[rv$variable_list[[i]]]]$description <- calcDescription(desc_dat, rv)
     } else {
       msg <- "Error occured during creating descriptions of source system"
       cat("\n", msg, "\n")
@@ -85,7 +85,7 @@ descriptiveResults_ <- function(rv, source_db, headless = FALSE){
     # generate counts
     cnt_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^dt\\.", get("key")),][get("variable_name")==rv$variable_list[[i]],c("source_system", "source_variable_name", "source_table_name", "variable_type", "key"),with=F]
 
-    outlist[[rv$variable_list[[i]]]]$counts <- calcCounts(cnt_dat, rv$variable_list[[i]], rv, sourcesystem = source_db, datamap = TRUE)
+    outlist[[rv$variable_list[[i]]]]$counts <- calcCounts(cnt_dat, rv$variable_list[[i]], rv, datamap = TRUE)
 
 
     # workaround to hide shiny-stuff, when going headless
@@ -102,10 +102,10 @@ descriptiveResults_ <- function(rv, source_db, headless = FALSE){
     stat_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^dt\\.", get("key")),][get("variable_name")==rv$variable_list[[i]],c("source_system", "source_variable_name", "source_table_name", "variable_type", "key"),with=F]
 
     if (stat_dat[,unique(get("variable_type"))] == "factor"){
-      outlist[[rv$variable_list[[i]]]]$statistics <- calcCatStats(stat_dat, rv$variable_list[[i]], rv, sourcesystem = source_db)
+      outlist[[rv$variable_list[[i]]]]$statistics <- calcCatStats(stat_dat, rv$variable_list[[i]], rv)
       # for target_data; our data is in rv$list_target$key
     } else {
-      outlist[[rv$variable_list[[i]]]]$statistics <- calcNumStats(stat_dat, rv$variable_list[[i]], rv, sourcesystem = source_db)
+      outlist[[rv$variable_list[[i]]]]$statistics <- calcNumStats(stat_dat, rv$variable_list[[i]], rv)
     }
   }
   gc()

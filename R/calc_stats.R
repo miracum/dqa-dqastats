@@ -14,18 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-calcDescription <- function(desc_dat, rv, sourcesystem){
+calcDescription <- function(desc_dat, rv){
   if (nrow(desc_dat)>1){
     description <- list()
-    description$source_data <- list(name = desc_dat[get("source_system")==sourcesystem, get("name")],
-                                    description = desc_dat[get("source_system")==sourcesystem, get("description")],
-                                    var_name = desc_dat[get("source_system")==sourcesystem, get("source_variable_name")],
-                                    table_name = desc_dat[get("source_system")==sourcesystem, get("source_table_name")],
-                                    fhir_name = desc_dat[get("source_system")==sourcesystem, get("fhir")],
-                                    checks = list(var_type = desc_dat[get("source_system")==sourcesystem, get("variable_type")],
-                                                  value_set = desc_dat[get("source_system")==sourcesystem, get("value_set")],
-                                                  value_threshold = desc_dat[get("source_system")==sourcesystem, get("value_threshold")],
-                                                  missing_threshold = desc_dat[get("source_system")==sourcesystem, get("missing_threshold")]))
+    description$source_data <- list(name = desc_dat[get("source_system")==rv$db_source, get("name")],
+                                    description = desc_dat[get("source_system")==rv$db_source, get("description")],
+                                    var_name = desc_dat[get("source_system")==rv$db_source, get("source_variable_name")],
+                                    table_name = desc_dat[get("source_system")==rv$db_source, get("source_table_name")],
+                                    fhir_name = desc_dat[get("source_system")==rv$db_source, get("fhir")],
+                                    checks = list(var_type = desc_dat[get("source_system")==rv$db_source, get("variable_type")],
+                                                  value_set = desc_dat[get("source_system")==rv$db_source, get("value_set")],
+                                                  value_threshold = desc_dat[get("source_system")==rv$db_source, get("value_threshold")],
+                                                  missing_threshold = desc_dat[get("source_system")==rv$db_source, get("missing_threshold")]))
 
     description$target_data <- list(var_name = desc_dat[get("source_system")==rv$db_target, get("source_variable_name")],
                                     table_name = desc_dat[get("source_system")==rv$db_target, get("source_table_name")],
@@ -40,7 +40,7 @@ calcDescription <- function(desc_dat, rv, sourcesystem){
   }
 }
 
-calcAtempPlausiDescription <- function(dat, plausis_atemporal, desc_dat, rv, sourcesystem){
+calcAtempPlausiDescription <- function(dat, plausis_atemporal, desc_dat, rv){
   description <- list()
   description$source_data <- list(name = dat$source_data$name,
                                   description = dat$source_data$description,
@@ -49,7 +49,7 @@ calcAtempPlausiDescription <- function(dat, plausis_atemporal, desc_dat, rv, sou
                                   filter = dat$source_data$filter,
                                   join_crit =dat$source_data$join_crit,
                                   checks = c(plausis_atemporal$source_data$checks,
-                                             list(var_type = desc_dat[get("source_system")==sourcesystem, get("variable_type")]))
+                                             list(var_type = desc_dat[get("source_system")==rv$db_source, get("variable_type")]))
                                   )
   description$target_data <- list(name = dat$target_data$name,
                                   var_dependent = dat$target_data$var_dependent,
@@ -57,19 +57,19 @@ calcAtempPlausiDescription <- function(dat, plausis_atemporal, desc_dat, rv, sou
                                   filter = dat$target_data$filter,
                                   join_crit =dat$target_data$join_crit,
                                   checks = c(plausis_atemporal$target_data$checks,
-                                             list(var_type = desc_dat[get("source_system")==sourcesystem, get("variable_type")]))
+                                             list(var_type = desc_dat[get("source_system")==rv$db_source, get("variable_type")]))
                                   )
 
   return(description)
 }
 
-calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, datamap = TRUE){
+calcCounts <- function(cnt_dat, count_key, rv, datamap = TRUE){
   counts <- list()
   counts$source_data$cnt <- tryCatch({
     if (isTRUE(datamap)){
-      cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==sourcesystem, get("source_table_name")]]], count_key, sourcesystem, datamap = datamap)
+      cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==rv$db_source, get("source_table_name")]]], count_key, sourcesystem = rv$db_source, datamap = datamap)
     } else {
-      cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==sourcesystem, get("key")]]], count_key, sourcesystem, datamap = datamap)
+      cnt <- countUnique(rv$data_source[[cnt_dat[get("source_system")==rv$db_source, get("key")]]], count_key, sourcesystem = rv$db_source, datamap = datamap)
     }
   }, error=function(e){
     cat("\nError occured when counting source_data\n")
@@ -79,7 +79,7 @@ calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, datamap = TRUE){
     return(cnt)
   })
 
-  counts$source_data$type <- cnt_dat[get("source_system")==sourcesystem, get("variable_type")]
+  counts$source_data$type <- cnt_dat[get("source_system")==rv$db_source, get("variable_type")]
 
 
   # for target_data; our data is in rv$data_target$key
@@ -99,15 +99,15 @@ calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, datamap = TRUE){
   return(counts)
 }
 
-calcCatStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FALSE){
+calcCatStats <- function(stat_dat, stat_key, rv, plausibility = FALSE){
   statistics <- list()
 
   statistics$source_data <- tryCatch({
     if (isFALSE(plausibility)){
       # for source_data; our data is in rv$data_source$source_table_name
-      source_data <- categoricalAnalysis(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]], stat_key)
+      source_data <- categoricalAnalysis(rv$data_source[[stat_dat[get("source_system")==rv$db_source, get("source_table_name")]]], stat_key)
     } else {
-      source_data <- categoricalAnalysis(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]], stat_key)
+      source_data <- categoricalAnalysis(rv$data_source[[stat_dat[get("source_system")==rv$db_source, get("key")]]], stat_key)
     }
   }, error=function(e){
     cat("\nError occured when calculating source catStats\n")
@@ -130,16 +130,16 @@ calcCatStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FA
   return(statistics)
 }
 
-calcNumStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FALSE){
+calcNumStats <- function(stat_dat, stat_key, rv, plausibility = FALSE){
   statistics <- list()
 
-  if (stat_dat[get("source_system")==sourcesystem,get("variable_type")!="date"]){
+  if (stat_dat[get("source_system")==rv$db_source,get("variable_type")!="date"]){
     statistics$source_data <- tryCatch({
       if (isFALSE(plausibility)){
         # for source_data; our data is in rv$data_source$source_table_name
-        source_data <- extensiveSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]][, get(stat_key)])
+        source_data <- extensiveSummary(rv$data_source[[stat_dat[get("source_system")==rv$db_source, get("source_table_name")]]][, get(stat_key)])
       } else {
-        source_data <- extensiveSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]][, get(stat_key)])
+        source_data <- extensiveSummary(rv$data_source[[stat_dat[get("source_system")==rv$db_source, get("key")]]][, get(stat_key)])
       }
     }, error=function(e){
       cat("\nError occured when calculating simple source numStats\n")
@@ -164,9 +164,9 @@ calcNumStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FA
 
     statistics$source_data <- tryCatch({
       if (isFALSE(plausibility)){
-        source_data <- simpleSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]][, get(stat_key)])
+        source_data <- simpleSummary(rv$data_source[[stat_dat[get("source_system")==rv$db_source, get("source_table_name")]]][, get(stat_key)])
       } else {
-        source_data <- simpleSummary(rv$data_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]][, get(stat_key)])
+        source_data <- simpleSummary(rv$data_source[[stat_dat[get("source_system")==rv$db_source, get("key")]]][, get(stat_key)])
       }
     }, error=function(e){
       cat("\nError occured when calculating simple source numStats\n")

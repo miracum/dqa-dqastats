@@ -23,7 +23,7 @@
 #'
 #' @export
 #'
-atempPausiResults_ <- function(rv, source_db, headless = FALSE){
+atempPausiResults_ <- function(rv, headless = FALSE){
   # source_db = rv$db_source
   # headless = T
 
@@ -76,14 +76,13 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     # add the raw data to data_target and data_source
     desc_dat <- rv$mdr[get("variable_name")==dat$source_data$var_dependent & get("source_system") %in% c(rv$db_source, rv$db_target) & get("dqa_assessment") == 1, c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
     # workaround, to get old calcCounts function working with new cnt_dat
-    desc_dat[get("source_system") == source_db,("key"):=paste0(i, "_source")]
+    desc_dat[get("source_system") == rv$db_source,("key"):=paste0(i, "_source")]
     desc_dat[get("source_system") == rv$db_target,("key"):=paste0(i, "_target")]
 
     outlist[[i]]$description <- calcAtempPlausiDescription(dat,
                                                            plausis_atemporal = rv$data_plausibility$atemporal[[i]],
                                                            desc_dat,
-                                                           rv,
-                                                           sourcesystem = source_db)
+                                                           rv)
 
 
     # workaround to hide shiny-stuff, when going headless
@@ -103,7 +102,7 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     if (length(cnt_dat[,unique(get("variable_name"))]) == 1){
       outlist[[i]]$counts <- calcCounts(cnt_dat = cnt_dat,
                                         count_key = cnt_dat[,unique(get("variable_name"))],
-                                        rv, sourcesystem = source_db, datamap = FALSE)
+                                        rv, datamap = FALSE)
     } else {
       cat("\nError occured during creating counts\n")
     }
@@ -123,10 +122,10 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     stat_dat <- cnt_dat
 
     if (stat_dat[,unique(get("variable_type"))] == "factor"){
-      outlist[[i]]$statistics <- calcCatStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
+      outlist[[i]]$statistics <- calcCatStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, plausibility = TRUE)
       # for target_data; our data is in rv$list_target$key
     } else {
-      outlist[[i]]$statistics <- calcNumStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = source_db, plausibility = TRUE)
+      outlist[[i]]$statistics <- calcNumStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, plausibility = TRUE)
     }
   }
   if (isFALSE(headless)){
@@ -150,7 +149,7 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
 #'
 #' @export
 #'
-uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE){
+uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, headless = FALSE){
   # pl.uniq_vars = rv$pl.uniq_vars
   # mdr = rv$mdr
   # sourcesystem = "p21csv"
@@ -189,18 +188,20 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE
       }
 
       outlist[[u$name]]$description = u$description
-      if (!is.null(u$filter[[src_flag]])){
-        outlist[[u$name]]$filter = u$filter[[src_flag]]
-      }
 
       # get information on source data
       for (k in c("source_data", "target_data")){
 
         src_flag <- ifelse(k == "source_data", rv$db_source, rv$db_target)
 
+
+        if (!is.null(u$filter[[src_flag]])){
+          outlist[[u$name]][[k]]$filter = u$filter[[src_flag]]
+        }
+
         # TODO this is yet tailored to §21
         if (k == "source_data"){
-          u.key <- mdr[get("source_system") == source_db & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("source_table_name")]
+          u.key <- mdr[get("source_system") == rv$db_source & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("source_table_name")]
           raw_data <- "data_source"
         } else {
           u.key <- mdr[get("source_system") == rv$db_target & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("key")]
@@ -222,7 +223,7 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE
           }
           # we need to find the correct data and merge
           if (k == "source_data"){
-            m.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == source_db & get("variable_name") == i & get("dqa_assessment") == 1, get("source_table_name")]
+            m.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == rv$db_source & get("variable_name") == i & get("dqa_assessment") == 1, get("source_table_name")]
           } else {
             m.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == rv$db_target & get("variable_name") == i & get("dqa_assessment") == 1, get("key")]
           }

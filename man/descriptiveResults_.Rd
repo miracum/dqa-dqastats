@@ -4,12 +4,10 @@
 \alias{descriptiveResults_}
 \title{descriptiveResults_ helper function}
 \usage{
-descriptiveResults_(rv, source_db, headless = FALSE)
+descriptiveResults_(rv, headless = FALSE)
 }
 \arguments{
 \item{rv}{A list object. Internal list simulating Shiny's 'reactive values'.}
-
-\item{source_db}{A character string. The name of the source database. This string must be conform with the corresponding config section in the config.yml-file.}
 
 \item{headless}{A boolean (default: FALSE). Indicating, if the function is run only in the console (headless = TRUE) or on a GUI frontend (headless = FALSE).}
 }

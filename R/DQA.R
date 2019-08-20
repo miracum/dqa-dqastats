@@ -101,7 +101,7 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
   rv$data_target <- loadTarget_(rv = rv, keys_to_test = rv$keys_target, headless = rv$headless)
 
   # get atemporal plausibilities
-  rv$data_plausibility$atemporal <- getAtempPlausis_(rv = rv, pl.atemp_vars = rv$pl.atemp_vars, mdr = rv$mdr, source_db = rv$db_source, headless = rv$headless)
+  rv$data_plausibility$atemporal <- getAtempPlausis_(rv = rv, pl.atemp_vars = rv$pl.atemp_vars, mdr = rv$mdr, headless = rv$headless)
 
   # add the plausibility raw data to data_target and data_source
   for (i in names(rv$data_plausibility$atemporal)){
@@ -116,14 +116,14 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
   }
 
   # calculate descriptive results
-  rv$results_descriptive <- descriptiveResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
+  rv$results_descriptive <- descriptiveResults_(rv = rv, headless = rv$headless)
 
   # get time_interval
   rv$time_interval <- timeInterval_(rv$results_descriptive$EpisodeOfCare_period_end)
 
   # calculate plausibilites
-  rv$results_plausibility_atemporal <- atempPausiResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
-  rv$results_plausibility_uniqueness <- uniqPausiResults_(rv = rv, pl.uniq_vars = rv$pl.uniq_vars, mdr = rv$mdr, source_db = rv$db_source, headless = rv$headless)
+  rv$results_plausibility_atemporal <- atempPausiResults_(rv = rv, headless = rv$headless)
+  rv$results_plausibility_uniqueness <- uniqPausiResults_(rv = rv, pl.uniq_vars = rv$pl.uniq_vars, mdr = rv$mdr, headless = rv$headless)
 
   # conformance
   rv$conformance$value_conformance <- valueConformance_(results = rv$results_descriptive, headless = rv$headless)

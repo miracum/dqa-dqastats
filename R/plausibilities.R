@@ -112,7 +112,7 @@ getPlausisFromMDR <- function(pl.atemp_vars){
 #'
 #' @export
 #'
-getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, source_db, headless = FALSE){
+getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, headless = FALSE){
   # pl.atemp_vars = rv$pl.atemp_vars
   # mdr = rv$mdr
   # sourcesystem = "p21csv"
@@ -173,7 +173,7 @@ getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, source_db, headless = FALSE
 
         # TODO this is yet tailored to §21
         if (k == "source_data"){
-          u.key <- mdr[get("source_system") == source_db & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("source_table_name")]
+          u.key <- mdr[get("source_system") == rv$db_source & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("source_table_name")]
           raw_data <- "data_source"
         } else {
           u.key <- mdr[get("source_system") == rv$db_target & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("key")]
@@ -195,7 +195,7 @@ getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, source_db, headless = FALSE
           }
           # we need to find the correct data and merge
           if (k == "source_data"){
-            m.key <- mdr[get("source_system") == source_db & get("variable_name") == i & get("dqa_assessment") == 1, get("source_table_name")]
+            m.key <- mdr[get("source_system") == rv$db_source & get("variable_name") == i & get("dqa_assessment") == 1, get("source_table_name")]
           } else {
             m.key <- mdr[get("source_system") == rv$db_target & get("variable_name") == i & get("dqa_assessment") == 1, get("key")]
           }
@@ -212,7 +212,7 @@ getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, source_db, headless = FALSE
           }  else {
             # else join another table
             if (k == "source_data"){
-              j.key <- mdr[get("source_system") == source_db & get("variable_name") == u$join_crit & get("dqa_assessment") == 1, get("source_table_name")]
+              j.key <- mdr[get("source_system") == rv$db_source & get("variable_name") == u$join_crit & get("dqa_assessment") == 1, get("source_table_name")]
             } else {
               j.key <- mdr[get("source_system") == rv$db_target & get("variable_name") == u$join_crit & get("dqa_assessment") == 1, get("key")]
             }
