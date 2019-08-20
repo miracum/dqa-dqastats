@@ -70,6 +70,16 @@ loadCSV <- function(rv, filename){
 
   outdat <- data.table::fread(paste0(rv$sourcefiledir, "/", filename), select = names(select_cols), colClasses = select_cols, header = T, na.strings = "", stringsAsFactors = TRUE)
 
+  # treating of §21 chaperones
+  if (tolower(filename) == "fall.csv"){
+    if (outdat[get("AUFNAHMEANLASS")=="B",.N] > 0){
+      cat(paste0("\n", outdat[get("AUFNAHMEANLASS")=="B",.N], " chaperones present in source data system.\n\nThese will be removed from further analyses."))
+      outdat <- outdat[get("AUFNAHMEANLASS") != "B" | is.na(get("AUFNAHMEANLASS")),]
+    } else {
+      cat("\nNo chaperones present in your source data.\n")
+    }
+  }
+
   return(outdat)
 }
 

@@ -24,6 +24,8 @@
 #' @export
 #'
 atempPausiResults_ <- function(rv, source_db, headless = FALSE){
+  # source_db = rv$db_source
+  # headless = T
 
   # initialize outlist
   outlist <- list()
@@ -72,7 +74,7 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
     # }
 
     # add the raw data to data_target and data_source
-    desc_dat <- rv$pl.atemp_vars[get("variable_name")==dat$source_data$var_dependent, c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
+    desc_dat <- rv$mdr[get("variable_name")==dat$source_data$var_dependent & get("source_system") %in% c(rv$db_source, rv$db_target) & get("dqa_assessment") == 1, c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
     # workaround, to get old calcCounts function working with new cnt_dat
     desc_dat[get("source_system") == source_db,("key"):=paste0(i, "_source")]
     desc_dat[get("source_system") == rv$db_target,("key"):=paste0(i, "_target")]
@@ -151,15 +153,15 @@ atempPausiResults_ <- function(rv, source_db, headless = FALSE){
 uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE){
   # pl.uniq_vars = rv$pl.uniq_vars
   # mdr = rv$mdr
-  # sourcesystem = "csv"
+  # sourcesystem = "p21csv"
   # headless = T
 
   outlist <- list()
 
   # get uniqueness checks from json
   uniques <- list()
-  for (i in pl.uniq_vars[get("source_system") == source_db, get("variable_name")]){
-    uniques[[i]] <- jsonlite::fromJSON(pl.uniq_vars[get("source_system") == source_db & get("variable_name") == i, get("plausibility_relation")])[["uniqueness"]]
+  for (i in pl.uniq_vars[,get("variable_name")]){
+    uniques[[i]] <- jsonlite::fromJSON(pl.uniq_vars[get("variable_name") == i, get("plausibility_relation")])[["uniqueness"]]
   }
 
   # iterate over uniqueness checks
@@ -187,24 +189,27 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE
       }
 
       outlist[[u$name]]$description = u$description
-      if (!is.null(u$filter)){
-        outlist[[u$name]]$filter = u$filter
+      if (!is.null(u$filter[[src_flag]])){
+        outlist[[u$name]]$filter = u$filter[[src_flag]]
       }
 
       # get information on source data
       for (k in c("source_data", "target_data")){
+
+        src_flag <- ifelse(k == "source_data", rv$db_source, rv$db_target)
+
         # TODO this is yet tailored to §21
         if (k == "source_data"){
-          u.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == source_db & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("source_table_name")]
+          u.key <- mdr[get("source_system") == source_db & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("source_table_name")]
           raw_data <- "data_source"
         } else {
-          u.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == rv$db_target & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("key")]
+          u.key <- mdr[get("source_system") == rv$db_target & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("key")]
           raw_data <- "data_target"
         }
 
         if (i %in% colnames(rv[[raw_data]][[u.key]])){
-          if (!is.null(u$filter)){
-            group_data <- unique(rv[[raw_data]][[u.key]][get(u$variable_name)==u$filter,get(u$variable_name), by = get(i)])
+          if (!is.null(u$filter[[src_flag]])){
+            group_data <- unique(rv[[raw_data]][[u.key]][get(u$variable_name)==u$filter[[src_flag]],get(u$variable_name), by = get(i)])
           } else {
             group_data <- unique(rv[[raw_data]][[u.key]][,get(u$variable_name), by = get(u$variable_name)])
           }
@@ -222,8 +227,8 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, source_db, headless = FALSE
             m.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == rv$db_target & get("variable_name") == i & get("dqa_assessment") == 1, get("key")]
           }
 
-          if (!is.null(u$filter)){
-            m.x <- rv[[raw_data]][[u.key]][get(u$variable_name)==u$filter,]
+          if (!is.null(u$filter[[src_flag]])){
+            m.x <- rv[[raw_data]][[u.key]][get(u$variable_name)==u$filter[[src_flag]],]
           } else {
             m.x <- rv[[raw_data]][[u.key]]
           }

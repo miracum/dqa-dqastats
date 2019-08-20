@@ -47,7 +47,7 @@ createHelperVars_ <- function(mdr, target_db, source_db){
 
   # get keys
   outlist$keys_target <- mdr[get("key")!="undefined",][get("source_system")==target_db,unique(get("key"))]
-  if (source_db == "csv"){
+  if (source_db == "p21csv"){
     # TODO workaround for csv-files
     outlist$keys_source <- mdr[get("key")!="undefined",][get("source_system")==source_db & !grepl("^pl\\.", get("key")), unique(get("source_table_name"))]
   }
@@ -93,12 +93,8 @@ createHelperVars_ <- function(mdr, target_db, source_db){
 
   # get list of pl_vars for plausibility analyses
   pl_vars <- mdr[!is.na(get("plausibility_relation")),][order(get("source_table_name")),c("name",
-                                                                                      "source_system",
-                                                                                      "source_variable_name",
                                                                                       "variable_name",
                                                                                       "variable_type",
-                                                                                      "key",
-                                                                                      "source_table_name",
                                                                                       "plausibility_relation"), with=F]
   ap.filter <- lapply(pl_vars[,get("plausibility_relation")], function(x){names(jsonlite::fromJSON(x))}) == "atemporal"
   up.filter <- lapply(pl_vars[,get("plausibility_relation")], function(x){names(jsonlite::fromJSON(x))}) == "uniqueness"

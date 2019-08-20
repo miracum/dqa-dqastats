@@ -92,10 +92,10 @@
 
 
 
-getPlausisFromMDR <- function(sourcesystem, pl.atemp_vars){
+getPlausisFromMDR <- function(pl.atemp_vars){
   uniques <- list()
-  for (i in pl.atemp_vars[get("source_system") == sourcesystem, get("variable_name")]){
-    uniques[[i]] <- jsonlite::fromJSON(pl.atemp_vars[get("source_system") == sourcesystem & get("variable_name") == i, get("plausibility_relation")])[["atemporal"]]
+  for (i in pl.atemp_vars[, get("variable_name")]){
+    uniques[[i]] <- jsonlite::fromJSON(pl.atemp_vars[get("variable_name") == i, get("plausibility_relation")])[["atemporal"]]
   }
   return(uniques)
 }
@@ -115,13 +115,13 @@ getPlausisFromMDR <- function(sourcesystem, pl.atemp_vars){
 getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, source_db, headless = FALSE){
   # pl.atemp_vars = rv$pl.atemp_vars
   # mdr = rv$mdr
-  # sourcesystem = "csv"
+  # sourcesystem = "p21csv"
   # headless = T
 
   outlist <- list()
 
   # get uniqueness checks from json
-  uniques <- getPlausisFromMDR(sourcesystem = source_db, pl.atemp_vars = pl.atemp_vars)
+  uniques <- getPlausisFromMDR(pl.atemp_vars = pl.atemp_vars)
 
   # iterate over uniqueness checks
   for (i in names(uniques)){
@@ -153,35 +153,36 @@ getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, source_db, headless = FALSE
       # get information on source data
       for (k in c("source_data", "target_data")){
 
-        # get descriptions
-        db <- ifelse(k == "source_data", source_db, rv$db_target)
-        d <- getPlausisFromMDR(sourcesystem = db, pl.atemp_vars = pl.atemp_vars)[[i]][[j]]
+        src_flag <- ifelse(k == "source_data", rv$db_source, rv$db_target)
 
-        outlist[[outname]][[k]]$name = d$name
-        outlist[[outname]][[k]]$description = d$description
+        # get descriptions
+        outlist[[outname]][[k]]$name = u$name
+        outlist[[outname]][[k]]$description = u$description
         outlist[[outname]][[k]]$var_dependent = i
         outlist[[outname]][[k]]$var_independent = u$variable_name
-        if (!is.null(d$filter)){
-          outlist[[outname]][[k]]$filter = d$filter
+        if (!is.null(u$filter[[src_flag]])){
+          outlist[[outname]][[k]]$filter = u$filter[[src_flag]]
         }
-        if (!is.null(d$join_crit)){
-          outlist[[outname]][[k]]$join_crit = d$join_crit
+        if (!is.null(u$join_crit)){
+          outlist[[outname]][[k]]$join_crit = u$join_crit
         }
 
-        outlist[[outname]][[k]]$checks$value_set <- jsonlite::toJSON(d$checks)
+        # prepare specific valueset for conformance checks:
+        val_set <- u$checks$value_set[[src_flag]]
+        outlist[[outname]][[k]]$checks$value_set <- jsonlite::toJSON(list("value_set" = val_set))
 
         # TODO this is yet tailored to §21
         if (k == "source_data"){
-          u.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == source_db & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("source_table_name")]
+          u.key <- mdr[get("source_system") == source_db & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("source_table_name")]
           raw_data <- "data_source"
         } else {
-          u.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == rv$db_target & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("key")]
+          u.key <- mdr[get("source_system") == rv$db_target & get("variable_name") == u$variable_name & get("dqa_assessment") == 1, get("key")]
           raw_data <- "data_target"
         }
 
         if (i %in% colnames(rv[[raw_data]][[u.key]])){
-          if (!is.null(u$filter)){
-            group_data <- rv[[raw_data]][[u.key]][grepl(u$filter, get(u$variable_name)),c(i, u$variable_name),with=F]
+          if (!is.null(u$filter[[src_flag]])){
+            group_data <- rv[[raw_data]][[u.key]][grepl(u$filter[[src_flag]], get(u$variable_name)),c(i, u$variable_name),with=F]
           } else {
             group_data <- rv[[raw_data]][[u.key]][!is.na(get(u$variable_name)),c(i, u$variable_name),with=F]
           }
@@ -194,13 +195,13 @@ getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, source_db, headless = FALSE
           }
           # we need to find the correct data and merge
           if (k == "source_data"){
-            m.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == source_db & get("variable_name") == i & get("dqa_assessment") == 1, get("source_table_name")]
+            m.key <- mdr[get("source_system") == source_db & get("variable_name") == i & get("dqa_assessment") == 1, get("source_table_name")]
           } else {
-            m.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == rv$db_target & get("variable_name") == i & get("dqa_assessment") == 1, get("key")]
+            m.key <- mdr[get("source_system") == rv$db_target & get("variable_name") == i & get("dqa_assessment") == 1, get("key")]
           }
 
-          if (!is.null(u$filter)){
-            m.x <- rv[[raw_data]][[u.key]][grepl(u$filter, get(u$variable_name)),]
+          if (!is.null(u$filter[[src_flag]])){
+            m.x <- rv[[raw_data]][[u.key]][grepl(u$filter[[src_flag]], get(u$variable_name)),]
           } else {
             m.x <- rv[[raw_data]][[u.key]]
           }
@@ -211,9 +212,9 @@ getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, source_db, headless = FALSE
           }  else {
             # else join another table
             if (k == "source_data"){
-              j.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == source_db & get("variable_name") == u$join_crit & get("dqa_assessment") == 1, get("source_table_name")]
+              j.key <- mdr[get("source_system") == source_db & get("variable_name") == u$join_crit & get("dqa_assessment") == 1, get("source_table_name")]
             } else {
-              j.key <- mdr[!grepl("^pl\\.", get("key")),][get("source_system") == rv$db_target & get("variable_name") == u$join_crit & get("dqa_assessment") == 1, get("key")]
+              j.key <- mdr[get("source_system") == rv$db_target & get("variable_name") == u$join_crit & get("dqa_assessment") == 1, get("key")]
             }
 
             # get colnames

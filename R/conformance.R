@@ -144,8 +144,8 @@ valueConformanceChecks_ <- function(results){
 
 
   for (i in obj_names){
-    error_source <- ifelse(results[[i]]$source_data$conformance_error, "failed", "passed")
-    error_target <- ifelse(results[[i]]$target_data$conformance_error, "failed", "passed")
+    error_source <- ifelse(!is.null(results[[i]]$source_data), ifelse(results[[i]]$source_data$conformance_error, "failed", "passed"), "ERROR")
+    error_target <- ifelse(!is.null(results[[i]]$target_data), ifelse(results[[i]]$target_data$conformance_error, "failed", "passed"), "ERROR")
     out <- rbind(out, data.table::data.table("Variable" = i,
                                              "Check Source Data" = error_source,
                                              "Check Target Data" = error_target))

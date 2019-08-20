@@ -57,7 +57,7 @@ calcAtempPlausiDescription <- function(dat, plausis_atemporal, desc_dat, rv, sou
                                   filter = dat$target_data$filter,
                                   join_crit =dat$target_data$join_crit,
                                   checks = c(plausis_atemporal$target_data$checks,
-                                             list(var_type = desc_dat[get("source_system")==rv$db_target, get("variable_type")]))
+                                             list(var_type = desc_dat[get("source_system")==sourcesystem, get("variable_type")]))
                                   )
 
   return(description)

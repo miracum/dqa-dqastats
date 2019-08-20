@@ -60,7 +60,7 @@ testTargetDB_ <- function(target_settings, headless = FALSE){
 #' @export
 #'
 testSourceDB_ <- function(source_settings, source_db, headless = FALSE){
-  if (source_db == "csv"){
+  if (source_db == "p21csv"){
 
     filelist <- list.files(path=source_settings$dir, pattern = "\\.CSV|\\.csv", full.names = T)
     # iterate over list and check for presence of required filenames: FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV
