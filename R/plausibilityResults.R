@@ -62,8 +62,8 @@ atempPausiResults_ <- function(rv, headless = FALSE){
     }
 
     # # generate descriptions
-    # desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("name")==i,c("name", "source_system", "source_variable_name",
-    #                                                                                              "source_table_name", "description",
+    # desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("designation")==i,c("designation", "source_system", "source_variable_name",
+    #                                                                                              "source_table_name", "definition",
     #                                                                                              "sql_from", "sql_join_on", "sql_join_table", "sql_join_type", "sql_where",
     #                                                                                              "variable_type", "value_set", "value_threshold", "missing_threshold"), with=F]
     #
@@ -95,7 +95,7 @@ atempPausiResults_ <- function(rv, headless = FALSE){
     }
 
     # generate counts
-    # cnt_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("name")==i,c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
+    # cnt_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("designation")==i,c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
 
     cnt_dat <- desc_dat
 
@@ -118,7 +118,7 @@ atempPausiResults_ <- function(rv, headless = FALSE){
     }
 
     # generate counts
-    # stat_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("name")==i,c("source_system", "source_variable_name", "source_table_name", "variable_name", "variable_type", "key"),with=F]
+    # stat_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("designation")==i,c("source_system", "source_variable_name", "source_table_name", "variable_name", "variable_type", "key"),with=F]
     stat_dat <- cnt_dat
 
     if (stat_dat[,unique(get("variable_type"))] == "factor"){
@@ -210,7 +210,7 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, headless = FALSE){
 
         if (i %in% colnames(rv[[raw_data]][[u.key]])){
           if (!is.null(u$filter[[src_flag]])){
-            group_data <- unique(rv[[raw_data]][[u.key]][get(u$variable_name)==u$filter[[src_flag]],get(u$variable_name), by = get(i)])
+            group_data <- unique(rv[[raw_data]][[u.key]][get(u$variable_name) %in% u$filter[[src_flag]],get(u$variable_name), by = get(i)])
           } else {
             group_data <- unique(rv[[raw_data]][[u.key]][,get(u$variable_name), by = get(u$variable_name)])
           }
@@ -229,7 +229,7 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, headless = FALSE){
           }
 
           if (!is.null(u$filter[[src_flag]])){
-            m.x <- rv[[raw_data]][[u.key]][get(u$variable_name)==u$filter[[src_flag]],]
+            m.x <- rv[[raw_data]][[u.key]][get(u$variable_name) %in% u$filter[[src_flag]],]
           } else {
             m.x <- rv[[raw_data]][[u.key]]
           }

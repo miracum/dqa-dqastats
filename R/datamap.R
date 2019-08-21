@@ -12,7 +12,7 @@
 generateDatamap_ <- function(results, mdr, db, headless = FALSE){
 
   # get names
-  data_names <- mdr[get("data_map") == 1 & get("source_system") == db, c("variable_name", "name"), with=F]
+  data_names <- mdr[get("data_map") == 1 & get("source_system") == db, c("variable_name", "designation"), with=F]
 
   if (nrow(data_names) < 1){
     msg <- "No variables suitable for the data map found in the MDR"
@@ -35,7 +35,7 @@ generateDatamap_ <- function(results, mdr, db, headless = FALSE){
                                     "missings" = character(0))
 
       for (j in obj_names){
-        out <- rbind(out, data.table::data.table("variable" = data_names[get("variable_name")==j, get("name")],
+        out <- rbind(out, data.table::data.table("variable" = data_names[get("variable_name")==j, get("designation")],
                                                  "distinct" = results[[j]]$counts[[i]]$cnt$distinct,
                                                  "valids" = results[[j]]$counts[[i]]$cnt$valids,
                                                  "missings" = results[[j]]$counts[[i]]$cnt$missings))

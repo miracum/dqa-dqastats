@@ -54,7 +54,7 @@ createHelperVars_ <- function(mdr, target_db, source_db){
 
 
   # get list of DQ-variables of interest
-  outlist$dqa_assessment <- mdr[get("source_system")==source_db & get("dqa_assessment") == 1,][order(get("source_table_name")),c("name",
+  outlist$dqa_assessment <- mdr[get("source_system")==source_db & get("dqa_assessment") == 1,][order(get("source_table_name")),c("designation",
                                                                                                                                  "source_variable_name",
                                                                                                                                  "variable_name",
                                                                                                                                  "variable_type",
@@ -65,34 +65,34 @@ createHelperVars_ <- function(mdr, target_db, source_db){
   outlist$dqa_vars <- outlist$dqa_assessment[grepl("^dt\\.", get("key")),]
 
   # variable_list
-  variable_list <- outlist$dqa_vars[order(get("name"))]
-  outlist$variable_list <- sapply(variable_list[,get("name")], function(x){
-    variable_list[get("name")==x, get("variable_name")]
+  variable_list <- outlist$dqa_vars[order(get("designation"))]
+  outlist$variable_list <- sapply(variable_list[,get("designation")], function(x){
+    variable_list[get("designation")==x, get("variable_name")]
   }, simplify = F, USE.NAMES = T)
 
   # # get list of pl_vars for plausibility analyses
-  # pl.atemp_vars <- mdr[grepl("^pl\\.atemp\\.", get("key")) & get("dqa_assessment") == 1,][order(get("source_table_name")),c("name",
+  # pl.atemp_vars <- mdr[grepl("^pl\\.atemp\\.", get("key")) & get("dqa_assessment") == 1,][order(get("source_table_name")),c("designation",
   #                                                                                                                           "source_system",
   #                                                                                                                           "source_variable_name",
   #                                                                                                                           "variable_name",
   #                                                                                                                           "variable_type",
   #                                                                                                                           "key",
   #                                                                                                                           "source_table_name"), with=F]
-  # outlist$pl.atemp_vars <- sapply(unique(pl.atemp_vars[,get("name")]), function(x){
-  #   pl.atemp_vars[get("name")==x & get("source_system")==source_db, get("key")]
+  # outlist$pl.atemp_vars <- sapply(unique(pl.atemp_vars[,get("designation")]), function(x){
+  #   pl.atemp_vars[get("designation")==x & get("source_system")==source_db, get("key")]
   # }, simplify = F, USE.NAMES = T)
   #
   # outlist$pl.atemp_vars <- c(outlist$pl.atemp_vars,
-  #                            sapply(unique(pl.atemp_vars[,get("name")]), function(x){
-  #                              pl.atemp_vars[get("name")==x & get("source_system")==target_db, get("key")]
+  #                            sapply(unique(pl.atemp_vars[,get("designation")]), function(x){
+  #                              pl.atemp_vars[get("designation")==x & get("source_system")==target_db, get("key")]
   #                            }, simplify = F, USE.NAMES = T))
   #
-  # outlist$pl.atemp_vars_filter <- sapply(unique(pl.atemp_vars[,get("name")]), function(x){
+  # outlist$pl.atemp_vars_filter <- sapply(unique(pl.atemp_vars[,get("designation")]), function(x){
   #   gsub("_source|_target", "", outlist$pl.atemp_vars[unique(names(outlist$pl.atemp_vars))][[x]])
   # }, simplify = F, USE.NAMES = T)
 
   # get list of pl_vars for plausibility analyses
-  pl_vars <- mdr[!is.na(get("plausibility_relation")),][order(get("source_table_name")),c("name",
+  pl_vars <- mdr[!is.na(get("plausibility_relation")),][order(get("source_table_name")),c("designation",
                                                                                       "variable_name",
                                                                                       "variable_type",
                                                                                       "plausibility_relation"), with=F]

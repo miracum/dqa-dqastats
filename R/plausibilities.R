@@ -58,8 +58,8 @@
 # calcPlausiDescription <- function(desc_dat, rv, sourcesystem){
 #   if (nrow(desc_dat)>1){
 #     description <- list()
-#     description$source_data <- list(name = desc_dat[get("source_system")==sourcesystem, get("name")],
-#                                     description = desc_dat[get("source_system")==sourcesystem, get("description")],
+#     description$source_data <- list(name = desc_dat[get("source_system")==sourcesystem, get("designation")],
+#                                     description = desc_dat[get("source_system")==sourcesystem, get("definition")],
 #                                     var_name = desc_dat[get("source_system")==sourcesystem, get("source_variable_name")],
 #                                     table_name = desc_dat[get("source_system")==sourcesystem, get("source_table_name")],
 #                                     sql_from = desc_dat[get("source_system")==sourcesystem, get("sql_from")],

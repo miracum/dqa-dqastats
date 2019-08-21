@@ -17,8 +17,8 @@
 calcDescription <- function(desc_dat, rv){
   if (nrow(desc_dat)>1){
     description <- list()
-    description$source_data <- list(name = desc_dat[get("source_system")==rv$db_source, get("name")],
-                                    description = desc_dat[get("source_system")==rv$db_source, get("description")],
+    description$source_data <- list(name = desc_dat[get("source_system")==rv$db_source, get("designation")],
+                                    description = desc_dat[get("source_system")==rv$db_source, get("definition")],
                                     var_name = desc_dat[get("source_system")==rv$db_source, get("source_variable_name")],
                                     table_name = desc_dat[get("source_system")==rv$db_source, get("source_table_name")],
                                     fhir_name = desc_dat[get("source_system")==rv$db_source, get("fhir")],
