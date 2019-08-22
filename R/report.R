@@ -249,7 +249,7 @@ createMarkdown_ <- function(rv = rv, utils, outdir = tempdir(), headless = FALSE
   knitr::knit(input= paste0(utils, "RMD/DQA_report.Rmd"), output=paste0(outdir, "/DQA_report.md"), encoding = "UTF-8")
   # copy header-folder to tempdir to make files available for the next command
   file.copy(paste0(utils, "RMD/_header"), outdir, recursive=TRUE)
-  rmarkdown::render(input=paste0(outdir, "/DQA_report.md"), output_file = paste0(outdir, "/DQA_report.pdf"), encoding = "UTF-8")
+  rmarkdown::render(input=paste0(outdir, "/DQA_report.md"), output_file = paste0(outdir, "/DQA_report_", gsub("\\-|\\:| ", "", substr(rv$start.time, 1, 16)), ".pdf"), encoding = "UTF-8")
 
   # delete temporary files
   do.call(file.remove, list(list.files(paste0(outdir, "_header"), full.names = TRUE)))
