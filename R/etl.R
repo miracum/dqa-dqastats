@@ -32,7 +32,8 @@ etlChecks_ <- function(results){
   # initialize output table
   out <- data.table::data.table("Variable" = character(0),
                     "Check Distincts" = character(0),
-                    "Check Valids" = character(0))
+                    "Check Valids" = character(0),
+                    "Check Missings" = character(0))
 
 
   for (i in obj_names){
@@ -40,9 +41,12 @@ etlChecks_ <- function(results){
                              "passed", "failed")
     check_valids <- ifelse(results[[i]]$counts$source_data$cnt$valids == results[[i]]$counts$target_data$cnt$valids,
                            "passed", "failed")
+    check_missings <- check_valids <- ifelse(results[[i]]$counts$source_data$cnt$missings == results[[i]]$counts$target_data$cnt$missings,
+                                             "passed", "failed")
     out <- rbind(out, data.table::data.table("Variable" = i,
                                  "Check Distincts" = check_distinct,
-                                 "Check Valids" = check_valids))
+                                 "Check Valids" = check_valids,
+                                 "Check Missings" = check_missings))
   }
   return(out)
 }
