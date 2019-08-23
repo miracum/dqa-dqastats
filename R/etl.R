@@ -41,7 +41,7 @@ etlChecks_ <- function(results){
                              "passed", "failed")
     check_valids <- ifelse(results[[i]]$counts$source_data$cnt$valids == results[[i]]$counts$target_data$cnt$valids,
                            "passed", "failed")
-    check_missings <- check_valids <- ifelse(results[[i]]$counts$source_data$cnt$missings == results[[i]]$counts$target_data$cnt$missings,
+    check_missings <- ifelse(results[[i]]$counts$source_data$cnt$missings == results[[i]]$counts$target_data$cnt$missings,
                                              "passed", "failed")
     out <- rbind(out, data.table::data.table("Variable" = i,
                                  "Check Distincts" = check_distinct,
