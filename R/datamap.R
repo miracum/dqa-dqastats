@@ -30,15 +30,17 @@ generateDatamap_ <- function(results, mdr, db, headless = FALSE){
     for (i in c("source_data", "target_data")){
       # initialize output table
       out <- data.table::data.table("variable" = character(0),
-                                    "distinct" = character(0),
+                                    "n" = character(0),
                                     "valids" = character(0),
-                                    "missings" = character(0))
+                                    "missings" = character(0),
+                                    "distinct" = character(0))
 
       for (j in obj_names){
         out <- rbind(out, data.table::data.table("variable" = data_names[get("variable_name")==j, get("designation")],
-                                                 "distinct" = results[[j]]$counts[[i]]$cnt$distinct,
+                                                 "n" = results[[j]]$counts[[i]]$cnt$n,
                                                  "valids" = results[[j]]$counts[[i]]$cnt$valids,
-                                                 "missings" = results[[j]]$counts[[i]]$cnt$missings))
+                                                 "missings" = results[[j]]$counts[[i]]$cnt$missings,
+                                                 "distinct" = results[[j]]$counts[[i]]$cnt$distinct))
       }
       outlist[[i]] <- out
     }
