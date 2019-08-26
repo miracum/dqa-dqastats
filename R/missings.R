@@ -29,10 +29,10 @@ completeness_ <- function(results, headless = FALSE){
   # initialize final list to output
   outlist <- data.table::data.table(cbind(
     "Variable" = character(0),
-    "Missings (source)" = integer(0),
-    "Missings [%] (source)" = numeric(0),
-    "Missings (target)" = integer(0),
-    "Missings [%] (target)" = numeric(0)
+    "Missings\n(source)" = integer(0),
+    "Missings [%]\n(source)" = numeric(0),
+    "Missings\n(target)" = integer(0),
+    "Missings [%]\n(target)" = numeric(0)
   ))
 
   if (isFALSE(headless)){
@@ -60,10 +60,10 @@ completeness_ <- function(results, headless = FALSE){
     outlist <- rbind(outlist,
                      data.table::data.table(cbind(
                        "Variable" = i,
-                       "Missings (source)" = count_out$source_data$cnt$missings,
-                       "Missings [%] (source)" = round(count_out$source_data$cnt$missings / count_out$source_data$cnt$n, 4) * 100,
-                       "Missings (target)" = count_out$target_data$cnt$missings,
-                       "Missings [%] (target)" = round(count_out$target_data$cnt$missings / count_out$source_data$cnt$n, 4) * 100
+                       "Missings\n(source)" = count_out$source_data$cnt$missings,
+                       "Missings [%]\n(source)" = round(count_out$source_data$cnt$missings / count_out$source_data$cnt$n, 4) * 100,
+                       "Missings\n(target)" = count_out$target_data$cnt$missings,
+                       "Missings [%]\n(target)" = round(count_out$target_data$cnt$missings / count_out$source_data$cnt$n, 4) * 100
                      ))
     )
   }
