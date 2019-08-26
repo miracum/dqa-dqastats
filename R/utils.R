@@ -15,9 +15,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' @title transformFactors_ helper function
+#' @title cleanPathName_ helper function
 #'
-#' @description Internal function to transform factors of the German §21-EHR billing data format
+#' @description Internal function to clean paths to have a tailing slash
 #'
 #' @param pathname A character string. A pathname to be cleaned (to have a tailing slash).
 #'

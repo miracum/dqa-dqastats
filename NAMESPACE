@@ -3,6 +3,7 @@
 export(DQA)
 export(atempPausiResults_)
 export(cleanPathName_)
+export(completeness_)
 export(createHelperVars_)
 export(createMarkdown_)
 export(descriptiveResults_)

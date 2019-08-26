@@ -25,21 +25,24 @@ countUnique <- function(data, var, sourcesystem, datamap = TRUE){
                                 "patient_birthDate", "patient_gender")
 
     if (var %in% special_treatment_vars){
+      n <- unique(data[, get(var), by="patient_identifier_value"])[,.N]
       valids <- unique(data[!is.na(get(var)), get(var), by="patient_identifier_value"])[,.N]
       missings <- unique(data[is.na(get(var)), get(var), by="patient_identifier_value"])[,.N]
     }
   }
 
   if (is.null(valids)){
-    valids <- data[!is.na(get(var)),][,.N]
-    missings <- data[is.na(get(var)),][,.N]
+    n <- data[,.N]
+    valids <- data[!is.na(get(var)),.N]
+    missings <- data[is.na(get(var)),.N]
   }
 
   out <- data.table::data.table("variable" = var,
-                    "distinct" = data[,nlevels(factor(get(var)))],
-                    "valids" = valids,
-                    "missings" = missings,
-                    "sourcesystem" = sourcesystem)
+                                "n" = n,
+                                "valids" = valids,
+                                "missings" = missings,
+                                "distinct" = data[,nlevels(factor(get(var)))],
+                                "sourcesystem" = sourcesystem)
   return(out)
 }
 

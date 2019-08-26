@@ -134,6 +134,9 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
     rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
   }
 
+  # completeness
+  rv$completeness <- completeness_(results = rv$results_descriptive, headless = rv$headless)
+
   # generate datamap
   rv$datamap <- generateDatamap_(results = rv$results_descriptive, db = rv$db_target, mdr = rv$mdr, headless = rv$headless)
 

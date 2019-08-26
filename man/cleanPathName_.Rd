@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{cleanPathName_}
 \alias{cleanPathName_}
-\title{transformFactors_ helper function}
+\title{cleanPathName_ helper function}
 \usage{
 cleanPathName_(pathname)
 }
@@ -10,5 +10,5 @@ cleanPathName_(pathname)
 \item{pathname}{A character string. A pathname to be cleaned (to have a tailing slash).}
 }
 \description{
-Internal function to transform factors of the German §21-EHR billing data format
+Internal function to clean paths to have a tailing slash
 }
