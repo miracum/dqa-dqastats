@@ -61,9 +61,9 @@ completeness_ <- function(results, headless = FALSE){
                      data.table::data.table(cbind(
                        "Variable" = i,
                        "Missings (source)" = count_out$source_data$cnt$missings,
-                       "Missings [%] (source)" = round(count_out$source_data$cnt$missings / count_out$source_data$cnt$n, 2),
+                       "Missings [%] (source)" = round(count_out$source_data$cnt$missings / count_out$source_data$cnt$n, 2) * 100,
                        "Missings (target)" = count_out$target_data$cnt$missings,
-                       "Missings [%] (target)" = round(count_out$target_data$cnt$missings / count_out$source_data$cnt$n, 2)
+                       "Missings [%] (target)" = round(count_out$target_data$cnt$missings / count_out$source_data$cnt$n, 2) * 100
                      ))
     )
   }
