@@ -17,7 +17,7 @@
 
 #' @title Perform Data Quality Assessment of Electronic Health Records.
 #'
-#' @description This function performs a data quality assessment (DQA) of electronic health records (ehr).#'
+#' @description This function performs a data quality assessment (DQA) of electronic health records (EHR).#'
 #'
 #' @param target_config A character string. The path to the config.yml-file containing the target database configuration.
 #' @param source_config A character string. The path to the config.yml-file containing the source database configuration.

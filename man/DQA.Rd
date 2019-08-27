@@ -18,7 +18,7 @@ DQA(target_config, source_config, target_db, source_db, utils)
 \item{utils}{A character string. The path to the utils-folder, containing the requires app utilities. For a detailed description please visit \url{#TODO}.}
 }
 \description{
-This function performs a data quality assessment (DQA) of electronic health records (ehr).#'
+This function performs a data quality assessment (DQA) of electronic health records (EHR).#'
 }
 \examples{
 \dontrun{
