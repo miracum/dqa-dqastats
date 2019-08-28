@@ -95,12 +95,12 @@ valueConformance_ <- function(results, headless = FALSE){
             result_max <- as.numeric(s_out[get("name")=="Maximum",get("value")])
 
             # compare levels from results to constraints from valueset (TRUE = constraint_error)
-            if (result_min < value_set$min){
+            if (result_min < value_set$range$min){
               cat(paste0(i, "/ ", j, ": result_min < value_set$min\n"))
               error_flag <- TRUE
             }
 
-            if (result_max > value_set$max){
+            if (result_max > value_set$range$max){
               cat(paste0(i, "/ ", j, ": result_max > value_set$max\n"))
               error_flag <- TRUE
             }

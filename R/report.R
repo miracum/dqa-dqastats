@@ -96,10 +96,10 @@ renderValueConformance <- function(results, desc_out, source){
   json_obj <- jsonlite::fromJSON(desc_out[[source]]$checks$value_set)
 
   if (desc_out[[source]]$checks$var_type == "factor"){
-    cat("- Value set: ", json_obj[["value_set"]])
+    cat("- Value set: ", json_obj$value_set)
   } else if (desc_out[[source]]$checks$var_type %in% c("integer", "numeric")){
     cat(paste0("- Value set:"))
-    print(kableTable(as.data.table(json_obj)))
+    print(kableTable(as.data.table(json_obj$range)))
   }
 
   if (isTRUE(results[[source]]$conformance_error)){
