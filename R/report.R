@@ -79,10 +79,11 @@ renderRepresentation <- function(desc_out, source){
 
 renderCounts <- function(count_out, source){
   # source either "source_data" or "target_data"
+  # n = sample size
+  # N = population size
   cat(paste0("\n- Variable name: ", count_out[[source]]$cnt$variable, "\n"))
   cat(paste0("- Variable type: ", count_out[[source]]$type), "  \n")
-  cat(paste0("    + Distinct values: ", count_out[[source]]$cnt$distinct, "\n"))
-  cat(paste0("    + N: ", count_out[[source]]$cnt$valids, "\n"))
+  cat(paste0("    + n: ", count_out[[source]]$cnt$valids, "\n"))
   cat(paste0("    + Valid values: ", count_out[[source]]$cnt$valids, "\n"))
   cat(paste0("    + Missing values: ", count_out[[source]]$cnt$missings, "\n"))
   cat(paste0("    + Distinct values: ", count_out[[source]]$cnt$distinct, "  \n  \n"))
@@ -110,7 +111,7 @@ renderValueConformance <- function(results, desc_out, source){
 }
 
 renderDataMap <- function(datamap){
-  colnames(datamap) <- c("Variable", "# N", "# Valid", "# Missing", "# Distinct")
+  colnames(datamap) <- c("Variable", "# n", "# Valid", "# Missing", "# Distinct")
   print(kableTable(datamap))
 }
 
