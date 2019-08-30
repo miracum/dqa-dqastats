@@ -68,7 +68,7 @@
 #                                     sql_join_on = desc_dat[get("source_system")==sourcesystem, get("sql_join_on")],
 #                                     sql_where = desc_dat[get("source_system")==sourcesystem, get("sql_where")],
 #                                     checks = list(var_type = desc_dat[get("source_system")==sourcesystem, get("variable_type")],
-#                                                   value_set = desc_dat[get("source_system")==sourcesystem, get("value_set")],
+#                                                   constraints = desc_dat[get("source_system")==sourcesystem, get("constraints")],
 #                                                   value_threshold = desc_dat[get("source_system")==sourcesystem, get("value_threshold")],
 #                                                   missing_threshold = desc_dat[get("source_system")==sourcesystem, get("missing_threshold")]))
 #
@@ -80,7 +80,7 @@
 #                                     sql_join_on = desc_dat[get("source_system")==rv$db_target, get("sql_join_on")],
 #                                     sql_where = desc_dat[get("source_system")==rv$db_target, get("sql_where")],
 #                                     checks = list(var_type = desc_dat[get("source_system")==rv$db_target, get("variable_type")],
-#                                                   value_set = desc_dat[get("source_system")==rv$db_target, get("value_set")],
+#                                                   constraints = desc_dat[get("source_system")==rv$db_target, get("constraints")],
 #                                                   value_threshold = desc_dat[get("source_system")==rv$db_target, get("value_threshold")],
 #                                                   missing_threshold = desc_dat[get("source_system")==rv$db_target, get("missing_threshold")]))
 #     return(description)
@@ -168,8 +168,11 @@ getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, headless = FALSE){
         }
 
         # prepare specific valueset for conformance checks:
-        val_set <- u$checks$value_set[[src_flag]]
-        outlist[[outname]][[k]]$checks$value_set <- jsonlite::toJSON(list("value_set" = val_set))
+        # if factor
+        if (pl.atemp_vars[get("variable_name")==i,get("variable_type")] == "factor"){
+        constr <- u$constraints$value_set[[src_flag]]
+        outlist[[outname]][[k]]$checks$constraints <- jsonlite::toJSON(list("value_set" = constr))
+        }
 
         # TODO this is yet tailored to §21
         if (k == "source_data"){

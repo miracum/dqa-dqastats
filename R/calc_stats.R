@@ -23,7 +23,7 @@ calcDescription <- function(desc_dat, rv){
                                     table_name = desc_dat[get("source_system")==rv$db_source, get("source_table_name")],
                                     fhir_name = desc_dat[get("source_system")==rv$db_source, get("fhir")],
                                     checks = list(var_type = desc_dat[get("source_system")==rv$db_source, get("variable_type")],
-                                                  value_set = desc_dat[get("source_system")==rv$db_source, get("value_set")],
+                                                  constraints = desc_dat[get("source_system")==rv$db_source, get("constraints")],
                                                   value_threshold = desc_dat[get("source_system")==rv$db_source, get("value_threshold")],
                                                   missing_threshold = desc_dat[get("source_system")==rv$db_source, get("missing_threshold")]))
 
@@ -31,7 +31,7 @@ calcDescription <- function(desc_dat, rv){
                                     table_name = desc_dat[get("source_system")==rv$db_target, get("source_table_name")],
                                     fhir_name = desc_dat[get("source_system")==rv$db_target, get("fhir")],
                                     checks = list(var_type = desc_dat[get("source_system")==rv$db_target, get("variable_type")],
-                                                  value_set = desc_dat[get("source_system")==rv$db_target, get("value_set")],
+                                                  constraints = desc_dat[get("source_system")==rv$db_target, get("constraints")],
                                                   value_threshold = desc_dat[get("source_system")==rv$db_target, get("value_threshold")],
                                                   missing_threshold = desc_dat[get("source_system")==rv$db_target, get("missing_threshold")]))
     return(description)

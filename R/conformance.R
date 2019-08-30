@@ -57,32 +57,32 @@ valueConformance_ <- function(results, headless = FALSE){
       d_out <- desc_out[[j]]
       s_out <- stat_out[[j]]
 
-      value_set <- d_out$checks$value_set
+      constraints <- d_out$checks$constraints
 
-      if (!is.na(value_set)){
+      if (!is.na(constraints)){
 
-        if (value_set != "{}"){
+        if (constraints != "{}"){
 
           # initialize outlist
           outlist2 <- list()
 
-          # parse value_set
-          value_set <- jsonlite::fromJSON(value_set)
+          # parse constraints
+          constraints <- jsonlite::fromJSON(constraints)
 
           if (d_out$checks$var_type == "factor"){
             # get valueset from mdr
-            value_set <- unlist(strsplit(value_set$value_set, ", ", fixed = T))
+            constraints <- unlist(strsplit(constraints$value_set, ", ", fixed = T))
             # get levels from results
             levels_results <- s_out[,levels(get(colnames(s_out)[1]))]
             # compare levels from results to constraints from valueset (TRUE = constraint_error)
             if (is.null(levels_results)){
               outlist2$conformance_error <- TRUE
             } else {
-              outlist2$conformance_error <- any(levels_results %!in% value_set)
+              outlist2$conformance_error <- any(levels_results %!in% constraints)
             }
             # if TRUE, get those values, that do not fit
             outlist2$conformance_results <- ifelse(isTRUE(outlist2$conformance_error),
-                                                   paste0("Levels that are not conform with the value set:  \n", paste(levels_results[levels_results %!in% value_set], collapse = "  \n")),
+                                                   paste0("Levels that are not conform with the value set:  \n", paste(levels_results[levels_results %!in% constraints], collapse = "  \n")),
                                                    "No 'value conformance' issues found.")
           } else if (d_out$checks$var_type %in% c("integer", "numeric")){
             error_flag <- FALSE
@@ -95,18 +95,18 @@ valueConformance_ <- function(results, headless = FALSE){
             result_max <- as.numeric(s_out[get("name")=="Maximum",get("value")])
 
             # compare levels from results to constraints from valueset (TRUE = constraint_error)
-            if (result_min < value_set$range$min){
-              cat(paste0(i, "/ ", j, ": result_min < value_set$min\n"))
+            if (result_min < constraints$range$min){
+              cat(paste0(i, "/ ", j, ": result_min < range$min\n"))
               error_flag <- TRUE
             }
 
-            if (result_max > value_set$range$max){
-              cat(paste0(i, "/ ", j, ": result_max > value_set$max\n"))
+            if (result_max > constraints$range$max){
+              cat(paste0(i, "/ ", j, ": result_max > range$max\n"))
               error_flag <- TRUE
             }
             outlist2$conformance_error <- error_flag
             outlist2$conformance_results <- ifelse(isTRUE(error_flag),
-                                                   "Extrem values are not conform with value_set constraints.",
+                                                   "Extrem values are not conform with constraints.",
                                                    "No 'value conformance' issues found.")
           }
           outlist[[i]][[j]] <- outlist2

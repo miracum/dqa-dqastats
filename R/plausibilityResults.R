@@ -65,7 +65,7 @@ atempPausiResults_ <- function(rv, headless = FALSE){
     # desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("designation")==i,c("designation", "source_system", "source_variable_name",
     #                                                                                              "source_table_name", "definition",
     #                                                                                              "sql_from", "sql_join_on", "sql_join_table", "sql_join_type", "sql_where",
-    #                                                                                              "variable_type", "value_set", "value_threshold", "missing_threshold"), with=F]
+    #                                                                                              "variable_type", "constraints", "value_threshold", "missing_threshold"), with=F]
     #
     # if (nrow(desc_dat)>1){
     #   outlist[[rv$pl.atemp_vars_filter[[i]]]]$description <- calcPlausiDescription(desc_dat, rv, sourcesystem = source_db)

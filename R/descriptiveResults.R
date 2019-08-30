@@ -61,7 +61,7 @@ descriptiveResults_ <- function(rv, headless = FALSE){
     # generate descriptions
     desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^dt\\.", get("key")),][get("variable_name")==rv$variable_list[[i]],c("designation", "source_system", "source_variable_name",
                                                                                                                               "source_table_name", "fhir", "definition",
-                                                                                                                              "variable_type", "value_set", "value_threshold", "missing_threshold"),with=F]
+                                                                                                                              "variable_type", "constraints", "value_threshold", "missing_threshold"),with=F]
 
     if (nrow(desc_dat)>1){
       outlist[[rv$variable_list[[i]]]]$description <- calcDescription(desc_dat, rv)

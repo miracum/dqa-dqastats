@@ -25,7 +25,7 @@
 #'
 readMDR_ <- function(utils){
   mdr <- data.table::fread(paste0(utils, "MDR/mdr.csv"), header = T)
-  mdr[,("value_set"):=gsub("\"\"", "\"", get("value_set"))][get("value_set")=="",("value_set"):=NA]
+  mdr[,("constraints"):=gsub("\"\"", "\"", get("constraints"))][get("constraints")=="",("constraints"):=NA]
   mdr[,("plausibility_relation"):=gsub("\"\"", "\"", get("plausibility_relation"))][get("plausibility_relation")=="",("plausibility_relation"):=NA]
   return(mdr)
 }
