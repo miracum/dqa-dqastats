@@ -28,7 +28,7 @@ test_that("correct functioning of DQA",{
 # omop
 # prefix <- "tests/testthat/"
 # target_config = paste0(prefix, "testdata/config_omop.yml")
-# source_config = paste0(prefix, "testdata/config_csv.yml")
+# source_config = paste0(prefix, "testdata/config_p21csv.yml")
 # target_db = "omop"
 # source_db = "p21csv"
 # utils = system.file("application/_utilities", package = "miRacumDQA")
