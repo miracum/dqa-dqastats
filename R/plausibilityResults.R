@@ -247,7 +247,7 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, headless = FALSE){
           gc()
         }
         colnames(group_data) <- c(i, u$variable_name)
-        get_dupl <- as.character(group_data[duplicated(get(i)),get(i)])
+        get_dupl <- unique(as.character(group_data[duplicated(get(i)),get(i)]))
         rm(group_data)
         gc()
 
