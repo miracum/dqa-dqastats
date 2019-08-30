@@ -212,7 +212,7 @@ uniqPausiResults_ <- function(rv, pl.uniq_vars, mdr, headless = FALSE){
           if (!is.null(u$filter[[src_flag]])){
             group_data <- unique(rv[[raw_data]][[u.key]][get(u$variable_name) %in% u$filter[[src_flag]],get(u$variable_name), by = get(i)])
           } else {
-            group_data <- unique(rv[[raw_data]][[u.key]][,get(u$variable_name), by = get(u$variable_name)])
+            group_data <- unique(rv[[raw_data]][[u.key]][,get(u$variable_name), by = get(i)])
           }
         } else {
 
