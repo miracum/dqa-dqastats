@@ -169,7 +169,7 @@ getAtempPlausis_ <- function(rv, pl.atemp_vars, mdr, headless = FALSE){
 
         # prepare specific valueset for conformance checks:
         # if factor
-        if (pl.atemp_vars[get("variable_name")==i,get("variable_type")] == "factor"){
+        if (pl.atemp_vars[get("variable_name")==i,get("variable_type")] %in% c("permittedValues")){
         constr <- u$constraints$value_set[[src_flag]]
         outlist[[outname]][[k]]$checks$constraints <- jsonlite::toJSON(list("value_set" = constr))
         }

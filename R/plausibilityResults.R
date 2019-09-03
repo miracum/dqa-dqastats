@@ -121,7 +121,7 @@ atempPausiResults_ <- function(rv, headless = FALSE){
     # stat_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.atemp\\.", get("key")),][get("designation")==i,c("source_system", "source_variable_name", "source_table_name", "variable_name", "variable_type", "key"),with=F]
     stat_dat <- cnt_dat
 
-    if (stat_dat[,unique(get("variable_type"))] == "factor"){
+    if (stat_dat[,unique(get("variable_type"))] %in% c("permittedValues", "string")){
       outlist[[i]]$statistics <- calcCatStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, plausibility = TRUE)
       # for target_data; our data is in rv$list_target$key
     } else {

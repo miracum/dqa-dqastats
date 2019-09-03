@@ -69,7 +69,7 @@ valueConformance_ <- function(results, headless = FALSE){
           # parse constraints
           constraints <- jsonlite::fromJSON(constraints)
 
-          if (d_out$checks$var_type == "factor"){
+          if (d_out$checks$var_type == "permittedValues"){
             # get valueset from mdr
             constraints <- unlist(strsplit(constraints$value_set, ", ", fixed = T))
             # get levels from results
@@ -84,7 +84,7 @@ valueConformance_ <- function(results, headless = FALSE){
             outlist2$conformance_results <- ifelse(isTRUE(outlist2$conformance_error),
                                                    paste0("Levels that are not conform with the value set:  \n", paste(levels_results[levels_results %!in% constraints], collapse = "  \n")),
                                                    "No 'value conformance' issues found.")
-          } else if (d_out$checks$var_type %in% c("integer", "numeric")){
+          } else if (d_out$checks$var_type %in% c("integer", "float")){
             error_flag <- FALSE
 
             # set colnames (we need them here to correctly select the data)

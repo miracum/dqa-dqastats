@@ -96,9 +96,9 @@ renderValueConformance <- function(results, desc_out, source){
   # get value set
   json_obj <- jsonlite::fromJSON(desc_out[[source]]$checks$constraints)
 
-  if (desc_out[[source]]$checks$var_type == "factor"){
+  if (desc_out[[source]]$checks$var_type == "permittedValues"){
     cat("- Constraining values/rules: ", json_obj$value_set)
-  } else if (desc_out[[source]]$checks$var_type %in% c("integer", "numeric")){
+  } else if (desc_out[[source]]$checks$var_type %in% c("integer", "float")){
     cat(paste0("- Constraining values/rules:"))
     print(kableTable(as.data.table(json_obj$range)))
   }

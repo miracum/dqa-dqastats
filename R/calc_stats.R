@@ -133,7 +133,7 @@ calcCatStats <- function(stat_dat, stat_key, rv, plausibility = FALSE){
 calcNumStats <- function(stat_dat, stat_key, rv, plausibility = FALSE){
   statistics <- list()
 
-  if (stat_dat[get("source_system")==rv$db_source,get("variable_type")!="date"]){
+  if (stat_dat[get("source_system")==rv$db_source,get("variable_type")!="calendar"]){
     statistics$source_data <- tryCatch({
       if (isFALSE(plausibility)){
         # for source_data; our data is in rv$data_source$source_table_name

@@ -105,10 +105,10 @@ createHelperVars_ <- function(mdr, target_db, source_db){
 
   # get variables for type-transformations
   # get categorical variables
-  outlist$cat_vars <- unique(mdr[get("variable_type") == "factor", get("variable_name")])
+  outlist$cat_vars <- unique(mdr[get("variable_type") %in% c("permittedValues", "string"), get("variable_name")])
 
   # get date variables
-  outlist$date_vars <- outlist$dqa_vars[get("variable_type") == "date", get("variable_name")]
+  outlist$date_vars <- outlist$dqa_vars[get("variable_type") == "calendar", get("variable_name")]
 
   # get variable names, that need to be transformed (cleaning neccessary due to i2b2-prefixes)
   # this is yet hard-coded
