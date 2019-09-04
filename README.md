@@ -2,7 +2,7 @@
 
 This is the repository of the R package 'DQAstats'. It provides core functionalities to perfrom data quality assessment (DQA) of electronic health record data (EHR).  
 
-Corrently implemented features are: 
+Currently implemented features are: 
 
 - descriptive analysis of categorical and continuous variables of the source data system and the target data system 
 - checks of the extract-transform-load (ETL) pipeline (by comparing distinct values and valid values between the source data system and the target data system) 
@@ -17,7 +17,7 @@ The tool brings one main function, "DQA()", that creates a comprehensive PDF doc
 
 ## Installation
 
-You can install the development version of DQAstats with:
+You can install the development version of **DQAstats** with:
 
 ``` r
 install.packages("devtools")
