@@ -17,7 +17,7 @@ The tool brings one main function, "DQA()", that creates a comprehensive PDF doc
 
 ## Installation
 
-You can install the development version of **DQAstats** with:
+You can install the development version of *DQAstats* with:
 
 ``` r
 install.packages("devtools")
