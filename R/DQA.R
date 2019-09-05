@@ -125,6 +125,11 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
   rv$results_plausibility_atemporal <- atempPausiResults_(rv = rv, headless = rv$headless)
   rv$results_plausibility_uniqueness <- uniqPausiResults_(rv = rv, pl.uniq_vars = rv$pl.uniq_vars, mdr = rv$mdr, headless = rv$headless)
 
+  # delete raw data
+  rv$data_source <- NULL
+  rv$data_target <- NULL
+  gc()
+
   # conformance
   rv$conformance$value_conformance <- valueConformance_(results = rv$results_descriptive, headless = rv$headless)
   value_conformance <- valueConformance_(results = rv$results_plausibility_atemporal, headless = rv$headless)
@@ -145,11 +150,6 @@ DQA <- function(target_config, source_config, target_db, source_db, utils){
 
   # checks$etl
   rv$checks$etl <- etlChecks_(results = rv$results_descriptive)
-
-  # delete raw data
-  rv$data_source <- NULL
-  rv$data_target <- NULL
-  gc()
 
   # create report
   createMarkdown_(rv = rv, utils = rv$utilspath, outdir = "./", headless = rv$headless)
