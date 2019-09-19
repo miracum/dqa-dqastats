@@ -17,7 +17,7 @@ my_desc$del("Maintainer")
 # Set the version
 my_desc$set_version("0.0.2.9000")
 # The title of your package
-my_desc$set(Title = "DQAstats - Data Quality Assesment Utilities Package")
+my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
 my_desc$set(Description = "Perform data quality assessment (DQA) of electronic health records (EHR).")
 # The description of your package
