@@ -1,4 +1,4 @@
-# DQAstats - A package, created to perform data quality assessment (DQA) of electronic health records (EHR)
+# DQAstats - Perform data quality assessment (DQA) of electronic health records (EHR)
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify

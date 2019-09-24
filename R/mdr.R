@@ -1,4 +1,4 @@
-# DQAstats - A package, created to perform data quality assessment (DQA) of electronic health records (EHR)
+# DQAstats - Perform data quality assessment (DQA) of electronic health records (EHR)
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -54,12 +54,7 @@ createHelperVars_ <- function(mdr, target_db, source_db){
 
 
   # get list of DQ-variables of interest
-  outlist$dqa_assessment <- mdr[get("source_system")==source_db & get("dqa_assessment") == 1,][order(get("source_table_name")),c("designation",
-                                                                                                                                 "source_variable_name",
-                                                                                                                                 "variable_name",
-                                                                                                                                 "variable_type",
-                                                                                                                                 "key",
-                                                                                                                                 "source_table_name"), with=F]
+  outlist$dqa_assessment <- mdr[get("source_system")==source_db & get("dqa_assessment") == 1,][order(get("source_table_name")),c("designation", "source_table_name"), with=F]
 
   # get list of dqa_vars for catgeorical and numerical analyses
   outlist$dqa_vars <- outlist$dqa_assessment[grepl("^dt\\.", get("key")),]
@@ -69,27 +64,6 @@ createHelperVars_ <- function(mdr, target_db, source_db){
   outlist$variable_list <- sapply(variable_list[,get("designation")], function(x){
     variable_list[get("designation")==x, get("variable_name")]
   }, simplify = F, USE.NAMES = T)
-
-  # # get list of pl_vars for plausibility analyses
-  # pl.atemp_vars <- mdr[grepl("^pl\\.atemp\\.", get("key")) & get("dqa_assessment") == 1,][order(get("source_table_name")),c("designation",
-  #                                                                                                                           "source_system",
-  #                                                                                                                           "source_variable_name",
-  #                                                                                                                           "variable_name",
-  #                                                                                                                           "variable_type",
-  #                                                                                                                           "key",
-  #                                                                                                                           "source_table_name"), with=F]
-  # outlist$pl.atemp_vars <- sapply(unique(pl.atemp_vars[,get("designation")]), function(x){
-  #   pl.atemp_vars[get("designation")==x & get("source_system")==source_db, get("key")]
-  # }, simplify = F, USE.NAMES = T)
-  #
-  # outlist$pl.atemp_vars <- c(outlist$pl.atemp_vars,
-  #                            sapply(unique(pl.atemp_vars[,get("designation")]), function(x){
-  #                              pl.atemp_vars[get("designation")==x & get("source_system")==target_db, get("key")]
-  #                            }, simplify = F, USE.NAMES = T))
-  #
-  # outlist$pl.atemp_vars_filter <- sapply(unique(pl.atemp_vars[,get("designation")]), function(x){
-  #   gsub("_source|_target", "", outlist$pl.atemp_vars[unique(names(outlist$pl.atemp_vars))][[x]])
-  # }, simplify = F, USE.NAMES = T)
 
   # get list of pl_vars for plausibility analyses
   pl_vars <- mdr[!is.na(get("plausibility_relation")),][order(get("source_table_name")),c("designation",
