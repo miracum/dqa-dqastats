@@ -54,7 +54,12 @@ createHelperVars_ <- function(mdr, target_db, source_db){
 
 
   # get list of DQ-variables of interest
-  outlist$dqa_assessment <- mdr[get("source_system")==source_db & get("dqa_assessment") == 1,][order(get("source_table_name")),c("designation", "source_table_name"), with=F]
+  outlist$dqa_assessment <- mdr[get("source_system")==source_db & get("dqa_assessment") == 1,][order(get("source_table_name")),c("designation",
+                                                                                                                                 "source_variable_name",
+                                                                                                                                 "variable_name",
+                                                                                                                                 "variable_type",
+                                                                                                                                 "key",
+                                                                                                                                 "source_table_name"), with=F]
 
   # get list of dqa_vars for catgeorical and numerical analyses
   outlist$dqa_vars <- outlist$dqa_assessment[grepl("^dt\\.", get("key")),]
