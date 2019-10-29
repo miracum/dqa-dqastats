@@ -63,7 +63,7 @@ descriptiveResults_ <- function(rv, headless = FALSE){
                                                                                                                               "variable_type", "constraints", "value_threshold", "missing_threshold"),with=F]
 
     if (nrow(desc_dat)>1){
-      outlist[[rv$variable_list[[i]]]]$description <- calcDescription(desc_dat, rv)
+      outlist[[rv$variable_list[[i]]]]$description <- calc_description(desc_dat, rv)
     } else {
       msg <- "Error occured during creating descriptions of source system"
       cat("\n", msg, "\n")
