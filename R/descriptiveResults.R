@@ -23,12 +23,11 @@
 #'
 #' @export
 #'
-descriptiveResults_ <- function(rv, headless = FALSE){
-
+descriptiveResults_ <- function(rv, headless = FALSE) {
   # initialize outlist
   outlist <- list()
 
-  if (isFALSE(headless)){
+  if (isFALSE(headless)) {
     # Create a Progress object
     progress1 <- shiny::Progress$new()
     # Make sure it closes when we exit this reactive, even if there's an error
@@ -46,28 +45,40 @@ descriptiveResults_ <- function(rv, headless = FALSE){
     progress3$set(message = "Calculating variable statistics", value = 0)
   }
 
-  for (i in names(rv$variable_list)){
-
+  for (i in names(rv$variable_list)) {
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Getting variable descriptions of", i)
     cat("\n", msg, "\n")
-    if (isFALSE(headless)){
+    if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
-      progress1$inc(1/length(names(rv$variable_list)), detail = paste("... working at description of", i, "..."))
+      progress1$inc(1 / length(names(rv$variable_list)),
+                    detail = paste("... working at description of", i, "..."))
     }
 
     # generate descriptions
-    desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^dt\\.", get("key")),][get("variable_name")==rv$variable_list[[i]],c("designation", "source_system", "source_variable_name",
-                                                                                                                              "source_table_name", "fhir", "definition",
-                                                                                                                              "variable_type", "constraints", "value_threshold", "missing_threshold"),with=F]
+    desc_dat <-
+      rv$mdr[get("dqa_assessment") == 1, ][grepl("^dt\\.", get("key")), ][get("variable_name") ==
+                                                                            rv$variable_list[[i]], c(
+                                                                              "designation",
+                                                                              "source_system",
+                                                                              "source_variable_name",
+                                                                              "source_table_name",
+                                                                              "fhir",
+                                                                              "definition",
+                                                                              "variable_type",
+                                                                              "constraints",
+                                                                              "value_threshold",
+                                                                              "missing_threshold"
+                                                                            ), with = F]
 
-    if (nrow(desc_dat)>1){
-      outlist[[rv$variable_list[[i]]]]$description <- calc_description(desc_dat, rv)
+    if (nrow(desc_dat) > 1) {
+      outlist[[rv$variable_list[[i]]]]$description <-
+        calc_description(desc_dat, rv)
     } else {
       msg <- "Error occured during creating descriptions of source system"
       cat("\n", msg, "\n")
-      if (isFALSE(headless)){
+      if (isFALSE(headless)) {
         shinyjs::logjs(msg)
       }
     }
@@ -75,40 +86,61 @@ descriptiveResults_ <- function(rv, headless = FALSE){
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating variable counts of", i)
     cat("\n", msg, "\n")
-    if (isFALSE(headless)){
+    if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
-      progress2$inc(1/length(names(rv$variable_list)), detail = paste("... calculating counts of", i, "..."))
+      progress2$inc(1 / length(names(rv$variable_list)),
+                    detail = paste("... calculating counts of", i, "..."))
     }
 
     # generate counts
-    cnt_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^dt\\.", get("key")),][get("variable_name")==rv$variable_list[[i]],c("source_system", "source_variable_name", "source_table_name", "variable_type", "key"),with=F]
+    cnt_dat <-
+      rv$mdr[get("dqa_assessment") == 1, ][grepl("^dt\\.", get("key")), ][get("variable_name") ==
+                                                                            rv$variable_list[[i]], c(
+                                                                              "source_system",
+                                                                              "source_variable_name",
+                                                                              "source_table_name",
+                                                                              "variable_type",
+                                                                              "key"
+                                                                            ), with = F]
 
-    outlist[[rv$variable_list[[i]]]]$counts <- calcCounts(cnt_dat, rv$variable_list[[i]], rv, datamap = TRUE)
+    outlist[[rv$variable_list[[i]]]]$counts <-
+      calcCounts(cnt_dat, rv$variable_list[[i]], rv, datamap = TRUE)
 
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating variable statistics of", i)
     cat("\n", msg, "\n")
-    if (isFALSE(headless)){
+    if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
-      progress3$inc(1/length(names(rv$variable_list)), detail = paste("... calculating statistics of", i, "..."))
+      progress3$inc(1 / length(names(rv$variable_list)),
+                    detail = paste("... calculating statistics of", i, "..."))
     }
 
 
     # generate statistics
-    stat_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^dt\\.", get("key")),][get("variable_name")==rv$variable_list[[i]],c("source_system", "source_variable_name", "source_table_name", "variable_type", "key"),with=F]
+    stat_dat <-
+      rv$mdr[get("dqa_assessment") == 1, ][grepl("^dt\\.", get("key")), ][get("variable_name") ==
+                                                                            rv$variable_list[[i]], c(
+                                                                              "source_system",
+                                                                              "source_variable_name",
+                                                                              "source_table_name",
+                                                                              "variable_type",
+                                                                              "key"
+                                                                            ), with = F]
 
-    if (stat_dat[,unique(get("variable_type"))] %in% c("permittedValues", "string")){
-      outlist[[rv$variable_list[[i]]]]$statistics <- calcCatStats(stat_dat, rv$variable_list[[i]], rv)
+    if (stat_dat[, unique(get("variable_type"))] %in% c("permittedValues", "string")) {
+      outlist[[rv$variable_list[[i]]]]$statistics <-
+        calcCatStats(stat_dat, rv$variable_list[[i]], rv)
       # for target_data; our data is in rv$list_target$key
     } else {
-      outlist[[rv$variable_list[[i]]]]$statistics <- calcNumStats(stat_dat, rv$variable_list[[i]], rv)
+      outlist[[rv$variable_list[[i]]]]$statistics <-
+        calcNumStats(stat_dat, rv$variable_list[[i]], rv)
     }
   }
   gc()
-  if (isFALSE(headless)){
+  if (isFALSE(headless)) {
     progress1$close()
     progress2$close()
     progress3$close()

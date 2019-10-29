@@ -125,7 +125,7 @@ atempPausiResults_ <- function(rv, headless = FALSE){
       outlist[[i]]$statistics <- calcCatStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, plausibility = TRUE)
       # for target_data; our data is in rv$list_target$key
     } else {
-      outlist[[i]]$statistics <- calcNumStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, plausibility = TRUE)
+      outlist[[i]]$statistics <- calc_num_stats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, plausibility = TRUE)
     }
   }
   if (isFALSE(headless)){
