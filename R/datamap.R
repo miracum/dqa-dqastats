@@ -1,4 +1,5 @@
-# DQAstats - Perform data quality assessment (DQA) of electronic health records (EHR)
+# DQAstats - Perform data quality assessment (DQA) of electronic health
+# records (EHR)
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,53 +15,66 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @title generateDatamap_ helper function
+#' @title generate_datamap helper function
 #'
 #' @description Internal function to generate the dashboard data maps
 #'
-#' @inheritParams etlChecks_
-#' @inheritParams createHelperVars_
-#' @inheritParams testTargetDB_
-#' @inheritParams loadSQLs_
+#' @inheritParams etl_checks
+#' @inheritParams create_helper_vars
+#' @inheritParams test_target_db
+#' @inheritParams load_sqls
 #'
 #' @export
 #'
-generateDatamap_ <- function(results, mdr, db, headless = FALSE){
-
+generate_datamap <- function(results,
+                             mdr,
+                             db,
+                             headless = FALSE) {
   # get names
-  data_names <- mdr[get("data_map") == 1 & get("source_system") == db, c("variable_name", "designation"), with=F]
+  data_names <-
+    mdr[get("data_map") == 1 &
+          get("source_system") == db, c("variable_name",
+                                        "designation"), with = F]
 
-  if (nrow(data_names) < 1){
+  if (nrow(data_names) < 1) {
     msg <- "No variables suitable for the data map found in the MDR"
     cat("\n", msg, "\n")
-    if (isFALSE(headless)){
+    if (isFALSE(headless)) {
       shinyjs::logjs(msg)
     }
     return(NULL)
   } else {
-
-    obj_names <- data_names[,get("variable_name")]
+    obj_names <- data_names[, get("variable_name")]
 
     outlist <- list()
 
-    for (i in c("source_data", "target_data")){
+    for (i in c("source_data", "target_data")) {
       # initialize output table
-      out <- data.table::data.table("variable" = character(0),
-                                    "n" = character(0),
-                                    "valids" = character(0),
-                                    "missings" = character(0),
-                                    "distinct" = character(0))
+      out <- data.table::data.table(
+        "variable" = character(0),
+        "n" = character(0),
+        "valids" = character(0),
+        "missings" = character(0),
+        "distinct" = character(0)
+      )
 
-      for (j in obj_names){
-        out <- rbind(out, data.table::data.table("variable" = data_names[get("variable_name")==j, get("designation")],
-                                                 "n" = results[[j]]$counts[[i]]$cnt$n,
-                                                 "valids" = results[[j]]$counts[[i]]$cnt$valids,
-                                                 "missings" = results[[j]]$counts[[i]]$cnt$missings,
-                                                 "distinct" = results[[j]]$counts[[i]]$cnt$distinct))
+      for (j in obj_names) {
+        out <-
+          rbind(
+            out,
+            data.table::data.table(
+              "variable" = data_names[get(
+                "variable_name"
+                ) == j, get("designation")],
+              "n" = results[[j]]$counts[[i]]$cnt$n,
+              "valids" = results[[j]]$counts[[i]]$cnt$valids,
+              "missings" = results[[j]]$counts[[i]]$cnt$missings,
+              "distinct" = results[[j]]$counts[[i]]$cnt$distinct
+            )
+          )
       }
       outlist[[i]] <- out
     }
     return(outlist)
   }
 }
-

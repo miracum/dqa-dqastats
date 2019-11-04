@@ -1,4 +1,5 @@
-# DQAstats - Perform data quality assessment (DQA) of electronic health records (EHR)
+# DQAstats - Perform data quality assessment (DQA) of electronic health
+# records (EHR)
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -15,38 +16,57 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' @title etlChecks_ helper function
+#' @title etl_checks helper function
 #'
 #' @description Internal function to perform etl conformance checks.
 #'
-#' @param results A list object. The list should contain the results 'rv$results_descriptive'.
+#' @param results A list object. The list should contain the results
+#'   'rv$results_descriptive'.
 #'
 #' @export
 #'
 # quick checks
-etlChecks_ <- function(results){
-
+etl_checks <- function(results) {
   # get names
   obj_names <- names(results)
 
   # initialize output table
-  out <- data.table::data.table("Variable" = character(0),
-                    "Check Distincts" = character(0),
-                    "Check Valids" = character(0),
-                    "Check Missings" = character(0))
+  out <- data.table::data.table(
+    "Variable" = character(0),
+    "Check Distincts" = character(0),
+    "Check Valids" = character(0),
+    "Check Missings" = character(0)
+  )
 
 
-  for (i in obj_names){
-    check_distinct <- ifelse(results[[i]]$counts$source_data$cnt$distinct == results[[i]]$counts$target_data$cnt$distinct,
-                             "passed", "failed")
-    check_valids <- ifelse(results[[i]]$counts$source_data$cnt$valids == results[[i]]$counts$target_data$cnt$valids,
-                           "passed", "failed")
-    check_missings <- ifelse(results[[i]]$counts$source_data$cnt$missings == results[[i]]$counts$target_data$cnt$missings,
-                                             "passed", "failed")
-    out <- rbind(out, data.table::data.table("Variable" = i,
-                                 "Check Distincts" = check_distinct,
-                                 "Check Valids" = check_valids,
-                                 "Check Missings" = check_missings))
+  for (i in obj_names) {
+    check_distinct <- ifelse(
+      results[[i]]$counts$source_data$cnt$distinct ==
+        results[[i]]$counts$target_data$cnt$distinct,
+      "passed",
+      "failed"
+    )
+    check_valids <- ifelse(
+      results[[i]]$counts$source_data$cnt$valids ==
+        results[[i]]$counts$target_data$cnt$valids,
+      "passed",
+      "failed"
+    )
+    check_missings <- ifelse(
+      results[[i]]$counts$source_data$cnt$missings ==
+        results[[i]]$counts$target_data$cnt$missings,
+      "passed",
+      "failed"
+    )
+    out <- rbind(
+      out,
+      data.table::data.table(
+        "Variable" = i,
+        "Check Distincts" = check_distinct,
+        "Check Valids" = check_valids,
+        "Check Missings" = check_missings
+      )
+    )
   }
   return(out)
 }
