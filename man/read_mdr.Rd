@@ -4,12 +4,15 @@
 \alias{read_mdr}
 \title{read_mdr helper function}
 \usage{
-read_mdr(utils)
+read_mdr(utils, mdr_filename = "mdr.csv")
 }
 \arguments{
 \item{utils}{A character string. The path to the utils-folder,
 containing the requires app utilities.
 For a detailed description please visit \url{#TODO}.}
+
+\item{mdr_filename}{A character string. The filename of your meta data
+repository (default: 'mdr.csv').}
 }
 \description{
 Internal function to read the meta data repository (MDR).

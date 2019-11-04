@@ -41,52 +41,50 @@ fire_sql_statement <- function(rv,
 }
 
 # load csv files
-load_csv <- function(rv,
-                     filename) {
+load_csv <- function(mdr,
+                     inputdir,
+                     sourcesystem) {
 
-  if (tolower(filename) == "fall.csv") {
-    # only import necessary columns
-    select_cols <- c(
-      ENTLASSENDER_STANDORT = "factor",
-      KH_INTERNES_KENNZEICHEN = "factor",
-      GEBURTSJAHR = "factor",
-      GEBURTSMONAT = "factor",
-      GESCHLECHT = "factor",
-      PLZ = "factor",
-      AUFNAHMEDATUM = "integer64",
-      AUFNAHMEANLASS = "factor",
-      AUFNAHMEGRUND = "factor",
-      ENTLASSUNGSDATUM = "integer64",
-      ENTLASSUNGSGRUND = "factor",
-      ALTER_IN_TAGEN_AM_AUFNAHMETAG = "integer",
-      ALTER_IN_JAHREN_AM_AUFNAHMETAG = "integer",
-      PATIENTENNUMMER = "factor",
-      BEATMUNGSSTUNDEN = "integer"
-    )
-  } else if (tolower(filename) == "fab.csv") {
-    select_cols <- c(
-      KH_INTERNES_KENNZEICHEN = "factor",
-      FAB = "factor",
-      FAB_AUFNAHMEDATUM = "integer64",
-      FAB_ENTLASSUNGSDATUM = "integer64"
-    )
-  } else if (tolower(filename) == "icd.csv") {
-    select_cols <- c(
-      KH_internes_Kennzeichen = "factor",
-      Diagnoseart = "factor",
-      ICD_Kode = "factor"
-    )
-  } else if (tolower(filename) == "ops.csv") {
-    select_cols <- c(
-      KH_internes_Kennzeichen = "factor",
-      OPS_Kode = "factor",
-      OPS_Datum = "integer64"
-    )
-  }
+  # original beginning of function
+  inputdir <- cleanPathName_(inputdir)
+  selfutils <- cleanPathName_(selfutils)
 
-  outdat <-
-    data.table::fread(
-      paste0(rv$sourcefiledir, "/", filename),
+
+  available_systems <- mdr[get("source_system") == sourcesystem &
+                             get("system_type") == "csv", ]
+
+  stopifnot(# fix test for multiple files
+    (!any(
+      !available_systems[, unique(get("source_table_name"))] %in%
+        list.files(inputdir)
+    ))
+  )
+
+  # define outlist
+  outlist <- list()
+
+  for (inputfile in available_systems[, unique(get("source_table_name"))]) {
+    cat(paste0("\nLoading file ", inputfile, "\n\n"))
+
+    input_vars <- available_systems[get("source_table_name") ==
+                                      inputfile, c("source_variable_name",
+                                                   "variable_type")]
+
+    select_cols <- unlist(
+      sapply(
+        input_vars$source_variable_name,
+        FUN = function(x) {
+          map_var_types(
+            input_vars[get("source_variable_name") == x, "variable_type"]
+          )
+        },
+        simplify = TRUE,
+        USE.NAMES = TRUE
+      )
+    )
+
+    outlist[[inputfile]] <- data.table::fread(
+      paste0(inputdir, inputfile),
       select = names(select_cols),
       colClasses = select_cols,
       header = T,
@@ -94,25 +92,43 @@ load_csv <- function(rv,
       stringsAsFactors = TRUE
     )
 
-  # treating of §21 chaperones
-  if (tolower(filename) == "fall.csv") {
-    if (outdat[get("AUFNAHMEANLASS") == "B", .N] > 0) {
-      cat(
-        paste0(
-          "\n",
-          outdat[get("AUFNAHMEANLASS") == "B", .N],
-          paste0(" chaperones present in source data system.\n\n",
-                 "These will be removed from further analyses.")
+    # TODO special MIRACUM treatment
+    # treating of §21 chaperones
+    if (tolower(inputfile) == "fall.csv") {
+      if (outlist[[inputfile]][get("AUFNAHMEANLASS") == "B", .N] > 0) {
+        cat(
+          paste0(
+            "\n",
+            outlist[[inputfile]][get("AUFNAHMEANLASS") == "B", .N],
+            paste0(" chaperones present in source data system.\n\n",
+                   "These will be removed from further analyses.")
+          )
         )
-      )
-      outdat <-
-        outdat[get("AUFNAHMEANLASS") != "B" |
-                 is.na(get("AUFNAHMEANLASS")), ]
-    } else {
-      cat("\nNo chaperones present in your source data.\n")
+        outlist[[inputfile]] <-
+          outlist[[inputfile]][get("AUFNAHMEANLASS") != "B" |
+                   is.na(get("AUFNAHMEANLASS")), ]
+      } else {
+        cat("\nNo chaperones present in your source data.\n")
+      }
     }
   }
+  return(outlist)
+}
 
+map_var_types <- function(string) {
+  if (string == "permittedValues") {
+    outdat <- "factor"
+  } else if (string == "integer") {
+    outdat <- "numeric"
+  } else if (string == "string") {
+    outdat <- "character"
+  } else if (string == "calendar") {
+    outdat <- "character"
+  } else if (string == "float") {
+    outdat <- "numeric"
+  } else {
+    outdat <- NULL
+  }
   return(outdat)
 }
 
@@ -147,20 +163,26 @@ load_source <- function(rv,
   }
 
   # read sourcedata
-  outlist <- sapply(keys_to_test, function(i) {
-    msg <- paste("Reading", i, "from CSV.")
-    cat("\n", msg, "\n")
-    if (isFALSE(headless)) {
-      shinyjs::logjs(msg)
-      # Increment the progress bar, and update the detail text.
-      progress$inc(
-        1 / length(keys_to_test),
-        detail = paste("... working hard to read", i, "...")
-      )
-    }
+  outlist <- load_csv(
+    mdr = rv$mdr,
+    inputdir = rv$sourcefiledir,
+    sourcesystem = "p21csv"
+  )
 
-    load_csv(rv, i)
-  }, simplify = F, USE.NAMES = T)
+  #   sapply(keys_to_test, function(i) {
+  #   msg <- paste("Reading", i, "from CSV.")
+  #   cat("\n", msg, "\n")
+  #   if (isFALSE(headless)) {
+  #     shinyjs::logjs(msg)
+  #     # Increment the progress bar, and update the detail text.
+  #     progress$inc(
+  #       1 / length(keys_to_test),
+  #       detail = paste("... working hard to read", i, "...")
+  #     )
+  #   }
+  #
+  #   load_csv(rv, i)
+  # }, simplify = F, USE.NAMES = T)
   if (isFALSE(headless)) {
     progress$close()
   }
