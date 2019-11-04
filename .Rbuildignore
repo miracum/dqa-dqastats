@@ -13,3 +13,4 @@
 ^DQA_report\.toc$
 ^DQA_report\.out$
 ^tests/testthat/testdata$
+^\.gitlab-ci\.yml$
