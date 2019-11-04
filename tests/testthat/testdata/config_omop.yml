@@ -1,7 +1,0 @@
-default:
-  omop:
-    dbname: "OHDSI"
-    host: "141.67.22.7"
-    port: 5432
-    user: "ohdsi_admin_user"
-    password: "admin1"

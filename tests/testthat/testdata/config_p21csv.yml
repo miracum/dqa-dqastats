@@ -1,3 +1,0 @@
-default:
-  p21csv:
-    dir: "/home/rstudio/development/_p21/data/Input_backup_Marvin"
