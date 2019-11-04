@@ -19,12 +19,15 @@
 #'
 #' @description Internal function to read the meta data repository (MDR).
 #'
+#' @param mdr_filename A character string. The filename of your meta data
+#'   repository (default: 'mdr.csv').
+#'
 #' @inheritParams DQA
 #'
 #' @export
 #'
-readMDR_ <- function(utils){
-  mdr <- data.table::fread(paste0(utils, "MDR/mdr.csv"), header = T)
+readMDR_ <- function(utils, mdr_filename = "mdr.csv"){
+  mdr <- data.table::fread(paste0(utils, "MDR/", mdr_filename), header = T)
   mdr[,("constraints"):=gsub("\"\"", "\"", get("constraints"))][get("constraints")=="",("constraints"):=NA]
   mdr[,("plausibility_relation"):=gsub("\"\"", "\"", get("plausibility_relation"))][get("plausibility_relation")=="",("plausibility_relation"):=NA]
   return(mdr)
