@@ -172,20 +172,6 @@ load_source <- function(rv,
     sourcesystem = "p21csv"
   )
 
-  #   sapply(keys_to_test, function(i) {
-  #   msg <- paste("Reading", i, "from CSV.")
-  #   cat("\n", msg, "\n")
-  #   if (isFALSE(headless)) {
-  #     shinyjs::logjs(msg)
-  #     # Increment the progress bar, and update the detail text.
-  #     progress$inc(
-  #       1 / length(keys_to_test),
-  #       detail = paste("... working hard to read", i, "...")
-  #     )
-  #   }
-  #
-  #   load_csv(rv, i)
-  # }, simplify = F, USE.NAMES = T)
   if (isFALSE(headless)) {
     progress$close()
   }
