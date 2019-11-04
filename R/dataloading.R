@@ -46,8 +46,7 @@ load_csv <- function(mdr,
                      sourcesystem) {
 
   # original beginning of function
-  inputdir <- cleanPathName_(inputdir)
-  selfutils <- cleanPathName_(selfutils)
+  inputdir <- clean_path_name(inputdir)
 
 
   available_systems <- mdr[get("source_system") == sourcesystem &
@@ -116,6 +115,10 @@ load_csv <- function(mdr,
 }
 
 map_var_types <- function(string) {
+  stopifnot(
+    length(string) == 1
+  )
+
   if (string == "permittedValues") {
     outdat <- "factor"
   } else if (string == "integer") {
