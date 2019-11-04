@@ -28,7 +28,7 @@ test_that(
           )
         ),
         "datamap.R" = NULL,
-        "dqa.R" = NULL,
+        "DAQ.R" = NULL,
         "etl.R" = NULL,
         "plausibilities.R" = "cyclomatic complexity",
         "plausibility_results.R" = "cyclomatic complexity",
