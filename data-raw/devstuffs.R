@@ -9,7 +9,7 @@ my_desc$set("Package", packagename)
 # Set author names
 my_desc$set_authors(c(
   person("Lorenz A.", "Kapsner", email = "lorenz.kapsner@uk-erlangen.de", role = c('cre', 'aut')),
-  person("Jonathan", "Mang", role = c('aut')))) #,
+  person("Jonathan M.", "Mang", role = c('aut')))) #,
 #  person("Name2", "Surname2", email = "mail@2", role = 'aut')))
 # Set copyright
 my_desc$set("Copyright", "Universitätsklinikum Erlangen")
@@ -22,7 +22,7 @@ my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
 my_desc$set(Description = "Perform data quality assessment (DQA) of electronic health records (EHR).")
 # The description of your package
-my_desc$set("Date/Publication" = paste(as.character(Sys.time()), "UTC"))
+my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
 my_desc$set("URL", "https://gitlab.miracum.org/miracum-dqa/dqastats")
 my_desc$set("BugReports",

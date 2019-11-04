@@ -6,7 +6,7 @@ Authors@R:
              family = "Kapsner",
              role = c("cre", "aut"),
              email = "lorenz.kapsner@uk-erlangen.de"),
-      person(given = "Jonathan",
+      person(given = "Jonathan M.",
              family = "Mang",
              role = "aut"))
 Description: Perform data quality assessment (DQA) of electronic health records (EHR).
@@ -16,7 +16,7 @@ URL: https://gitlab.miracum.org/miracum-dqa/dqastats
 BugReports: https://gitlab.miracum.org/miracum-dqa/dqastats/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date/Publication: 2019-11-04 14:28:14 UTC
+Date: 2019-11-04
 Imports: 
     data.table,
     shiny,
@@ -35,3 +35,4 @@ Imports:
 Suggests: 
     testthat,
     lintr
+RoxygenNote: 6.1.1
