@@ -1,0 +1,372 @@
+# DQAstats - Perform data quality assessment (DQA) of electronic health
+# records (EHR)
+# Copyright (C) 2019 Universitätsklinikum Erlangen
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+#' @title atemp_pausi_results helper function
+#'
+#' @description Internal function to generate the results of the
+#'   'Atemporal Plausibility' checks.
+#'
+#' @inheritParams descriptive_results
+#'
+#' @export
+#'
+atemp_pausi_results <- function(rv, headless = FALSE) {
+  #% source_db = rv$db_source
+  #% headless = T
+
+  # initialize outlist
+  outlist <- list()
+
+  if (isFALSE(headless)) {
+    # Create a Progress object
+    progress1 <- shiny::Progress$new()
+    # Make sure it closes when we exit this reactive, even if
+    # there's an error
+    on.exit(progress1$close())
+    progress1$set(message = "Getting plausibility descriptions",
+                  value = 0)
+
+    # progress 2
+    progress2 <- shiny::Progress$new()
+    on.exit(progress2$close())
+    progress2$set(message = "Calculating plausibility counts",
+                  value = 0)
+
+    # progress 3
+    progress3 <- shiny::Progress$new()
+    on.exit(progress3$close())
+    progress3$set(message = "Calculating plausibility statistics",
+                  value = 0)
+  }
+
+  for (i in names(rv$data_plausibility$atemporal)) {
+    dat <- rv$data_plausibility$atemporal[[i]]
+
+    # workaround to hide shiny-stuff, when going headless
+    msg <- paste("Getting plausibility descriptions of", i)
+    cat("\n", msg, "\n")
+    if (isFALSE(headless)) {
+      shinyjs::logjs(msg)
+      # Increment the progress bar, and update the detail text.
+      progress1$inc(
+        1 / length(names(rv$data_plausibility$atemporal)),
+        detail = paste("... working at description of", i, "...")
+      )
+    }
+
+    # add the raw data to data_target and data_source
+    desc_dat <-
+      rv$mdr[get("variable_name") == dat$source_data$var_dependent &
+               get("source_system") %in% c(rv$db_source, rv$db_target) &
+               get("dqa_assessment") == 1, c(
+                 "source_system",
+                 "source_variable_name",
+                 "source_table_name",
+                 "variable_type",
+                 "key",
+                 "variable_name"
+               ), with = F]
+    # workaround, to get old calc_counts function working with new cnt_dat
+    desc_dat[get("source_system") ==
+               rv$db_source, ("key") := paste0(i, "_source")]
+    desc_dat[get("source_system") ==
+               rv$db_target, ("key") := paste0(i, "_target")]
+
+    outlist[[i]]$description <- calc_atemp_plausi_description(
+      dat,
+      plausis_atemporal = rv$data_plausibility$atemporal[[i]],
+      desc_dat,
+      rv
+    )
+
+
+    # workaround to hide shiny-stuff, when going headless
+    msg <- paste("Calculating plausibility counts of", i)
+    cat("\n", msg, "\n")
+
+    if (isFALSE(headless)) {
+      shinyjs::logjs(msg)
+      # Increment the progress bar, and update the detail text.
+      progress2$inc(
+        1 / length(names(rv$data_plausibility$atemporal)),
+        detail = paste("... working at counts of", i, "...")
+      )
+    }
+
+    cnt_dat <- desc_dat
+
+    if (length(cnt_dat[, unique(get("variable_name"))]) == 1) {
+      outlist[[i]]$counts <- calc_counts(
+        cnt_dat = cnt_dat,
+        count_key = cnt_dat[, unique(get("variable_name"))],
+        rv,
+        datamap = FALSE
+      )
+    } else {
+      cat("\nError occured during creating counts\n")
+    }
+
+
+    # workaround to hide shiny-stuff, when going headless
+    msg <- paste("Calculating plausibility statistics of", i)
+    cat("\n", msg, "\n")
+    if (isFALSE(headless)) {
+      shinyjs::logjs(msg)
+      # Increment the progress bar, and update the detail text.
+      progress3$inc(
+        1 / length(names(rv$data_plausibility$atemporal)),
+        detail = paste("... working at statistics of", i, "...")
+      )
+    }
+
+    # generate counts
+    stat_dat <- cnt_dat
+
+    if (stat_dat[, unique(get("variable_type"))] %in%
+        c("permittedValues", "string")) {
+      outlist[[i]]$statistics <- calc_cat_stats(
+        stat_dat,
+        stat_dat[, unique(get("variable_name"))],
+        rv,
+        plausibility = TRUE
+      )
+      # for target_data; our data is in rv$list_target$key
+    } else {
+      outlist[[i]]$statistics <- calc_num_stats(
+        stat_dat,
+        stat_dat[, unique(get("variable_name"))],
+        rv,
+        plausibility = TRUE
+      )
+    }
+  }
+  if (isFALSE(headless)) {
+    progress1$close()
+    progress2$close()
+    progress3$close()
+  }
+  return(outlist)
+}
+
+
+
+#' @title uniq_plausi_results helper function
+#'
+#' @description Internal function to generate the results of
+#'   the 'Uniqueness Plausibility' checks.
+#'
+#' @param uniq_vars A data.table object. The object is created
+#'   by \code{create_helper_vars} from the data represented in
+#'   the metadata repository.
+#'
+#' @inheritParams atemp_pausi_results
+#' @inheritParams create_helper_vars
+#'
+#' @export
+#'
+uniq_plausi_results <- function(rv,
+                                uniq_vars,
+                                mdr,
+                                headless = FALSE) {
+
+  #% uniq_vars = rv$pl$uniq_vars
+  #% mdr = rv$mdr
+  #% sourcesystem = "p21csv"
+  #% headless = T
+
+  outlist <- list()
+
+  # get uniqueness checks from json
+  uniques <- list()
+  for (i in uniq_vars[, get("variable_name")]) {
+    uniques[[i]] <- jsonlite::fromJSON(
+      uniq_vars[get("variable_name") ==
+                  i, get("plausibility_relation")]
+    )[["uniqueness"]]
+  }
+
+  # iterate over uniqueness checks
+  for (i in names(uniques)) {
+    if (isFALSE(headless)) {
+      # Create a Progress object
+      progress <- shiny::Progress$new()
+      # Make sure it closes when we exit this reactive, even
+      # if there's an error
+      on.exit(progress$close())
+      progress$set(
+        message = paste("Getting uniqueness plausibilities for", i),
+        value = 0
+      )
+    }
+
+    for (j in seq_len(length(uniques[[i]]))) {
+
+      u <- uniques[[i]][[j]]
+      u$variable_name <- names(uniques[[i]])[j]
+
+      # workaround to hide shiny-stuff, when going headless
+      msg <- paste("Getting uniqueness plausibility", u$name)
+      cat("\n", msg, "\n")
+      if (isFALSE(headless)) {
+        shinyjs::logjs(msg)
+        # Increment the progress bar, and update the detail text.
+        progress$inc(
+          1 / length(names(uniques[[i]])),
+          detail = paste("... working hard ...")
+        )
+      }
+
+      outlist[[u$name]]$description <- u$description
+
+      # get information on source data
+      for (k in c("source_data", "target_data")) {
+        src_flag <- ifelse(
+          k == "source_data",
+          rv$db_source,
+          rv$db_target
+        )
+
+
+        if (!is.null(u$filter[[src_flag]])) {
+          outlist[[u$name]][[k]]$filter <- u$filter[[src_flag]]
+        }
+
+        # TODO this is yet tailored to §21
+        if (k == "source_data") {
+          u_key <-
+            mdr[get("source_system") == rv$db_source &
+                  get("variable_name") == u$variable_name &
+                  get("dqa_assessment") == 1, get("source_table_name")]
+          raw_data <- "data_source"
+        } else {
+          u_key <-
+            mdr[get("source_system") == rv$db_target &
+                  get("variable_name") == u$variable_name &
+                  get("dqa_assessment") == 1, get("key")]
+          raw_data <- "data_target"
+        }
+
+        if (i %in% colnames(rv[[raw_data]][[u_key]])) {
+          if (!is.null(u$filter[[src_flag]])) {
+            group_data <- unique(
+              rv[[raw_data]][[u_key]][get(u$variable_name) %in%
+                                        u$filter[[src_flag]], get(
+                                          u$variable_name
+                                        ), by = get(i)]
+            )
+          } else {
+            group_data <- unique(
+              rv[[raw_data]][[u_key]][, get(u$variable_name), by = get(i)]
+            )
+          }
+
+        } else {
+          msg <- paste(i, "not in", colnames(rv[[raw_data]][[u_key]]))
+          cat("\n", msg, "\n")
+          if (isFALSE(headless)) {
+            shinyjs::logjs(msg)
+          }
+
+          # we need to find the correct data and merge
+          if (k == "source_data") {
+            m_key <-
+              mdr[!grepl("^pl\\.", get("key")), ][
+                get("source_system") == rv$db_source &
+                  get("variable_name") == i &
+                  get("dqa_assessment") == 1, get("source_table_name")
+                ]
+
+          } else {
+            m_key <-
+              mdr[!grepl("^pl\\.", get("key")), ][
+                get("source_system") == rv$db_target &
+                  get("variable_name") == i &
+                  get("dqa_assessment") == 1, get("key")
+                ]
+          }
+
+          if (!is.null(u$filter[[src_flag]])) {
+            m_x <-
+              rv[[raw_data]][[u_key]][
+                get(u$variable_name) %in% u$filter[[src_flag]],
+                ]
+          } else {
+            m_x <- rv[[raw_data]][[u_key]]
+          }
+
+          m_y <- rv[[raw_data]][[m_key]]
+
+          merge_data <- merge(
+            x = m_x,
+            y = m_y,
+            by.x = u$variable_name,
+            by.y = colnames(m_y)[grepl(u$variable_name, colnames(m_y))],
+            all = T,
+            suffixes = c("", "")
+          )
+
+          group_data <- unique(
+            merge_data[, get(u$variable_name), by = get(i)]
+          )
+          rm(merge_data, m_x, m_y)
+          gc()
+        }
+
+        colnames(group_data) <- c(i, u$variable_name)
+        get_dupl <- unique(
+          as.character(group_data[duplicated(get(i)), get(i)])
+        )
+
+        rm(group_data)
+        gc()
+
+        outlist[[u$name]][[k]]$message <-
+          ifelse(
+            length(get_dupl) > 0,
+            paste0(
+              "Found ",
+              length(get_dupl),
+              " duplicate occurrences of ",
+              i,
+              " in association with ",
+              u$variable_name,
+              "."
+            ),
+            paste0(
+              "No duplicate occurrences of ",
+              i,
+              " found in association with ",
+              u$variable_name,
+              "."
+            )
+          )
+        outlist[[u$name]][[k]]$error <- ifelse(
+          length(get_dupl) > 0,
+          "Error", #% paste0(get_dupl, collapse = ", "),
+          as.character(FALSE)
+        )
+      }
+    }
+
+    if (isFALSE(headless)) {
+      progress$close()
+    }
+
+  }
+  return(outlist[order(names(outlist))])
+}

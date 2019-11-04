@@ -1,4 +1,5 @@
-# DQAstats - Perform data quality assessment (DQA) of electronic health records (EHR)
+# DQAstats - Perform data quality assessment (DQA) of electronic health
+# records (EHR)
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -15,18 +16,24 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' @title testTargetDB_ helper function
+#' @title test_target_db helper function
 #'
-#' @description Internal function to test and get the database connection of the target data system.
+#' @description Internal function to test and get the database connection of
+#'   the target data system.
 #'
 #' @param target_settings A list object containing the database settings.
-#' @param headless A boolean (default: FALSE). Indicating, if the function is run only in the console (headless = TRUE) or on a GUI frontend (headless = FALSE).
+#' @param headless A boolean (default: FALSE). Indicating, if the function is
+#'   run only in the console (headless = TRUE) or on a GUI frontend
+#'   (headless = FALSE).
 #'
 #' @export
 #'
 # test db connection
-testTargetDB_ <- function(target_settings, headless = FALSE){
+test_target_db <- function(target_settings,
+                           headless = FALSE) {
+
   drv <- RPostgres::Postgres()
+
   db_con <- tryCatch({
     db_con <- RPostgres::dbConnect(
       drv = drv,
@@ -36,64 +43,91 @@ testTargetDB_ <- function(target_settings, headless = FALSE){
       user = target_settings$user,
       password = target_settings$password
     )
-  }, error = function(e){
-    if (isFALSE(headless)){
-      shiny::showModal(shiny::modalDialog(
-        title = "Error occured during testing database connection",
-        "An error occured during the test of the database connection. Please check your settings and try again."
-      ))
+    db_con
+  }, error = function(e) {
+    if (isFALSE(headless)) {
+      shiny::showModal(
+        shiny::modalDialog(
+          title = "Error occured during testing database connection",
+          paste0("An error occured during the test of the database ",
+                 "connection. Please check your settings and try again.")
+        )
+      )
     }
     cat("\nDB connection error\n")
     db_con <- NULL
-  }, finally = function(f){
+    db_con
+  }, finally = function(f) {
     return(db_con)
   })
+  return(db_con)
 }
 
-#' @title testSourceDB_ helper function
+#' @title test_source_db helper function
 #'
-#' @description Internal function to test and get the database connection of the source data system.
+#' @description Internal function to test and get the database connection
+#'   of the source data system.
 #'
 #' @param source_settings A list object containing the database settings.
-#' @inheritParams DQA
-#' @inheritParams testTargetDB_
+#' @inheritParams dqa
+#' @inheritParams test_target_db
 #'
 #' @export
 #'
-testSourceDB_ <- function(source_settings, source_db, headless = FALSE){
-  if (source_db == "p21csv"){
+test_source_db <- function(source_settings,
+                           source_db,
+                           headless = FALSE) {
 
-    filelist <- list.files(path=source_settings$dir, pattern = "\\.CSV|\\.csv", full.names = T)
-    # iterate over list and check for presence of required filenames: FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV
-    check <- sapply(filelist, function(i){
+  if (source_db == "p21csv") {
+    filelist <- list.files(
+      path = source_settings$dir,
+      pattern = "\\.CSV|\\.csv",
+      full.names = T
+    )
+    # iterate over list and check for presence of required filenames:
+    # FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV
+    check <- sapply(filelist, function(i) {
       cat("\n", i, "\n")
       return(grepl("FALL\\.CSV$|FAB\\.CSV$|ICD\\.CSV$|OPS.CSV$", i))
     })
 
     outflag <- tryCatch({
       # test if there are exact 4 source files
-      if (base::sum(check)!=4){
-        if (isFALSE(headless)){
-          shiny::showModal(shiny::modalDialog(
-            title = "Invalid path",
-            "The specified directory does not contain the 4 neccessary CSV-files (FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV)."
-          ))
+      if (base::sum(check) != 4) {
+        if (isFALSE(headless)) {
+          shiny::showModal(
+            shiny::modalDialog(
+              title = "Invalid path",
+              paste0("The specified directory does not contain the 4 ",
+                     "neccessary CSV-files ",
+                     "(FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV).")
+            )
+          )
         }
-        cat("\nThe specified directory does not contain the 4 neccessary CSV-files (FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV).\n")
+        cat(
+          paste0("\nThe specified directory does not contain the ",
+                 "neccessary CSV-files ",
+                 "(FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV).\n")
+        )
         outflag <- NULL
+        outflag
       } else {
         outflag <- TRUE
+        outflag
       }
-    }, error = function(e){
-      if (isFALSE(headless)){
-      shiny::showModal(shiny::modalDialog(
-        title = "Invalid path",
-        "There are no CSV-files in the specified directory."
-      ))
+    }, error = function(e) {
+      if (isFALSE(headless)) {
+        shiny::showModal(
+          shiny::modalDialog(
+            title = "Invalid path",
+            "There are no CSV-files in the specified directory."
+          )
+        )
       }
       cat("\nThere are no CSV-files in the specified directory.\n")
       outflag <- NULL
-    }, finally = function(f){
+      outflag
+    }, finally = function(f) {
       return(outflag)
     })
 

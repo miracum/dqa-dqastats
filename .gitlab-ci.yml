@@ -1,0 +1,88 @@
+variables:
+  _R_CHECK_CRAN_INCOMING_: "false"
+  _R_CHECK_FORCE_SUGGESTS_: "true"
+  CI_IMAGE_NAME: "rocker/verse"
+  CI_IMAGE_TAG: "3.6.1"
+  R_PKG_NAME: "DQAstats"
+
+default:
+  image: ${CI_IMAGE_NAME}:${CI_IMAGE_TAG}
+  before_script:
+    - echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
+    - R -e "devtools::install_deps(pkg = '.', upgrade = 'always')"
+    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')"
+    - mkdir -p ci
+
+stages:
+  - build
+  - test
+  - deploy
+
+check:
+  stage: build
+  script:
+    - R -e "devtools::check(pkg = '.', args = c('--no-tests'), build_args = c('--no-build-vignettes'), check_dir = '${CI_PROJECT_DIR}/ci')"
+  artifacts:
+    paths:
+      - "${CI_PROJECT_DIR}/ci/*.Rcheck"
+    when: on_failure # upload check artifacts when job fails!
+    expire_in: 1 week
+
+create_manual:
+  stage: build
+  script:
+    - R -e "devtools::build_manual(pkg = '.', path = '${CI_PROJECT_DIR}/ci')"
+  artifacts:
+    paths:
+      - "${CI_PROJECT_DIR}/ci/*.pdf"
+    expire_in: 1 week
+
+build_source:
+  stage: build
+  script:
+    - R -e "devtools::build(pkg = '.', path = '${CI_PROJECT_DIR}/ci', binary = FALSE, vignettes = FALSE)"
+  artifacts:
+    paths:
+      - "${CI_PROJECT_DIR}/ci/*.tar.gz"
+    expire_in: 1 week
+
+build_binary:
+  stage: build
+  script:
+    - R -e "devtools::build(pkg = '.', path = '${CI_PROJECT_DIR}/ci', binary = TRUE, vignettes = FALSE)"
+  artifacts:
+    paths:
+      - "${CI_PROJECT_DIR}/ci/*.tar.gz"
+    expire_in: 1 week
+
+# To have the coverage percentage appear as a gitlab badge follow these
+# instructions:
+# https://docs.gitlab.com/ee/user/project/pipelines/settings.html#test-coverage-parsing
+# The coverage parsing string is
+# Coverage: \d+\.\d+
+
+coverage:
+  stage: test
+  allow_failure: true
+  when: on_success
+  script:
+    - R -e "install.packages('DT')"
+    - R -e "covr::gitlab(quiet = FALSE)"
+  artifacts:
+    paths:
+      - public
+
+testing:
+  stage: test
+  allow_failure: true
+  when: on_success
+  script:
+    - R -e "devtools::test(pkg = '.')"
+
+# To produce a code coverage report as a GitLab page see
+# https://about.gitlab.com/2016/11/03/publish-code-coverage-report-with-gitlab-pages/
+
+install:
+  stage: deploy
+  script:
+    - R -e "devtools::install(pkg = '.', upgrade = 'always')"

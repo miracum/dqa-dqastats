@@ -8,7 +8,8 @@ my_desc <- desc::description$new("!new")
 my_desc$set("Package", packagename)
 # Set author names
 my_desc$set_authors(c(
-  person("Lorenz A.", "Kapsner", email = "lorenz.kapsner@uk-erlangen.de", role = c('cre', 'aut')))) #,
+  person("Lorenz A.", "Kapsner", email = "lorenz.kapsner@uk-erlangen.de", role = c('cre', 'aut')),
+  person("Jonathan M.", "Mang", role = c('aut')))) #,
 #  person("Name2", "Surname2", email = "mail@2", role = 'aut')))
 # Set copyright
 my_desc$set("Copyright", "Universitätsklinikum Erlangen")
@@ -21,7 +22,7 @@ my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
 my_desc$set(Description = "Perform data quality assessment (DQA) of electronic health records (EHR).")
 # The description of your package
-my_desc$set("Date/Publication" = paste(as.character(Sys.time()), "UTC"))
+my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
 my_desc$set("URL", "https://gitlab.miracum.org/miracum-dqa/dqastats")
 my_desc$set("BugReports",
@@ -67,7 +68,7 @@ usethis::use_package("kableExtra", type="Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
-usethis::use_package("processx", type = "Suggests")
+usethis::use_package("lintr", type = "Suggests")
 
 
 # buildignore and gitignore
@@ -80,12 +81,13 @@ usethis::use_build_ignore("DQA_report.aux")
 usethis::use_build_ignore("DQA_report.tex")
 usethis::use_build_ignore("DQA_report.toc")
 usethis::use_build_ignore("DQA_report.out")
+usethis::use_build_ignore("tests/testthat/testdata")
 usethis::use_build_ignore("_header/")
 usethis::use_git_ignore("_settings/")
 #usethis::use_git_ignore("tests/testthat/testdata")
 usethis::use_git_ignore("_header/")
 usethis::use_git_ignore("DQA_report*")
-
+usethis::use_git_ignore("tests/testthat/testdata")
 usethis::use_git_ignore(".Rhistory")
 usethis::use_git_ignore("*.Rproj")
 usethis::use_git_ignore(".Rproj*")

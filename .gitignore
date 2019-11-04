@@ -7,3 +7,4 @@ _header/
 .RData
 DQA_report.*
 DQA_report*
+tests/testthat/testdata

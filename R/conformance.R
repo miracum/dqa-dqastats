@@ -1,4 +1,5 @@
-# DQAstats - Perform data quality assessment (DQA) of electronic health records (EHR)
+# DQAstats - Perform data quality assessment (DQA) of electronic health
+# records (EHR)
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -15,100 +16,121 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' @title valueConformance_ helper function
+#' @title value_conformance helper function
 #'
 #' @description Internal function to perform value conformance checks.
 #'
-#' @inheritParams descriptiveResults_
-#' @param results A list object. The list should contain the results of either 'rv$results_descriptive' or 'rv$results_plausibility_atemporal'.
+#' @inheritParams descriptive_results
+#' @param results A list object. The list should contain the results of
+#'   either 'rv$results_descriptive' or 'rv$results_plausibility_atemporal'.
 #'
 #' @export
 #'
-valueConformance_ <- function(results, headless = FALSE){
+value_conformance <- function(results,
+                              headless = FALSE) {
   # get names
   obj_names <- names(results)
 
   # initialize final list to output
   outlist <- list()
 
-  if (isFALSE(headless)){
+  if (isFALSE(headless)) {
     # Create a Progress object
     progress <- shiny::Progress$new()
-    # Make sure it closes when we exit this reactive, even if there's an error
+    # Make sure it closes when we exit this reactive, even if there's
+    # an error
     on.exit(progress$close())
-    progress$set(message = "Performing value conformance check", value = 0)
+    progress$set(message = "Performing value conformance check",
+                 value = 0)
   }
 
   # loop over objects
-  for (i in obj_names){
-
+  for (i in obj_names) {
     msg <- paste("Performing value conformance check", i)
     cat("\n", msg, "\n")
-    if (isFALSE(headless)){
+    if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
-      progress$inc(1/length(obj_names), detail = paste("... checking", i, "..."))
+      progress$inc(
+        1 / length(obj_names),
+        detail = paste("... checking", i, "..."))
     }
 
     desc_out <- results[[i]]$description
-    count_out <- results[[i]]$counts
     stat_out <- results[[i]]$statistics
 
-    for (j in c("source_data", "target_data")){
+    for (j in c("source_data", "target_data")) {
       d_out <- desc_out[[j]]
       s_out <- stat_out[[j]]
 
       constraints <- d_out$checks$constraints
 
-      if (!is.na(constraints)){
-
-        if (constraints != "{}"){
-
+      if (!is.na(constraints)) {
+        if (constraints != "{}") {
           # initialize outlist
           outlist2 <- list()
 
           # parse constraints
           constraints <- jsonlite::fromJSON(constraints)
 
-          if (d_out$checks$var_type == "permittedValues"){
+          if (d_out$checks$var_type == "permittedValues") {
             # get valueset from mdr
-            constraints <- unlist(strsplit(constraints$value_set, ", ", fixed = T))
+            constraints <-
+              unlist(strsplit(constraints$value_set, ", ", fixed = T))
             # get levels from results
-            levels_results <- s_out[,levels(get(colnames(s_out)[1]))]
-            # compare levels from results to constraints from valueset (TRUE = constraint_error)
-            if (is.null(levels_results)){
+            levels_results <-
+              s_out[, levels(get(colnames(s_out)[1]))]
+            # compare levels from results to constraints from valueset
+            #% (TRUE = constraint_error)
+            if (is.null(levels_results)) {
               outlist2$conformance_error <- TRUE
             } else {
-              outlist2$conformance_error <- any(levels_results %!in% constraints)
+              outlist2$conformance_error <- any(levels_results %!in%
+                                                  constraints)
             }
             # if TRUE, get those values, that do not fit
-            outlist2$conformance_results <- ifelse(isTRUE(outlist2$conformance_error),
-                                                   paste0("Levels that are not conform with the value set:  \n", paste(levels_results[levels_results %!in% constraints], collapse = "  \n")),
-                                                   "No 'value conformance' issues found.")
-          } else if (d_out$checks$var_type %in% c("integer", "float")){
+            outlist2$conformance_results <-
+              ifelse(
+                isTRUE(outlist2$conformance_error),
+                paste0(
+                  "Levels that are not conform with the value set:  \n",
+                  paste(levels_results[levels_results %!in% constraints],
+                        collapse = "  \n")
+                ),
+                "No 'value conformance' issues found."
+              )
+          } else if (d_out$checks$var_type %in% c("integer", "float")) {
             error_flag <- FALSE
 
             # set colnames (we need them here to correctly select the data)
             colnames(s_out) <- c("name", "value")
 
             # TODO add value_thresholds here as tolerance-/border zone
-            result_min <- as.numeric(s_out[get("name")=="Minimum",get("value")])
-            result_max <- as.numeric(s_out[get("name")=="Maximum",get("value")])
+            result_min <- as.numeric(
+              s_out[get("name") == "Minimum", get("value")]
+            )
+            result_max <- as.numeric(
+              s_out[get("name") == "Maximum", get("value")]
+            )
 
-            # compare levels from results to constraints from valueset (TRUE = constraint_error)
-            if (result_min < constraints$range$min){
+            # compare levels from results to constraints from valueset
+            #% (TRUE = constraint_error)
+            if (result_min < constraints$range$min) {
               cat(paste0(i, "/ ", j, ": result_min < range$min\n"))
               error_flag <- TRUE
             }
 
-            if (result_max > constraints$range$max){
+            if (result_max > constraints$range$max) {
               cat(paste0(i, "/ ", j, ": result_max > range$max\n"))
               error_flag <- TRUE
             }
             outlist2$conformance_error <- error_flag
-            outlist2$conformance_results <- ifelse(isTRUE(error_flag),
-                                                   "Extrem values are not conform with constraints.",
-                                                   "No 'value conformance' issues found.")
+            outlist2$conformance_results <-
+              ifelse(
+                isTRUE(error_flag),
+                "Extrem values are not conform with constraints.",
+                "No 'value conformance' issues found."
+              )
           }
           outlist[[i]][[j]] <- outlist2
         }
@@ -117,7 +139,7 @@ valueConformance_ <- function(results, headless = FALSE){
 
   }
 
-  if (isFALSE(headless)){
+  if (isFALSE(headless)) {
     progress$close()
   }
 
@@ -125,31 +147,56 @@ valueConformance_ <- function(results, headless = FALSE){
 }
 
 
-#' @title valueConformanceChecks_ helper function
+#' @title value_conformance_checks helper function
 #'
 #' @description Internal function to perform value conformance checks.
 #'
-#' @param results A list object. The list should contain the results of the function \code{valueConformance_}.
+#' @param results A list object. The list should contain the results of
+#'   the function \code{value_conformance}.
 #'
 #' @export
 #'
-valueConformanceChecks_ <- function(results){
-
+value_conformance_checks <- function(results) {
   # get names
   obj_names <- names(results)
 
   # initialize output table
-  out <- data.table::data.table("Variable" = character(0),
-                                "Check Source Data" = character(0),
-                                "Check Target Data" = character(0))
+  out <- data.table::data.table(
+    "Variable" = character(0),
+    "Check Source Data" = character(0),
+    "Check Target Data" = character(0)
+  )
 
 
-  for (i in obj_names){
-    error_source <- ifelse(!is.null(results[[i]]$source_data), ifelse(results[[i]]$source_data$conformance_error, "failed", "passed"), "ERROR")
-    error_target <- ifelse(!is.null(results[[i]]$target_data), ifelse(results[[i]]$target_data$conformance_error, "failed", "passed"), "ERROR")
-    out <- rbind(out, data.table::data.table("Variable" = i,
-                                             "Check Source Data" = error_source,
-                                             "Check Target Data" = error_target))
+  for (i in obj_names) {
+    error_source <-
+      ifelse(
+        !is.null(results[[i]]$source_data),
+        ifelse(
+          results[[i]]$source_data$conformance_error,
+          "failed",
+          "passed"
+        ),
+        "ERROR"
+      )
+    error_target <-
+      ifelse(
+        !is.null(results[[i]]$target_data),
+        ifelse(
+          results[[i]]$target_data$conformance_error,
+          "failed",
+          "passed"
+        ),
+        "ERROR"
+      )
+    out <- rbind(
+      out,
+      data.table::data.table(
+        "Variable" = i,
+        "Check Source Data" = error_source,
+        "Check Target Data" = error_target
+      )
+    )
   }
   return(out)
 }
