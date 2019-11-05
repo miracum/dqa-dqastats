@@ -61,6 +61,7 @@ dqa <- function(target_config,
 
   # initialize rv-list
   rv <- list()
+
   # set headless
   rv$headless <- TRUE
 
