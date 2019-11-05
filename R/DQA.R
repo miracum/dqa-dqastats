@@ -19,20 +19,21 @@
 #' @title Perform Data Quality Assessment of Electronic Health Records.
 #'
 #' @description This function performs a data quality assessment (DQA)
-#' of electronic health records (EHR).#'
+#'   of electronic health records (EHR).#'
 #'
-#' @param target_config A character string. The path to the config.yml-file
-#' containing the target database configuration.
-#' @param source_config A character string. The path to the config.yml-file
-#' containing the source database configuration.
-#' @param target_db A character string. The name of the target database.
-#' This string must be conform with the corresponding config section
-#' in the config.yml-file.
-#' @param source_db A character string. The name of the source database.
-#' This string must be conform with the corresponding config section
-#' in the config.yml-file.
+#' @param dqa_source_system_name A character string. The name of the
+#'   source-system, e.g. "P21" or "i2b2". This name must be identical and
+#'   unique to one entry in the settings-yml file.
+#' @param dqa_target_system_name  Optional. A character string or null.
+#'   The name of the target-system, e.g. "P21" or "i2b2".
+#'   This name must be identical and unique to one entry in the
+#'   config-yml file or null. If the argument is empty, the source will
+#'   be processed as standalone on its own.
+#' @param config_file The config.yml-file containig all the information
+#'   needed to access the source (and optional the target) system(s).
 #' @param utils A character string. The path to the utils-folder,
-#' containing the requires app utilities.
+#'   containing the required app utilities like the MDR and the settings folder.
+#' @param mdr_filename A character string. The filename of the MDR e.g. "mdr_example_data.csv"
 #' For a detailed description please visit \url{#TODO}.
 #'
 #' @import data.table
@@ -46,21 +47,33 @@
 #'
 #' @export
 
-dqa <- function(target_config,
-                source_config,
-                target_db,
-                source_db,
-                utils) {
+dqa <- function(dqa_source_system_name,
+                dqa_target_system_name = dqa_source_system_name,
+                config_file,
+                utils,
+                mdr_filename = "mdr.csv") {
+  # neue argumente
+  dqa_source_system_name <- "exampleCSV"
+  dqa_target_system_name <- "exampleCSV_target"
+  config_file <-
+    "./inst/demo_data/utilities/settings/demo_settings.yml"
+  utils <- "./inst/demo_data/utilities/"
+  mdr_filename <- "mdr_example_data.csv"
 
   stopifnot(
-    is.character(target_config),
-    is.character(source_config),
-    is.character(target_db),
-    is.character(source_db)
+    is.character(dqa_source_system_name),
+    is.character(dqa_target_system_name),
+    is.character(config_file),
+    is.character(utils),
+    is.character(mdr_filename)
   )
 
   # initialize rv-list
   rv <- list()
+
+  # save source/target vars
+  rv$dqa_source$system_name <- dqa_source_system_name
+  rv$dqa_target$system_name <- dqa_target_system_name
 
   # set headless
   rv$headless <- TRUE
@@ -68,27 +81,32 @@ dqa <- function(target_config,
   # clean utils paths
   rv$utilspath <- clean_path_name(utils)
 
+  # add mdr-filename
+  rv$mdr_filename <- mdr_filename
+
   # current date
   rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
 
   # save db-names
-  rv$db_target <- target_db
-  rv$db_source <- source_db
+  rv$db_target <- rv$dqa_target$system_name
+  rv$db_source <- rv$dqa_source$system_name
 
   # get configs
-  rv$settings_target <- get_config(
-    config_file = target_config,
-    config_key = rv$db_target
-  )
+  rv$settings_target <- get_config(config_file = config_file,
+                                   config_key = tolower(rv$dqa_target$system_name))
 
-  rv$settings_source <- get_config(
-    config_file = source_config,
-    config_key = rv$db_source
-  )
+  rv$settings_source <- get_config(config_file = config_file,
+                                   config_key = tolower(rv$dqa_source$system_name))
 
   # read MDR
-  rv$mdr <- read_mdr(rv$utilspath)
+  rv$mdr <- read_mdr(utils = rv$utilspath,
+                     mdr_filename = rv$mdr_filename)
   stopifnot(data.table::is.data.table(rv$mdr))
+
+  # read system_types
+  rv$dqa_source$system_type <-
+    rv$mdr[get("source_system_name") == rv$dqa_source$system_name, unique(get("source_system_type"))]
+  stopifnot(length(rv$dqa_source$system_type) == 1)
 
   reactive_to_append <- create_helper_vars(
     mdr = rv$mdr,
@@ -101,6 +119,28 @@ dqa <- function(target_config,
   for (i in names(reactive_to_append)) {
     rv[[i]] <- reactive_to_append[[i]]
   }
+
+  # load source_data
+  if (rv$dqa_source$system_type == "csv") {
+    # load csv
+  } else if (rv$dqa_source$system_type == "postgres") {
+    # load postgres
+  } else {
+    stop("\nThis source_system_type is currently not implemented.\n\n")
+  }
+
+  rv$data_source <- data_loading_function(system_type = rv$,
+                                          mdr, )
+
+
+  # load target_data
+  if (!is.null(rv$dqa_target$system_name)) {
+    # load target
+    rv$data_target <- data_loading_function()
+  } else {
+    rv$data_target <- rv$data_source
+  }
+
 
   # get sourcefiledir
   rv$sourcefiledir <- clean_path_name(rv$settings_source$dir)
@@ -124,17 +164,14 @@ dqa <- function(target_config,
   )
 
   # import target SQL
-  rv$sql_target <- load_sqls(
-    utils = rv$utilspath,
-    db = rv$db_target
-  )
+  rv$sql_target <- load_sqls(utils = rv$utilspath,
+                             db = rv$db_target)
   stopifnot(is.list(rv$sql_target))
 
   # test target_db
-  test_target <- test_target_db(
-    target_settings = rv$settings_target,
-    headless = rv$headless
-  )
+  test_target <-
+    test_target_db(target_settings = rv$settings_target,
+                   headless = rv$headless)
   stopifnot(!is.null(test_target))
 
   rv$db_con_target <- test_target
@@ -169,21 +206,16 @@ dqa <- function(target_config,
   }
 
   # calculate descriptive results
-  rv$results_descriptive <- descriptive_results(
-    rv = rv,
-    headless = rv$headless
-  )
+  rv$results_descriptive <- descriptive_results(rv = rv,
+                                                headless = rv$headless)
 
   # get time_interval
-  rv$time_interval <- time_interval(
-    rv$results_descriptive$EpisodeOfCare_period_end
-  )
+  rv$time_interval <-
+    time_interval(rv$results_descriptive$EpisodeOfCare_period_end)
 
   # calculate plausibilites
-  rv$results_plausibility_atemporal <- atemp_pausi_results(
-    rv = rv,
-    headless = rv$headless
-  )
+  rv$results_plausibility_atemporal <- atemp_pausi_results(rv = rv,
+                                                           headless = rv$headless)
 
   rv$results_plausibility_unique <- uniq_plausi_results(
     rv = rv,
@@ -198,10 +230,9 @@ dqa <- function(target_config,
   gc()
 
   # conformance
-  rv$conformance$value_conformance <- value_conformance(
-    results = rv$results_descriptive,
-    headless = rv$headless
-  )
+  rv$conformance$value_conformance <-
+    value_conformance(results = rv$results_descriptive,
+                      headless = rv$headless)
 
   value_conformance <- value_conformance(
     results = rv$results_plausibility_atemporal,
@@ -214,10 +245,8 @@ dqa <- function(target_config,
   }
 
   # completeness
-  rv$completeness <- completeness(
-    results = rv$results_descriptive,
-    headless = rv$headless
-  )
+  rv$completeness <- completeness(results = rv$results_descriptive,
+                                  headless = rv$headless)
 
   # generate datamap
   rv$datamap <- generate_datamap(
@@ -228,9 +257,8 @@ dqa <- function(target_config,
   )
 
   # checks$value_conformance
-  rv$checks$value_conformance <- value_conformance_checks(
-    results = rv$conformance$value_conformance
-  )
+  rv$checks$value_conformance <-
+    value_conformance_checks(results = rv$conformance$value_conformance)
 
   # checks$etl
   rv$checks$etl <- etl_checks(results = rv$results_descriptive)
@@ -246,11 +274,9 @@ dqa <- function(target_config,
   # set end_time
   rv$end_time <- format(Sys.time(), usetz = T, tz = "CET")
   # calc time-diff
-  rv$duration <- difftime(
-    rv$end_time,
-    rv$start_time,
-    units = "mins"
-  )
+  rv$duration <- difftime(rv$end_time,
+                          rv$start_time,
+                          units = "mins")
 
   print(rv$duration)
   return(TRUE)

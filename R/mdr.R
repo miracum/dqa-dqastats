@@ -66,19 +66,19 @@ create_helper_vars <- function(mdr,
 
   # get keys
   outlist$keys_target <- mdr[get("key") != "undefined", ][
-    get("source_system") == target_db, unique(get("key"))]
+    get("source_system_name") == target_db, unique(get("key"))]
 
   if (source_db == "p21csv") {
     # TODO workaround for csv-files
     outlist$keys_source <- mdr[get("key") != "undefined", ][
-      get("source_system") == source_db &
+      get("source_system_name") == source_db &
         !grepl("^pl\\.", get("key")), unique(get("source_table_name"))
       ]
   }
 
 
   # get list of DQ-variables of interest
-  outlist$dqa_assessment <- mdr[get("source_system") == source_db &
+  outlist$dqa_assessment <- mdr[get("source_system_name") == source_db &
                                   get("dqa_assessment") == 1, ][
                                     order(get("source_table_name")), c(
                                       "designation",

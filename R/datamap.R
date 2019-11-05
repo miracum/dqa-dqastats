@@ -33,7 +33,7 @@ generate_datamap <- function(results,
   # get names
   data_names <-
     mdr[get("data_map") == 1 &
-          get("source_system") == db, c("variable_name",
+          get("source_system_name") == db, c("variable_name",
                                         "designation"), with = F]
 
   if (nrow(data_names) < 1) {

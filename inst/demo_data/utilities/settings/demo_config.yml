@@ -1,0 +1,6 @@
+default:
+# keine großbuchstaben!
+  examplecsv:
+    dir: "./inst/demo_data/DQA_example_data.csv"
+  examplecsv_target:
+    dir: "./inst/demo_data/DQA_example_data.csv"
