@@ -12,3 +12,4 @@
 ^DQA_report\.tex$
 ^DQA_report\.toc$
 ^DQA_report\.out$
+^\.gitlab-ci\.yml$
