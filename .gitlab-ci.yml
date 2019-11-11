@@ -30,6 +30,7 @@ check:
 
 create_manual:
   stage: build
+  allow_failure: true
   script:
     - R -e "devtools::build_manual(pkg = '.', path = '${CI_PROJECT_DIR}/ci')"
   artifacts:
