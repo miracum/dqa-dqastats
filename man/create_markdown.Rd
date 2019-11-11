@@ -11,8 +11,7 @@ create_markdown(rv = rv, utils, outdir = tempdir(), headless = FALSE)
 'reactive values'.}
 
 \item{utils}{A character string. The path to the utils-folder,
-containing the requires app utilities.
-For a detailed description please visit \url{#TODO}.}
+containing the required app utilities like the MDR and the settings folder.}
 
 \item{outdir}{A character string. The directory to store the resulting
 PDF document. Default: \code{tempdir}.}

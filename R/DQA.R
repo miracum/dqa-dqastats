@@ -52,7 +52,7 @@ dqa <- function(dqa_source_system_name,
                 config_file,
                 utils,
                 mdr_filename = "mdr.csv") {
-  # neue argumente
+  # new arguments for debugging:
   dqa_source_system_name <- "exampleCSV"
   dqa_target_system_name <- "exampleCSV_target"
   config_file <-
@@ -129,8 +129,8 @@ dqa <- function(dqa_source_system_name,
     stop("\nThis source_system_type is currently not implemented.\n\n")
   }
 
-  rv$data_source <- data_loading_function(system_type = rv$,
-                                          mdr, )
+  rv$data_source <-
+    data_loading_function(system_type = rv$dqa_source, mdr) #load anything else? TODO JM
 
 
   # load target_data

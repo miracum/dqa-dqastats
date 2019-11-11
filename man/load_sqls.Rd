@@ -8,8 +8,7 @@ load_sqls(utils, db)
 }
 \arguments{
 \item{utils}{A character string. The path to the utils-folder,
-containing the requires app utilities.
-For a detailed description please visit \url{#TODO}.}
+containing the required app utilities like the MDR and the settings folder.}
 
 \item{db}{A character string. The name of the corresponding database.}
 }

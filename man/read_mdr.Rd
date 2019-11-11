@@ -8,8 +8,7 @@ read_mdr(utils, mdr_filename = "mdr.csv")
 }
 \arguments{
 \item{utils}{A character string. The path to the utils-folder,
-containing the requires app utilities.
-For a detailed description please visit \url{#TODO}.}
+containing the required app utilities like the MDR and the settings folder.}
 
 \item{mdr_filename}{A character string. The filename of your meta data
 repository (default: 'mdr.csv').}
