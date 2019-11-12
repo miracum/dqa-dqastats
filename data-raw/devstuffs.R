@@ -21,7 +21,7 @@ my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
 my_desc$set(Description = "Perform data quality assessment (DQA) of electronic health records (EHR).")
 # The description of your package
-my_desc$set("Date/Publication" = paste(as.character(Sys.time()), "UTC"))
+my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
 my_desc$set("URL", "https://gitlab.miracum.org/miracum-dqa/dqastats")
 my_desc$set("BugReports",
