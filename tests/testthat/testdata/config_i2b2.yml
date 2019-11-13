@@ -1,7 +1,0 @@
-default:
-  i2b2:
-    dbname: "i2b2"
-    host: "141.67.22.16"
-    port: 5432
-    user: "postgres"
-    password: "i2b2"

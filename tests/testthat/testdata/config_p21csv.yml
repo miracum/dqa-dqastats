@@ -1,3 +1,0 @@
-default:
-  p21csv:
-    dir: "/home/user/development/_p21/data/2018"
