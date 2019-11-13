@@ -21,17 +21,17 @@
 #' @description This function performs a data quality assessment (DQA)
 #'   of electronic health records (EHR).#'
 #'
-#' @param dqa_source_system_name A character string. The name of the
+#' @param source_system_name A character string. The name of the
 #'   source-system, e.g. "P21" or "i2b2". This name must be identical and
 #'   unique to one entry in the settings-yml file.
-#' @param dqa_target_system_name  Optional. A character string or null.
+#' @param target_system_name  Optional. A character string or null.
 #'   The name of the target-system, e.g. "P21" or "i2b2".
 #'   This name must be identical and unique to one entry in the
 #'   config-yml file or null. If the argument is empty, the source will
 #'   be processed as standalone on its own.
 #' @param config_file The config.yml-file containig all the information
 #'   needed to access the source (and optional the target) system(s).
-#' @param utils A character string. The path to the utils-folder,
+#' @param utils_path A character string. The path to the utils-folder,
 #'   containing the required app utilities like the MDR and the settings folder.
 #' @param mdr_filename A character string. The filename of the MDR e.g. "mdr_example_data.csv"
 #' For a detailed description please visit \url{#TODO}.
@@ -47,24 +47,26 @@
 #'
 #' @export
 
-dqa <- function(dqa_source_system_name,
-                dqa_target_system_name = dqa_source_system_name,
+dqa <- function(source_system_name,
+                target_system_name = source_system_name,
                 config_file,
-                utils,
+                utils_path,
                 mdr_filename = "mdr.csv") {
   # new arguments for debugging:
-  dqa_source_system_name <- "exampleCSV"
-  dqa_target_system_name <- "exampleCSV_target"
+  source_system_name <- "exampleCSV"
+  target_system_name <- "exampleCSV_target"
+  # config_file <-
+  #   "./inst/demo_data/utilities/settings/demo_settings.yml"
   config_file <-
-    "./inst/demo_data/utilities/settings/demo_settings.yml"
-  utils <- "./inst/demo_data/utilities/"
+    "tests/testthat/testdata/demo_settings_internal.yml"
+  utils_path <- "./inst/demo_data/utilities/"
   mdr_filename <- "mdr_example_data.csv"
 
   stopifnot(
-    is.character(dqa_source_system_name),
-    is.character(dqa_target_system_name),
+    is.character(source_system_name),
+    is.character(target_system_name),
     is.character(config_file),
-    is.character(utils),
+    is.character(utils_path),
     is.character(mdr_filename)
   )
 
@@ -72,14 +74,14 @@ dqa <- function(dqa_source_system_name,
   rv <- list()
 
   # save source/target vars
-  rv$dqa_source$system_name <- dqa_source_system_name
-  rv$dqa_target$system_name <- dqa_target_system_name
+  rv$source$system_name <- source_system_name
+  rv$target$system_name <- target_system_name
 
-  # set headless
+  # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
 
-  # clean utils paths
-  rv$utilspath <- clean_path_name(utils)
+  # clean utils paths (to append the ending slash)
+  rv$utilspath <- clean_path_name(utils_path)
 
   # add mdr-filename
   rv$mdr_filename <- mdr_filename
@@ -87,16 +89,12 @@ dqa <- function(dqa_source_system_name,
   # current date
   rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
 
-  # save db-names
-  rv$db_target <- rv$dqa_target$system_name
-  rv$db_source <- rv$dqa_source$system_name
-
   # get configs
   rv$settings_target <- get_config(config_file = config_file,
-                                   config_key = tolower(rv$dqa_target$system_name))
+                                   config_key = tolower(rv$target$system_name))
 
   rv$settings_source <- get_config(config_file = config_file,
-                                   config_key = tolower(rv$dqa_source$system_name))
+                                   config_key = tolower(rv$source$system_name))
 
   # read MDR
   rv$mdr <- read_mdr(utils = rv$utilspath,
@@ -104,14 +102,14 @@ dqa <- function(dqa_source_system_name,
   stopifnot(data.table::is.data.table(rv$mdr))
 
   # read system_types
-  rv$dqa_source$system_type <-
-    rv$mdr[get("source_system_name") == rv$dqa_source$system_name, unique(get("source_system_type"))]
-  stopifnot(length(rv$dqa_source$system_type) == 1)
+  rv$source$system_type <-
+    rv$mdr[get("system_name") == rv$source$system_name, unique(get("source_system_type"))]
+  stopifnot(length(rv$source$system_type) == 1)
 
   reactive_to_append <- create_helper_vars(
     mdr = rv$mdr,
-    target_db = rv$db_target,
-    source_db = rv$db_source
+    target_db = rv$target$system_name,
+    source_db = rv$source$system_name
   )
 
   # workaround, to keep "rv" an reactiveValues object in shiny app
@@ -121,9 +119,9 @@ dqa <- function(dqa_source_system_name,
   }
 
   # load source_data
-  if (rv$dqa_source$system_type == "csv") {
+  if (rv$source$system_type == "csv") {
     # load csv
-  } else if (rv$dqa_source$system_type == "postgres") {
+  } else if (rv$source$system_type == "postgres") {
     # load postgres
   } else {
     stop("\nThis source_system_type is currently not implemented.\n\n")
@@ -134,7 +132,7 @@ dqa <- function(dqa_source_system_name,
 
 
   # load target_data
-  if (!is.null(rv$dqa_target$system_name)) {
+  if (!is.null(rv$target$system_name)) {
     # load target
     rv$data_target <- data_loading_function()
   } else {
@@ -148,7 +146,7 @@ dqa <- function(dqa_source_system_name,
   # test source_db
   test_source <- test_source_db(
     source_settings = rv$settings_source,
-    source_db = rv$db_source,
+    source_db = rv$source$system_name,
     headless = rv$headless
   )
   stopifnot(isTRUE(test_source))
@@ -165,7 +163,7 @@ dqa <- function(dqa_source_system_name,
 
   # import target SQL
   rv$sql_target <- load_sqls(utils = rv$utilspath,
-                             db = rv$db_target)
+                             db = rv$target$system_name)
   stopifnot(is.list(rv$sql_target))
 
   # test target_db
@@ -251,7 +249,7 @@ dqa <- function(dqa_source_system_name,
   # generate datamap
   rv$datamap <- generate_datamap(
     results = rv$results_descriptive,
-    db = rv$db_target,
+    db = rv$target$system_name,
     mdr = rv$mdr,
     headless = rv$headless
   )

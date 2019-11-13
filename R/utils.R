@@ -25,6 +25,13 @@
 #'
 #' @export
 #'
+#' @examples
+#' Both function calls will return "home/test/"
+#' \dontrun{
+#' clean_path_name("home/test")
+#' clean_path_name("home/test/")
+#' }
+#'
 clean_path_name <- function(pathname) {
   return(gsub("([[:alnum:]])$", "\\1/", pathname))
 }

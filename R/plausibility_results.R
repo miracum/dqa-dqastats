@@ -26,7 +26,7 @@
 #' @export
 #'
 atemp_pausi_results <- function(rv, headless = FALSE) {
-  #% source_db = rv$db_source
+  #% source_db = rv$source$system_name
   #% headless = T
 
   # initialize outlist
@@ -72,20 +72,20 @@ atemp_pausi_results <- function(rv, headless = FALSE) {
     # add the raw data to data_target and data_source
     desc_dat <-
       rv$mdr[get("variable_name") == dat$source_data$var_dependent &
-               get("source_system_name") %in% c(rv$db_source, rv$db_target) &
+               get("source_system_name") %in% c(rv$source$system_name, rv$target$system_name) &
                get("dqa_assessment") == 1, c(
                  "source_system_name",
                  "source_variable_name",
                  "source_table_name",
                  "variable_type",
-                 "key",
+                 "variable_name",
                  "variable_name"
                ), with = F]
     # workaround, to get old calc_counts function working with new cnt_dat
     desc_dat[get("source_system_name") ==
-               rv$db_source, ("key") := paste0(i, "_source")]
+               rv$source$system_name, ("variable_name") := paste0(i, "_source")]
     desc_dat[get("source_system_name") ==
-               rv$db_target, ("key") := paste0(i, "_target")]
+               rv$target$system_name, ("variable_name") := paste0(i, "_target")]
 
     outlist[[i]]$description <- calc_atemp_plausi_description(
       dat,
@@ -237,8 +237,8 @@ uniq_plausi_results <- function(rv,
       for (k in c("source_data", "target_data")) {
         src_flag <- ifelse(
           k == "source_data",
-          rv$db_source,
-          rv$db_target
+          rv$source$system_name,
+          rv$target$system_name
         )
 
 
@@ -249,15 +249,15 @@ uniq_plausi_results <- function(rv,
         # TODO this is yet tailored to §21
         if (k == "source_data") {
           u_key <-
-            mdr[get("source_system_name") == rv$db_source &
+            mdr[get("source_system_name") == rv$source$system_name &
                   get("variable_name") == u$variable_name &
                   get("dqa_assessment") == 1, get("source_table_name")]
           raw_data <- "data_source"
         } else {
           u_key <-
-            mdr[get("source_system_name") == rv$db_target &
+            mdr[get("source_system_name") == rv$target$system_name &
                   get("variable_name") == u$variable_name &
-                  get("dqa_assessment") == 1, get("key")]
+                  get("dqa_assessment") == 1, get("variable_name")]
           raw_data <- "data_target"
         }
 
@@ -285,18 +285,18 @@ uniq_plausi_results <- function(rv,
           # we need to find the correct data and merge
           if (k == "source_data") {
             m_key <-
-              mdr[!grepl("^pl\\.", get("key")), ][
-                get("source_system_name") == rv$db_source &
+              mdr[!grepl("^pl\\.", get("variable_name")), ][
+                get("source_system_name") == rv$source$system_name &
                   get("variable_name") == i &
                   get("dqa_assessment") == 1, get("source_table_name")
                 ]
 
           } else {
             m_key <-
-              mdr[!grepl("^pl\\.", get("key")), ][
-                get("source_system_name") == rv$db_target &
+              mdr[!grepl("^pl\\.", get("variable_name")), ][
+                get("source_system_name") == rv$target$system_name &
                   get("variable_name") == i &
-                  get("dqa_assessment") == 1, get("key")
+                  get("dqa_assessment") == 1, get("variable_name")
                 ]
           }
 

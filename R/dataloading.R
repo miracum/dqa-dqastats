@@ -105,7 +105,7 @@ load_csv <- function(mdr,
         )
         outlist[[inputfile]] <-
           outlist[[inputfile]][get("AUFNAHMEANLASS") != "B" |
-                   is.na(get("AUFNAHMEANLASS")), ]
+                                 is.na(get("AUFNAHMEANLASS")), ]
       } else {
         cat("\nNo chaperones present in your source data.\n")
       }
@@ -197,7 +197,7 @@ load_source <- function(rv,
     var_names <-
       rv$mdr[get("source_table_name") == i,
              ][
-               grepl("dt\\.", get("key")), get("source_variable_name")]
+               grepl("dt\\.", get("variable_name")), get("source_variable_name")]
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming source variable types", i)
@@ -215,7 +215,7 @@ load_source <- function(rv,
       if (j %in% var_names) {
         vn <- rv$mdr[get("source_table_name") == i,
                      ][
-                       grepl("dt\\.", get("key")),
+                       grepl("dt\\.", get("variable_name")),
                        ][
                          get("source_variable_name") ==
                            j, get("variable_name")]
@@ -329,6 +329,7 @@ load_target <- function(rv,
 
     # check, if column name in variables of interest
     for (j in col_names) {
+
       if (j %in% rv$trans_vars) {
         outlist[[i]][, (j) := transform_factors(
           vector = get(j),

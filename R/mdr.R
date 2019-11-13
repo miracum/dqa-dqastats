@@ -49,7 +49,7 @@ read_mdr <- function(utils, mdr_filename = "mdr.csv") {
 
 #' @title create_helper_vars helper function
 #'
-#' @description Internal function to create necessar variables from the
+#' @description Internal function to create necessary variables from the
 #'   meta data repository (MDR).
 #'
 #' @param mdr A data.table object containing the MDR.
@@ -62,22 +62,36 @@ create_helper_vars <- function(mdr,
                                target_db,
                                source_db) {
 
+  stopifnot(
+    length(mdr[get("source_system_name") ==
+          source_db, unique(get("source_system_type"))]) == 1,
+    length(mdr[get("source_system_name") ==
+                 target_db, unique(get("source_system_type"))]) == 1
+  )
+
   outlist <- list()
 
-  # get keys
-  outlist$keys_target <- mdr[get("key") != "undefined", ][
-    get("source_system_name") == target_db, unique(get("key"))]
-
-  if (source_db == "p21csv") {
-    # TODO workaround for csv-files
-    outlist$keys_source <- mdr[get("key") != "undefined", ][
-      get("source_system_name") == source_db &
-        !grepl("^pl\\.", get("key")), unique(get("source_table_name"))
-      ]
+  for (f in c("source", "target")) {
+    if (mdr[get("source_system_name") ==
+            eval(parse(text = paste0(f, "_db"))),
+            unique(get("source_system_type"))] == "csv") {
+      # if we have csv as input format, find the "keys" in "source_table_name"
+      outlist[[paste0("keys_", f)]] <- mdr[get("variable_name") != "undefined", ][
+        get("source_system_name") == eval(parse(text = paste0(f, "_db"))),
+        unique(get("source_table_name"))
+        ]
+    } else if (mdr[get("source_system_name") ==
+                   eval(parse(text = paste0(f, "_db"))),
+                   unique(get("source_system_type"))] == "postgres") {
+      outlist[[paste0("keys_", f)]] <- mdr[get("variable_name") != "undefined", ][
+        get("source_system_name") == eval(parse(text = paste0(f, "_db"))),
+        unique(get("variable_name"))]
+    }
   }
 
 
-  # get list of DQ-variables of interest
+  # get list of DQ-variables of interest (convention: definition has only to
+  # be assigned for the source system)
   outlist$dqa_assessment <- mdr[get("source_system_name") == source_db &
                                   get("dqa_assessment") == 1, ][
                                     order(get("source_table_name")), c(
@@ -85,17 +99,12 @@ create_helper_vars <- function(mdr,
                                       "source_variable_name",
                                       "variable_name",
                                       "variable_type",
-                                      "key",
                                       "source_table_name"
                                     ), with = F
                                     ]
 
-  # get list of dqa_vars for catgeorical and numerical analyses
-  outlist$dqa_vars <-
-    outlist$dqa_assessment[grepl("^dt\\.", get("key")), ]
-
   # variable_list
-  variable_list <- outlist$dqa_vars[order(get("designation"))]
+  variable_list <- outlist$dqa_assessment[order(get("designation"))]
   outlist$variable_list <- sapply(
     variable_list[, get("designation")],
     function(x) {
@@ -137,12 +146,14 @@ create_helper_vars <- function(mdr,
   )
 
   # get date variables
-  outlist$date_vars <- outlist$dqa_vars[get("variable_type") ==
+  outlist$date_vars <- outlist$dqa_assessment[get("variable_type") ==
                                           "calendar", get("variable_name")]
 
   # get variable names, that need to be transformed (cleaning neccessary
   # due to i2b2-prefixes)
-  # this is yet hard-coded
+  # TODO this is yet hard-coded
+  # TODO in the future, define format to let users add customized
+  # transformations
   outlist$trans_vars <- c(
     "encounter_hospitalization_dischargeDisposition",
     "encounter_hospitalization_class",

@@ -66,7 +66,7 @@ descriptive_results <- function(rv,
 
     # generate descriptions
     desc_dat <- rv$mdr[get("dqa_assessment") == 1, ][
-      grepl("^dt\\.", get("key")),
+      grepl("^dt\\.", get("variable_name")),
       ][
         get("variable_name") ==
           rv$variable_list[[i]], c(
@@ -108,7 +108,7 @@ descriptive_results <- function(rv,
 
     # generate counts
     cnt_dat <- rv$mdr[get("dqa_assessment") == 1, ][
-      grepl("^dt\\.", get("key")),
+      grepl("^dt\\.", get("variable_name")),
       ][
         get("variable_name") ==
           rv$variable_list[[i]], c(
@@ -116,7 +116,7 @@ descriptive_results <- function(rv,
             "source_variable_name",
             "source_table_name",
             "variable_type",
-            "key"
+            "variable_name"
           ), with = F]
 
     outlist[[rv$variable_list[[i]]]]$counts <- calc_counts(
@@ -142,7 +142,7 @@ descriptive_results <- function(rv,
 
     # generate statistics
     stat_dat <- rv$mdr[get("dqa_assessment") == 1, ][
-      grepl("^dt\\.", get("key")),
+      grepl("^dt\\.", get("variable_name")),
       ][
         get("variable_name") ==
           rv$variable_list[[i]], c(
@@ -150,7 +150,7 @@ descriptive_results <- function(rv,
             "source_variable_name",
             "source_table_name",
             "variable_type",
-            "key"
+            "variable_name"
           ), with = F]
 
     if (stat_dat[, unique(get("variable_type"))] %in%
