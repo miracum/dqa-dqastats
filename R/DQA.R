@@ -87,7 +87,7 @@ dqa <- function(target_config,
   )
 
   # read MDR
-  rv$mdr <- read_mdr(rv$utilspath)
+  rv$mdr <- read_mdr(utils = rv$utilspath)
   stopifnot(data.table::is.data.table(rv$mdr))
 
   reactive_to_append <- create_helper_vars(
@@ -203,6 +203,11 @@ dqa <- function(target_config,
     headless = rv$headless
   )
 
+  # reduce categorical variables to display max. 25 values
+  rv$results_descriptive <- reduce_cat(data = rv$results_descriptive,
+                                       levellimit = 25)
+  invisible(gc())
+
   value_conformance <- value_conformance(
     results = rv$results_plausibility_atemporal,
     headless = rv$headless
@@ -253,5 +258,5 @@ dqa <- function(target_config,
   )
 
   print(rv$duration)
-  return(TRUE)
+  return(rv)
 }

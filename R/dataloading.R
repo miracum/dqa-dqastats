@@ -49,8 +49,8 @@ load_csv <- function(mdr,
   inputdir <- clean_path_name(inputdir)
 
 
-  available_systems <- mdr[get("source_system") == sourcesystem &
-                             get("system_type") == "csv", ]
+  available_systems <- mdr[get("source_system_name") == sourcesystem &
+                             get("source_system_type") == "csv", ]
 
   stopifnot(# fix test for multiple files
     (!any(

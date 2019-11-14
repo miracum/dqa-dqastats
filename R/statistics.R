@@ -122,7 +122,6 @@ simple_summary <- function(vector) {
 # categorical_analysis
 categorical_analysis <- function(data,
                                  var,
-                                 sourcesystem = NULL,
                                  levellimit = 25) {
 
   # TODO we need to define variable types at the dataimport
@@ -143,4 +142,36 @@ categorical_analysis <- function(data,
   tabdat_out[, "valid" := (get("N") / nrow(data)) * 100]
   colnames(tabdat_out)[c(2, 3)] <- c("Freq", "% Valid")
   return(tabdat_out)
+}
+
+#' @title reduce_cat helper function
+#'
+#' @description Internal function to reduce categorical variables
+#'   to a maximum of values to be displayed.
+#'
+#' @param data A list object. The object `rv$results_descriptive`.
+#' @param levellimit An integer value. The number of maximum
+#'   values to be displayed (default: 25).
+#'
+#' @export
+#'
+reduce_cat <- function(data, levellimit = 25) {
+
+  # loop over variable names in list
+  for (i in names(data)) {
+
+    # only if variable type of interest
+    if (data[[i]]$description$source_data$checks$var_type %in%
+        c("permittedValues", "string")) {
+
+      # loop over source and target data
+      for (j in c("source_data", "target_data")) {
+        # if number of rows > levellimit, reduce to levellimit
+        if (nrow(data[[i]]$statistics[[j]]) > levellimit) {
+          data[[i]]$statistics[[j]] <- data[[i]]$statistics[[j]][1:levellimit, ]
+        }
+      }
+    }
+  }
+  return(data)
 }

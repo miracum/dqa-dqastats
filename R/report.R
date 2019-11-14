@@ -135,6 +135,10 @@ render_value_conformance <- function(results,
       "permittedValues") {
     cat("- Constraining values/rules: ", json_obj$value_set)
 
+  } else if (desc_out[[source]]$checks$var_type ==
+             "string") {
+    cat("- Constraining values/rules: ", json_obj$regex)
+
   } else if (desc_out[[source]]$checks$var_type %in%
              c("integer", "float")) {
     cat(paste0("- Constraining values/rules:"))

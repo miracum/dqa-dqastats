@@ -73,6 +73,7 @@ value_conformance <- function(results,
           # parse constraints
           constraints <- jsonlite::fromJSON(constraints)
 
+          # categorical treatment (value_set)
           if (d_out$checks$var_type == "permittedValues") {
             # get valueset from mdr
             constraints <-
@@ -99,6 +100,8 @@ value_conformance <- function(results,
                 ),
                 "No 'value conformance' issues found."
               )
+
+            # numerics treatment (range: min, max, unit)
           } else if (d_out$checks$var_type %in% c("integer", "float")) {
             error_flag <- FALSE
 
@@ -131,12 +134,37 @@ value_conformance <- function(results,
                 "Extrem values are not conform with constraints.",
                 "No 'value conformance' issues found."
               )
+
+            # string treatment (regex)
+          } else if (d_out$checks$var_type == "string") {
+            # get regex-pattern
+            pattern <- constraints$regex
+
+            # returns the number of not matching items
+            errors <- !grepl(
+              pattern = pattern,
+              x = as.character(s_out[, get(i)])
+            )
+            cnt_errors <- sum(errors)
+
+            error_flag <- ifelse(cnt_errors > 0, TRUE, FALSE)
+
+            outlist2$conformance_error <- error_flag
+            outlist2$conformance_results <-
+              ifelse(
+                isTRUE(error_flag),
+                paste0(
+                  "Values that are not conform with regular expression:  \n",
+                  paste(as.character(s_out[, get(i)])[errors],
+                        collapse = "  \n")
+                ),
+                "No 'value conformance' issues found."
+              )
           }
           outlist[[i]][[j]] <- outlist2
         }
       }
     }
-
   }
 
   if (isFALSE(headless)) {

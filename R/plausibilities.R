@@ -76,7 +76,7 @@ get_atemp_plausis <- function(rv,
 
     for (j in seq_len(length(uniques[[i]]))) {
       u <- uniques[[i]][[j]]
-      u$variable_name <- names(uniques[[i]])[j]
+      u$variable_name <- gsub("(\\.)(\\d)+$", "", names(uniques[[i]])[j])
 
       # workaround to hide shiny-stuff, when going headless
       msg <- paste("Getting atemporal plausibility", u$name)
@@ -129,14 +129,14 @@ get_atemp_plausis <- function(rv,
         # TODO this is yet tailored to §21
         if (k == "source_data") {
           u_key <-
-            mdr[get("source_system") == rv$db_source &
+            mdr[get("source_system_name") == rv$db_source &
                   get("variable_name") == u$variable_name &
                   get("dqa_assessment") == 1, get("source_table_name")]
           raw_data <- "data_source"
 
         } else {
           u_key <-
-            mdr[get("source_system") == rv$db_target &
+            mdr[get("source_system_name") == rv$db_target &
                   get("variable_name") == u$variable_name &
                   get("dqa_assessment") == 1, get("key")]
           raw_data <- "data_target"
@@ -164,12 +164,12 @@ get_atemp_plausis <- function(rv,
           # we need to find the correct data and merge
           if (k == "source_data") {
             m_key <-
-              mdr[get("source_system") == rv$db_source &
+              mdr[get("source_system_name") == rv$db_source &
                     get("variable_name") == i &
                     get("dqa_assessment") == 1, get("source_table_name")]
           } else {
             m_key <-
-              mdr[get("source_system") == rv$db_target &
+              mdr[get("source_system_name") == rv$db_target &
                     get("variable_name") == i &
                     get("dqa_assessment") == 1, get("key")]
           }
@@ -191,12 +191,12 @@ get_atemp_plausis <- function(rv,
             # else join another table
             if (k == "source_data") {
               j_key <-
-                mdr[get("source_system") == rv$db_source &
+                mdr[get("source_system_name") == rv$db_source &
                       get("variable_name") == u$join_crit &
                       get("dqa_assessment") == 1, get("source_table_name")]
             } else {
               j_key <-
-                mdr[get("source_system") == rv$db_target &
+                mdr[get("source_system_name") == rv$db_target &
                       get("variable_name") == u$join_crit &
                       get("dqa_assessment") == 1, get("key")]
             }

@@ -71,7 +71,7 @@ descriptive_results <- function(rv,
         get("variable_name") ==
           rv$variable_list[[i]], c(
             "designation",
-            "source_system",
+            "source_system_name",
             "source_variable_name",
             "source_table_name",
             "fhir",
@@ -112,7 +112,7 @@ descriptive_results <- function(rv,
       ][
         get("variable_name") ==
           rv$variable_list[[i]], c(
-            "source_system",
+            "source_system_name",
             "source_variable_name",
             "source_table_name",
             "variable_type",
@@ -146,7 +146,7 @@ descriptive_results <- function(rv,
       ][
         get("variable_name") ==
           rv$variable_list[[i]], c(
-            "source_system",
+            "source_system_name",
             "source_variable_name",
             "source_table_name",
             "variable_type",
