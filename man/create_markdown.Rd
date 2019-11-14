@@ -4,15 +4,15 @@
 \alias{create_markdown}
 \title{create_markdown helper function}
 \usage{
-create_markdown(rv = rv, utils, outdir = tempdir(), headless = FALSE)
+create_markdown(rv = rv, utils_path, outdir = tempdir(),
+  headless = FALSE)
 }
 \arguments{
 \item{rv}{A list object. Internal list simulating Shiny's
 'reactive values'.}
 
-\item{utils}{A character string. The path to the utils-folder,
-containing the requires app utilities.
-For a detailed description please visit \url{#TODO}.}
+\item{utils_path}{A character string. The path to the utils-folder,
+containing the required app utilities like the MDR and the settings folder.}
 
 \item{outdir}{A character string. The directory to store the resulting
 PDF document. Default: \code{tempdir}.}

@@ -18,6 +18,6 @@ This string must be conform with the corresponding config section
 in the config.yml-file.}
 }
 \description{
-Internal function to create necessar variables from the
+Internal function to create necessary variables from the
   meta data repository (MDR).
 }

@@ -98,8 +98,8 @@ get_atemp_plausis <- function(rv,
 
         src_flag <- ifelse(
           k == "source_data",
-          rv$db_source,
-          rv$db_target
+          rv$source$system_name,
+          rv$target$system_name
         )
 
         # get descriptions
@@ -129,16 +129,16 @@ get_atemp_plausis <- function(rv,
         # TODO this is yet tailored to §21
         if (k == "source_data") {
           u_key <-
-            mdr[get("source_system_name") == rv$db_source &
+            mdr[get("source_system_name") == rv$source$system_name &
                   get("variable_name") == u$variable_name &
                   get("dqa_assessment") == 1, get("source_table_name")]
           raw_data <- "data_source"
 
         } else {
           u_key <-
-            mdr[get("source_system_name") == rv$db_target &
+            mdr[get("source_system_name") == rv$target$system_name &
                   get("variable_name") == u$variable_name &
-                  get("dqa_assessment") == 1, get("key")]
+                  get("dqa_assessment") == 1, get("variable_name")]
           raw_data <- "data_target"
         }
 
@@ -164,14 +164,14 @@ get_atemp_plausis <- function(rv,
           # we need to find the correct data and merge
           if (k == "source_data") {
             m_key <-
-              mdr[get("source_system_name") == rv$db_source &
+              mdr[get("source_system_name") == rv$source$system_name &
                     get("variable_name") == i &
                     get("dqa_assessment") == 1, get("source_table_name")]
           } else {
             m_key <-
-              mdr[get("source_system_name") == rv$db_target &
+              mdr[get("source_system_name") == rv$target$system_name &
                     get("variable_name") == i &
-                    get("dqa_assessment") == 1, get("key")]
+                    get("dqa_assessment") == 1, get("variable_name")]
           }
 
           if (!is.null(u$filter[[src_flag]])) {
@@ -191,14 +191,14 @@ get_atemp_plausis <- function(rv,
             # else join another table
             if (k == "source_data") {
               j_key <-
-                mdr[get("source_system_name") == rv$db_source &
+                mdr[get("source_system_name") == rv$source$system_name &
                       get("variable_name") == u$join_crit &
                       get("dqa_assessment") == 1, get("source_table_name")]
             } else {
               j_key <-
-                mdr[get("source_system_name") == rv$db_target &
+                mdr[get("source_system_name") == rv$target$system_name &
                       get("variable_name") == u$join_crit &
-                      get("dqa_assessment") == 1, get("key")]
+                      get("dqa_assessment") == 1, get("variable_name")]
             }
 
             # get colnames

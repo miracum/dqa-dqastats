@@ -63,18 +63,18 @@ test_target_db <- function(target_settings,
   return(db_con)
 }
 
-#' @title test_source_db helper function
+#' @title test_csv helper function
 #'
 #' @description Internal function to test and get the database connection
 #'   of the source data system.
 #'
 #' @param source_settings A list object containing the database settings.
-#' @inheritParams dqa
+#' @inheritParams create_helper_vars
 #' @inheritParams test_target_db
 #'
 #' @export
 #'
-test_source_db <- function(source_settings,
+test_csv <- function(source_settings,
                            source_db,
                            headless = FALSE) {
 

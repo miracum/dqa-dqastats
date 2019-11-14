@@ -19,20 +19,22 @@
 #' @title Perform Data Quality Assessment of Electronic Health Records.
 #'
 #' @description This function performs a data quality assessment (DQA)
-#' of electronic health records (EHR).#'
+#'   of electronic health records (EHR).#'
 #'
-#' @param target_config A character string. The path to the config.yml-file
-#' containing the target database configuration.
-#' @param source_config A character string. The path to the config.yml-file
-#' containing the source database configuration.
-#' @param target_db A character string. The name of the target database.
-#' This string must be conform with the corresponding config section
-#' in the config.yml-file.
-#' @param source_db A character string. The name of the source database.
-#' This string must be conform with the corresponding config section
-#' in the config.yml-file.
-#' @param utils A character string. The path to the utils-folder,
-#' containing the requires app utilities.
+#' @param source_system_name A character string. The name of the
+#'   source-system, e.g. "P21" or "i2b2". This name must be identical and
+#'   unique to one entry in the settings-yml file.
+#' @param target_system_name  Optional. A character string or null.
+#'   The name of the target-system, e.g. "P21" or "i2b2".
+#'   This name must be identical and unique to one entry in the
+#'   config-yml file or null. If the argument is empty, the source will
+#'   be processed as standalone on its own.
+#' @param config_file The config.yml-file containig all the information
+#'   needed to access the source (and optional the target) system(s).
+#' @param utils_path A character string. The path to the utils-folder,
+#'   containing the required app utilities like the MDR and the settings folder.
+#' @param mdr_filename A character string.
+#' The filename of the MDR e.g. "mdr_example_data.csv"
 #' For a detailed description please visit \url{#TODO}.
 #'
 #' @import data.table
@@ -46,54 +48,74 @@
 #'
 #' @export
 
-dqa <- function(target_config,
-                source_config,
-                target_db,
-                source_db,
-                utils) {
+dqa <- function(source_system_name,
+                target_system_name = source_system_name,
+                config_file,
+                utils_path,
+                mdr_filename = "mdr.csv") {
+  # new arguments for debugging:
+  source_system_name <- "exampleCSV_source"
+  target_system_name <- "exampleCSV_target"
+  #% config_file <-
+  #%   "./inst/demo_data/utilities/settings/demo_settings.yml"
+  config_file <-
+    "tests/testthat/testdata/demo_settings_internal.yml"
+  utils_path <- "./inst/demo_data/utilities/"
+  mdr_filename <- "mdr_example_data.csv"
 
   stopifnot(
-    is.character(target_config),
-    is.character(source_config),
-    is.character(target_db),
-    is.character(source_db)
+    is.character(source_system_name),
+    is.character(target_system_name),
+    is.character(config_file),
+    is.character(utils_path),
+    is.character(mdr_filename)
   )
 
   # initialize rv-list
   rv <- list()
 
-  # set headless
+  # save source/target vars
+  rv$source$system_name <- source_system_name
+  rv$target$system_name <- target_system_name
+
+  # get configs
+  rv$source$settings <- get_config(config_file = config_file,
+                                   config_key = tolower(rv$source$system_name))
+  rv$target$settings <- get_config(config_file = config_file,
+                                   config_key = tolower(rv$target$system_name))
+
+  # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
 
-  # clean utils paths
-  rv$utilspath <- clean_path_name(utils)
+  # clean utils paths (to append the ending slash)
+  rv$utilspath <- clean_path_name(utils_path)
+
+  # add mdr-filename
+  rv$mdr$filename <- mdr_filename
 
   # current date
   rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
 
-  # save db-names
-  rv$db_target <- target_db
-  rv$db_source <- source_db
-
-  # get configs
-  rv$settings_target <- get_config(
-    config_file = target_config,
-    config_key = rv$db_target
-  )
-
-  rv$settings_source <- get_config(
-    config_file = source_config,
-    config_key = rv$db_source
-  )
 
   # read MDR
-  rv$mdr <- read_mdr(utils = rv$utilspath)
+  rv$mdr <- read_mdr(utils_path = rv$utilspath,
+                     mdr_filename = rv$mdr$filename)
   stopifnot(data.table::is.data.table(rv$mdr))
+
+  # read system_types
+  rv$source$system_type <-
+    rv$mdr[get("source_system_name") ==
+             rv$source$system_name, unique(get("source_system_type"))]
+
+  # We only allow one (system) type per system name. There can't e.g. be
+  # system types "csv" and "postgres" both with the system_name "data":
+  stopifnot(length(rv$source$system_type) == 1)
+
 
   reactive_to_append <- create_helper_vars(
     mdr = rv$mdr,
-    target_db = rv$db_target,
-    source_db = rv$db_source
+    target_db = rv$target$system_name,
+    source_db = rv$source$system_name
   )
 
   # workaround, to keep "rv" an reactiveValues object in shiny app
@@ -103,49 +125,23 @@ dqa <- function(target_config,
   }
 
   # get sourcefiledir
-  rv$sourcefiledir <- clean_path_name(rv$settings_source$dir)
-
-  # test source_db
-  test_source <- test_source_db(
-    source_settings = rv$settings_source,
-    source_db = rv$db_source,
-    headless = rv$headless
-  )
-  stopifnot(isTRUE(test_source))
+  rv$sourcefiledir <- clean_path_name(rv$source$settings$dir)
 
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
   rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
-  # load source data
-  rv$data_source <- load_source(
-    rv = rv,
-    keys_to_test = rv$keys_source,
-    headless = rv$headless
-  )
+  # load source data:
+  rv$data_source <-
+    data_loading(rv = rv, system = rv$source)
 
-  # import target SQL
-  rv$sql_target <- load_sqls(
-    utils = rv$utilspath,
-    db = rv$db_target
-  )
-  stopifnot(is.list(rv$sql_target))
-
-  # test target_db
-  test_target <- test_target_db(
-    target_settings = rv$settings_target,
-    headless = rv$headless
-  )
-  stopifnot(!is.null(test_target))
-
-  rv$db_con_target <- test_target
-  rm(test_target)
-
-  # load target data
-  rv$data_target <- load_target(
-    rv = rv,
-    keys_to_test = rv$keys_target,
-    headless = rv$headless
-  )
+  # load target_data
+  if (!is.null(rv$target$system_name)) {
+    # load target
+    rv$data_target <-
+      data_loading(rv = rv, system = rv$target)
+  } else {
+    rv$data_target <- rv$data_source
+  }
 
   # get atemporal plausibilities
   rv$data_plausibility$atemporal <- get_atemp_plausis(
@@ -169,15 +165,12 @@ dqa <- function(target_config,
   }
 
   # calculate descriptive results
-  rv$results_descriptive <- descriptive_results(
-    rv = rv,
-    headless = rv$headless
-  )
+  rv$results_descriptive <- descriptive_results(rv = rv,
+                                                headless = rv$headless)
 
   # get time_interval
-  rv$time_interval <- time_interval(
-    rv$results_descriptive$EpisodeOfCare_period_end
-  )
+  rv$time_interval <-
+    time_interval(rv$results_descriptive$EpisodeOfCare_period_end)
 
   # calculate plausibilites
   rv$results_plausibility_atemporal <- atemp_pausi_results(
@@ -198,10 +191,9 @@ dqa <- function(target_config,
   gc()
 
   # conformance
-  rv$conformance$value_conformance <- value_conformance(
-    results = rv$results_descriptive,
-    headless = rv$headless
-  )
+  rv$conformance$value_conformance <-
+    value_conformance(results = rv$results_descriptive,
+                      headless = rv$headless)
 
   # reduce categorical variables to display max. 25 values
   rv$results_descriptive <- reduce_cat(data = rv$results_descriptive,
@@ -219,23 +211,20 @@ dqa <- function(target_config,
   }
 
   # completeness
-  rv$completeness <- completeness(
-    results = rv$results_descriptive,
-    headless = rv$headless
-  )
+  rv$completeness <- completeness(results = rv$results_descriptive,
+                                  headless = rv$headless)
 
   # generate datamap
   rv$datamap <- generate_datamap(
     results = rv$results_descriptive,
-    db = rv$db_target,
+    db = rv$target$system_name,
     mdr = rv$mdr,
     headless = rv$headless
   )
 
   # checks$value_conformance
-  rv$checks$value_conformance <- value_conformance_checks(
-    results = rv$conformance$value_conformance
-  )
+  rv$checks$value_conformance <-
+    value_conformance_checks(results = rv$conformance$value_conformance)
 
   # checks$etl
   rv$checks$etl <- etl_checks(results = rv$results_descriptive)
@@ -243,7 +232,7 @@ dqa <- function(target_config,
   # create report
   create_markdown(
     rv = rv,
-    utils = rv$utilspath,
+    utils_path = rv$utilspath,
     outdir = "./",
     headless = rv$headless
   )
@@ -251,11 +240,9 @@ dqa <- function(target_config,
   # set end_time
   rv$end_time <- format(Sys.time(), usetz = T, tz = "CET")
   # calc time-diff
-  rv$duration <- difftime(
-    rv$end_time,
-    rv$start_time,
-    units = "mins"
-  )
+  rv$duration <- difftime(rv$end_time,
+                          rv$start_time,
+                          units = "mins")
 
   print(rv$duration)
   return(rv)

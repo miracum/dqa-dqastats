@@ -21,45 +21,53 @@ calc_description <- function(desc_dat,
     description <- list()
     description$source_data <- list(
       name = desc_dat[get("source_system_name") ==
-                        rv$db_source, get("designation")],
+                        rv$source$system_name, get("designation")],
       description = desc_dat[get("source_system_name") ==
-                               rv$db_source, get("definition")],
+                               rv$source$system_name, get("definition")],
       var_name = desc_dat[get("source_system_name") ==
-                            rv$db_source, get("source_variable_name")],
+                            rv$source$system_name, get("source_variable_name")],
       table_name = desc_dat[get("source_system_name") ==
-                              rv$db_source, get("source_table_name")],
+                              rv$source$system_name, get("source_table_name")],
       fhir_name = desc_dat[get("source_system_name") ==
-                             rv$db_source, get("fhir")],
+                             rv$source$system_name, get("fhir")],
       checks = list(
         var_type = desc_dat[get("source_system_name") ==
-                              rv$db_source, get("variable_type")],
+                              rv$source$system_name, get("variable_type")],
         constraints = desc_dat[get("source_system_name") ==
-                                 rv$db_source, get("constraints")],
+                                 rv$source$system_name, get("constraints")],
         value_threshold = desc_dat[get("source_system_name") ==
-                                     rv$db_source, get("value_threshold")],
+                                     rv$source$system_name,
+                                   get("value_threshold")],
         missing_threshold = desc_dat[get("source_system_name") ==
-                                       rv$db_source, get("missing_threshold")]
+                                       rv$source$system_name,
+                                     get("missing_threshold")]
       )
     )
 
     description$target_data <-
       list(
         var_name = desc_dat[get("source_system_name") ==
-                              rv$db_target, get("source_variable_name")],
+                              rv$target$system_name,
+                            get("source_variable_name")],
         table_name = desc_dat[get("source_system_name") ==
-                                rv$db_target, get("source_table_name")],
+                                rv$target$system_name,
+                              get("source_table_name")],
         fhir_name = desc_dat[get("source_system_name") ==
-                               rv$db_target, get("fhir")],
+                               rv$target$system_name,
+                             get("fhir")],
         checks = list(
           var_type = desc_dat[get("source_system_name") ==
-                                rv$db_target, get("variable_type")],
+                                rv$target$system_name,
+                              get("variable_type")],
           constraints = desc_dat[get("source_system_name") ==
-                                   rv$db_target, get("constraints")],
+                                   rv$target$system_name,
+                                 get("constraints")],
           value_threshold = desc_dat[get("source_system_name") ==
-                                       rv$db_target, get("value_threshold")],
-          missing_threshold = desc_dat[get(
-            "source_system_name"
-          ) == rv$db_target, get("missing_threshold")]
+                                       rv$target$system_name,
+                                     get("value_threshold")],
+          missing_threshold = desc_dat[get("source_system_name") ==
+                                         rv$target$system_name,
+                                       get("missing_threshold")]
         )
       )
     return(description)
@@ -84,7 +92,7 @@ calc_atemp_plausi_description <- function(dat,
     checks = c(
       plausis_atemporal$source_data$checks,
       list(var_type = desc_dat[get("source_system_name") ==
-                                 rv$db_source, get("variable_type")])
+                                 rv$source$system_name, get("variable_type")])
     )
   )
   description$target_data <- list(
@@ -96,7 +104,7 @@ calc_atemp_plausi_description <- function(dat,
     checks = c(
       plausis_atemporal$target_data$checks,
       list(var_type = desc_dat[get("source_system_name") ==
-                                 rv$db_source, get("variable_type")])
+                                 rv$source$system_name, get("variable_type")])
     )
   )
 
@@ -113,18 +121,20 @@ calc_counts <- function(cnt_dat,
     if (isTRUE(datamap)) {
       cnt <- count_uniques(
         rv$data_source[[cnt_dat[get("source_system_name") ==
-                                  rv$db_source, get("source_table_name")]]],
+                                  rv$source$system_name,
+                                get("source_table_name")]]],
         count_key,
-        sourcesystem = rv$db_source,
+        sourcesystem = rv$source$system_name,
         datamap = datamap
       )
       cnt
     } else {
       cnt <- count_uniques(
         rv$data_source[[cnt_dat[get("source_system_name") ==
-                                  rv$db_source, get("key")]]],
+                                  rv$source$system_name,
+                                get("variable_name")]]],
         count_key,
-        sourcesystem = rv$db_source,
+        sourcesystem = rv$source$system_name,
         datamap = datamap
       )
       cnt
@@ -140,16 +150,16 @@ calc_counts <- function(cnt_dat,
 
   counts$source_data$type <-
     cnt_dat[get("source_system_name") ==
-              rv$db_source, get("variable_type")]
+              rv$source$system_name, get("variable_type")]
 
 
   # for target_data; our data is in rv$data_target$key
   counts$target_data$cnt <- tryCatch({
     cnt <- count_uniques(
       rv$data_target[[cnt_dat[get("source_system_name") ==
-                                rv$db_target, get("key")]]],
+                                rv$target$system_name, get("variable_name")]]],
       count_key,
-      sourcesystem = rv$db_target,
+      sourcesystem = rv$target$system_name,
       datamap = datamap
     )
     cnt
@@ -165,7 +175,7 @@ calc_counts <- function(cnt_dat,
 
   counts$target_data$type <-
     cnt_dat[get("source_system_name") ==
-              rv$db_target, get("variable_type")]
+              rv$target$system_name, get("variable_type")]
 
   return(counts)
 }
@@ -181,8 +191,8 @@ calc_cat_stats <- function(stat_dat,
       # for source_data; our data is in rv$data_source$source_table_name
       source_data <- categorical_analysis(
         data = rv$data_source[[stat_dat[get(
-          "source_system_name"
-        ) == rv$db_source, get("source_table_name")]]],
+          "source_system_name") == rv$source$system_name,
+          get("source_table_name")]]],
         var = stat_key,
         levellimit = Inf
       )
@@ -190,8 +200,8 @@ calc_cat_stats <- function(stat_dat,
     } else {
       source_data <- categorical_analysis(
         data = rv$data_source[[stat_dat[get(
-          "source_system_name"
-        ) == rv$db_source, get("key")]]],
+          "source_system_name") == rv$source$system_name,
+          get("variable_name")]]],
         var = stat_key,
         levellimit = Inf
       )
@@ -209,8 +219,8 @@ calc_cat_stats <- function(stat_dat,
   statistics$target_data <- tryCatch({
     target_data <- categorical_analysis(
       data = rv$data_target[[stat_dat[get(
-        "source_system_name"
-      ) == rv$db_target, get("key")]]],
+        "source_system_name") ==
+          rv$target$system_name, get("variable_name")]]],
       var = stat_key,
       levellimit = Inf
     )
@@ -235,7 +245,7 @@ calc_num_stats <- function(stat_dat,
   statistics <- list()
 
   if (stat_dat[get("source_system_name") ==
-               rv$db_source, get("variable_type") !=
+               rv$source$system_name, get("variable_type") !=
                "calendar"]) {
     statistics$source_data <- tryCatch({
       if (isFALSE(plausibility)) {
@@ -243,7 +253,7 @@ calc_num_stats <- function(stat_dat,
         source_data <- extensive_summary(
           rv$data_source[[stat_dat[get(
             "source_system_name"
-          ) == rv$db_source, get(
+          ) == rv$source$system_name, get(
             "source_table_name"
           )]]][, get(stat_key)]
         )
@@ -253,7 +263,7 @@ calc_num_stats <- function(stat_dat,
         source_data <- extensive_summary(
           rv$data_source[[stat_dat[get(
             "source_system_name"
-          ) == rv$db_source, get("key")]]][, get(stat_key)])
+          ) == rv$source$system_name, get("variable_name")]]][, get(stat_key)])
         source_data
       }
     }, error = function(e) {
@@ -269,7 +279,7 @@ calc_num_stats <- function(stat_dat,
       target_data <- extensive_summary(
         rv$data_target[[stat_dat[get(
           "source_system_name"
-        ) == rv$db_target, get("key")]]][, get(stat_key)])
+        ) == rv$target$system_name, get("variable_name")]]][, get(stat_key)])
       target_data
 
     }, error = function(e) {
@@ -288,7 +298,7 @@ calc_num_stats <- function(stat_dat,
         source_data <- simple_summary(
           rv$data_source[[stat_dat[get(
             "source_system_name"
-          ) == rv$db_source, get(
+          ) == rv$source$system_name, get(
             "source_table_name"
           )]]][, get(stat_key)])
         source_data
@@ -296,8 +306,8 @@ calc_num_stats <- function(stat_dat,
         source_data <- simple_summary(
           rv$data_source[[stat_dat[get(
             "source_system_name"
-          ) == rv$db_source, get(
-            "key"
+          ) == rv$source$system_name, get(
+            "variable_name"
           )]]][, get(stat_key)])
         source_data
       }
@@ -315,8 +325,8 @@ calc_num_stats <- function(stat_dat,
       target_data <- simple_summary(
         rv$data_target[[stat_dat[get(
           "source_system_name"
-        ) == rv$db_target, get(
-          "key"
+        ) == rv$target$system_name, get(
+          "variable_name"
         )]]][, get(stat_key)])
       target_data
 
