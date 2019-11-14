@@ -19,7 +19,7 @@
 #'
 #' @description Internal function to generate the descriptive results.
 #'
-#' @inheritParams load_source
+#' @inheritParams load_csv
 #' @inheritParams dqa
 #'
 #' @export

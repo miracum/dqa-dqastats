@@ -27,9 +27,9 @@
 #'
 #' @export
 #'
-read_mdr <- function(utils, mdr_filename = "mdr.csv") {
+read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
   mdr <- data.table::fread(
-    paste0(utils, "MDR/", mdr_filename),
+    paste0(utils_path, "MDR/", mdr_filename),
     header = T
   )
 
@@ -53,7 +53,14 @@ read_mdr <- function(utils, mdr_filename = "mdr.csv") {
 #'   meta data repository (MDR).
 #'
 #' @param mdr A data.table object containing the MDR.
-#' @inheritParams dqa
+#'
+#' @param target_db A character string. The name of the target database.
+#' This string must be conform with the corresponding config section
+#' in the config.yml-file.
+#'
+#' @param source_db A character string. The name of the source database.
+#' This string must be conform with the corresponding config section
+#' in the config.yml-file.
 #'
 #' @export
 #'
@@ -62,6 +69,8 @@ create_helper_vars <- function(mdr,
                                target_db,
                                source_db) {
 
+  # We only allow one (system) type per system name. There can't e.g. be
+  # system types "csv" and "postgres" both with the system_name "data":
   stopifnot(
     length(mdr[get("source_system_name") ==
           source_db, unique(get("source_system_type"))]) == 1,

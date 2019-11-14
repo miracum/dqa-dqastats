@@ -33,7 +33,8 @@
 #'   needed to access the source (and optional the target) system(s).
 #' @param utils_path A character string. The path to the utils-folder,
 #'   containing the required app utilities like the MDR and the settings folder.
-#' @param mdr_filename A character string. The filename of the MDR e.g. "mdr_example_data.csv"
+#' @param mdr_filename A character string.
+#' The filename of the MDR e.g. "mdr_example_data.csv"
 #' For a detailed description please visit \url{#TODO}.
 #'
 #' @import data.table
@@ -53,10 +54,10 @@ dqa <- function(source_system_name,
                 utils_path,
                 mdr_filename = "mdr.csv") {
   # new arguments for debugging:
-  source_system_name <- "exampleCSV"
+  source_system_name <- "exampleCSV_source"
   target_system_name <- "exampleCSV_target"
-  # config_file <-
-  #   "./inst/demo_data/utilities/settings/demo_settings.yml"
+  #% config_file <-
+  #%   "./inst/demo_data/utilities/settings/demo_settings.yml"
   config_file <-
     "tests/testthat/testdata/demo_settings_internal.yml"
   utils_path <- "./inst/demo_data/utilities/"
@@ -77,6 +78,12 @@ dqa <- function(source_system_name,
   rv$source$system_name <- source_system_name
   rv$target$system_name <- target_system_name
 
+ # get configs
+  rv$source$settings <- get_config(config_file = config_file,
+                                   config_key = tolower(rv$source$system_name))
+  rv$target$settings <- get_config(config_file = config_file,
+                                   config_key = tolower(rv$target$system_name))
+
   # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
 
@@ -84,27 +91,26 @@ dqa <- function(source_system_name,
   rv$utilspath <- clean_path_name(utils_path)
 
   # add mdr-filename
-  rv$mdr_filename <- mdr_filename
+  rv$mdr$filename <- mdr_filename
 
   # current date
   rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
 
-  # get configs
-  rv$settings_target <- get_config(config_file = config_file,
-                                   config_key = tolower(rv$target$system_name))
-
-  rv$settings_source <- get_config(config_file = config_file,
-                                   config_key = tolower(rv$source$system_name))
 
   # read MDR
-  rv$mdr <- read_mdr(utils = rv$utilspath,
-                     mdr_filename = rv$mdr_filename)
+  rv$mdr <- read_mdr(utils_path = rv$utilspath,
+                     mdr_filename = rv$mdr$filename)
   stopifnot(data.table::is.data.table(rv$mdr))
 
   # read system_types
   rv$source$system_type <-
-    rv$mdr[get("system_name") == rv$source$system_name, unique(get("source_system_type"))]
+    rv$mdr[get("source_system_name") ==
+             rv$source$system_name, unique(get("source_system_type"))]
+
+  # We only allow one (system) type per system name. There can't e.g. be
+  # system types "csv" and "postgres" both with the system_name "data":
   stopifnot(length(rv$source$system_type) == 1)
+
 
   reactive_to_append <- create_helper_vars(
     mdr = rv$mdr,
@@ -118,69 +124,24 @@ dqa <- function(source_system_name,
     rv[[i]] <- reactive_to_append[[i]]
   }
 
-  # load source_data
-  if (rv$source$system_type == "csv") {
-    # load csv
-  } else if (rv$source$system_type == "postgres") {
-    # load postgres
-  } else {
-    stop("\nThis source_system_type is currently not implemented.\n\n")
-  }
-
-  rv$data_source <-
-    data_loading_function(system_type = rv$dqa_source, mdr) #load anything else? TODO JM
-
-
-  # load target_data
-  if (!is.null(rv$target$system_name)) {
-    # load target
-    rv$data_target <- data_loading_function()
-  } else {
-    rv$data_target <- rv$data_source
-  }
-
-
   # get sourcefiledir
-  rv$sourcefiledir <- clean_path_name(rv$settings_source$dir)
-
-  # test source_db
-  test_source <- test_source_db(
-    source_settings = rv$settings_source,
-    source_db = rv$source$system_name,
-    headless = rv$headless
-  )
-  stopifnot(isTRUE(test_source))
+  rv$sourcefiledir <- clean_path_name(rv$source$settings$dir)
 
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
   rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
-  # load source data
-  rv$data_source <- load_source(
-    rv = rv,
-    keys_to_test = rv$keys_source,
-    headless = rv$headless
-  )
+  # load source data:
+  rv$data_source <-
+    data_loading(rv = rv, system = rv$source)
 
-  # import target SQL
-  rv$sql_target <- load_sqls(utils = rv$utilspath,
-                             db = rv$target$system_name)
-  stopifnot(is.list(rv$sql_target))
-
-  # test target_db
-  test_target <-
-    test_target_db(target_settings = rv$settings_target,
-                   headless = rv$headless)
-  stopifnot(!is.null(test_target))
-
-  rv$db_con_target <- test_target
-  rm(test_target)
-
-  # load target data
-  rv$data_target <- load_target(
-    rv = rv,
-    keys_to_test = rv$keys_target,
-    headless = rv$headless
-  )
+  # load target_data
+  if (!is.null(rv$target$system_name)) {
+    # load target
+    rv$data_target <-
+      data_loading(rv = rv, system = rv$target)
+  } else {
+    rv$data_target <- rv$data_source
+  }
 
   # get atemporal plausibilities
   rv$data_plausibility$atemporal <- get_atemp_plausis(
@@ -213,7 +174,7 @@ dqa <- function(source_system_name,
 
   # calculate plausibilites
   rv$results_plausibility_atemporal <- atemp_pausi_results(rv = rv,
-                                                           headless = rv$headless)
+                                            headless = rv$headless)
 
   rv$results_plausibility_unique <- uniq_plausi_results(
     rv = rv,
@@ -264,7 +225,7 @@ dqa <- function(source_system_name,
   # create report
   create_markdown(
     rv = rv,
-    utils = rv$utilspath,
+    utils_path = rv$utilspath,
     outdir = "./",
     headless = rv$headless
   )

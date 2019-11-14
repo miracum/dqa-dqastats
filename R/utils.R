@@ -26,8 +26,8 @@
 #' @export
 #'
 #' @examples
-#' Both function calls will return "home/test/"
 #' \dontrun{
+#' # Both function calls will return "home/test/"
 #' clean_path_name("home/test")
 #' clean_path_name("home/test/")
 #' }
@@ -186,8 +186,6 @@ get_config <- function(config_file, config_key) {
 #'
 #' @export
 #'
-load_sqls <- function(utils, db) {
-  return(
-    jsonlite::fromJSON(paste0(utils, "SQL/SQL_", db, ".JSON"))
-  )
+load_sqls <- function(utils_path, db) {
+  return(jsonlite::fromJSON(paste0(utils_path, "SQL/SQL_", db, ".JSON")))
 }

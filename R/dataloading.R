@@ -41,7 +41,7 @@ fire_sql_statement <- function(rv,
 }
 
 # load csv files
-load_csv <- function(mdr,
+load_csv_files <- function(mdr,
                      inputdir,
                      sourcesystem) {
 
@@ -137,7 +137,7 @@ map_var_types <- function(string) {
 
 
 
-#' @title load_source helper function
+#' @title load_csv helper function
 #'
 #' @description Internal function to load the source data
 #'
@@ -148,9 +148,9 @@ map_var_types <- function(string) {
 #' @inheritParams test_target_db
 #'
 #' @export
-load_source <- function(rv,
-                        keys_to_test,
-                        headless = FALSE) {
+load_csv <- function(rv,
+                     keys_to_test,
+                     headless = FALSE) {
 
   # initialize outlist
   outlist <- list()
@@ -166,7 +166,7 @@ load_source <- function(rv,
   }
 
   # read sourcedata
-  outlist <- load_csv(
+  outlist <- load_csv_files(
     mdr = rv$mdr,
     inputdir = rv$sourcefiledir,
     sourcesystem = "p21csv"
@@ -195,9 +195,7 @@ load_source <- function(rv,
     # check, if column name in variables of interest
     # var_names of interest:
     var_names <-
-      rv$mdr[get("source_table_name") == i,
-             ][
-               grepl("dt\\.", get("variable_name")), get("source_variable_name")]
+      rv$mdr[get("source_table_name") == i, ]
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming source variable types", i)
@@ -215,8 +213,6 @@ load_source <- function(rv,
       if (j %in% var_names) {
         vn <- rv$mdr[get("source_table_name") == i,
                      ][
-                       grepl("dt\\.", get("variable_name")),
-                       ][
                          get("source_variable_name") ==
                            j, get("variable_name")]
         colnames(outlist[[i]])[which(col_names == j)] <- vn
@@ -249,14 +245,14 @@ load_source <- function(rv,
 }
 
 
-#' @title load_target helper function
+#' @title load_database helper function
 #'
 #' @description Internal function to load the target data
 #'
-#' @inheritParams load_source
+#' @inheritParams load_csv
 #'
 #' @export
-load_target <- function(rv,
+load_database <- function(rv,
                         keys_to_test,
                         headless = FALSE) {
 
@@ -347,4 +343,84 @@ load_target <- function(rv,
     progress$close()
   }
   return(outlist)
+}
+
+#' @title data_loading helper function
+#'
+#' @description Internal function to load the source and target data
+#'
+#' @param rv The complete reactive-value dataset
+#'
+#' @param system The part of the rv-list which should be loaded
+#' (e.g. rv$source or rv$target)
+#'
+#' @export
+data_loading <- function(rv, system) {
+  # TODO: Test it!
+
+  # check if all now necessary parameters are correct:
+  stopifnot(
+    # rv:
+    is.null(rv) & is.list(rv) & length(rv) > 0,
+    # system:
+    is.null(system) & is.list(system) & length(system) > 0,
+    # system$settings:
+    is.null(system$settings) &
+      is.list(system$settings) & length(system$settings) > 0,
+    # system$system_name:
+    is.null(system$system_name) &
+      is.character(system$system_name),
+    # rv$keys_source:
+    is.null(rv$keys_source) &
+      is.character(rv$keys_source),
+    # rv$keys_target:
+    is.null(rv$keys_target) &
+      is.character(rv$keys_target),
+    # rv$headless:
+    is.null(rv$headless) &
+      is.logical(rv$headless)
+  )
+
+  if (system$system_type == "csv") {
+    test_csv_result <- test_csv(
+      source_settings = system$settings,
+      source_db = system$system_name,
+      headless = rv$headless
+    )
+    stopifnot(isTRUE(test_csv_result))
+
+    # load csv
+    outdata <- load_csv(
+      rv = rv,
+      keys_to_test = rv$keys_source,
+      headless = rv$headless
+    )
+    return(outdata)
+
+  } else if (system$system_type == "postgres") {
+    # import target SQL
+    rv$sql_target <- load_sqls(utils_path = rv$utilspath,
+                               db = system$system_name)
+    stopifnot(is.list(rv$sql_target))
+
+    # test target_db
+    test_db <-
+      test_target_db(target_settings = system$settings,
+                     headless = rv$headless)
+    stopifnot(!is.null(test_db))
+
+    rv$db_con_target <- test_db
+    rm(test_db)
+
+    # load target data
+    outdata <- load_database(
+      rv = rv,
+      keys_to_test = rv$keys_target,
+      headless = rv$headless
+    )
+    return(outdata)
+  } else {
+    stop("\nThis source_system_type is currently not implemented.\n\n")
+  }
+  return(NULL)
 }

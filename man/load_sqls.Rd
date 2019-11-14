@@ -4,10 +4,10 @@
 \alias{load_sqls}
 \title{load_sqls helper function}
 \usage{
-load_sqls(utils, db)
+load_sqls(utils_path, db)
 }
 \arguments{
-\item{utils}{A character string. The path to the utils-folder,
+\item{utils_path}{A character string. The path to the utils-folder,
 containing the required app utilities like the MDR and the settings folder.}
 
 \item{db}{A character string. The name of the corresponding database.}

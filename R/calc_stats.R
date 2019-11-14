@@ -21,45 +21,44 @@ calc_description <- function(desc_dat,
     description <- list()
     description$source_data <- list(
       name = desc_dat[get("source_system_name") ==
-                        rv$source$system_name, get("designation")],
+                      rv$source$system_name, get("designation")],
       description = desc_dat[get("source_system_name") ==
-                               rv$source$system_name, get("definition")],
+                             rv$source$system_name, get("definition")],
       var_name = desc_dat[get("source_system_name") ==
-                            rv$source$system_name, get("source_variable_name")],
+                          rv$source$system_name, get("source_variable_name")],
       table_name = desc_dat[get("source_system_name") ==
-                              rv$source$system_name, get("source_table_name")],
+                            rv$source$system_name, get("source_table_name")],
       fhir_name = desc_dat[get("source_system_name") ==
-                             rv$source$system_name, get("fhir")],
+                           rv$source$system_name, get("fhir")],
       checks = list(
         var_type = desc_dat[get("source_system_name") ==
-                              rv$source$system_name, get("variable_type")],
+                            rv$source$system_name, get("variable_type")],
         constraints = desc_dat[get("source_system_name") ==
-                                 rv$source$system_name, get("constraints")],
+                            rv$source$system_name, get("constraints")],
         value_threshold = desc_dat[get("source_system_name") ==
-                                     rv$source$system_name, get("value_threshold")],
+                            rv$source$system_name, get("value_threshold")],
         missing_threshold = desc_dat[get("source_system_name") ==
-                                       rv$source$system_name, get("missing_threshold")]
+                            rv$source$system_name, get("missing_threshold")]
       )
     )
 
     description$target_data <-
       list(
         var_name = desc_dat[get("source_system_name") ==
-                              rv$target$system_name, get("source_variable_name")],
+                          rv$target$system_name, get("source_variable_name")],
         table_name = desc_dat[get("source_system_name") ==
-                                rv$target$system_name, get("source_table_name")],
+                              rv$target$system_name, get("source_table_name")],
         fhir_name = desc_dat[get("source_system_name") ==
-                               rv$target$system_name, get("fhir")],
+                             rv$target$system_name, get("fhir")],
         checks = list(
           var_type = desc_dat[get("source_system_name") ==
-                                rv$target$system_name, get("variable_type")],
+                              rv$target$system_name, get("variable_type")],
           constraints = desc_dat[get("source_system_name") ==
-                                   rv$target$system_name, get("constraints")],
+                                 rv$target$system_name, get("constraints")],
           value_threshold = desc_dat[get("source_system_name") ==
-                                       rv$target$system_name, get("value_threshold")],
-          missing_threshold = desc_dat[get(
-            "source_system_name"
-          ) == rv$target$system_name, get("missing_threshold")]
+                              rv$target$system_name, get("value_threshold")],
+          missing_threshold = desc_dat[get("source_system_name") ==
+                            rv$target$system_name, get("missing_threshold")]
         )
       )
     return(description)
@@ -113,7 +112,7 @@ calc_counts <- function(cnt_dat,
     if (isTRUE(datamap)) {
       cnt <- count_uniques(
         rv$data_source[[cnt_dat[get("source_system_name") ==
-                                  rv$source$system_name, get("source_table_name")]]],
+                      rv$source$system_name, get("source_table_name")]]],
         count_key,
         sourcesystem = rv$source$system_name,
         datamap = datamap
@@ -122,7 +121,7 @@ calc_counts <- function(cnt_dat,
     } else {
       cnt <- count_uniques(
         rv$data_source[[cnt_dat[get("source_system_name") ==
-                                  rv$source$system_name, get("variable_name")]]],
+                        rv$source$system_name, get("variable_name")]]],
         count_key,
         sourcesystem = rv$source$system_name,
         datamap = datamap
@@ -188,7 +187,7 @@ calc_cat_stats <- function(stat_dat,
     } else {
       source_data <- categorical_analysis(
         rv$data_source[[stat_dat[get("source_system_name") ==
-                                   rv$source$system_name, get("variable_name")]]],
+                        rv$source$system_name, get("variable_name")]]],
         stat_key)
       source_data
     }

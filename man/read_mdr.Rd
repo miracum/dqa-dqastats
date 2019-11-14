@@ -4,10 +4,10 @@
 \alias{read_mdr}
 \title{read_mdr helper function}
 \usage{
-read_mdr(utils, mdr_filename = "mdr.csv")
+read_mdr(utils_path, mdr_filename = "mdr.csv")
 }
 \arguments{
-\item{utils}{A character string. The path to the utils-folder,
+\item{utils_path}{A character string. The path to the utils-folder,
 containing the required app utilities like the MDR and the settings folder.}
 
 \item{mdr_filename}{A character string. The filename of your meta data

@@ -24,7 +24,7 @@ test_that(
           ),
           list(
             message = "cyclomatic complexity",
-            line_number = 259
+            line_number = 255
           )
         ),
         "datamap.R" = NULL,
@@ -37,11 +37,11 @@ test_that(
         "utils.R" = list(
           list(
             message = "snake_case",
-            line_number = 102
+            line_number = 109
           ),
           list(
             message = "space before left parenthesis",
-            line_number = 104
+            line_number = 111
           )
         )
       ),

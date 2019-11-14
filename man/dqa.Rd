@@ -4,16 +4,15 @@
 \alias{dqa}
 \title{Perform Data Quality Assessment of Electronic Health Records.}
 \usage{
-dqa(dqa_source_system_name,
-  dqa_target_system_name = dqa_source_system_name, config_file, utils,
-  mdr_filename = "mdr.csv")
+dqa(source_system_name, target_system_name = source_system_name,
+  config_file, utils_path, mdr_filename = "mdr.csv")
 }
 \arguments{
-\item{dqa_source_system_name}{A character string. The name of the
+\item{source_system_name}{A character string. The name of the
 source-system, e.g. "P21" or "i2b2". This name must be identical and
 unique to one entry in the settings-yml file.}
 
-\item{dqa_target_system_name}{Optional. A character string or null.
+\item{target_system_name}{Optional. A character string or null.
 The name of the target-system, e.g. "P21" or "i2b2".
 This name must be identical and unique to one entry in the
 config-yml file or null. If the argument is empty, the source will
@@ -22,10 +21,11 @@ be processed as standalone on its own.}
 \item{config_file}{The config.yml-file containig all the information
 needed to access the source (and optional the target) system(s).}
 
-\item{utils}{A character string. The path to the utils-folder,
+\item{utils_path}{A character string. The path to the utils-folder,
 containing the required app utilities like the MDR and the settings folder.}
 
-\item{mdr_filename}{A character string. The filename of the MDR e.g. "mdr_example_data.csv"
+\item{mdr_filename}{A character string.
+The filename of the MDR e.g. "mdr_example_data.csv"
 For a detailed description please visit \url{#TODO}.}
 }
 \description{

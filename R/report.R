@@ -278,13 +278,13 @@ render_atemp_pl_representation <- function(desc_out, source) {
 #'
 #' @param outdir A character string. The directory to store the resulting
 #'   PDF document. Default: \code{tempdir}.
-#' @inheritParams load_source
+#' @inheritParams load_csv
 #' @inheritParams dqa
 #'
 #' @export
 #'
 create_markdown <- function(rv = rv,
-                            utils,
+                            utils_path,
                             outdir = tempdir(),
                             headless = FALSE) {
 
@@ -318,7 +318,7 @@ create_markdown <- function(rv = rv,
   })
 
   knitr::knit(
-    input = paste0(utils, "RMD/DQA_report.Rmd"),
+    input = paste0(utils_path, "RMD/DQA_report.Rmd"),
     output = paste0(outdir, "/DQA_report.md"),
     encoding = "UTF-8"
   )
@@ -326,7 +326,7 @@ create_markdown <- function(rv = rv,
   # copy header-folder to tempdir to make files available for
   # the next command
   file.copy(
-    paste0(utils, "RMD/_header"),
+    paste0(utils_path, "RMD/_header"),
     outdir,
     recursive = TRUE
   )
