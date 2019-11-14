@@ -4,7 +4,7 @@
 \alias{test_csv}
 \title{test_csv helper function}
 \usage{
-test_csv(source_settings, source_db, headless = FALSE)
+test_csv(source_settings, source_db, mdr, headless = FALSE)
 }
 \arguments{
 \item{source_settings}{A list object containing the database settings.}
@@ -12,6 +12,8 @@ test_csv(source_settings, source_db, headless = FALSE)
 \item{source_db}{A character string. The name of the source database.
 This string must be conform with the corresponding config section
 in the config.yml-file.}
+
+\item{mdr}{A data.table object containing the MDR.}
 
 \item{headless}{A boolean (default: FALSE). Indicating, if the function is
 run only in the console (headless = TRUE) or on a GUI frontend
