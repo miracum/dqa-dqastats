@@ -150,7 +150,8 @@ map_var_types <- function(string) {
 #' @export
 load_csv <- function(rv,
                      keys_to_test,
-                     headless = FALSE) {
+                     headless = FALSE,
+                     system_name) {
 
   # initialize outlist
   outlist <- list()
@@ -169,7 +170,7 @@ load_csv <- function(rv,
   outlist <- load_csv_files(
     mdr = rv$mdr,
     inputdir = rv$sourcefiledir,
-    sourcesystem = "p21csv"
+    sourcesystem = system_name
   )
 
   if (isFALSE(headless)) {
@@ -352,39 +353,41 @@ load_database <- function(rv,
 #' @param rv The complete reactive-value dataset
 #'
 #' @param system The part of the rv-list which should be loaded
-#' (e.g. rv$source or rv$target)
+#'   (e.g. rv$source or rv$target)
+#'
+#' @inheritParams load_csv
 #'
 #' @export
-data_loading <- function(rv, system) {
+data_loading <- function(rv, system, keys_to_test) {
   # TODO: Test it!
 
   # check if all now necessary parameters are correct:
   stopifnot(
     # rv:
-    is.null(rv) & is.list(rv) & length(rv) > 0,
+    !is.null(rv) & is.list(rv) & length(rv) > 0,
     # system:
-    is.null(system) & is.list(system) & length(system) > 0,
+    !is.null(system) & is.list(system) & length(system) > 0,
     # system$settings:
-    is.null(system$settings) &
+    !is.null(system$settings) &
       is.list(system$settings) & length(system$settings) > 0,
     # system$system_name:
-    is.null(system$system_name) &
+    !is.null(system$system_name) &
       is.character(system$system_name),
-    # rv$keys_source:
-    is.null(rv$keys_source) &
-      is.character(rv$keys_source),
-    # rv$keys_target:
-    is.null(rv$keys_target) &
-      is.character(rv$keys_target),
+    # keys_to_test:
+    !is.null(keys_to_test) &
+      is.character(keys_to_test),
     # rv$headless:
-    is.null(rv$headless) &
-      is.logical(rv$headless)
+    !is.null(rv$headless) &
+      is.logical(rv$headless),
+    !is.null(rv$mdr) &
+      is.data.table(rv$mdr)
   )
 
   if (system$system_type == "csv") {
     test_csv_result <- test_csv(
       source_settings = system$settings,
       source_db = system$system_name,
+      mdr = rv$mdr,
       headless = rv$headless
     )
     stopifnot(isTRUE(test_csv_result))
@@ -392,8 +395,9 @@ data_loading <- function(rv, system) {
     # load csv
     outdata <- load_csv(
       rv = rv,
-      keys_to_test = rv$keys_source,
-      headless = rv$headless
+      keys_to_test = keys_to_test,
+      headless = rv$headless,
+      system_name = system$system_name
     )
     return(outdata)
 
@@ -415,7 +419,7 @@ data_loading <- function(rv, system) {
     # load target data
     outdata <- load_database(
       rv = rv,
-      keys_to_test = rv$keys_target,
+      keys_to_test = keys_to_test,
       headless = rv$headless
     )
     return(outdata)

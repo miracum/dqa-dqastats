@@ -1,10 +1,10 @@
 default:
 # no capital letters!
   examplecsv_source:
-    dir: "./inst/demo_data/dqa_example_data_01.csv"    # Directory of the file
+    dir: "./inst/demo_data/"    # Directory of the file
 
   examplecsv_target:
-    dir: "./inst/demo_data/dqa_example_data_02.csv"    # Directory of the file
+    dir: "./inst/demo_data/"    # Directory of the file
 
   exampleDB:
   # The servicename (here: "exampleDB") must match with 'source_system_name' in the MDR

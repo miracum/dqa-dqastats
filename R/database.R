@@ -75,65 +75,79 @@ test_target_db <- function(target_settings,
 #' @export
 #'
 test_csv <- function(source_settings,
-                           source_db,
-                           headless = FALSE) {
+                     source_db,
+                     mdr,
+                     headless = FALSE) {
 
-  if (source_db == "p21csv") {
-    filelist <- list.files(
-      path = source_settings$dir,
-      pattern = "\\.CSV|\\.csv",
-      full.names = T
-    )
-    # iterate over list and check for presence of required filenames:
-    # FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV
-    check <- sapply(filelist, function(i) {
-      cat("\n", i, "\n")
-      return(grepl("FALL\\.CSV$|FAB\\.CSV$|ICD\\.CSV$|OPS.CSV$", i))
-    })
+  # get filenames of csv files inside the provided directory
+  filelist <- list.files(
+    path = source_settings$dir,
+    pattern = "\\.CSV|\\.csv",
+    full.names = T
+  )
 
-    outflag <- tryCatch({
-      # test if there are exact 4 source files
-      if (base::sum(check) != 4) {
-        if (isFALSE(headless)) {
-          shiny::showModal(
-            shiny::modalDialog(
-              title = "Invalid path",
-              paste0("The specified directory does not contain the 4 ",
-                     "neccessary CSV-files ",
-                     "(FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV).")
-            )
-          )
-        }
-        cat(
-          paste0("\nThe specified directory does not contain the ",
-                 "neccessary CSV-files ",
-                 "(FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV).\n")
-        )
-        outflag <- NULL
-        outflag
-      } else {
-        outflag <- TRUE
-        outflag
-      }
-    }, error = function(e) {
+  # get expected filenames of csv files from MDR
+  required_files <- mdr[get("source_system_name") ==
+                          source_db,unique(get("source_table_name"))]
+  required_files <- required_files[required_files != ""]
+
+  # put those filenames into a regex-format, to be compared
+  # to the filenames inside the provided directory
+  files_pattern <- gsub("(()|(\\$\\|))$",
+                        "\\$",
+                        gsub("\\.",
+                             "\\\\.",
+                             paste0(required_files,
+                                    collapse = "$|"
+                             )
+                        )
+  )
+
+  # iterate over list and check for presence of required filenames:
+  # FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV
+  check <- sapply(filelist, function(i) {
+    cat("\n", i, "\n")
+    return(grepl(files_pattern, i))
+  })
+
+  outflag <- tryCatch({
+    # test if provided files are matching expected files
+    if (base::sum(check) != length(required_files)) {
       if (isFALSE(headless)) {
         shiny::showModal(
           shiny::modalDialog(
             title = "Invalid path",
-            "There are no CSV-files in the specified directory."
+            paste0("The specified directory does not contain the expected ",
+                   "neccessary CSV-files: ", paste0(required_files,
+                                                    collapse = ", "))
           )
         )
       }
-      cat("\nThere are no CSV-files in the specified directory.\n")
+      cat(
+        paste0("The specified directory does not contain the expected ",
+               "neccessary CSV-files: ", paste0(required_files,
+                                                collapse = ", "))
+      )
       outflag <- NULL
       outflag
-    }, finally = function(f) {
-      return(outflag)
-    })
-
-  } else {
-    cat("\nThis source_db is not implemented yet\n")
+    } else {
+      outflag <- TRUE
+      outflag
+    }
+  }, error = function(e) {
+    if (isFALSE(headless)) {
+      shiny::showModal(
+        shiny::modalDialog(
+          title = "Invalid path",
+          "There are no CSV-files in the specified directory."
+        )
+      )
+    }
+    cat("\nThere are no CSV-files in the specified directory.\n")
     outflag <- NULL
-  }
+    outflag
+  }, finally = function(f) {
+    return(outflag)
+  })
   return(outflag)
 }

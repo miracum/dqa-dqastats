@@ -53,15 +53,6 @@ dqa <- function(source_system_name,
                 config_file,
                 utils_path,
                 mdr_filename = "mdr.csv") {
-  # new arguments for debugging:
-  source_system_name <- "exampleCSV_source"
-  target_system_name <- "exampleCSV_target"
-  #% config_file <-
-  #%   "./inst/demo_data/utilities/settings/demo_settings.yml"
-  config_file <-
-    "tests/testthat/testdata/demo_settings_internal.yml"
-  utils_path <- "./inst/demo_data/utilities/"
-  mdr_filename <- "mdr_example_data.csv"
 
   stopifnot(
     is.character(source_system_name),
@@ -91,7 +82,7 @@ dqa <- function(source_system_name,
   rv$utilspath <- clean_path_name(utils_path)
 
   # add mdr-filename
-  rv$mdr$filename <- mdr_filename
+  rv$mdr_filename <- mdr_filename
 
   # current date
   rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
@@ -99,13 +90,16 @@ dqa <- function(source_system_name,
 
   # read MDR
   rv$mdr <- read_mdr(utils_path = rv$utilspath,
-                     mdr_filename = rv$mdr$filename)
+                     mdr_filename = rv$mdr_filename)
   stopifnot(data.table::is.data.table(rv$mdr))
 
   # read system_types
   rv$source$system_type <-
     rv$mdr[get("source_system_name") ==
              rv$source$system_name, unique(get("source_system_type"))]
+  rv$target$system_type <-
+    rv$mdr[get("source_system_name") ==
+             rv$target$system_name, unique(get("source_system_type"))]
 
   # We only allow one (system) type per system name. There can't e.g. be
   # system types "csv" and "postgres" both with the system_name "data":
@@ -131,37 +125,45 @@ dqa <- function(source_system_name,
   rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
   # load source data:
-  rv$data_source <-
-    data_loading(rv = rv, system = rv$source)
+  rv$data_source <- data_loading(
+    rv = rv,
+    system = rv$source,
+    keys_to_test = rv$keys_source
+  )
 
   # load target_data
   if (!is.null(rv$target$system_name)) {
     # load target
-    rv$data_target <-
-      data_loading(rv = rv, system = rv$target)
+    rv$data_target <- data_loading(
+      rv = rv,
+      system = rv$target,
+      keys_to_test = rv$keys_target
+    )
   } else {
     rv$data_target <- rv$data_source
   }
 
-  # get atemporal plausibilities
-  rv$data_plausibility$atemporal <- get_atemp_plausis(
-    rv = rv,
-    atemp_vars = rv$pl$atemp_vars,
-    mdr = rv$mdr,
-    headless = rv$headless
-  )
+  if (nrow(rv$pl$atemp_vars) != 0) {
+    # get atemporal plausibilities
+    rv$data_plausibility$atemporal <- get_atemp_plausis(
+      rv = rv,
+      atemp_vars = rv$pl$atemp_vars,
+      mdr = rv$mdr,
+      headless = rv$headless
+    )
 
-  # add the plausibility raw data to data_target and data_source
-  for (i in names(rv$data_plausibility$atemporal)) {
-    for (k in c("source_data", "target_data")) {
-      w <- gsub("_data", "", k)
-      n_key <- paste0(i, "_", w)
-      raw_data <- paste0("data_", w)
-      rv[[raw_data]][[n_key]] <-
-        rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
-      rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
+    # add the plausibility raw data to data_target and data_source
+    for (i in names(rv$data_plausibility$atemporal)) {
+      for (k in c("source_data", "target_data")) {
+        w <- gsub("_data", "", k)
+        n_key <- paste0(i, "_", w)
+        raw_data <- paste0("data_", w)
+        rv[[raw_data]][[n_key]] <-
+          rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
+        rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
+      }
+      gc()
     }
-    gc()
   }
 
   # calculate descriptive results
@@ -247,3 +249,4 @@ dqa <- function(source_system_name,
   print(rv$duration)
   return(rv)
 }
+

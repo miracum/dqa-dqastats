@@ -4,13 +4,16 @@
 \alias{data_loading}
 \title{data_loading helper function}
 \usage{
-data_loading(rv, system)
+data_loading(rv, system, keys_to_test)
 }
 \arguments{
 \item{rv}{The complete reactive-value dataset}
 
 \item{system}{The part of the rv-list which should be loaded
 (e.g. rv$source or rv$target)}
+
+\item{keys_to_test}{A vector containing the names (keys) of
+the variables to test.}
 }
 \description{
 Internal function to load the source and target data
