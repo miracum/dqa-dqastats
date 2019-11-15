@@ -4,8 +4,7 @@
 \alias{create_markdown}
 \title{create_markdown helper function}
 \usage{
-create_markdown(rv = rv, utils_path, outdir = tempdir(),
-  headless = FALSE)
+create_markdown(rv = rv, utils_path, outdir = tempdir(), headless = FALSE)
 }
 \arguments{
 \item{rv}{A list object. Internal list simulating Shiny's

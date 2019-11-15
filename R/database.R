@@ -88,7 +88,7 @@ test_csv <- function(source_settings,
 
   # get expected filenames of csv files from MDR
   required_files <- mdr[get("source_system_name") ==
-                          source_db,unique(get("source_table_name"))]
+                          source_db, unique(get("source_table_name"))]
   required_files <- required_files[required_files != ""]
 
   # put those filenames into a regex-format, to be compared

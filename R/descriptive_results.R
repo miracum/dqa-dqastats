@@ -66,21 +66,19 @@ descriptive_results <- function(rv,
 
     # generate descriptions
     desc_dat <- rv$mdr[get("dqa_assessment") == 1, ][
-      grepl("^dt\\.", get("variable_name")),
-      ][
-        get("variable_name") ==
-          rv$variable_list[[i]], c(
-            "designation",
-            "source_system_name",
-            "source_variable_name",
-            "source_table_name",
-            "fhir",
-            "definition",
-            "variable_type",
-            "constraints",
-            "value_threshold",
-            "missing_threshold"
-          ), with = F]
+      get("variable_name") == rv$variable_list[[i]],
+      c(
+        "designation",
+        "source_system_name",
+        "source_variable_name",
+        "source_table_name",
+        "fhir",
+        "definition",
+        "variable_type",
+        "constraints",
+        "value_threshold",
+        "missing_threshold"
+      ), with = F]
 
     if (nrow(desc_dat) > 1) {
       outlist[[rv$variable_list[[i]]]]$description <-
@@ -108,21 +106,19 @@ descriptive_results <- function(rv,
 
     # generate counts
     cnt_dat <- rv$mdr[get("dqa_assessment") == 1, ][
-      grepl("^dt\\.", get("variable_name")),
-      ][
-        get("variable_name") ==
-          rv$variable_list[[i]], c(
-            "source_system_name",
-            "source_variable_name",
-            "source_table_name",
-            "variable_type",
-            "variable_name"
-          ), with = F]
+      get("variable_name") ==
+        rv$variable_list[[i]], c(
+          "source_system_name",
+          "source_variable_name",
+          "source_table_name",
+          "variable_type",
+          "variable_name"
+        ), with = F]
 
     outlist[[rv$variable_list[[i]]]]$counts <- calc_counts(
-      cnt_dat,
-      rv$variable_list[[i]],
-      rv,
+      cnt_dat = cnt_dat,
+      count_key = rv$variable_list[[i]],
+      rv = rv,
       datamap = TRUE
     )
 
@@ -142,16 +138,14 @@ descriptive_results <- function(rv,
 
     # generate statistics
     stat_dat <- rv$mdr[get("dqa_assessment") == 1, ][
-      grepl("^dt\\.", get("variable_name")),
-      ][
-        get("variable_name") ==
-          rv$variable_list[[i]], c(
-            "source_system_name",
-            "source_variable_name",
-            "source_table_name",
-            "variable_type",
-            "variable_name"
-          ), with = F]
+      get("variable_name") ==
+        rv$variable_list[[i]], c(
+          "source_system_name",
+          "source_variable_name",
+          "source_table_name",
+          "variable_type",
+          "variable_name"
+        ), with = F]
 
     if (stat_dat[, unique(get("variable_type"))] %in%
         c("permittedValues", "string")) {

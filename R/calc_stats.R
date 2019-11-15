@@ -117,23 +117,44 @@ calc_counts <- function(cnt_dat,
                         datamap = TRUE) {
 
   counts <- list()
-  counts$source_data$cnt <- tryCatch({
+
+  # if system_type = "csv" --> our index to find
+  # our table is the filename, stored in "source_table_name"
+  if (rv$source$system_type == "csv") {
+    key_col_name_src <- "source_table_name"
+
+    # if system_type = "postgres" --> our index to find
+    # our table is the "variable_name" (correspondingly,
+    # the variable_name is used to store the sql statements)
+  } else if (rv$source$system_type %in%
+             c("postgres", "mysql", "fhir")) {
+    key_col_name_src <- "variable_name"
+  }
+  if (rv$target$system_type == "csv") {
+    key_col_name_tar <- "source_table_name"
+  } else if (rv$target$system_type %in%
+             c("postgres", "mysql", "fhir")) {
+    key_col_name_tar <- "variable_name"
+  }
+
+  counts$source_data$cnt <- tryCatch(
+    expr = {
     if (isTRUE(datamap)) {
       cnt <- count_uniques(
-        rv$data_source[[cnt_dat[get("source_system_name") ==
-                                  rv$source$system_name,
-                                get("source_table_name")]]],
-        count_key,
+        data = rv$data_source[[cnt_dat[get("source_system_name") ==
+                                         rv$source$system_name,
+                                       get(key_col_name_src)]]],
+        var = count_key,
         sourcesystem = rv$source$system_name,
         datamap = datamap
       )
       cnt
     } else {
       cnt <- count_uniques(
-        rv$data_source[[cnt_dat[get("source_system_name") ==
-                                  rv$source$system_name,
-                                get("variable_name")]]],
-        count_key,
+        data = rv$data_source[[cnt_dat[get("source_system_name") ==
+                                         rv$source$system_name,
+                                       get(key_col_name_src)]]],
+        var = count_key,
         sourcesystem = rv$source$system_name,
         datamap = datamap
       )
@@ -154,11 +175,13 @@ calc_counts <- function(cnt_dat,
 
 
   # for target_data; our data is in rv$data_target$key
-  counts$target_data$cnt <- tryCatch({
+  counts$target_data$cnt <- tryCatch(
+    expr = {
     cnt <- count_uniques(
-      rv$data_target[[cnt_dat[get("source_system_name") ==
-                                rv$target$system_name, get("variable_name")]]],
-      count_key,
+      data = rv$data_target[[cnt_dat[get("source_system_name") ==
+                                     rv$target$system_name,
+                                     get(key_col_name_tar)]]],
+      var = count_key,
       sourcesystem = rv$target$system_name,
       datamap = datamap
     )
@@ -186,13 +209,27 @@ calc_cat_stats <- function(stat_dat,
                            plausibility = FALSE) {
   statistics <- list()
 
-  statistics$source_data <- tryCatch({
+  if (rv$source$system_type == "csv") {
+    key_col_name_src <- "source_table_name"
+  } else if (rv$source$system_type %in%
+             c("postgres", "mysql", "fhir")) {
+    key_col_name_src <- "variable_name"
+  }
+  if (rv$target$system_type == "csv") {
+    key_col_name_tar <- "source_table_name"
+  } else if (rv$target$system_type %in%
+             c("postgres", "mysql", "fhir")) {
+    key_col_name_tar <- "variable_name"
+  }
+
+  statistics$source_data <- tryCatch(
+    expr = {
     if (isFALSE(plausibility)) {
       # for source_data; our data is in rv$data_source$source_table_name
       source_data <- categorical_analysis(
         data = rv$data_source[[stat_dat[get(
           "source_system_name") == rv$source$system_name,
-          get("source_table_name")]]],
+          get(key_col_name_src)]]],
         var = stat_key,
         levellimit = Inf
       )
@@ -201,7 +238,7 @@ calc_cat_stats <- function(stat_dat,
       source_data <- categorical_analysis(
         data = rv$data_source[[stat_dat[get(
           "source_system_name") == rv$source$system_name,
-          get("variable_name")]]],
+          get(key_col_name_src)]]],
         var = stat_key,
         levellimit = Inf
       )
@@ -216,11 +253,12 @@ calc_cat_stats <- function(stat_dat,
     return(source_data)
   })
 
-  statistics$target_data <- tryCatch({
+  statistics$target_data <- tryCatch(
+    expr = {
     target_data <- categorical_analysis(
       data = rv$data_target[[stat_dat[get(
         "source_system_name") ==
-          rv$target$system_name, get("variable_name")]]],
+          rv$target$system_name, get(key_col_name_tar)]]],
       var = stat_key,
       levellimit = Inf
     )
@@ -244,6 +282,19 @@ calc_num_stats <- function(stat_dat,
                            plausibility = FALSE) {
   statistics <- list()
 
+  if (rv$source$system_type == "csv") {
+    key_col_name_src <- "source_table_name"
+  } else if (rv$source$system_type %in%
+             c("postgres", "mysql", "fhir")) {
+    key_col_name_src <- "variable_name"
+  }
+  if (rv$target$system_type == "csv") {
+    key_col_name_tar <- "source_table_name"
+  } else if (rv$target$system_type %in%
+             c("postgres", "mysql", "fhir")) {
+    key_col_name_tar <- "variable_name"
+  }
+
   if (stat_dat[get("source_system_name") ==
                rv$source$system_name, get("variable_type") !=
                "calendar"]) {
@@ -254,7 +305,7 @@ calc_num_stats <- function(stat_dat,
           rv$data_source[[stat_dat[get(
             "source_system_name"
           ) == rv$source$system_name, get(
-            "source_table_name"
+            key_col_name_src
           )]]][, get(stat_key)]
         )
         source_data
@@ -263,7 +314,7 @@ calc_num_stats <- function(stat_dat,
         source_data <- extensive_summary(
           rv$data_source[[stat_dat[get(
             "source_system_name"
-          ) == rv$source$system_name, get("variable_name")]]][, get(stat_key)])
+          ) == rv$source$system_name, get(key_col_name_src)]]][, get(stat_key)])
         source_data
       }
     }, error = function(e) {
@@ -279,7 +330,7 @@ calc_num_stats <- function(stat_dat,
       target_data <- extensive_summary(
         rv$data_target[[stat_dat[get(
           "source_system_name"
-        ) == rv$target$system_name, get("variable_name")]]][, get(stat_key)])
+        ) == rv$target$system_name, get(key_col_name_tar)]]][, get(stat_key)])
       target_data
 
     }, error = function(e) {
@@ -299,7 +350,7 @@ calc_num_stats <- function(stat_dat,
           rv$data_source[[stat_dat[get(
             "source_system_name"
           ) == rv$source$system_name, get(
-            "source_table_name"
+            key_col_name_src
           )]]][, get(stat_key)])
         source_data
       } else {
@@ -307,7 +358,7 @@ calc_num_stats <- function(stat_dat,
           rv$data_source[[stat_dat[get(
             "source_system_name"
           ) == rv$source$system_name, get(
-            "variable_name"
+            key_col_name_src
           )]]][, get(stat_key)])
         source_data
       }
@@ -326,7 +377,7 @@ calc_num_stats <- function(stat_dat,
         rv$data_target[[stat_dat[get(
           "source_system_name"
         ) == rv$target$system_name, get(
-          "variable_name"
+          key_col_name_tar
         )]]][, get(stat_key)])
       target_data
 

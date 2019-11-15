@@ -4,8 +4,13 @@
 \alias{dqa}
 \title{Perform Data Quality Assessment of Electronic Health Records.}
 \usage{
-dqa(source_system_name, target_system_name = source_system_name,
-  config_file, utils_path, mdr_filename = "mdr.csv")
+dqa(
+  source_system_name,
+  target_system_name = source_system_name,
+  config_file,
+  utils_path,
+  mdr_filename = "mdr.csv"
+)
 }
 \arguments{
 \item{source_system_name}{A character string. The name of the

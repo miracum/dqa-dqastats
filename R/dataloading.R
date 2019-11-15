@@ -196,8 +196,11 @@ load_csv <- function(rv,
 
     # check, if column name in variables of interest
     # var_names of interest:
-    var_names <-
-      rv$mdr[get("source_table_name") == i, ]
+    var_names <- rv$mdr[get("source_table_name") == i,
+                        ][
+                          , get("source_variable_name")
+                          ]
+    stopifnot(is.character(var_names))
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming source variable types", i)

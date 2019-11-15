@@ -4,11 +4,15 @@
 \alias{atemp_pausi_results}
 \title{atemp_pausi_results helper function}
 \usage{
-atemp_pausi_results(rv, headless = FALSE)
+atemp_pausi_results(rv, atemp_vars, mdr, headless = FALSE)
 }
 \arguments{
 \item{rv}{A list object. Internal list simulating Shiny's
 'reactive values'.}
+
+\item{atemp_vars}{These are the atemporal variables}
+
+\item{mdr}{A data.table object containing the MDR.}
 
 \item{headless}{A boolean (default: FALSE). Indicating, if the function is
 run only in the console (headless = TRUE) or on a GUI frontend

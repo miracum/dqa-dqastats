@@ -171,21 +171,28 @@ dqa <- function(source_system_name,
                                                 headless = rv$headless)
 
   # get time_interval
+  # TODO hardcoded for MIRACUM
   rv$time_interval <-
     time_interval(rv$results_descriptive$EpisodeOfCare_period_end)
 
-  # calculate plausibilites
-  rv$results_plausibility_atemporal <- atemp_pausi_results(
-    rv = rv,
-    headless = rv$headless
-  )
+  if (!is.null(rv$data_plausibility$atemporal)) {
+    # calculate plausibilites
+    rv$results_plausibility_atemporal <- atemp_pausi_results(
+      rv = rv,
+      atemp_vars = rv$data_plausibility$atemporal,
+      mdr = rv$mdr,
+      headless = rv$headless
+    )
+  }
 
-  rv$results_plausibility_unique <- uniq_plausi_results(
-    rv = rv,
-    uniq_vars = rv$pl$uniq_vars,
-    mdr = rv$mdr,
-    headless = rv$headless
-  )
+  if (nrow(rv$pl$uniq_vars) != 0) {
+    rv$results_plausibility_unique <- uniq_plausi_results(
+      rv = rv,
+      uniq_vars = rv$pl$uniq_vars,
+      mdr = rv$mdr,
+      headless = rv$headless
+    )
+  }
 
   # delete raw data
   rv$data_source <- NULL
@@ -202,16 +209,17 @@ dqa <- function(source_system_name,
                                        levellimit = 25)
   invisible(gc())
 
-  value_conformance <- value_conformance(
-    results = rv$results_plausibility_atemporal,
-    headless = rv$headless
-  )
+  if (!is.null(rv$results_plausibility_atemporal)) {
+    value_conformance <- value_conformance(
+      results = rv$results_plausibility_atemporal,
+      headless = rv$headless
+    )
 
-  # workaround, to keep "rv" an reactiveValues object in shiny app
-  for (i in names(value_conformance)) {
-    rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
+    # workaround, to keep "rv" an reactiveValues object in shiny app
+    for (i in names(value_conformance)) {
+      rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
+    }
   }
-
   # completeness
   rv$completeness <- completeness(results = rv$results_descriptive,
                                   headless = rv$headless)
@@ -249,4 +257,3 @@ dqa <- function(source_system_name,
   print(rv$duration)
   return(rv)
 }
-

@@ -25,6 +25,7 @@ count_uniques <- function(data,
 
   if (isTRUE(datamap)) {
     # workaround to control for aggregated values in source system (CSV)
+    # TODO this is hard-coded for MIRACUM variables
     special_treatment_vars <-
       c(
         "patient_identifier_value",

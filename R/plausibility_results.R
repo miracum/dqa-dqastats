@@ -23,9 +23,16 @@
 #'
 #' @inheritParams descriptive_results
 #'
+#' @inheritParams create_helper_vars
+#'
+#' @param atemp_vars These are the atemporal variables
+#'
 #' @export
 #'
-atemp_pausi_results <- function(rv, headless = FALSE) {
+atemp_pausi_results <- function(rv,
+                                atemp_vars,
+                                mdr,
+                                headless = FALSE) {
   #% source_db = rv$source$system_name
   #% headless = T
 
@@ -54,8 +61,8 @@ atemp_pausi_results <- function(rv, headless = FALSE) {
                   value = 0)
   }
 
-  for (i in names(rv$data_plausibility$atemporal)) {
-    dat <- rv$data_plausibility$atemporal[[i]]
+  for (i in names(atemp_vars)) {
+    dat <- atemp_vars[[i]]
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Getting plausibility descriptions of", i)
@@ -64,14 +71,14 @@ atemp_pausi_results <- function(rv, headless = FALSE) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
       progress1$inc(
-        1 / length(names(rv$data_plausibility$atemporal)),
+        1 / length(names(atemp_vars)),
         detail = paste("... working at description of", i, "...")
       )
     }
 
     # add the raw data to data_target and data_source
     desc_dat <-
-      rv$mdr[get("variable_name") == dat$source_data$var_dependent &
+      mdr[get("variable_name") == dat$source_data$var_dependent &
                get("source_system_name") %in% c(rv$source$system_name,
                                                 rv$target$system_name) &
                get("dqa_assessment") == 1, c(
@@ -90,7 +97,7 @@ atemp_pausi_results <- function(rv, headless = FALSE) {
 
     outlist[[i]]$description <- calc_atemp_plausi_description(
       dat,
-      plausis_atemporal = rv$data_plausibility$atemporal[[i]],
+      plausis_atemporal = atemp_vars[[i]],
       desc_dat,
       rv
     )
@@ -104,7 +111,7 @@ atemp_pausi_results <- function(rv, headless = FALSE) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
       progress2$inc(
-        1 / length(names(rv$data_plausibility$atemporal)),
+        1 / length(names(atemp_vars)),
         detail = paste("... working at counts of", i, "...")
       )
     }
@@ -130,7 +137,7 @@ atemp_pausi_results <- function(rv, headless = FALSE) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
       progress3$inc(
-        1 / length(names(rv$data_plausibility$atemporal)),
+        1 / length(names(atemp_vars)),
         detail = paste("... working at statistics of", i, "...")
       )
     }
@@ -186,7 +193,7 @@ uniq_plausi_results <- function(rv,
                                 headless = FALSE) {
 
   #% uniq_vars = rv$pl$uniq_vars
-  #% mdr = rv$mdr
+  #% mdr = mdr
   #% sourcesystem = "p21csv"
   #% headless = T
 

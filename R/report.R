@@ -329,11 +329,13 @@ create_markdown <- function(rv = rv,
 
   # copy header-folder to tempdir to make files available for
   # the next command
-  file.copy(
-    paste0(utils_path, "RMD/_header"),
-    outdir,
-    recursive = TRUE
-  )
+  if (dir.exists(paste0(utils_path, "RMD/_header"))) {
+    file.copy(
+      paste0(utils_path, "RMD/_header"),
+      outdir,
+      recursive = TRUE
+    )
+  }
 
   rmarkdown::render(
     input = paste0(outdir, "/DQA_report.md"),
