@@ -38,7 +38,7 @@ output:
 
 ```{r global_options, include=FALSE}
 # include this to compile pdf
-knitr::opts_chunk$set(echo=F)
+knitr::opts_chunk$set(echo = F)
 options(tinytex.verbose = TRUE)
 ```
 
