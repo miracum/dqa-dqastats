@@ -20,11 +20,11 @@ test_that(
         "dataloading.R" = list(
           list(
             message = "cyclomatic complexity",
-            line_number = 152
+            line_number = 176
           ),
           list(
             message = "cyclomatic complexity",
-            line_number = 260
+            line_number = 270
           )
         ),
         "datamap.R" = NULL,

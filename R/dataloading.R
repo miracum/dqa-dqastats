@@ -43,7 +43,18 @@ fire_sql_statement <- function(rv,
 # load csv files
 load_csv_files <- function(mdr,
                      inputdir,
-                     sourcesystem) {
+                     sourcesystem,
+                     headless = T) {
+
+  if (isFALSE(headless)) {
+    # Create a Progress object
+    progress <- shiny::Progress$new()
+    # Make sure it closes when we exit this reactive, even if
+    # there's an error
+    on.exit(progress$close())
+    progress$set(message = "Reading CSV file from directory",
+                 value = 0)
+  }
 
   # original beginning of function
   inputdir <- clean_path_name(inputdir)
@@ -63,7 +74,17 @@ load_csv_files <- function(mdr,
   outlist <- list()
 
   for (inputfile in available_systems[, unique(get("source_table_name"))]) {
-    cat(paste0("\nLoading file ", inputfile, "\n\n"))
+
+    msg <- paste("Reading", inputfile, "from CSV.")
+    cat("\n", msg, "\n")
+    if (isFALSE(headless)) {
+      shinyjs::logjs(msg)
+      # Increment the progress bar, and update the detail text.
+      progress$inc(
+        1 / length(available_systems[, unique(get("source_table_name"))]),
+        detail = paste("... working hard to read", inputfile, "..."))
+    }
+
 
     input_vars <- available_systems[get("source_table_name") ==
                                       inputfile, c("source_variable_name",
@@ -111,6 +132,9 @@ load_csv_files <- function(mdr,
       }
     }
   }
+  if (isFALSE(headless)) {
+    progress$close()
+  }
   return(outlist)
 }
 
@@ -157,27 +181,13 @@ load_csv <- function(rv,
   # initialize outlist
   outlist <- list()
 
-  if (isFALSE(headless)) {
-    # Create a Progress object
-    progress <- shiny::Progress$new()
-    # Make sure it closes when we exit this reactive, even if
-    # there's an error
-    on.exit(progress$close())
-    progress$set(message = "Reading CSV file from directory",
-                 value = 0)
-  }
-
   # read sourcedata
   outlist <- load_csv_files(
     mdr = rv$mdr,
     inputdir = rv$sourcefiledir,
-    sourcesystem = system_name
+    sourcesystem = system_name,
+    headless = headless
   )
-
-  if (isFALSE(headless)) {
-    progress$close()
-  }
-
 
   if (isFALSE(headless)) {
     # Create a Progress object

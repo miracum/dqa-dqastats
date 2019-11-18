@@ -8,3 +8,4 @@ _settings/
 /DQA_report.*
 /DQA_report*
 tests/testthat/testdata/
+tests/testthat/testdata
