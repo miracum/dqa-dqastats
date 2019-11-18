@@ -1,0 +1,166 @@
+---
+# DQAstats - Perform data quality assessment (DQA) of electronic health
+# records (EHR)
+# Copyright (C) 2019 Universitätsklinikum Erlangen
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+title: "Comparison of two bank data lists with demographic, income and credit data"
+author: "Demoorganization"
+date: \today
+geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    includes:
+      in_header: "./_header/header.tex"
+    keep_tex: true
+    pandoc_args:  [
+                    "--variable", "graphics=yes",
+                    "--variable", "compact-title=yes"
+                  ]
+
+---
+
+```{r global_options, include=FALSE}
+# include this to compile pdf
+knitr::opts_chunk$set(echo=F)
+options(tinytex.verbose = TRUE)
+```
+
+\newpage
+
+# Data Map
+
+## Target Data System
+
+```{r results='asis'}
+no_data_to_display_msg <- "There is no data to display.\n\n"
+if (!is.null(rv$datamap$target_data)) {
+  render_data_map(rv$datamap$target_data)
+} else {
+  cat(no_data_to_display_msg)
+}
+```
+
+## Source Data System
+
+```{r results='asis'}
+if (!is.null(rv$datamap$source_data)) {
+  render_data_map(rv$datamap$source_data)
+} else {
+  cat(no_data_to_display_msg)
+}
+```
+
+# Completeness Checks 
+
+## Validation 
+
+Completeness checks (validation) evaluate the ETL (extract transform load) jobs. They compare for each variable the exact matching of the number of distinct values, the number of valid values (=n), and the number of missing values between the source data system and the target data system.  
+
+```{r results='asis'}
+kable_table(rv$checks$etl)
+```
+
+## Verification 
+
+```{r results='asis'}
+if (!is.null(rv$completeness)) {
+  kable_table(rv$completeness[, c(1, 3, 5)])
+} else {
+  cat(no_data_to_display_msg)
+}
+```
+
+# Conformance Checks
+
+## Value Conformance
+
+Value conformance checks (verification) compare for each variable the values of each data system to predefined constraints. Those constraints can be defined for each variable and data system individually in the metadata repository (MDR).
+
+```{r results='asis'}
+if (!is.null(rv$checks$value_conformance)) {
+  kable_table(rv$checks$value_conformance)
+} else {
+  cat(no_data_to_display_msg)
+}
+```
+
+
+\newpage
+
+# Detailed Descriptive Analysis
+
+```{r results='asis'}
+if (!is.null(rv$results_descriptive) &&
+    !is.null(rv$conformance$value_conformance)) {
+  render_results(rv$results_descriptive, rv$conformance$value_conformance)
+} else {
+  cat(no_data_to_display_msg)
+}
+```
+
+\newpage
+
+# Plausibility Checks
+
+## Uniqueness Plausibility
+
+```{r results='asis'}
+# plausi results
+if (!is.null(rv$results_plausibility_uniqueness)) {
+  render_uniq_plausis(rv$results_plausibility_uniqueness)
+} else {
+  cat(no_data_to_display_msg)
+}
+```
+
+## Atemporal Plausibility 
+
+```{r results='asis'}
+# plausi results
+if (!is.null(rv$results_plausibility_atemporal) &&
+    !is.null(rv$conformance$value_conformance)) {
+  render_atemp_plausis(rv$results_plausibility_atemporal,
+                       rv$conformance$value_conformance)
+} else {
+  cat(no_data_to_display_msg)
+}
+```
+
+\newpage
+
+# Appendix
+
+## R-Package Version 'DQAstats' 
+
+```{r}
+utils::packageVersion("DQAstats")
+```
+
+
+## SQLs Target Data System  
+
+```{r}
+for (i in names(rv$sql_target)){
+  cat(paste0("  \nMDR key: ", i, "  \n  \n"))
+  cat(paste0(rv$sql_target[[i]]))
+  cat("  \n  \n")
+}
+```
+

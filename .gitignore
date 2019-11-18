@@ -1,10 +1,10 @@
 _settings/
-_header/
+/_header/
 .Rhistory
 *.Rproj
 .Rproj*
 .Rproj.user
 .RData
-DQA_report.*
-DQA_report*
+/DQA_report.*
+/DQA_report*
 tests/testthat/testdata/
