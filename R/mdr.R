@@ -33,6 +33,7 @@ read_mdr <- function(utils, mdr_filename = "mdr.csv") {
     header = T
   )
 
+  # fix columns that contain json strings (due to multiple quotation marks)
   mdr[, ("constraints") := gsub("\"\"", "\"", get("constraints"))][
     get("constraints") == "", ("constraints") := NA
     ]
@@ -43,6 +44,12 @@ read_mdr <- function(utils, mdr_filename = "mdr.csv") {
   )][
     get("plausibility_relation") == "", ("plausibility_relation") := NA
     ]
+
+  # fix representation of missing values in all columns
+  for (i in colnames(mdr)) {
+    mdr[get(i) == "", (i) := NA]
+  }
+
   return(mdr)
 }
 
