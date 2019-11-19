@@ -91,9 +91,11 @@ atemp_pausi_results <- function(rv,
                ), with = F]
     # workaround, to get old calc_counts function working with new cnt_dat
     desc_dat[get("source_system_name") ==
-               rv$source$system_name, ("variable_name") := paste0(i, "_source")]
+               # Back to key: 'variable_name' was here, instead of 'key':
+               rv$source$system_name, ("key") := paste0(i, "_source")]
     desc_dat[get("source_system_name") ==
-               rv$target$system_name, ("variable_name") := paste0(i, "_target")]
+               # Back to key: 'variable_name' was here, instead of 'key':
+               rv$target$system_name, ("key") := paste0(i, "_target")]
 
     outlist[[i]]$description <- calc_atemp_plausi_description(
       dat,
@@ -265,7 +267,8 @@ uniq_plausi_results <- function(rv,
           u_key <-
             mdr[get("source_system_name") == rv$target$system_name &
                   get("variable_name") == u$variable_name &
-                  get("dqa_assessment") == 1, get("variable_name")]
+                  # Back to key: 'variable_name' was here, instead of 'key':
+                  get("dqa_assessment") == 1, get("key")]
           raw_data <- "data_target"
         }
 

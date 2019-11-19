@@ -138,7 +138,8 @@ get_atemp_plausis <- function(rv,
           u_key <-
             mdr[get("source_system_name") == rv$target$system_name &
                   get("variable_name") == u$variable_name &
-                  get("dqa_assessment") == 1, get("variable_name")]
+                  # Back to key: 'variable_name' was assigned here:
+                  get("dqa_assessment") == 1, get("key")]
           raw_data <- "data_target"
         }
 
@@ -171,7 +172,8 @@ get_atemp_plausis <- function(rv,
             m_key <-
               mdr[get("source_system_name") == rv$target$system_name &
                     get("variable_name") == i &
-                    get("dqa_assessment") == 1, get("variable_name")]
+                    # Back to key: 'variable_name' was assigned here:
+                    get("dqa_assessment") == 1, get("key")]
           }
 
           if (!is.null(u$filter[[src_flag]])) {
@@ -198,7 +200,8 @@ get_atemp_plausis <- function(rv,
               j_key <-
                 mdr[get("source_system_name") == rv$target$system_name &
                       get("variable_name") == u$join_crit &
-                      get("dqa_assessment") == 1, get("variable_name")]
+                      # Back to key: 'variable_name' was assigned here:
+                      get("dqa_assessment") == 1, get("key")]
             }
 
             # get colnames

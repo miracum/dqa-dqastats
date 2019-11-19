@@ -128,46 +128,48 @@ calc_counts <- function(cnt_dat,
     # the variable_name is used to store the sql statements)
   } else if (rv$source$system_type %in%
              c("postgres", "mysql", "fhir")) {
-    key_col_name_src <- "variable_name"
+    # Back to key: 'variable_name' was assigned here:
+    key_col_name_src <- "key"
   }
   if (rv$target$system_type == "csv") {
     key_col_name_tar <- "source_table_name"
   } else if (rv$target$system_type %in%
              c("postgres", "mysql", "fhir")) {
-    key_col_name_tar <- "variable_name"
+    # Back to key: 'variable_name' was assigned here:
+    key_col_name_tar <- "key"
   }
 
   counts$source_data$cnt <- tryCatch(
     expr = {
-    if (isTRUE(datamap)) {
-      cnt <- count_uniques(
-        data = rv$data_source[[cnt_dat[get("source_system_name") ==
-                                         rv$source$system_name,
-                                       get(key_col_name_src)]]],
-        var = count_key,
-        sourcesystem = rv$source$system_name,
-        datamap = datamap
-      )
+      if (isTRUE(datamap)) {
+        cnt <- count_uniques(
+          data = rv$data_source[[cnt_dat[get("source_system_name") ==
+                                           rv$source$system_name,
+                                         get(key_col_name_src)]]],
+          var = count_key,
+          sourcesystem = rv$source$system_name,
+          datamap = datamap
+        )
+        cnt
+      } else {
+        cnt <- count_uniques(
+          data = rv$data_source[[cnt_dat[get("source_system_name") ==
+                                           rv$source$system_name,
+                                         get(key_col_name_src)]]],
+          var = count_key,
+          sourcesystem = rv$source$system_name,
+          datamap = datamap
+        )
+        cnt
+      }
+    }, error = function(e) {
+      cat("\nError occured when counting source_data\n")
+      print(e)
+      cnt <- NULL
       cnt
-    } else {
-      cnt <- count_uniques(
-        data = rv$data_source[[cnt_dat[get("source_system_name") ==
-                                         rv$source$system_name,
-                                       get(key_col_name_src)]]],
-        var = count_key,
-        sourcesystem = rv$source$system_name,
-        datamap = datamap
-      )
-      cnt
-    }
-  }, error = function(e) {
-    cat("\nError occured when counting source_data\n")
-    print(e)
-    cnt <- NULL
-    cnt
-  }, finally = function(f) {
-    return(cnt)
-  })
+    }, finally = function(f) {
+      return(cnt)
+    })
 
   counts$source_data$type <-
     cnt_dat[get("source_system_name") ==
@@ -177,24 +179,24 @@ calc_counts <- function(cnt_dat,
   # for target_data; our data is in rv$data_target$key
   counts$target_data$cnt <- tryCatch(
     expr = {
-    cnt <- count_uniques(
-      data = rv$data_target[[cnt_dat[get("source_system_name") ==
-                                     rv$target$system_name,
-                                     get(key_col_name_tar)]]],
-      var = count_key,
-      sourcesystem = rv$target$system_name,
-      datamap = datamap
-    )
-    cnt
+      cnt <- count_uniques(
+        data = rv$data_target[[cnt_dat[get("source_system_name") ==
+                                         rv$target$system_name,
+                                       get(key_col_name_tar)]]],
+        var = count_key,
+        sourcesystem = rv$target$system_name,
+        datamap = datamap
+      )
+      cnt
 
-  }, error = function(e) {
-    cat("\nError occured when counting target_data\n")
-    print(e)
-    cnt <- NULL
-    cnt
-  }, finally = function(f) {
-    return(cnt)
-  })
+    }, error = function(e) {
+      cat("\nError occured when counting target_data\n")
+      print(e)
+      cnt <- NULL
+      cnt
+    }, finally = function(f) {
+      return(cnt)
+    })
 
   counts$target_data$type <-
     cnt_dat[get("source_system_name") ==
@@ -213,65 +215,67 @@ calc_cat_stats <- function(stat_dat,
     key_col_name_src <- "source_table_name"
   } else if (rv$source$system_type %in%
              c("postgres", "mysql", "fhir")) {
-    key_col_name_src <- "variable_name"
+    # Back to key: 'variable_name' was assigned here:
+    key_col_name_src <- "key"
   }
   if (rv$target$system_type == "csv") {
     key_col_name_tar <- "source_table_name"
   } else if (rv$target$system_type %in%
              c("postgres", "mysql", "fhir")) {
-    key_col_name_tar <- "variable_name"
+    # Back to key: 'variable_name' was assigned here:
+    key_col_name_tar <- "key"
   }
 
   statistics$source_data <- tryCatch(
     expr = {
-    if (isFALSE(plausibility)) {
-      # for source_data; our data is in rv$data_source$source_table_name
-      source_data <- categorical_analysis(
-        data = rv$data_source[[stat_dat[get(
-          "source_system_name") == rv$source$system_name,
-          get(key_col_name_src)]]],
-        var = stat_key,
-        levellimit = Inf
-      )
+      if (isFALSE(plausibility)) {
+        # for source_data; our data is in rv$data_source$source_table_name
+        source_data <- categorical_analysis(
+          data = rv$data_source[[stat_dat[get(
+            "source_system_name") == rv$source$system_name,
+            get(key_col_name_src)]]],
+          var = stat_key,
+          levellimit = Inf
+        )
+        source_data
+      } else {
+        source_data <- categorical_analysis(
+          data = rv$data_source[[stat_dat[get(
+            "source_system_name") == rv$source$system_name,
+            get(key_col_name_src)]]],
+          var = stat_key,
+          levellimit = Inf
+        )
+        source_data
+      }
+    }, error = function(e) {
+      cat("\nError occured when calculating source catStats\n")
+      print(e)
+      source_data <- NULL
       source_data
-    } else {
-      source_data <- categorical_analysis(
-        data = rv$data_source[[stat_dat[get(
-          "source_system_name") == rv$source$system_name,
-          get(key_col_name_src)]]],
-        var = stat_key,
-        levellimit = Inf
-      )
-      source_data
-    }
-  }, error = function(e) {
-    cat("\nError occured when calculating source catStats\n")
-    print(e)
-    source_data <- NULL
-    source_data
-  }, finally = function(f) {
-    return(source_data)
-  })
+    }, finally = function(f) {
+      return(source_data)
+    })
 
   statistics$target_data <- tryCatch(
     expr = {
-    target_data <- categorical_analysis(
-      data = rv$data_target[[stat_dat[get(
-        "source_system_name") ==
-          rv$target$system_name, get(key_col_name_tar)]]],
-      var = stat_key,
-      levellimit = Inf
-    )
-    target_data
+      target_data <- categorical_analysis(
+        data = rv$data_target[[stat_dat[get(
+          "source_system_name") ==
+            rv$target$system_name, get(key_col_name_tar)]]],
+        var = stat_key,
+        levellimit = Inf
+      )
+      target_data
 
-  }, error = function(e) {
-    cat("\nError occured when calculating target catStats\n")
-    print(e)
-    target_data <- NULL
-    target_data
-  }, finally = function(f) {
-    return(target_data)
-  })
+    }, error = function(e) {
+      cat("\nError occured when calculating target catStats\n")
+      print(e)
+      target_data <- NULL
+      target_data
+    }, finally = function(f) {
+      return(target_data)
+    })
 
   return(statistics)
 }
@@ -286,13 +290,14 @@ calc_num_stats <- function(stat_dat,
     key_col_name_src <- "source_table_name"
   } else if (rv$source$system_type %in%
              c("postgres", "mysql", "fhir")) {
-    key_col_name_src <- "variable_name"
+    # Back to key: 'variable_name' was assigned here:
+    key_col_name_src <- "key"
   }
   if (rv$target$system_type == "csv") {
     key_col_name_tar <- "source_table_name"
   } else if (rv$target$system_type %in%
              c("postgres", "mysql", "fhir")) {
-    key_col_name_tar <- "variable_name"
+    key_col_name_tar <- "key"
   }
 
   if (stat_dat[get("source_system_name") ==
