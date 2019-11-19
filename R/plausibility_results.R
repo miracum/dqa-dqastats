@@ -86,6 +86,7 @@ atemp_pausi_results <- function(rv,
                  "source_variable_name",
                  "source_table_name",
                  "variable_type",
+                 "key",
                  "variable_name",
                  "variable_name"
                ), with = F]
@@ -307,7 +308,8 @@ uniq_plausi_results <- function(rv,
               mdr[!grepl("^pl\\.", get("variable_name")), ][
                 get("source_system_name") == rv$target$system_name &
                   get("variable_name") == i &
-                  get("dqa_assessment") == 1, get("variable_name")
+                  # Back to key: 'variable_name' not 'key' was assigned here:
+                  get("dqa_assessment") == 1, get("key")
                 ]
           }
 

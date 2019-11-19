@@ -112,6 +112,7 @@ descriptive_results <- function(rv,
           "source_variable_name",
           "source_table_name",
           "variable_type",
+          "key",
           "variable_name"
         ), with = F]
 
@@ -144,6 +145,7 @@ descriptive_results <- function(rv,
           "source_variable_name",
           "source_table_name",
           "variable_type",
+          "key",
           "variable_name"
         ), with = F]
 

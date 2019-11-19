@@ -86,9 +86,12 @@ load_csv_files <- function(mdr,
     }
 
 
+
     input_vars <- available_systems[get("source_table_name") ==
-                                      inputfile, c("source_variable_name",
-                                                   "variable_type")]
+                                      inputfile &
+                                      !is.na(get("variable_type")),
+                                    c("source_variable_name",
+                                      "variable_type")]
 
     select_cols <- unlist(
       sapply(
@@ -297,6 +300,8 @@ load_database <- function(rv,
         detail = paste("... working hard to read", i, "...")
       )
     }
+
+    stopifnot(!is.null(rv$sql_target[[i]]))
 
     fire_sql_statement(
       rv = rv,

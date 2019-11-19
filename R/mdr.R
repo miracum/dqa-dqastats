@@ -101,7 +101,7 @@ create_helper_vars <- function(mdr,
                    unique(get("source_system_type"))] == "postgres") {
       outlist[[paste0("keys_", f)]] <- mdr[get("variable_name") != "undefined", ][
         get("source_system_name") == eval(parse(text = paste0(f, "_db"))),
-        unique(get("variable_name"))]
+        unique(get("key"))]
     }
   }
 
@@ -115,6 +115,7 @@ create_helper_vars <- function(mdr,
                                       "source_variable_name",
                                       "variable_name",
                                       "variable_type",
+                                      "key",
                                       "source_table_name"
                                     ), with = F
                                     ]
