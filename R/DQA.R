@@ -49,17 +49,23 @@
 #' @export
 
 dqa <- function(source_system_name,
-                target_system_name = source_system_name,
+                target_system_name,
                 config_file,
                 utils_path,
-                mdr_filename = "mdr.csv") {
+                mdr_filename = "mdr.csv",
+                output_dir = "./output/") {
+
+  if (missing(target_system_name)) {
+    target_system_name <- source_system_name
+  }
 
   stopifnot(
     is.character(source_system_name),
     is.character(target_system_name),
     is.character(config_file),
     is.character(utils_path),
-    is.character(mdr_filename)
+    is.character(mdr_filename),
+    is.character(output_dir)
   )
 
   # initialize rv-list
@@ -78,8 +84,9 @@ dqa <- function(source_system_name,
   # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
 
-  # clean utils paths (to append the ending slash)
+  # clean paths (to append the ending slash)
   rv$utilspath <- clean_path_name(utils_path)
+  output_dir <- clean_path_name(output_dir)
 
   # add mdr-filename
   rv$mdr_filename <- mdr_filename
@@ -125,20 +132,28 @@ dqa <- function(source_system_name,
   rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
   # load source data:
-  rv$data_source <- data_loading(
+  temp_dat <- data_loading(
     rv = rv,
     system = rv$source,
     keys_to_test = rv$keys_source
   )
+  rv$data_source <- temp_dat$outdata
+  rv$source$sql <- temp_dat$sql_statements
+  rm(temp_dat)
+  invisible(gc())
 
   # load target_data
-  if (!is.null(rv$target$system_name)) {
+  if (rv$target$system_name != rv$source$system_name) {
     # load target
-    rv$data_target <- data_loading(
+    temp_dat <- data_loading(
       rv = rv,
       system = rv$target,
       keys_to_test = rv$keys_target
     )
+    rv$data_target <- temp_dat$outdata
+    rv$target$sql <- temp_dat$sql_statements
+    rm(temp_dat)
+    invisible(gc())
   } else {
     rv$data_target <- rv$data_source
   }
@@ -240,10 +255,13 @@ dqa <- function(source_system_name,
   rv$checks$etl <- etl_checks(results = rv$results_descriptive)
 
   # create report
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir)
+  }
   create_markdown(
     rv = rv,
     utils_path = rv$utilspath,
-    outdir = "./",
+    outdir = paste0(getwd(), "/", output_dir),
     headless = rv$headless
   )
 

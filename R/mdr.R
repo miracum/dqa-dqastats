@@ -101,7 +101,7 @@ create_helper_vars <- function(mdr,
                    unique(get("source_system_type"))] == "postgres") {
       outlist[[paste0("keys_", f)]] <- mdr[get("variable_name") != "undefined", ][
         get("source_system_name") == eval(parse(text = paste0(f, "_db"))),
-        unique(get("variable_name"))]
+        unique(get("key"))]
     }
   }
 
@@ -115,6 +115,7 @@ create_helper_vars <- function(mdr,
                                       "source_variable_name",
                                       "variable_name",
                                       "variable_type",
+                                      "key",
                                       "source_table_name"
                                     ), with = F
                                     ]
@@ -129,7 +130,8 @@ create_helper_vars <- function(mdr,
 
   # get list of pl_vars for plausibility analyses
   pl_vars <-
-    mdr[!is.na(get("plausibility_relation")), ][
+    mdr[!is.na(get("plausibility_relation")) &
+          get("source_system_name") == source_db, ][
       order(get("source_table_name")), c("designation",
                                          "variable_name",
                                          "variable_type",

@@ -93,6 +93,10 @@ get_atemp_plausis <- function(rv,
       # save some additional information about variable in output data
       outname <- tolower(u$name)
 
+      key_cols <- get_key_col(rv)
+      key_col_name_src <- key_cols$source
+      key_col_name_tar <- key_cols$target
+
       # get information on source data
       for (k in c("source_data", "target_data")) {
 
@@ -131,7 +135,7 @@ get_atemp_plausis <- function(rv,
           u_key <-
             mdr[get("source_system_name") == rv$source$system_name &
                   get("variable_name") == u$variable_name &
-                  get("dqa_assessment") == 1, get("source_table_name")]
+                  get("dqa_assessment") == 1, get(key_col_name_src)]
           raw_data <- "data_source"
 
         } else {
@@ -139,7 +143,7 @@ get_atemp_plausis <- function(rv,
             mdr[get("source_system_name") == rv$target$system_name &
                   get("variable_name") == u$variable_name &
                   # Back to key: 'variable_name' was assigned here:
-                  get("dqa_assessment") == 1, get("key")]
+                  get("dqa_assessment") == 1, get(key_col_name_tar)]
           raw_data <- "data_target"
         }
 
@@ -167,13 +171,13 @@ get_atemp_plausis <- function(rv,
             m_key <-
               mdr[get("source_system_name") == rv$source$system_name &
                     get("variable_name") == i &
-                    get("dqa_assessment") == 1, get("source_table_name")]
+                    get("dqa_assessment") == 1, get(key_col_name_src)]
           } else {
             m_key <-
               mdr[get("source_system_name") == rv$target$system_name &
                     get("variable_name") == i &
                     # Back to key: 'variable_name' was assigned here:
-                    get("dqa_assessment") == 1, get("key")]
+                    get("dqa_assessment") == 1, get(key_col_name_tar)]
           }
 
           if (!is.null(u$filter[[src_flag]])) {
@@ -195,13 +199,13 @@ get_atemp_plausis <- function(rv,
               j_key <-
                 mdr[get("source_system_name") == rv$source$system_name &
                       get("variable_name") == u$join_crit &
-                      get("dqa_assessment") == 1, get("source_table_name")]
+                      get("dqa_assessment") == 1, get(key_col_name_src)]
             } else {
               j_key <-
                 mdr[get("source_system_name") == rv$target$system_name &
                       get("variable_name") == u$join_crit &
                       # Back to key: 'variable_name' was assigned here:
-                      get("dqa_assessment") == 1, get("key")]
+                      get("dqa_assessment") == 1, get(key_col_name_tar)]
             }
 
             # get colnames
