@@ -63,15 +63,23 @@ value_conformance <- function(results,
       d_out <- desc_out[[j]]
       s_out <- stat_out[[j]]
 
-      constraints <- d_out$checks$constraints
+      # parse constraints
+      constraints <- tryCatch(
+        expr = {
+          c <- jsonlite::fromJSON(d_out$checks$constraints)
+        }, error = function(e) {
+          print(e)
+          c <- NA
+          c
+        }, finally = function(f) {
+          return(c)
+        }
+      )
 
       if (!is.na(constraints)) {
-        if (constraints != "{}") {
+        if (length(constraints[[1]]) > 0) {
           # initialize outlist
           outlist2 <- list()
-
-          # parse constraints
-          constraints <- jsonlite::fromJSON(constraints)
 
           # categorical treatment (value_set)
           if (d_out$checks$var_type == "permittedValues") {

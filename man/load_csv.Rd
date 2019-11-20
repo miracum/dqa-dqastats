@@ -4,7 +4,7 @@
 \alias{load_csv}
 \title{load_csv helper function}
 \usage{
-load_csv(rv, keys_to_test, headless = FALSE, system_name)
+load_csv(rv, keys_to_test, headless = FALSE, system)
 }
 \arguments{
 \item{rv}{A list object. Internal list simulating Shiny's
@@ -17,7 +17,7 @@ the variables to test.}
 run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
 
-\item{system_name}{The name of the system rv$system$system_name}
+\item{system}{The system object rv$system}
 }
 \description{
 Internal function to load the source data

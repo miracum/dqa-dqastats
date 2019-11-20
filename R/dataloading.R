@@ -172,14 +172,16 @@ map_var_types <- function(string) {
 #'   'reactive values'.
 #' @param keys_to_test A vector containing the names (keys) of
 #'   the variables to test.
-#' @param system_name The name of the system rv$system$system_name
+#' @param system The system object rv$system
 #' @inheritParams test_target_db
 #'
 #' @export
 load_csv <- function(rv,
                      keys_to_test,
                      headless = FALSE,
-                     system_name) {
+                     system) {
+
+  stopifnot(is.character(system$settings$dir))
 
   # initialize outlist
   outlist <- list()
@@ -187,8 +189,8 @@ load_csv <- function(rv,
   # read sourcedata
   outlist <- load_csv_files(
     mdr = rv$mdr,
-    inputdir = rv$sourcefiledir,
-    sourcesystem = system_name,
+    inputdir = clean_path_name(system$settings$dir),
+    sourcesystem = system$system_name,
     headless = headless
   )
 
@@ -424,7 +426,7 @@ data_loading <- function(rv, system, keys_to_test) {
       rv = rv,
       keys_to_test = keys_to_test,
       headless = rv$headless,
-      system_name = system$system_name
+      system = system
     )
 
   } else if (system$system_type == "postgres") {
