@@ -307,7 +307,8 @@ calc_num_stats <- function(stat_dat,
           target_data <- extensive_summary(
             rv$data_target[[stat_dat[get(
               "source_system_name"
-            ) == rv$target$system_name, get(key_col_name_tar)]]][, get(stat_key)])
+            ) == rv$target$system_name, get(key_col_name_tar)]]]
+            [, get(stat_key)])
         } else {
           target_data <- extensive_summary(
             rv$data_target[[stat_dat[get(

@@ -271,6 +271,10 @@ load_csv <- function(rv,
 #'
 #' @description Internal function to load the target data
 #'
+#' @param sql_statements The SQL-Statement-object
+#'
+#' @param db_con The connection-socket
+#'
 #' @inheritParams load_csv
 #'
 #' @export
