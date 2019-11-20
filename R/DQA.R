@@ -37,6 +37,9 @@
 #' The filename of the MDR e.g. "mdr_example_data.csv"
 #' For a detailed description please visit \url{#TODO}.
 #'
+#' @param output_dir The path to the output folder where all the results will
+#' be stored.
+#'
 #' @import data.table
 #' @importFrom magrittr "%>%"
 #'

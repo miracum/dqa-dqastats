@@ -10,6 +10,10 @@ load_database(rv, sql_statements, db_con, keys_to_test, headless = FALSE)
 \item{rv}{A list object. Internal list simulating Shiny's
 'reactive values'.}
 
+\item{sql_statements}{The SQL-Statement-object}
+
+\item{db_con}{The connection-socket}
+
 \item{keys_to_test}{A vector containing the names (keys) of
 the variables to test.}
 
