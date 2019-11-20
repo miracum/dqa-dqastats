@@ -209,17 +209,16 @@ calc_cat_stats <- function(stat_dat,
           var = stat_key,
           levellimit = Inf
         )
-        source_data
       } else {
         source_data <- categorical_analysis(
           data = rv$data_source[[stat_dat[get(
             "source_system_name") == rv$source$system_name,
-            get(key_col_name_src)]]],
+            get("key")]]],
           var = stat_key,
           levellimit = Inf
         )
-        source_data
       }
+      source_data
     }, error = function(e) {
       cat("\nError occured when calculating source catStats\n")
       print(e)
@@ -231,13 +230,23 @@ calc_cat_stats <- function(stat_dat,
 
   statistics$target_data <- tryCatch(
     expr = {
-      target_data <- categorical_analysis(
-        data = rv$data_target[[stat_dat[get(
-          "source_system_name") ==
-            rv$target$system_name, get(key_col_name_tar)]]],
-        var = stat_key,
-        levellimit = Inf
-      )
+      if (isFALSE(plausibility)) {
+        target_data <- categorical_analysis(
+          data = rv$data_target[[stat_dat[get(
+            "source_system_name") ==
+              rv$target$system_name, get(key_col_name_tar)]]],
+          var = stat_key,
+          levellimit = Inf
+        )
+      } else {
+        target_data <- categorical_analysis(
+          data = rv$data_target[[stat_dat[get(
+            "source_system_name") ==
+              rv$target$system_name, get("key")]]],
+          var = stat_key,
+          levellimit = Inf
+        )
+      }
       target_data
 
     }, error = function(e) {
@@ -265,49 +274,56 @@ calc_num_stats <- function(stat_dat,
   if (stat_dat[get("source_system_name") ==
                rv$source$system_name, get("variable_type") !=
                "calendar"]) {
-    statistics$source_data <- tryCatch({
-      if (isFALSE(plausibility)) {
-        # for source_data; our data is in rv$data_source$source_table_name
-        source_data <- extensive_summary(
-          rv$data_source[[stat_dat[get(
-            "source_system_name"
-          ) == rv$source$system_name, get(
-            key_col_name_src
-          )]]][, get(stat_key)]
-        )
+    statistics$source_data <- tryCatch(
+      expr = {
+        if (isFALSE(plausibility)) {
+          # for source_data; our data is in rv$data_source$source_table_name
+          source_data <- extensive_summary(
+            rv$data_source[[stat_dat[get(
+              "source_system_name"
+            ) == rv$source$system_name, get(
+              key_col_name_src
+            )]]][, get(stat_key)]
+          )
+        } else {
+          source_data <- extensive_summary(
+            rv$data_source[[stat_dat[get(
+              "source_system_name"
+            ) == rv$source$system_name, get("key")]]][, get(stat_key)])
+        }
         source_data
-
-      } else {
-        source_data <- extensive_summary(
-          rv$data_source[[stat_dat[get(
-            "source_system_name"
-          ) == rv$source$system_name, get(key_col_name_src)]]][, get(stat_key)])
+      }, error = function(e) {
+        cat("\nError occured when calculating simple source numStats\n")
+        print(e)
+        source_data <- NULL
         source_data
-      }
-    }, error = function(e) {
-      cat("\nError occured when calculating simple source numStats\n")
-      print(e)
-      source_data <- NULL
-      source_data
-    }, finally = function(f) {
-      return(source_data)
-    })
+      }, finally = function(f) {
+        return(source_data)
+      })
 
-    statistics$target_data <- tryCatch({
-      target_data <- extensive_summary(
-        rv$data_target[[stat_dat[get(
-          "source_system_name"
-        ) == rv$target$system_name, get(key_col_name_tar)]]][, get(stat_key)])
-      target_data
+    statistics$target_data <- tryCatch(
+      expr = {
+        if (isFALSE(plausibility)) {
+          target_data <- extensive_summary(
+            rv$data_target[[stat_dat[get(
+              "source_system_name"
+            ) == rv$target$system_name, get(key_col_name_tar)]]][, get(stat_key)])
+        } else {
+          target_data <- extensive_summary(
+            rv$data_target[[stat_dat[get(
+              "source_system_name"
+            ) == rv$target$system_name, get("key")]]][, get(stat_key)])
+        }
+        target_data
 
-    }, error = function(e) {
-      cat("\nError occured when calculating simple target numStats\n")
-      print(e)
-      target_data <- NULL
-      target_data
-    }, finally = function(f) {
-      return(target_data)
-    })
+      }, error = function(e) {
+        cat("\nError occured when calculating simple target numStats\n")
+        print(e)
+        target_data <- NULL
+        target_data
+      }, finally = function(f) {
+        return(target_data)
+      })
 
 
   } else {
@@ -319,16 +335,15 @@ calc_num_stats <- function(stat_dat,
           ) == rv$source$system_name, get(
             key_col_name_src
           )]]][, get(stat_key)])
-        source_data
       } else {
         source_data <- simple_summary(
           rv$data_source[[stat_dat[get(
             "source_system_name"
           ) == rv$source$system_name, get(
-            key_col_name_src
+            "key"
           )]]][, get(stat_key)])
-        source_data
       }
+      source_data
 
     }, error = function(e) {
       cat("\nError occured when calculating simple source numStats\n")
@@ -340,12 +355,21 @@ calc_num_stats <- function(stat_dat,
     })
 
     statistics$target_data <- tryCatch({
-      target_data <- simple_summary(
-        rv$data_target[[stat_dat[get(
-          "source_system_name"
-        ) == rv$target$system_name, get(
-          key_col_name_tar
-        )]]][, get(stat_key)])
+      if (isFALSE(plausibility)) {
+        target_data <- simple_summary(
+          rv$data_target[[stat_dat[get(
+            "source_system_name"
+          ) == rv$target$system_name, get(
+            key_col_name_tar
+          )]]][, get(stat_key)])
+      } else {
+        target_data <- simple_summary(
+          rv$data_target[[stat_dat[get(
+            "source_system_name"
+          ) == rv$target$system_name, get(
+            "key"
+          )]]][, get(stat_key)])
+      }
       target_data
 
     }, error = function(e) {
