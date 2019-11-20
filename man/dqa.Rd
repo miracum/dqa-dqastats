@@ -6,10 +6,11 @@
 \usage{
 dqa(
   source_system_name,
-  target_system_name = source_system_name,
+  target_system_name,
   config_file,
   utils_path,
-  mdr_filename = "mdr.csv"
+  mdr_filename = "mdr.csv",
+  output_dir = "./output/"
 )
 }
 \arguments{

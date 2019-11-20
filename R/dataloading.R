@@ -42,9 +42,9 @@ fire_sql_statement <- function(rv,
 
 # load csv files
 load_csv_files <- function(mdr,
-                     inputdir,
-                     sourcesystem,
-                     headless = T) {
+                           inputdir,
+                           sourcesystem,
+                           headless = T) {
 
   if (isFALSE(headless)) {
     # Create a Progress object
@@ -209,7 +209,8 @@ load_csv <- function(rv,
 
     # check, if column name in variables of interest
     # var_names of interest:
-    var_names <- rv$mdr[get("source_table_name") == i,
+    var_names <- rv$mdr[get("source_table_name") == i &
+                          get("source_system_name") == system_name,
                         ][
                           , get("source_variable_name")
                           ]
@@ -229,10 +230,11 @@ load_csv <- function(rv,
 
     for (j in col_names) {
       if (j %in% var_names) {
-        vn <- rv$mdr[get("source_table_name") == i,
+        vn <- rv$mdr[get("source_table_name") == i &
+                       get("source_system_name") == system_name,
                      ][
-                         get("source_variable_name") ==
-                           j, get("variable_name")]
+                       get("source_variable_name") ==
+                         j, get("variable_name")]
         colnames(outlist[[i]])[which(col_names == j)] <- vn
 
         # transform date_vars to dates
@@ -271,8 +273,10 @@ load_csv <- function(rv,
 #'
 #' @export
 load_database <- function(rv,
-                        keys_to_test,
-                        headless = FALSE) {
+                          sql_statements,
+                          db_con,
+                          keys_to_test,
+                          headless = FALSE) {
 
   # initialize outlist
   outlist <- list()
@@ -301,12 +305,12 @@ load_database <- function(rv,
       )
     }
 
-    stopifnot(!is.null(rv$sql_target[[i]]))
+    stopifnot(!is.null(sql_statements[[i]]))
 
     fire_sql_statement(
       rv = rv,
-      db_con = rv$db_con_target,
-      sql = rv$sql_target[[i]],
+      db_con = db_con,
+      sql = sql_statements[[i]],
       headless = headless
     )
   }, simplify = F, USE.NAMES = T)
@@ -315,7 +319,7 @@ load_database <- function(rv,
     progress$close()
   }
 
-  RPostgres::dbDisconnect(rv$db_con_target)
+  RPostgres::dbDisconnect(db_con)
 
   if (isFALSE(headless)) {
     # Create a Progress object
@@ -379,6 +383,7 @@ load_database <- function(rv,
 #' @export
 data_loading <- function(rv, system, keys_to_test) {
   # TODO: Test it!
+  #
 
   # check if all now necessary parameters are correct:
   stopifnot(
@@ -402,6 +407,9 @@ data_loading <- function(rv, system, keys_to_test) {
       is.data.table(rv$mdr)
   )
 
+  # create return object
+  outlist <- list()
+
   if (system$system_type == "csv") {
     test_csv_result <- test_csv(
       source_settings = system$settings,
@@ -412,38 +420,37 @@ data_loading <- function(rv, system, keys_to_test) {
     stopifnot(isTRUE(test_csv_result))
 
     # load csv
-    outdata <- load_csv(
+    outlist$outdata <- load_csv(
       rv = rv,
       keys_to_test = keys_to_test,
       headless = rv$headless,
       system_name = system$system_name
     )
-    return(outdata)
 
   } else if (system$system_type == "postgres") {
     # import target SQL
-    rv$sql_target <- load_sqls(utils_path = rv$utilspath,
-                               db = system$system_name)
-    stopifnot(is.list(rv$sql_target))
+    outlist$sql_statements <- load_sqls(utils_path = rv$utilspath,
+                                        db = system$system_name)
+    stopifnot(is.list(outlist$sql_statements))
 
     # test target_db
-    test_db <-
+    db_con <-
       test_target_db(target_settings = system$settings,
                      headless = rv$headless)
-    stopifnot(!is.null(test_db))
-
-    rv$db_con_target <- test_db
-    rm(test_db)
+    stopifnot(!is.null(db_con))
 
     # load target data
-    outdata <- load_database(
+    outlist$outdata <- load_database(
       rv = rv,
+      sql_statements = outlist$sql_statements,
+      db_con = db_con,
       keys_to_test = keys_to_test,
       headless = rv$headless
     )
-    return(outdata)
+    rm(db_con)
+
   } else {
     stop("\nThis source_system_type is currently not implemented.\n\n")
   }
-  return(NULL)
+  return(outlist)
 }

@@ -130,7 +130,8 @@ create_helper_vars <- function(mdr,
 
   # get list of pl_vars for plausibility analyses
   pl_vars <-
-    mdr[!is.na(get("plausibility_relation")), ][
+    mdr[!is.na(get("plausibility_relation")) &
+          get("source_system_name") == source_db, ][
       order(get("source_table_name")), c("designation",
                                          "variable_name",
                                          "variable_type",

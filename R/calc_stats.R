@@ -118,26 +118,9 @@ calc_counts <- function(cnt_dat,
 
   counts <- list()
 
-  # if system_type = "csv" --> our index to find
-  # our table is the filename, stored in "source_table_name"
-  if (rv$source$system_type == "csv") {
-    key_col_name_src <- "source_table_name"
-
-    # if system_type = "postgres" --> our index to find
-    # our table is the "variable_name" (correspondingly,
-    # the variable_name is used to store the sql statements)
-  } else if (rv$source$system_type %in%
-             c("postgres", "mysql", "fhir")) {
-    # Back to key: 'variable_name' was assigned here:
-    key_col_name_src <- "key"
-  }
-  if (rv$target$system_type == "csv") {
-    key_col_name_tar <- "source_table_name"
-  } else if (rv$target$system_type %in%
-             c("postgres", "mysql", "fhir")) {
-    # Back to key: 'variable_name' was assigned here:
-    key_col_name_tar <- "key"
-  }
+  key_cols <- get_key_col(rv)
+  key_col_name_src <- key_cols$source
+  key_col_name_tar <- key_cols$target
 
   counts$source_data$cnt <- tryCatch(
     expr = {
@@ -211,20 +194,9 @@ calc_cat_stats <- function(stat_dat,
                            plausibility = FALSE) {
   statistics <- list()
 
-  if (rv$source$system_type == "csv") {
-    key_col_name_src <- "source_table_name"
-  } else if (rv$source$system_type %in%
-             c("postgres", "mysql", "fhir")) {
-    # Back to key: 'variable_name' was assigned here:
-    key_col_name_src <- "key"
-  }
-  if (rv$target$system_type == "csv") {
-    key_col_name_tar <- "source_table_name"
-  } else if (rv$target$system_type %in%
-             c("postgres", "mysql", "fhir")) {
-    # Back to key: 'variable_name' was assigned here:
-    key_col_name_tar <- "key"
-  }
+  key_cols <- get_key_col(rv)
+  key_col_name_src <- key_cols$source
+  key_col_name_tar <- key_cols$target
 
   statistics$source_data <- tryCatch(
     expr = {
@@ -286,19 +258,9 @@ calc_num_stats <- function(stat_dat,
                            plausibility = FALSE) {
   statistics <- list()
 
-  if (rv$source$system_type == "csv") {
-    key_col_name_src <- "source_table_name"
-  } else if (rv$source$system_type %in%
-             c("postgres", "mysql", "fhir")) {
-    # Back to key: 'variable_name' was assigned here:
-    key_col_name_src <- "key"
-  }
-  if (rv$target$system_type == "csv") {
-    key_col_name_tar <- "source_table_name"
-  } else if (rv$target$system_type %in%
-             c("postgres", "mysql", "fhir")) {
-    key_col_name_tar <- "key"
-  }
+  key_cols <- get_key_col(rv)
+  key_col_name_src <- key_cols$source
+  key_col_name_tar <- key_cols$target
 
   if (stat_dat[get("source_system_name") ==
                rv$source$system_name, get("variable_type") !=
@@ -397,4 +359,32 @@ calc_num_stats <- function(stat_dat,
   }
 
   return(statistics)
+}
+
+
+
+
+get_key_col <- function(rv) {
+  # if system_type = "csv" --> our index to find
+  # our table is the filename, stored in "source_table_name"
+  if (rv$source$system_type == "csv") {
+    key_col_name_src <- "source_table_name"
+
+    # if system_type = "postgres" --> our index to find
+    # our table is the "variable_name" (correspondingly,
+    # the variable_name is used to store the sql statements)
+  } else if (rv$source$system_type %in%
+             c("postgres", "mysql", "fhir")) {
+    # Back to key: 'variable_name' was assigned here:
+    key_col_name_src <- "key"
+  }
+  if (rv$target$system_type == "csv") {
+    key_col_name_tar <- "source_table_name"
+  } else if (rv$target$system_type %in%
+             c("postgres", "mysql", "fhir")) {
+    # Back to key: 'variable_name' was assigned here:
+    key_col_name_tar <- "key"
+  }
+  return(list(source = key_col_name_src,
+              target = key_col_name_tar))
 }

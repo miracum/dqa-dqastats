@@ -244,6 +244,10 @@ uniq_plausi_results <- function(rv,
 
       outlist[[u$name]]$description <- u$description
 
+      key_cols <- get_key_col(rv)
+      key_col_name_src <- key_cols$source
+      key_col_name_tar <- key_cols$target
+
       # get information on source data
       for (k in c("source_data", "target_data")) {
         src_flag <- ifelse(
@@ -262,14 +266,14 @@ uniq_plausi_results <- function(rv,
           u_key <-
             mdr[get("source_system_name") == rv$source$system_name &
                   get("variable_name") == u$variable_name &
-                  get("dqa_assessment") == 1, get("source_table_name")]
+                  get("dqa_assessment") == 1, get(key_col_name_src)]
           raw_data <- "data_source"
         } else {
           u_key <-
             mdr[get("source_system_name") == rv$target$system_name &
                   get("variable_name") == u$variable_name &
                   # Back to key: 'variable_name' was here, instead of 'key':
-                  get("dqa_assessment") == 1, get("key")]
+                  get("dqa_assessment") == 1, get(key_col_name_tar)]
           raw_data <- "data_target"
         }
 
@@ -300,7 +304,7 @@ uniq_plausi_results <- function(rv,
               mdr[!grepl("^pl\\.", get("variable_name")), ][
                 get("source_system_name") == rv$source$system_name &
                   get("variable_name") == i &
-                  get("dqa_assessment") == 1, get("source_table_name")
+                  get("dqa_assessment") == 1, get(key_col_name_src)
                 ]
 
           } else {
@@ -309,7 +313,7 @@ uniq_plausi_results <- function(rv,
                 get("source_system_name") == rv$target$system_name &
                   get("variable_name") == i &
                   # Back to key: 'variable_name' not 'key' was assigned here:
-                  get("dqa_assessment") == 1, get("key")
+                  get("dqa_assessment") == 1, get(key_col_name_tar)
                 ]
           }
 
