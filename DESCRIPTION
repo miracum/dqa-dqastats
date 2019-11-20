@@ -8,8 +8,7 @@ Authors@R:
              email = "lorenz.kapsner@uk-erlangen.de"),
       person(given = "Jonathan M.",
              family = "Mang",
-             role = "aut",
-             email = "jonathan.mang@uk-erlangen.de"))
+             role = "aut"))
 Description: Perform data quality assessment (DQA) of electronic health records (EHR).
 License: GPL-3
 LazyData: true
@@ -17,7 +16,7 @@ URL: https://gitlab.miracum.org/miracum-dqa/dqastats
 BugReports: https://gitlab.miracum.org/miracum-dqa/dqastats/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date: 2019-11-15
+Date: 2019-11-20
 Imports: 
     data.table,
     shiny,
