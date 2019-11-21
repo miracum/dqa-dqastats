@@ -212,7 +212,7 @@ load_csv <- function(rv,
     # check, if column name in variables of interest
     # var_names of interest:
     var_names <- rv$mdr[get("source_table_name") == i &
-                          get("source_system_name") == system_name,
+                          get("source_system_name") == system$system_name,
                         ][
                           , get("source_variable_name")
                           ]
@@ -233,7 +233,7 @@ load_csv <- function(rv,
     for (j in col_names) {
       if (j %in% var_names) {
         vn <- rv$mdr[get("source_table_name") == i &
-                       get("source_system_name") == system_name,
+                       get("source_system_name") == system$system_name,
                      ][
                        get("source_variable_name") ==
                          j, get("variable_name")]

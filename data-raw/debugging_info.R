@@ -1,5 +1,5 @@
 ## using example data:
-# source_system_name = "exampleCSV_source"
+# source_system_name = "exampleCSV_target"
 # target_system_name = "exampleCSV_target"
 # config_file = "inst/demo_data/utilities/settings/demo_settings.yml"
 # utils_path = "inst/demo_data/utilities"
@@ -9,10 +9,10 @@
 
 ## using real i2b2 data:
 source_system_name = "i2b2"
-target_system_name = "i2b2"
+target_system_name = "omop"
 config_file = "tests/testthat/testdata/demo_settings_INTERNAL.yml"
 utils_path = system.file("application/_utilities/", package = "miRacumDQA")
-mdr_filename = "mdr-test.csv"
+mdr_filename = "mdr.csv"
 output_dir = "output/"
 
 

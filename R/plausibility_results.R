@@ -90,13 +90,13 @@ atemp_pausi_results <- function(rv,
                  "variable_name",
                  "variable_name"
                ), with = F]
-    # workaround, to get old calc_counts function working with new cnt_dat
-    desc_dat[get("source_system_name") ==
-               # Back to key: 'variable_name' was here, instead of 'key':
-               rv$source$system_name, ("key") := paste0(i, "_source")]
-    desc_dat[get("source_system_name") ==
-               # Back to key: 'variable_name' was here, instead of 'key':
-               rv$target$system_name, ("key") := paste0(i, "_target")]
+    # # workaround, to get old calc_counts function working with new cnt_dat
+    # desc_dat[get("source_system_name") ==
+    #            # Back to key: 'variable_name' was here, instead of 'key':
+    #            rv$source$system_name, ("key") := paste0(i, "_source")]
+    # desc_dat[get("source_system_name") ==
+    #            # Back to key: 'variable_name' was here, instead of 'key':
+    #            rv$target$system_name, ("key") := paste0(i, "_target")]
 
     outlist[[i]]$description <- calc_atemp_plausi_description(
       dat,
@@ -126,7 +126,9 @@ atemp_pausi_results <- function(rv,
         cnt_dat = cnt_dat,
         count_key = cnt_dat[, unique(get("variable_name"))],
         rv,
-        datamap = FALSE
+        datamap = FALSE,
+        plausibility = TRUE,
+        plausibility_key = i
       )
     } else {
       cat("\nError occured during creating counts\n")
@@ -154,7 +156,8 @@ atemp_pausi_results <- function(rv,
         stat_dat,
         stat_dat[, unique(get("variable_name"))],
         rv,
-        plausibility = TRUE
+        plausibility = TRUE,
+        plausibility_key = i
       )
       # for target_data; our data is in rv$list_target$key
     } else {
@@ -162,7 +165,8 @@ atemp_pausi_results <- function(rv,
         stat_dat,
         stat_dat[, unique(get("variable_name"))],
         rv,
-        plausibility = TRUE
+        plausibility = TRUE,
+        plausibility_key = i
       )
     }
   }

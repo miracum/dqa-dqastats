@@ -20,7 +20,7 @@ test_that(desc = "test lints",
                   list(message = "cyclomatic complexity",
                        line_number = 179),
                   list(message = "cyclomatic complexity",
-                       line_number = 279)
+                       line_number = 281)
                 ),
                 "datamap.R" = NULL,
                 "DQA.R" = "cyclomatic complexity",

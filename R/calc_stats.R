@@ -114,7 +114,13 @@ calc_atemp_plausi_description <- function(dat,
 calc_counts <- function(cnt_dat,
                         count_key,
                         rv,
-                        datamap = TRUE) {
+                        datamap = TRUE,
+                        plausibility = FALSE,
+                        plausibility_key) {
+
+  if (base::missing(plausibility_key)) {
+    stopifnot(isFALSE(plausibility))
+  }
 
   counts <- list()
 
@@ -133,18 +139,24 @@ calc_counts <- function(cnt_dat,
           sourcesystem = rv$source$system_name,
           datamap = datamap
         )
-        cnt
-      } else {
+      } else if (isTRUE(plausibility)) {
         cnt <- count_uniques(
-          data = rv$data_source[[cnt_dat[get("source_system_name") ==
-                                           rv$source$system_name,
-                                         get(key_col_name_src)]]],
+          data = rv$data_source[[plausibility_key]],
           var = count_key,
           sourcesystem = rv$source$system_name,
           datamap = datamap
         )
-        cnt
+      } else {
+        cnt <- count_uniques(
+          data = rv$data_source[[cnt_dat[get("source_system_name") ==
+                                           rv$source$system_name,
+                                         get("key")]]],
+          var = count_key,
+          sourcesystem = rv$source$system_name,
+          datamap = datamap
+        )
       }
+      cnt
     }, error = function(e) {
       cat("\nError occured when counting source_data\n")
       print(e)
@@ -162,14 +174,32 @@ calc_counts <- function(cnt_dat,
   # for target_data; our data is in rv$data_target$key
   counts$target_data$cnt <- tryCatch(
     expr = {
-      cnt <- count_uniques(
-        data = rv$data_target[[cnt_dat[get("source_system_name") ==
-                                         rv$target$system_name,
-                                       get(key_col_name_tar)]]],
-        var = count_key,
-        sourcesystem = rv$target$system_name,
-        datamap = datamap
-      )
+      if (isTRUE(datamap)) {
+        cnt <- count_uniques(
+          data = rv$data_target[[cnt_dat[get("source_system_name") ==
+                                           rv$target$system_name,
+                                         get(key_col_name_tar)]]],
+          var = count_key,
+          sourcesystem = rv$target$system_name,
+          datamap = datamap
+        )
+      } else if (isTRUE(plausibility)) {
+        cnt <- count_uniques(
+          data = rv$data_target[[plausibility_key]],
+          var = count_key,
+          sourcesystem = rv$target$system_name,
+          datamap = datamap
+        )
+      } else {
+        cnt <- count_uniques(
+          data = rv$data_target[[cnt_dat[get("source_system_name") ==
+                                           rv$target$system_name,
+                                         get("key")]]],
+          var = count_key,
+          sourcesystem = rv$target$system_name,
+          datamap = datamap
+        )
+      }
       cnt
 
     }, error = function(e) {
@@ -191,7 +221,13 @@ calc_counts <- function(cnt_dat,
 calc_cat_stats <- function(stat_dat,
                            stat_key,
                            rv,
-                           plausibility = FALSE) {
+                           plausibility = FALSE,
+                           plausibility_key) {
+
+  if (base::missing(plausibility_key)) {
+    stopifnot(isFALSE(plausibility))
+  }
+
   statistics <- list()
 
   key_cols <- get_key_col(rv)
@@ -211,9 +247,7 @@ calc_cat_stats <- function(stat_dat,
         )
       } else {
         source_data <- categorical_analysis(
-          data = rv$data_source[[stat_dat[get(
-            "source_system_name") == rv$source$system_name,
-            get("key")]]],
+          data = rv$data_source[[plausibility_key]],
           var = stat_key,
           levellimit = Inf
         )
@@ -240,9 +274,7 @@ calc_cat_stats <- function(stat_dat,
         )
       } else {
         target_data <- categorical_analysis(
-          data = rv$data_target[[stat_dat[get(
-            "source_system_name") ==
-              rv$target$system_name, get("key")]]],
+          data = rv$data_target[[plausibility_key]],
           var = stat_key,
           levellimit = Inf
         )
@@ -264,7 +296,13 @@ calc_cat_stats <- function(stat_dat,
 calc_num_stats <- function(stat_dat,
                            stat_key,
                            rv,
-                           plausibility = FALSE) {
+                           plausibility = FALSE,
+                           plausibility_key) {
+
+  if (base::missing(plausibility_key)) {
+    stopifnot(isFALSE(plausibility))
+  }
+
   statistics <- list()
 
   key_cols <- get_key_col(rv)
@@ -287,9 +325,7 @@ calc_num_stats <- function(stat_dat,
           )
         } else {
           source_data <- extensive_summary(
-            rv$data_source[[stat_dat[get(
-              "source_system_name"
-            ) == rv$source$system_name, get("key")]]][, get(stat_key)])
+            rv$data_source[[plausibility_key]][, get(stat_key)])
         }
         source_data
       }, error = function(e) {
@@ -311,9 +347,7 @@ calc_num_stats <- function(stat_dat,
             [, get(stat_key)])
         } else {
           target_data <- extensive_summary(
-            rv$data_target[[stat_dat[get(
-              "source_system_name"
-            ) == rv$target$system_name, get("key")]]][, get(stat_key)])
+            rv$data_target[[plausibility_key]][, get(stat_key)])
         }
         target_data
 
@@ -338,11 +372,7 @@ calc_num_stats <- function(stat_dat,
           )]]][, get(stat_key)])
       } else {
         source_data <- simple_summary(
-          rv$data_source[[stat_dat[get(
-            "source_system_name"
-          ) == rv$source$system_name, get(
-            "key"
-          )]]][, get(stat_key)])
+          rv$data_source[[plausibility_key]][, get(stat_key)])
       }
       source_data
 
@@ -365,11 +395,7 @@ calc_num_stats <- function(stat_dat,
           )]]][, get(stat_key)])
       } else {
         target_data <- simple_summary(
-          rv$data_target[[stat_dat[get(
-            "source_system_name"
-          ) == rv$target$system_name, get(
-            "key"
-          )]]][, get(stat_key)])
+          rv$data_target[[plausibility_key]][, get(stat_key)])
       }
       target_data
 

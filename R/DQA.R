@@ -127,9 +127,8 @@ dqa <- function(source_system_name,
   for (i in names(reactive_to_append)) {
     rv[[i]] <- reactive_to_append[[i]]
   }
-
-  # get sourcefiledir
-  rv$sourcefiledir <- clean_path_name(rv$source$settings$dir)
+  rm(reactive_to_append)
+  invisible(gc())
 
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
   rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
@@ -174,9 +173,8 @@ dqa <- function(source_system_name,
     for (i in names(rv$data_plausibility$atemporal)) {
       for (k in c("source_data", "target_data")) {
         w <- gsub("_data", "", k)
-        n_key <- paste0(i, "_", w)
         raw_data <- paste0("data_", w)
-        rv[[raw_data]][[n_key]] <-
+        rv[[raw_data]][[i]] <-
           rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
         rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
       }
@@ -228,15 +226,16 @@ dqa <- function(source_system_name,
   invisible(gc())
 
   if (!is.null(rv$results_plausibility_atemporal)) {
-    value_conformance <- value_conformance(
+    add_value_conformance <- value_conformance(
       results = rv$results_plausibility_atemporal,
       headless = rv$headless
     )
 
     # workaround, to keep "rv" an reactiveValues object in shiny app
-    for (i in names(value_conformance)) {
-      rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
+    for (i in names(add_value_conformance)) {
+      rv$conformance$value_conformance[[i]] <- add_value_conformance[[i]]
     }
+    rm(add_value_conformance)
   }
   # completeness
   rv$completeness <- completeness(results = rv$results_descriptive,

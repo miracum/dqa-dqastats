@@ -17,8 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-title: "Comparison of two bank data lists with demographic, income and credit data"
-author: "Demoorganization"
+title: "Data Quality Report: Comparison of `r rv$source$system_name` and `r rv$target$system_name`"
+author: "(c) Universitätsklinikum Erlangen"
 date: \today
 geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
 output: 

@@ -16,35 +16,64 @@
 
 context("test DQA function")
 
-prefix <- "./"
-#prefix <- "tests/testthat/"
+if (dir.exists("../../00_pkg_src")) {
+  prefix <- "../../00_pkg_src/DQAstats/"
+} else if (dir.exists("../../R")) {
+  prefix <- "../../"
+} else if (dir.exists("./R")) {
+  prefix <- "./"
+}
+
+settings <- paste0(prefix, "tests/testthat/test_settings.yml")
+file.copy(settings, paste0(prefix, "tests/testthat/test_settings_use.yml"),
+          overwrite = T)
+settings <- paste0(prefix, "tests/testthat/test_settings_use.yml")
+tx  <- readLines(settings)
+tx2  <- gsub(pattern = "replace_me",
+             replace = paste0("\"",
+                              paste0(prefix, "inst/demo_data/"),
+                              "\""),
+             x = tx)
+writeLines(tx2, con = settings)
 
 library(data.table)
 
 test_that("correct functioning of DQA",{
 
-  skip_on_cran()
-  skip("Skipping DQA-Test on build")
-  expect_true(dqa(target_config = paste0(prefix, "testdata/config_i2b2.yml"),
-                  source_config = paste0(prefix, "testdata/config_p21csv.yml"),
-                  target_db = "i2b2",
-                  source_db = "p21csv",
-                  utils = system.file("application/_utilities", package = "miRacumDQA")))
+  source_system_name = "exampleCSV_source"
+  target_system_name = "exampleCSV_target"
+  config_file = settings
+  utils_path = paste0(
+    prefix,
+    "inst/demo_data/utilities"
+  )
+  mdr_filename = "mdr_example_data.csv"
+  output_dir = paste0(
+    prefix,
+    "output/"
+  )
 
+
+  ## Testfunction to test it all:
+  all_results <- dqa(
+    source_system_name = source_system_name,
+    target_system_name = target_system_name,
+    config_file = config_file,
+    utils_path = utils_path,
+    mdr_filename = mdr_filename,
+    output_dir = output_dir
+  )
+
+  expect_type(all_results, "list")
+  expect_length(all_results, 23)
+
+  outputfiles <- list.files(output_dir)
+  expect_true("DQA_report.md" %in% outputfiles)
+  expect_true(any(grepl("^DQA_report_([[:digit:]])+.pdf$", outputfiles)))
+  expect_true(any(grepl("^DQA_report_([[:digit:]])+.tex$", outputfiles)))
+
+  do.call(file.remove, list(list.files(paste0(output_dir, "_header"), full.names = TRUE)))
+  unlink(paste0(output_dir, "_header"), recursive = T)
+  unlink(output_dir, recursive = T)
+  file.remove(settings)
 })
-
-# i2b2
-# prefix <- "tests/testthat/"
-# target_config = paste0(prefix, "testdata/config_i2b2.yml")
-# source_config = paste0(prefix, "testdata/config_p21csv.yml")
-# target_db = "i2b2"
-# source_db = "p21csv"
-# utils = system.file("application/_utilities", package = "miRacumDQA")
-
-# omop
-# prefix <- "tests/testthat/"
-# target_config = paste0(prefix, "testdata/config_omop.yml")
-# source_config = paste0(prefix, "testdata/config_p21csv.yml")
-# target_db = "omop"
-# source_db = "p21csv"
-# utils = system.file("application/_utilities", package = "miRacumDQA")
