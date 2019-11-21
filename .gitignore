@@ -28,8 +28,8 @@
 _settings/
 _header/
 DQA_report*
-tests/testthat/testdata
-tests/testthat/test_settings_use.yml
+/tests/testthat/testdata
+/tests/testthat/test_settings_use.yml
 .Rhistory
 *.Rproj
 .Rproj*
