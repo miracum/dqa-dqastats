@@ -1,33 +1,20 @@
-## Ignore everything
 *
 
-
-## if the files to be tracked are in subdirectories
-#!*/a/b/file1.txt
-#!*/a/b/c/*
-
-
-## But not these files...
-!/.gitignore
-!/README.md
-!/data-raw/
-!/R/
-!/tests/
-!/.Rbuildignore
-!/DESCRIPTION
-!/LICENSE.md
-!/inst/
-!/man/
-!/NAMESPACE
-!/.gitlab-ci.yml
+!.gitignore
+!*/data-raw/*
+!DESCRIPTION
+!*/inst/*
+!LICENSE.md
+!*/man/*
+!NAMESPACE
+!*/R/*
+!README.md
 
 
-## ...even if they are in subdirectories
+!*/tests/testthat.R
+!*/tests/testthat/test-DQA.R
+!*/tests/testthat/test-lints.R
+!*/tests/testthat/test_settings.yml
+
+
 !*/
-/tests/testthat/testdata
-/tests/testthat/test_settings_use.yml
-/.Rhistory
-/*.Rproj
-/.Rproj*
-/.RData
-/inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#

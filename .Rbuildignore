@@ -1,17 +1,2 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^data-raw$
-^LICENSE\.md$
-^docker$
-^_settings$
-^_header$
-^DQA_report\.pdf$
-^DQA_report\.md$
-^DQA_report\.log$
-^DQA_report\.aux$
-^DQA_report\.tex$
-^DQA_report\.toc$
-^DQA_report\.out$
-^tests/testthat/testdata$
-^\.gitlab-ci\.yml$
-^output$
