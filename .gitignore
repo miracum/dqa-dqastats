@@ -1,8 +1,13 @@
-/*
-/*/
+## Ignore everything
+*
 
-*.log
 
+## if the files to be tracked are in subdirectories
+#!*/a/b/file1.txt
+#!*/a/b/c/*
+
+
+## But not these files...
 !/.gitignore
 !/README.md
 !/data-raw/
@@ -16,9 +21,6 @@
 !/NAMESPACE
 !/.gitlab-ci.yml
 
-.Rhistory
-*.Rproj
-.Rproj*
-.Rproj.user
-.RData
-output
+
+## ...even if they are in subdirectories
+!*/
