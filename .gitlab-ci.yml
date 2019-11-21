@@ -11,8 +11,6 @@ default:
     - echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
     - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')"
     - mkdir -p ci
-  except:
-    - tags
 
 stages:
   - build
@@ -28,6 +26,8 @@ check:
       - "${CI_PROJECT_DIR}/ci/*.Rcheck"
     when: on_failure # upload check artifacts when job fails!
     expire_in: 1 week
+  except:
+    - tags
 
 create_manual:
   stage: build
@@ -38,6 +38,8 @@ create_manual:
     paths:
       - "${CI_PROJECT_DIR}/ci/*.pdf"
     expire_in: 1 week
+  except:
+    - tags
 
 build_source:
   stage: build
@@ -47,6 +49,8 @@ build_source:
     paths:
       - "${CI_PROJECT_DIR}/ci/*.tar.gz"
     expire_in: 1 week
+  except:
+    - tags
 
 build_binary:
   stage: build
@@ -56,6 +60,8 @@ build_binary:
     paths:
       - "${CI_PROJECT_DIR}/ci/*.tar.gz"
     expire_in: 1 week
+  except:
+    - tags
 
 # To have the coverage percentage appear as a gitlab badge follow these
 # instructions:
@@ -73,6 +79,8 @@ coverage:
   artifacts:
     paths:
       - public
+  except:
+    - tags
 
 testing:
   stage: test
@@ -80,6 +88,8 @@ testing:
   when: on_success
   script:
     - R -e "devtools::test(pkg = '.')"
+  except:
+    - tags
 
 # To produce a code coverage report as a GitLab page see
 # https://about.gitlab.com/2016/11/03/publish-code-coverage-report-with-gitlab-pages/
@@ -88,3 +98,5 @@ install:
   stage: deploy
   script:
     - R -e "devtools::install(pkg = '.', upgrade = 'always')"
+  except:
+    - tags

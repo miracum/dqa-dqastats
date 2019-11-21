@@ -35,3 +35,4 @@ Imports:
 Suggests: 
     testthat,
     lintr
+RoxygenNote: 7.0.0
