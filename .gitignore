@@ -24,3 +24,14 @@
 
 ## ...even if they are in subdirectories
 !*/
+.Rproj.user
+_settings/
+_header/
+DQA_report*
+tests/testthat/testdata
+tests/testthat/test_settings_use.yml
+.Rhistory
+*.Rproj
+.Rproj*
+.RData
+inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#
