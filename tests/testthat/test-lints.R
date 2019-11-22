@@ -36,7 +36,10 @@ test_that(desc = "test lints",
                        line_number = 111)
                 )
               ),
-              "tests/testthat" = list("test-lints.R" = NULL)
+              "tests/testthat" = list(
+                "test-lints.R" = NULL,
+                "test-DQA.R" = NULL
+                )
             )
 
             for (directory in names(lintlist)) {

@@ -1,4 +1,5 @@
-# DQAstats - Perform data quality assessment (DQA) of electronic health records (EHR)
+# DQAstats - Perform data quality assessment (DQA) of electronic health
+# records (EHR)
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -16,11 +17,13 @@
 
 context("test DQA function")
 
+warning(list.files())
+
 if (dir.exists("../../00_pkg_src")) {
   prefix <- "../../00_pkg_src/DQAstats/"
 } else if (dir.exists("../../R")) {
   prefix <- "../../"
-} else if (dir.exists("./R")) {
+} else {
   prefix <- "./"
 }
 
@@ -30,25 +33,27 @@ file.copy(settings, paste0(prefix, "tests/testthat/test_settings_use.yml"),
 settings <- paste0(prefix, "tests/testthat/test_settings_use.yml")
 tx  <- readLines(settings)
 tx2  <- gsub(pattern = "replace_me",
-             replace = paste0("\"",
-                              paste0(prefix, "inst/demo_data/"),
-                              "\""),
+             replacement = paste0("\"",
+                                  paste0(prefix, "inst/demo_data/"),
+                                  "\""),
              x = tx)
 writeLines(tx2, con = settings)
 
 library(data.table)
 
-test_that("correct functioning of DQA",{
+test_that("correct functioning of DQA", {
 
-  source_system_name = "exampleCSV_source"
-  target_system_name = "exampleCSV_target"
-  config_file = settings
-  utils_path = paste0(
+  skip_on_covr()
+
+  source_system_name <- "exampleCSV_source"
+  target_system_name <- "exampleCSV_target"
+  config_file <- settings
+  utils_path <- paste0(
     prefix,
     "inst/demo_data/utilities"
   )
-  mdr_filename = "mdr_example_data.csv"
-  output_dir = paste0(
+  mdr_filename <- "mdr_example_data.csv"
+  output_dir <- paste0(
     prefix,
     "output/"
   )
@@ -72,7 +77,9 @@ test_that("correct functioning of DQA",{
   expect_true(any(grepl("^DQA_report_([[:digit:]])+.pdf$", outputfiles)))
   expect_true(any(grepl("^DQA_report_([[:digit:]])+.tex$", outputfiles)))
 
-  do.call(file.remove, list(list.files(paste0(output_dir, "_header"), full.names = TRUE)))
+  do.call(file.remove, list(
+    list.files(paste0(output_dir, "_header"), full.names = TRUE))
+  )
   unlink(paste0(output_dir, "_header"), recursive = T)
   unlink(output_dir, recursive = T)
   file.remove(settings)

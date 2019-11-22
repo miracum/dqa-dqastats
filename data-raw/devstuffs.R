@@ -44,22 +44,17 @@ usethis::use_gpl3_license(name = "Universitätsklinikum Erlangen")
 
 
 # add Imports and Depends
-# Listing a package in either Depends or Imports ensures that it’s
-# installed when needed.
+# Listing a package in either Depends or Imports ensures that it’s installed when needed
 # Imports just loads the package, Depends attaches it
-# Loading will load code, data and any DLLs; register S3 and S4 methods;
-# and run the .onLoad() function.
-# After loading, the package is available in memory, but because it’s not
-# in the search path, you won’t be able to access its components
-# without using ::.
-# Confusingly, :: will also load a package automatically if
-# it isn’t already loaded.
-# It’s rare to load a package explicitly, but you can do so
-# with requireNamespace() or loadNamespace().
-# Attaching puts the package in the search path.
-# You can’t attach a package without first loading it,
-# so both library() or require() load then attach the package.
-# You can see the currently attached packages with search().
+# Loading will load code, data and any DLLs; register S3 and S4 methods; and run the .onLoad() function.
+##      After loading, the package is available in memory, but because it’s not in the search path,
+##      you won’t be able to access its components without using ::.
+##      Confusingly, :: will also load a package automatically if it isn’t already loaded.
+##      It’s rare to load a package explicitly, but you can do so with requireNamespace() or loadNamespace().
+# Attaching puts the package in the search path. You can’t attach a package without first loading it,
+##      so both library() or require() load then attach the package.
+##      You can see the currently attached packages with search().
+
 
 # Depends
 
@@ -84,32 +79,43 @@ usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 
-## buildignore and gitignore: ##
+## .Rbuildignore: ##
+usethis::use_build_ignore("docker")
+usethis::use_build_ignore("_settings")
+usethis::use_build_ignore("tests/testthat/testdata")
+usethis::use_build_ignore("_header")
+usethis::use_build_ignore("data-raw")
+usethis::use_build_ignore("LICENSE.md")
+usethis::use_build_ignore(".gitlab-ci.yml")
+usethis::use_build_ignore("DQA_report.pdf")
+usethis::use_build_ignore("DQA_report.md")
+usethis::use_build_ignore("DQA_report.log")
+usethis::use_build_ignore("DQA_report.aux")
+usethis::use_build_ignore("DQA_report.tex")
+usethis::use_build_ignore("DQA_report.toc")
+usethis::use_build_ignore("DQA_report.out")
+usethis::use_build_ignore("output")
+
+## .gitignore:
+
 # Deny everything:
-usethis::use_build_ignore("*")
-
-# But allow these files:
-usethis::use_build_ignore("!.gitignore")
-usethis::use_build_ignore("!*/data-raw/*")
-usethis::use_build_ignore("!DESCRIPTION")
-usethis::use_build_ignore("!*/inst/*")
-usethis::use_build_ignore("!LICENSE.md")
-usethis::use_build_ignore("!*/man/*")
-usethis::use_build_ignore("!NAMESPACE")
-usethis::use_build_ignore("!*/R/*")
-usethis::use_build_ignore("!README.md")
-# We don't want allow the folder "/tests/testthat/testdata"
-# so we add everything else by hand:
-usethis::use_build_ignore("!*/tests/testthat.R")
-usethis::use_build_ignore("!*/tests/testthat/test-DQA.R")
-usethis::use_build_ignore("!*/tests/testthat/test-lints.R")
-usethis::use_build_ignore("!*/tests/testthat/test_settings.yml")
-
-# Even allow if they are in subdirectories:
-usethis::use_build_ignore("!*/")
-
-# Example to allow file in folder:
-#% usethis::use_build_ignore("!*/a/b/file1.txt")
-
-# Example to allow whole folder:
-#% usethis::use_build_ignore("!*/a/b/c/*")
+usethis::use_git_ignore("/*")
+usethis::use_git_ignore("/*/")
+usethis::use_git_ignore("*.log")
+usethis::use_git_ignore("!/.gitignore")
+usethis::use_git_ignore("!/data-raw/")
+usethis::use_git_ignore("!/DESCRIPTION")
+usethis::use_git_ignore("!/inst/")
+usethis::use_git_ignore("!/LICENSE.md")
+usethis::use_git_ignore("!/man/")
+usethis::use_git_ignore("!NAMESPACE")
+usethis::use_git_ignore("!/R/")
+usethis::use_git_ignore("!/README.md")
+usethis::use_git_ignore("!/tests/")
+usethis::use_git_ignore("/tests/testthat/test_settings_use.yml")
+usethis::use_git_ignore("/tests/testthat/testdata/")
+usethis::use_git_ignore("/.Rhistory")
+usethis::use_git_ignore("/*.Rproj")
+usethis::use_git_ignore("/.Rproj*")
+usethis::use_git_ignore("/.RData")
+usethis::use_git_ignore("/inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#")
