@@ -1,0 +1,6 @@
+default:
+  examplecsv_source:
+    dir: "./inst/demo_data/"
+
+  examplecsv_target:
+    dir: "./inst/demo_data/"

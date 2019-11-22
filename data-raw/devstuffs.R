@@ -26,8 +26,12 @@ my_desc$set_version("0.0.4")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
-my_desc$set(Description = paste0("Perform data quality assessment (DQA)",
-                                 " of electronic health records (EHR)."))
+my_desc$set(
+  Description = paste0(
+    "Perform data quality assessment (DQA)",
+    " of electronic health records (EHR)."
+  )
+)
 # The description of your package
 my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
@@ -85,28 +89,29 @@ usethis::use_package("lintr", type = "Suggests")
 
 
 ## buildignore and gitignore: ##
-# Deny everything:
-usethis::use_build_ignore("*")
+# Blacklist files/folders in same directory as the .gitignore file:
+usethis::use_build_ignore("/*")
 
-# But allow these files:
+# Whitelist these files:
 usethis::use_build_ignore("!.gitignore")
-usethis::use_build_ignore("!*/data-raw/*")
+usethis::use_build_ignore("!data-raw/*")
 usethis::use_build_ignore("!DESCRIPTION")
-usethis::use_build_ignore("!*/inst/*")
+usethis::use_build_ignore("!inst/*")
 usethis::use_build_ignore("!LICENSE.md")
-usethis::use_build_ignore("!*/man/*")
+usethis::use_build_ignore("!man/*")
 usethis::use_build_ignore("!NAMESPACE")
-usethis::use_build_ignore("!*/R/*")
+usethis::use_build_ignore("!R/*")
 usethis::use_build_ignore("!README.md")
-# We don't want allow the folder "/tests/testthat/testdata"
-# so we add everything else by hand:
-usethis::use_build_ignore("!*/tests/testthat.R")
-usethis::use_build_ignore("!*/tests/testthat/test-DQA.R")
-usethis::use_build_ignore("!*/tests/testthat/test-lints.R")
-usethis::use_build_ignore("!*/tests/testthat/test_settings.yml")
+# We don't allow the folder "/tests/testthat/testdata"
+usethis::use_build_ignore("tests/*")
+# so we add everything else we allow by hand:
+usethis::use_build_ignore("!tests/testthat.R")
+usethis::use_build_ignore("!tests/testthat/test-DQA.R")
+usethis::use_build_ignore("!tests/testthat/test-lints.R")
+usethis::use_build_ignore("!tests/testthat/test_settings.yml")
 
 # Even allow if they are in subdirectories:
-usethis::use_build_ignore("!*/")
+# usethis::use_build_ignore("!*/")
 
 # Example to allow file in folder:
 #% usethis::use_build_ignore("!*/a/b/file1.txt")
