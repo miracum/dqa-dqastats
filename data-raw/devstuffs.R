@@ -26,8 +26,12 @@ my_desc$set_version("0.0.4")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
-my_desc$set(Description = paste0("Perform data quality assessment (DQA)",
-                                 " of electronic health records (EHR)."))
+my_desc$set(
+  Description = paste0(
+    "Perform data quality assessment (DQA)",
+    " of electronic health records (EHR)."
+  )
+)
 # The description of your package
 my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
@@ -78,7 +82,6 @@ usethis::use_package("kableExtra", type = "Imports")
 usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
-
 ## .Rbuildignore: ##
 usethis::use_build_ignore("docker")
 usethis::use_build_ignore("_settings")
@@ -97,8 +100,6 @@ usethis::use_build_ignore("DQA_report.out")
 usethis::use_build_ignore("output")
 
 ## .gitignore:
-
-# Deny everything:
 usethis::use_git_ignore("/*")
 usethis::use_git_ignore("/*/")
 usethis::use_git_ignore("*.log")
