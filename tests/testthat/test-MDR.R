@@ -32,9 +32,9 @@ settings <- paste0(prefix, "tests/testthat/test_settings_use.yml")
 tx  <- readLines(settings)
 tx2  <- gsub(
   pattern = "replace_me",
-  replace = paste0("\"",
-                   paste0(prefix, "inst/demo_data/"),
-                   "\""),
+  replacement = paste0("\"",
+                       paste0(prefix, "inst/demo_data/"),
+                       "\""),
   x = tx
 )
 writeLines(tx2, con = settings)
@@ -42,29 +42,14 @@ writeLines(tx2, con = settings)
 library(data.table)
 
 test_that("correct functioning of MDR", {
-  source_system_name = "exampleCSV_source"
-  target_system_name = "exampleCSV_target"
-  config_file = settings
-  utils_path = paste0(prefix,
-                      "inst/demo_data/utilities")
-  mdr_filename = "mdr_example_data.csv"
-  output_dir = paste0(prefix,
-                      "output/")
-
-
-  ## --- Workflow to test: --- ##
-  if (missing(target_system_name)) {
-    target_system_name <- source_system_name
-  }
-
-  stopifnot(
-    is.character(source_system_name),
-    is.character(target_system_name),
-    is.character(config_file),
-    is.character(utils_path),
-    is.character(mdr_filename),
-    is.character(output_dir)
-  )
+  source_system_name <- "exampleCSV_source"
+  target_system_name <- "exampleCSV_target"
+  config_file <- settings
+  utils_path <- paste0(prefix,
+                       "inst/demo_data/utilities")
+  mdr_filename <- "mdr_example_data.csv"
+  output_dir <- paste0(prefix,
+                       "output/")
 
   # initialize rv-list
   rv <- list()
@@ -78,6 +63,9 @@ test_that("correct functioning of MDR", {
                                    config_key = tolower(rv$source$system_name))
   rv$target$settings <- get_config(config_file = config_file,
                                    config_key = tolower(rv$target$system_name))
+
+  expect_true(!is.null(rv$source$settings$dir))
+  expect_true(!is.null(rv$target$settings$dir))
 
   # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
@@ -96,26 +84,21 @@ test_that("correct functioning of MDR", {
   # read MDR
   rv$mdr <- read_mdr(utils_path = rv$utilspath,
                      mdr_filename = rv$mdr_filename)
-  stopifnot(data.table::is.data.table(rv$mdr))
 
 
-  ## --- Things we expect from a successfull run: --- ##
-  # Stuff concerning the 'rv'-object:
   expect_type(rv, "list")
   expect_length(rv, 7)
-  expect_known_hash(rv, "2166edee5cf84b0e11de084ff87f4")
 
-  # Stuff concerning the 'rv$mdr'-object:
   expect_type(rv$mdr, "list")
-  expect_length(rv$mdr, 37)
-  expect_known_hash(rv$mdr, "0be3d9590f84e11d907a1b8241311")
-
-
-
-
-
+  expect_true(nrow(rv$mdr) == 22)
+  expect_true(ncol(rv$mdr) == 20)
+  expect_s3_class(rv$mdr, "data.table")
 
   # Remove the settings and output-folder:
+  do.call(file.remove, list(list.files(
+    paste0(output_dir, "_header"), full.names = TRUE
+  )))
+  unlink(paste0(output_dir, "_header"), recursive = T)
   unlink(output_dir, recursive = T)
   file.remove(settings)
 })

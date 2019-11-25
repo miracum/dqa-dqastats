@@ -22,5 +22,6 @@ all_results <- dqa(
   target_system_name = target_system_name,
   config_file = config_file,
   utils_path = utils_path,
-  mdr_filename = mdr_filename
+  mdr_filename = mdr_filename,
+  output_dir = output_dir
 )

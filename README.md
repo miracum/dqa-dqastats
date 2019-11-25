@@ -37,11 +37,14 @@ This is a basic example to demonstrate how to perform the data quality assessmen
 
 ``` r
 library(DQAstats)
-DQA(target_config = "path/to/config_i2b2.yml",
-    source_config = "path/to/config_csv.yml",
-    target_db = "i2b2",
-    source_db = "csv",
-    utils = "path/to/_utilities")
+dqa(
+  source_system_name = "exampleCSV_source",
+  target_system_name = "exampleCSV_target",
+  config_file = "inst/demo_data/utilities/settings/demo_settings.yml",
+  utils_path = "inst/demo_data/utilities",
+  mdr_filename = "mdr_example_data.csv",
+  output_dir = "output/"
+)
 ```
 
 # More Infos:
