@@ -432,6 +432,7 @@ data_loading <- function(rv, system, keys_to_test) {
       headless = rv$headless,
       system = system
     )
+    outlist$sql_statements <- NA
 
   } else if (system$system_type == "postgres") {
     # import target SQL
