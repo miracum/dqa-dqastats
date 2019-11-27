@@ -91,7 +91,7 @@ test_that("correct functioning of MDR", {
   expect_length(rv, 7)
 
   expect_type(rv$mdr, "list")
-  expect_true(nrow(rv$mdr) == 22)
+  expect_equal(nrow(rv$mdr), 24)
   expect_true(ncol(rv$mdr) == 20)
   expect_s3_class(rv$mdr, "data.table")
 

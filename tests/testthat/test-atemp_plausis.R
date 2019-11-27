@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-context("test dataloading")
+context("test atemporal plausibilities")
 
 if (dir.exists("../../00_pkg_src")) {
   prefix <- "../../00_pkg_src/DQAstats/"
@@ -41,136 +41,6 @@ writeLines(tx2, con = settings)
 
 library(data.table)
 
-test_that("correct functioning of dataloading", {
-  source_system_name <- "exampleCSV_source"
-  target_system_name <- "exampleCSV_target"
-  config_file <- settings
-  utils_path <- paste0(prefix,
-                       "inst/demo_data/utilities")
-  mdr_filename <- "mdr_example_data.csv"
-  output_dir <- paste0(prefix,
-                       "output/")
+test_that("correct functioning of atemporal plausibilities", {
 
-  # initialize rv-list
-  rv <- list()
-
-  # save source/target vars
-  rv$source$system_name <- source_system_name
-  rv$target$system_name <- target_system_name
-
-  # get configs
-  rv$source$settings <- get_config(config_file = config_file,
-                                   config_key = tolower(rv$source$system_name))
-  rv$target$settings <- get_config(config_file = config_file,
-                                   config_key = tolower(rv$target$system_name))
-
-  expect_true(!is.null(rv$source$settings$dir))
-  expect_true(!is.null(rv$target$settings$dir))
-
-  # set headless (without GUI, progressbars, etc.)
-  rv$headless <- TRUE
-
-  # clean paths (to append the ending slash)
-  rv$utilspath <- clean_path_name(utils_path)
-  output_dir <- clean_path_name(output_dir)
-
-  # add mdr-filename
-  rv$mdr_filename <- mdr_filename
-
-  # current date
-  rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
-
-
-  # read MDR
-  rv$mdr <- read_mdr(utils_path = rv$utilspath,
-                     mdr_filename = rv$mdr_filename)
-
-
-  # read system_types
-  rv$source$system_type <-
-    rv$mdr[get("source_system_name") ==
-             rv$source$system_name, unique(get("source_system_type"))]
-  rv$target$system_type <-
-    rv$mdr[get("source_system_name") ==
-             rv$target$system_name, unique(get("source_system_type"))]
-
-
-  reactive_to_append <- create_helper_vars(
-    mdr = rv$mdr,
-    target_db = rv$target$system_name,
-    source_db = rv$source$system_name
-  )
-
-  # workaround, to keep "rv" an reactiveValues object in shiny app
-  #% (rv <- c(rv, reactive_to_append)) does not work!
-  for (i in names(reactive_to_append)) {
-    rv[[i]] <- reactive_to_append[[i]]
-  }
-  rm(reactive_to_append)
-  invisible(gc())
-
-  # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-  rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
-
-
-
-  # load source data:
-  temp_dat <- data_loading(
-    rv = rv,
-    system = rv$source,
-    keys_to_test = rv$keys_source
-  )
-  rv$data_source <- temp_dat$outdata
-  rv$source$sql <- temp_dat$sql_statements
-  rm(temp_dat)
-  invisible(gc())
-
-  # load target_data
-  if (rv$target$system_name != rv$source$system_name) {
-    # load target
-    temp_dat <- data_loading(
-      rv = rv,
-      system = rv$target,
-      keys_to_test = rv$keys_target
-    )
-    rv$data_target <- temp_dat$outdata
-    rv$target$sql <- temp_dat$sql_statements
-    rm(temp_dat)
-    invisible(gc())
-  } else {
-    rv$data_target <- rv$data_source
-  }
-
-
-  if (nrow(rv$pl$atemp_vars) != 0) {
-    # get atemporal plausibilities
-    rv$data_plausibility$atemporal <- get_atemp_plausis(
-      rv = rv,
-      atemp_vars = rv$pl$atemp_vars,
-      mdr = rv$mdr,
-      headless = rv$headless
-    )
-
-    # add the plausibility raw data to data_target and data_source
-    for (i in names(rv$data_plausibility$atemporal)) {
-      for (k in c("source_data", "target_data")) {
-        w <- gsub("_data", "", k)
-        raw_data <- paste0("data_", w)
-        rv[[raw_data]][[i]] <-
-          rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
-        rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
-      }
-      gc()
-    }
-  }
-
-
-
-  # Remove the settings and output-folder:
-  do.call(file.remove, list(list.files(
-    paste0(output_dir, "_header"), full.names = TRUE
-  )))
-  unlink(paste0(output_dir, "_header"), recursive = T)
-  unlink(output_dir, recursive = T)
-  file.remove(settings)
 })

@@ -1,19 +1,19 @@
 ## using example data:
-source_system_name = "exampleCSV_source"
-target_system_name = "exampleCSV_target"
-config_file = "inst/demo_data/utilities/settings/demo_settings.yml"
-utils_path = "inst/demo_data/utilities"
-mdr_filename = "mdr_example_data.csv"
-output_dir = "output/"
+# source_system_name = "exampleCSV_source"
+# target_system_name = "exampleCSV_target"
+# config_file = "inst/demo_data/utilities/settings/demo_settings.yml"
+# utils_path = "inst/demo_data/utilities"
+# mdr_filename = "mdr_example_data.csv"
+# output_dir = "output/"
 
 
 ## using real data:
-# source_system_name = "i2b2"
-# target_system_name = "omop"
-# config_file = "tests/testthat/testdata/demo_settings_INTERNAL.yml"
-# utils_path = system.file("application/_utilities/", package = "miRacumDQA")
-# mdr_filename = "mdr.csv"
-# output_dir = "output/"
+source_system_name = "p21csv"
+target_system_name = "i2b2"
+config_file = "tests/testthat/testdata/demo_settings_INTERNAL.yml"
+utils_path = system.file("application/_utilities/", package = "miRacumDQA")
+mdr_filename = "mdr.csv"
+output_dir = "output/"
 
 
 ## Testfunction to test it all:

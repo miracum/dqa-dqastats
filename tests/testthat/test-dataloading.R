@@ -150,11 +150,11 @@ test_that("correct functioning of dataloading", {
 
   expect_s3_class(rv$data_source$dqa_example_data_01.csv, "data.table")
   expect_equal(nrow(rv$data_source$dqa_example_data_01.csv), 23)
-  expect_equal(ncol(rv$data_source$dqa_example_data_01.csv), 11)
+  expect_equal(ncol(rv$data_source$dqa_example_data_01.csv), 12)
 
   expect_s3_class(rv$data_target$dqa_example_data_02.csv, "data.table")
   expect_equal(nrow(rv$data_target$dqa_example_data_02.csv), 23)
-  expect_equal(ncol(rv$data_target$dqa_example_data_02.csv), 11)
+  expect_equal(ncol(rv$data_target$dqa_example_data_02.csv), 12)
 
   expect_type(rv$source, "list")
   expect_type(rv$target, "list")
