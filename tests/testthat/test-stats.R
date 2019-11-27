@@ -67,6 +67,6 @@ test_that("correct functioning of statistics", {
     vector = testdat$age
   )
 
-  expect_known_hash(testres, "73e3901981")
+  expect_known_hash(testres, "f7e9e19a68")
 
 })
