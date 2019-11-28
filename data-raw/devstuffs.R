@@ -8,7 +8,8 @@ my_desc <- desc::description$new("!new")
 my_desc$set("Package", packagename)
 # Set author names
 my_desc$set_authors(c(
-  person("Lorenz A.", "Kapsner", email = "lorenz.kapsner@uk-erlangen.de", role = c('cre', 'aut')),
+  person("Lorenz A.", "Kapsner", email = "lorenz.kapsner@uk-erlangen.de", role = c('cre', 'aut'),
+         comment = c(ORCID = "0000-0003-1866-860X")),
   person("Jonathan M.", "Mang", role = c('aut')))) #,
 #  person("Name2", "Surname2", email = "mail@2", role = 'aut')))
 # Set copyright

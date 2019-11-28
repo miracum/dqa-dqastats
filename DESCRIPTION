@@ -5,7 +5,8 @@ Authors@R:
     c(person(given = "Lorenz A.",
              family = "Kapsner",
              role = c("cre", "aut"),
-             email = "lorenz.kapsner@uk-erlangen.de"),
+             email = "lorenz.kapsner@uk-erlangen.de",
+             comment = c(ORCID = "0000-0003-1866-860X")),
       person(given = "Jonathan M.",
              family = "Mang",
              role = "aut"))
@@ -16,7 +17,7 @@ URL: https://gitlab.miracum.org/miracum-dqa/dqastats
 BugReports: https://gitlab.miracum.org/miracum-dqa/dqastats/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date: 2019-11-21
+Date: 2019-11-28
 Imports: 
     data.table,
     shiny,

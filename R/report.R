@@ -100,7 +100,7 @@ render_counts <- function(count_out,
              count_out[[source]]$type,
              "  \n"))
   cat(paste0("    + n: ",
-             count_out[[source]]$cnt$valids,
+             count_out[[source]]$cnt$n,
              "\n"))
   cat(paste0("    + Valid values: ",
              count_out[[source]]$cnt$valids,

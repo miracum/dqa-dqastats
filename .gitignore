@@ -31,3 +31,4 @@
 /.Rproj*
 /.RData
 /inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#
+.Rproj.user
