@@ -15,13 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-context("test DQA function")
+context("test atemporal plausibilities")
 
 if (dir.exists("../../00_pkg_src")) {
   prefix <- "../../00_pkg_src/DQAstats/"
 } else if (dir.exists("../../R")) {
   prefix <- "../../"
-} else {
+} else if (dir.exists("./R")) {
   prefix <- "./"
 }
 
@@ -42,7 +42,10 @@ writeLines(tx2, con = settings)
 
 library(data.table)
 
-test_that("correct functioning of DQA", {
+test_that("correct functioning of atemporal plausibilities", {
+
+  # TODO
+  skip("not yet implemented")
 
   source_system_name <- "exampleCSV_source"
   target_system_name <- "exampleCSV_target"
@@ -52,29 +55,4 @@ test_that("correct functioning of DQA", {
   output_dir <- paste0(prefix,
                        "output/")
 
-
-  ## Testfunction to test it all:
-  all_results <- dqa(
-    source_system_name = source_system_name,
-    target_system_name = target_system_name,
-    config_file = config_file,
-    utils_path = utils_path,
-    mdr_filename = mdr_filename,
-    output_dir = output_dir
-  )
-
-  expect_type(all_results, "list")
-  expect_length(all_results, 23)
-
-  outputfiles <- list.files(output_dir)
-  expect_true("DQA_report.md" %in% outputfiles)
-  expect_true(any(grepl("^DQA_report_([[:digit:]])+.pdf$", outputfiles)))
-  expect_true(any(grepl("^DQA_report_([[:digit:]])+.tex$", outputfiles)))
-
-  do.call(file.remove, list(
-    list.files(paste0(output_dir, "_header"), full.names = TRUE))
-  )
-  unlink(paste0(output_dir, "_header"), recursive = T)
-  unlink(output_dir, recursive = T)
-  file.remove(settings)
 })

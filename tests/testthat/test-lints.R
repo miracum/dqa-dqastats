@@ -23,8 +23,10 @@ test_that(desc = "test lints",
                        line_number = 281)
                 ),
                 "datamap.R" = NULL,
+                "descriptive_results.R" = NULL,
                 "DQA.R" = "cyclomatic complexity",
                 "etl.R" = NULL,
+                "mdr.R" = NULL,
                 "plausibilities.R" = "cyclomatic complexity",
                 "plausibility_results.R" = "cyclomatic complexity",
                 "report.R" = NULL,
@@ -36,7 +38,16 @@ test_that(desc = "test lints",
                        line_number = 111)
                 )
               ),
-              "tests/testthat" = list("test-lints.R" = NULL)
+              "tests/testthat" = list(
+                "test-lints.R" = NULL,
+                "test-MDR.R" = NULL,
+                "test-DQA.R" = NULL,
+                "test-atemp_plausis.R" = NULL,
+                "test-dataloading.R" = NULL,
+                "test-helper_vars.R" = NULL,
+                "test-import.R" = NULL,
+                "test-stats.R" = NULL
+              )
             )
 
             for (directory in names(lintlist)) {
