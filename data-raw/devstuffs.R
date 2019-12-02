@@ -12,7 +12,8 @@ my_desc$set_authors(c(
     "Lorenz A.",
     "Kapsner",
     email = "lorenz.kapsner@uk-erlangen.de",
-    role = c("cre", "aut")
+    role = c("cre", "aut"),
+    comment = c(ORCID = "0000-0003-1866-860X")
   ),
   person("Jonathan M.", "Mang", role = c("aut"))
 )) #,
@@ -22,7 +23,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.4")
+my_desc$set_version("0.0.5")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
