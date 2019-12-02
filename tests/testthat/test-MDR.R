@@ -34,7 +34,7 @@ tx  <- readLines(settings)
 tx2  <- gsub(
   pattern = "replace_me",
   replacement = paste0("\"",
-                       paste0(prefix, "inst/demo_data/"),
+                       system.file("demo_data", package = "DQAstats"),
                        "\""),
   x = tx
 )
@@ -46,8 +46,7 @@ test_that("correct functioning of MDR", {
   source_system_name <- "exampleCSV_source"
   target_system_name <- "exampleCSV_target"
   config_file <- settings
-  utils_path <- paste0(prefix,
-                       "inst/demo_data/utilities")
+  utils_path <- system.file("demo_data/utilities", package = "DQAstats")
   mdr_filename <- "mdr_example_data.csv"
   output_dir <- paste0(prefix,
                        "output/")

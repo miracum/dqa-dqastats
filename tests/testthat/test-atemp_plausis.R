@@ -1,4 +1,5 @@
-# DQAstats - Perform data quality assessment (DQA) of electronic health records (EHR)
+# DQAstats - Perform data quality assessment (DQA) of electronic health
+# records (EHR)
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -33,7 +34,7 @@ tx  <- readLines(settings)
 tx2  <- gsub(
   pattern = "replace_me",
   replacement = paste0("\"",
-                       paste0(prefix, "inst/demo_data/"),
+                       system.file("demo_data", package = "DQAstats"),
                        "\""),
   x = tx
 )
@@ -42,5 +43,16 @@ writeLines(tx2, con = settings)
 library(data.table)
 
 test_that("correct functioning of atemporal plausibilities", {
+
+  # TODO
+  skip("not yet implemented")
+
+  source_system_name <- "exampleCSV_source"
+  target_system_name <- "exampleCSV_target"
+  config_file <- settings
+  utils_path <- system.file("demo_data/utilities", package = "DQAstats")
+  mdr_filename <- "mdr_example_data.csv"
+  output_dir <- paste0(prefix,
+                       "output/")
 
 })

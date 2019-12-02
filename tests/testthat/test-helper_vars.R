@@ -1,4 +1,5 @@
-# DQAstats - Perform data quality assessment (DQA) of electronic health records (EHR)
+# DQAstats - Perform data quality assessment (DQA) of electronic health
+# records (EHR)
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -33,7 +34,7 @@ tx  <- readLines(settings)
 tx2  <- gsub(
   pattern = "replace_me",
   replacement = paste0("\"",
-                       paste0(prefix, "inst/demo_data/"),
+                       system.file("demo_data", package = "DQAstats"),
                        "\""),
   x = tx
 )
@@ -45,8 +46,7 @@ test_that("correct functioning of helper vars", {
   source_system_name <- "exampleCSV_source"
   target_system_name <- "exampleCSV_target"
   config_file <- settings
-  utils_path <- paste0(prefix,
-                       "inst/demo_data/utilities")
+  utils_path <- system.file("demo_data/utilities", package = "DQAstats")
   mdr_filename <- "mdr_example_data.csv"
   output_dir <- paste0(prefix,
                        "output/")
@@ -102,11 +102,12 @@ test_that("correct functioning of helper vars", {
   )
 
 
-  # We don't need this explicitely because it is tested later in the 'rv'-object.
+  # We don't need this explicitely because it is tested later in the
+  # 'rv'-object.
   expect_type(reactive_to_append, "list")
   expect_length(reactive_to_append, 8)
-  expect_known_value(reactive_to_append$keys_source, "dqa_example_data_01.csv")
-  expect_known_value(reactive_to_append$keys_target, "dqa_example_data_02.csv")
+  expect_equal(reactive_to_append$keys_source, "dqa_example_data_01.csv")
+  expect_equal(reactive_to_append$keys_target, "dqa_example_data_02.csv")
   expect_s3_class(reactive_to_append$dqa_assessment, "data.table")
   expect_equal(nrow(reactive_to_append$dqa_assessment), 12)
   expect_equal(ncol(reactive_to_append$dqa_assessment), 6)
@@ -137,8 +138,8 @@ test_that("correct functioning of helper vars", {
 
   expect_type(rv, "list")
   expect_length(rv, 16)
-  expect_known_value(rv$keys_source, "dqa_example_data_01.csv")
-  expect_known_value(rv$keys_target, "dqa_example_data_02.csv")
+  expect_equal(rv$keys_source, "dqa_example_data_01.csv")
+  expect_equal(rv$keys_target, "dqa_example_data_02.csv")
   expect_s3_class(rv$dqa_assessment, "data.table")
   expect_equal(nrow(rv$dqa_assessment), 12)
   expect_equal(ncol(rv$dqa_assessment), 6)

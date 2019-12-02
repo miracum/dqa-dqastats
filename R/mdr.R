@@ -92,16 +92,18 @@ create_helper_vars <- function(mdr,
             eval(parse(text = paste0(f, "_db"))),
             unique(get("source_system_type"))] == "csv") {
       # if we have csv as input format, find the "keys" in "source_table_name"
-      outlist[[paste0("keys_", f)]] <- mdr[get("variable_name") != "undefined", ][
-        get("source_system_name") == eval(parse(text = paste0(f, "_db"))),
-        unique(get("source_table_name"))
-        ]
+      outlist[[paste0("keys_", f)]] <-
+        mdr[get("variable_name") != "undefined", ][
+          get("source_system_name") == eval(parse(text = paste0(f, "_db"))),
+          unique(get("source_table_name"))
+          ]
     } else if (mdr[get("source_system_name") ==
                    eval(parse(text = paste0(f, "_db"))),
                    unique(get("source_system_type"))] == "postgres") {
-      outlist[[paste0("keys_", f)]] <- mdr[get("variable_name") != "undefined", ][
-        get("source_system_name") == eval(parse(text = paste0(f, "_db"))),
-        unique(get("key"))]
+      outlist[[paste0("keys_", f)]] <-
+        mdr[get("variable_name") != "undefined", ][
+          get("source_system_name") == eval(parse(text = paste0(f, "_db"))),
+          unique(get("key"))]
     }
   }
 
@@ -131,12 +133,14 @@ create_helper_vars <- function(mdr,
   # get list of pl_vars for plausibility analyses
   pl_vars <-
     mdr[!is.na(get("plausibility_relation")) &
-          get("source_system_name") == source_db, ][
-      order(get("source_table_name")), c("designation",
-                                         "variable_name",
-                                         "variable_type",
-                                         "plausibility_relation"), with = F
-      ]
+          get("source_system_name") == source_db,
+        ][
+          order(get("source_table_name")), c(
+            "designation",
+            "variable_name",
+            "variable_type",
+            "plausibility_relation"
+          ), with = F]
 
   # atemporal plausibility
   ap_filter <- lapply(
@@ -164,8 +168,9 @@ create_helper_vars <- function(mdr,
   )
 
   # get date variables
-  outlist$date_vars <- outlist$dqa_assessment[get("variable_type") ==
-                                                "calendar", get("variable_name")]
+  outlist$date_vars <-
+    outlist$dqa_assessment[get("variable_type") ==
+                             "calendar", get("variable_name")]
 
   # get variable names, that need to be transformed (cleaning neccessary
   # due to i2b2-prefixes)

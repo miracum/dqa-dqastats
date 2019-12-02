@@ -17,8 +17,6 @@
 
 context("test DQA function")
 
-warning(list.files())
-
 if (dir.exists("../../00_pkg_src")) {
   prefix <- "../../00_pkg_src/DQAstats/"
 } else if (dir.exists("../../R")) {
@@ -28,35 +26,31 @@ if (dir.exists("../../00_pkg_src")) {
 }
 
 settings <- paste0(prefix, "tests/testthat/test_settings.yml")
-file.copy(settings, paste0(prefix, "tests/testthat/test_settings_use.yml"),
+file.copy(settings,
+          paste0(prefix, "tests/testthat/test_settings_use.yml"),
           overwrite = T)
 settings <- paste0(prefix, "tests/testthat/test_settings_use.yml")
 tx  <- readLines(settings)
-tx2  <- gsub(pattern = "replace_me",
-             replacement = paste0("\"",
-                                  paste0(prefix, "inst/demo_data/"),
-                                  "\""),
-             x = tx)
+tx2  <- gsub(
+  pattern = "replace_me",
+  replacement = paste0("\"",
+                       system.file("demo_data", package = "DQAstats"),
+                       "\""),
+  x = tx
+)
 writeLines(tx2, con = settings)
 
 library(data.table)
 
 test_that("correct functioning of DQA", {
 
-  skip_on_covr()
-
   source_system_name <- "exampleCSV_source"
   target_system_name <- "exampleCSV_target"
   config_file <- settings
-  utils_path <- paste0(
-    prefix,
-    "inst/demo_data/utilities"
-  )
+  utils_path <- system.file("demo_data/utilities", package = "DQAstats")
   mdr_filename <- "mdr_example_data.csv"
-  output_dir <- paste0(
-    prefix,
-    "output/"
-  )
+  output_dir <- paste0(prefix,
+                       "output/")
 
 
   ## Testfunction to test it all:
