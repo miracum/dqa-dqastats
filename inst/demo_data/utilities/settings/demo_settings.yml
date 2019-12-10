@@ -6,7 +6,7 @@ default:
   examplecsv_target:
     dir: "./inst/demo_data/"    # Directory of the file
 
-  exampleDB:
+  exampledb:
   # The servicename (here: "exampleDB") must match with 'source_system_name' in the MDR
     dbname: "db_name"       # The name of the database
     host: "192.168.1.1"     # The IP of the database
