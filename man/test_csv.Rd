@@ -4,10 +4,10 @@
 \alias{test_csv}
 \title{test_csv helper function}
 \usage{
-test_csv(source_settings, source_db, mdr, headless = FALSE)
+test_csv(settings, source_db, mdr, headless = FALSE)
 }
 \arguments{
-\item{source_settings}{A list object containing the database settings.}
+\item{settings}{A list object containing the database settings.}
 
 \item{source_db}{A character string. The name of the source database.
 This string must be conform with the corresponding config section

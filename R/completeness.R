@@ -51,7 +51,7 @@ completeness <- function(results, headless = FALSE) {
   # loop over objects
   for (i in obj_names) {
     msg <- paste("Performing missing analysis", i)
-    cat("\n", msg, "\n")
+    message("\n", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.

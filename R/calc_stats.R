@@ -158,7 +158,7 @@ calc_counts <- function(cnt_dat,
       }
       cnt
     }, error = function(e) {
-      cat("\nError occured when counting source_data\n")
+      message("\nError occured when counting source_data\n")
       print(e)
       cnt <- NULL
       cnt
@@ -203,7 +203,7 @@ calc_counts <- function(cnt_dat,
       cnt
 
     }, error = function(e) {
-      cat("\nError occured when counting target_data\n")
+      message("\nError occured when counting target_data\n")
       print(e)
       cnt <- NULL
       cnt
@@ -254,7 +254,7 @@ calc_cat_stats <- function(stat_dat,
       }
       source_data
     }, error = function(e) {
-      cat("\nError occured when calculating source catStats\n")
+      message("\nError occured when calculating source catStats\n")
       print(e)
       source_data <- NULL
       source_data
@@ -282,7 +282,7 @@ calc_cat_stats <- function(stat_dat,
       target_data
 
     }, error = function(e) {
-      cat("\nError occured when calculating target catStats\n")
+      message("\nError occured when calculating target catStats\n")
       print(e)
       target_data <- NULL
       target_data
@@ -329,7 +329,7 @@ calc_num_stats <- function(stat_dat,
         }
         source_data
       }, error = function(e) {
-        cat("\nError occured when calculating simple source numStats\n")
+        message("\nError occured when calculating simple source numStats\n")
         print(e)
         source_data <- NULL
         source_data
@@ -352,7 +352,7 @@ calc_num_stats <- function(stat_dat,
         target_data
 
       }, error = function(e) {
-        cat("\nError occured when calculating simple target numStats\n")
+        message("\nError occured when calculating simple target numStats\n")
         print(e)
         target_data <- NULL
         target_data
@@ -377,7 +377,7 @@ calc_num_stats <- function(stat_dat,
       source_data
 
     }, error = function(e) {
-      cat("\nError occured when calculating simple source numStats\n")
+      message("\nError occured when calculating simple source numStats\n")
       print(e)
       source_data <- NULL
       source_data
@@ -400,7 +400,7 @@ calc_num_stats <- function(stat_dat,
       target_data
 
     }, error = function(e) {
-      cat("\nError occured when calculating simple target numStats\n")
+      message("\nError occured when calculating simple target numStats\n")
       print(e)
       target_data <- NULL
       target_data

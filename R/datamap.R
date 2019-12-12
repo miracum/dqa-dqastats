@@ -21,7 +21,7 @@
 #'
 #' @inheritParams etl_checks
 #' @inheritParams create_helper_vars
-#' @inheritParams test_target_db
+#' @inheritParams test_db
 #' @inheritParams load_sqls
 #'
 #' @export
@@ -38,7 +38,7 @@ generate_datamap <- function(results,
 
   if (nrow(data_names) < 1) {
     msg <- "No variables suitable for the data map found in the MDR"
-    cat("\n", msg, "\n")
+    message("\n", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
     }

@@ -16,12 +16,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' @title test_target_db helper function
+#' @title test_db helper function
 #'
 #' @description Internal function to test and get the database connection of
 #'   the target data system.
 #'
-#' @param target_settings A list object containing the database settings.
+#' @param settings A list object containing the database settings.
 #' @param headless A boolean (default: FALSE). Indicating, if the function is
 #'   run only in the console (headless = TRUE) or on a GUI frontend
 #'   (headless = FALSE).
@@ -29,19 +29,19 @@
 #' @export
 #'
 # test db connection
-test_target_db <- function(target_settings,
-                           headless = FALSE) {
+test_db <- function(settings,
+                    headless = FALSE) {
 
   drv <- RPostgres::Postgres()
 
   db_con <- tryCatch({
     db_con <- RPostgres::dbConnect(
       drv = drv,
-      dbname = target_settings$dbname,
-      host = target_settings$host,
-      port = target_settings$port,
-      user = target_settings$user,
-      password = target_settings$password
+      dbname = settings$dbname,
+      host = settings$host,
+      port = settings$port,
+      user = settings$user,
+      password = settings$password
     )
     db_con
   }, error = function(e) {
@@ -54,7 +54,7 @@ test_target_db <- function(target_settings,
         )
       )
     }
-    cat("\nDB connection error\n")
+    message("\nDB connection error\n")
     db_con <- NULL
     db_con
   }, finally = function(f) {
@@ -68,20 +68,20 @@ test_target_db <- function(target_settings,
 #' @description Internal function to test and get the database connection
 #'   of the source data system.
 #'
-#' @param source_settings A list object containing the database settings.
+#' @param settings A list object containing the database settings.
 #' @inheritParams create_helper_vars
-#' @inheritParams test_target_db
+#' @inheritParams test_db
 #'
 #' @export
 #'
-test_csv <- function(source_settings,
+test_csv <- function(settings,
                      source_db,
                      mdr,
                      headless = FALSE) {
 
   # get filenames of csv files inside the provided directory
   filelist <- list.files(
-    path = source_settings$dir,
+    path = settings$dir,
     pattern = "\\.CSV|\\.csv",
     full.names = T
   )
@@ -106,7 +106,7 @@ test_csv <- function(source_settings,
   # iterate over list and check for presence of required filenames:
   # FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV
   check <- sapply(filelist, function(i) {
-    cat("\n", i, "\n")
+    message("\n", i, "\n")
     return(grepl(files_pattern, i))
   })
 
@@ -123,7 +123,7 @@ test_csv <- function(source_settings,
           )
         )
       }
-      cat(
+      message(
         paste0("The specified directory does not contain the expected ",
                "neccessary CSV-files: ", paste0(required_files,
                                                 collapse = ", "))
@@ -143,7 +143,7 @@ test_csv <- function(source_settings,
         )
       )
     }
-    cat("\nThere are no CSV-files in the specified directory.\n")
+    message("\nThere are no CSV-files in the specified directory.\n")
     outflag <- NULL
     outflag
   }, finally = function(f) {

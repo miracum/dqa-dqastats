@@ -76,7 +76,7 @@ load_csv_files <- function(mdr,
   for (inputfile in available_systems[, unique(get("source_table_name"))]) {
 
     msg <- paste("Reading", inputfile, "from CSV.")
-    cat("\n", msg, "\n")
+    message("\n", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
@@ -119,7 +119,7 @@ load_csv_files <- function(mdr,
     # treating of §21 chaperones
     if (tolower(inputfile) == "fall.csv") {
       if (outlist[[inputfile]][get("AUFNAHMEANLASS") == "B", .N] > 0) {
-        cat(
+        message(
           paste0(
             "\n",
             outlist[[inputfile]][get("AUFNAHMEANLASS") == "B", .N],
@@ -131,7 +131,7 @@ load_csv_files <- function(mdr,
           outlist[[inputfile]][get("AUFNAHMEANLASS") != "B" |
                                  is.na(get("AUFNAHMEANLASS")), ]
       } else {
-        cat("\nNo chaperones present in your source data.\n")
+        message("\nNo chaperones present in your source data.\n")
       }
     }
   }
@@ -173,7 +173,7 @@ map_var_types <- function(string) {
 #' @param keys_to_test A vector containing the names (keys) of
 #'   the variables to test.
 #' @param system The system object rv$system
-#' @inheritParams test_target_db
+#' @inheritParams test_db
 #'
 #' @export
 load_csv <- function(rv,
@@ -220,7 +220,7 @@ load_csv <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming source variable types", i)
-    cat("\n", msg, "\n")
+    message("\n", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
@@ -300,7 +300,7 @@ load_database <- function(rv,
   # read target data
   outlist <- sapply(keys_to_test, function(i) {
     msg <- paste("Getting", i, "from database.")
-    cat("\n", msg, "\n")
+    message("\n", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
 
@@ -340,7 +340,7 @@ load_database <- function(rv,
   for (i in keys_to_test) {
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming target variable types", i)
-    cat("\n", msg, "\n")
+    message("\n", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
@@ -410,7 +410,7 @@ data_loading <- function(rv, system, keys_to_test) {
     !is.null(rv$headless) &
       is.logical(rv$headless),
     !is.null(rv$mdr) &
-      is.data.table(rv$mdr)
+      data.table::is.data.table(rv$mdr)
   )
 
   # create return object
@@ -418,7 +418,7 @@ data_loading <- function(rv, system, keys_to_test) {
 
   if (system$system_type == "csv") {
     test_csv_result <- test_csv(
-      source_settings = system$settings,
+      settings = system$settings,
       source_db = system$system_name,
       mdr = rv$mdr,
       headless = rv$headless
@@ -442,8 +442,8 @@ data_loading <- function(rv, system, keys_to_test) {
 
     # test target_db
     db_con <-
-      test_target_db(target_settings = system$settings,
-                     headless = rv$headless)
+      test_db(settings = system$settings,
+              headless = rv$headless)
     stopifnot(!is.null(db_con))
 
     # load target data
