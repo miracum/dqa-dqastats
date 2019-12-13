@@ -141,6 +141,7 @@ create_helper_vars <- function(mdr,
             "variable_type",
             "plausibility_relation"
           ), with = F]
+  pl_vars <- pl_vars[!duplicated(pl_vars), ]
 
   # atemporal plausibility
   ap_filter <- lapply(

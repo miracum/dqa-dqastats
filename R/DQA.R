@@ -79,10 +79,14 @@ dqa <- function(source_system_name,
   rv$target$system_name <- target_system_name
 
   # get configs
-  rv$source$settings <- get_config(config_file = config_file,
-                                   config_key = tolower(rv$source$system_name))
-  rv$target$settings <- get_config(config_file = config_file,
-                                   config_key = tolower(rv$target$system_name))
+  rv$source$settings <- get_config(
+    config_file = config_file,
+    config_key = tolower(rv$source$system_name)
+  )
+  rv$target$settings <- get_config(
+    config_file = config_file,
+    config_key = tolower(rv$target$system_name)
+  )
 
   # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
