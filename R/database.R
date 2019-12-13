@@ -54,7 +54,7 @@ test_db <- function(settings,
         )
       )
     }
-    message("\nDB connection error\n")
+    message("DB connection error\n")
     db_con <- NULL
     db_con
   }, finally = function(f) {
@@ -106,7 +106,7 @@ test_csv <- function(settings,
   # iterate over list and check for presence of required filenames:
   # FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV
   check <- sapply(filelist, function(i) {
-    message("\n", i, "\n")
+    message("", i, "\n")
     return(grepl(files_pattern, i))
   })
 
@@ -143,7 +143,7 @@ test_csv <- function(settings,
         )
       )
     }
-    message("\nThere are no CSV-files in the specified directory.\n")
+    message("There are no CSV-files in the specified directory.\n")
     outflag <- NULL
     outflag
   }, finally = function(f) {

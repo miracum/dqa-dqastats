@@ -23,7 +23,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.5")
+my_desc$set_version("0.0.5.9001")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package

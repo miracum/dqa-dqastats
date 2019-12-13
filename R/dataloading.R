@@ -76,7 +76,7 @@ load_csv_files <- function(mdr,
   for (inputfile in available_systems[, unique(get("source_table_name"))]) {
 
     msg <- paste("Reading", inputfile, "from CSV.")
-    message("\n", msg, "\n")
+    message("", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
@@ -131,7 +131,7 @@ load_csv_files <- function(mdr,
           outlist[[inputfile]][get("AUFNAHMEANLASS") != "B" |
                                  is.na(get("AUFNAHMEANLASS")), ]
       } else {
-        message("\nNo chaperones present in your source data.\n")
+        message("No chaperones present in your source data.\n")
       }
     }
   }
@@ -220,7 +220,7 @@ load_csv <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming source variable types", i)
-    message("\n", msg, "\n")
+    message("", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
@@ -300,7 +300,7 @@ load_database <- function(rv,
   # read target data
   outlist <- sapply(keys_to_test, function(i) {
     msg <- paste("Getting", i, "from database.")
-    message("\n", msg, "\n")
+    message("", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
 
@@ -340,7 +340,7 @@ load_database <- function(rv,
   for (i in keys_to_test) {
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming target variable types", i)
-    message("\n", msg, "\n")
+    message("", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.

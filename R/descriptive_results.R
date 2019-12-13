@@ -54,7 +54,7 @@ descriptive_results <- function(rv,
   for (i in names(rv$variable_list)) {
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Getting variable descriptions of", i)
-    message("\n", msg, "\n")
+    message("", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
@@ -86,7 +86,7 @@ descriptive_results <- function(rv,
     } else {
       msg <- paste0("Error occured during creating ",
                     "descriptions of source system")
-      message("\n", msg, "\n")
+      message("", msg, "\n")
       if (isFALSE(headless)) {
         shinyjs::logjs(msg)
       }
@@ -94,7 +94,7 @@ descriptive_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating variable counts of", i)
-    message("\n", msg, "\n")
+    message("", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
@@ -126,7 +126,7 @@ descriptive_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating variable statistics of", i)
-    message("\n", msg, "\n")
+    message("", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.

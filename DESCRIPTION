@@ -1,6 +1,6 @@
 Package: DQAstats
 Title: DQAstats - Core Functions for Data Quality Assessment
-Version: 0.0.5
+Version: 0.0.5.9001
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -17,7 +17,7 @@ URL: https://gitlab.miracum.org/miracum-dqa/dqastats
 BugReports: https://gitlab.miracum.org/miracum-dqa/dqastats/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date: 2019-12-02
+Date: 2019-12-13
 Imports: 
     data.table,
     shiny,

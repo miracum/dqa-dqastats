@@ -47,7 +47,7 @@ value_conformance <- function(results,
   # loop over objects
   for (i in obj_names) {
     msg <- paste("Performing value conformance check", i)
-    message("\n", msg, "\n")
+    message("", msg, "\n")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
@@ -151,7 +151,7 @@ value_conformance <- function(results,
             # returns the number of not matching items
             errors <- !grepl(
               pattern = pattern,
-              x = as.character(s_out[, get(i)])
+              x = as.character(s_out[!is.na(get(i)), get(i)])
             )
             cnt_errors <- sum(errors)
 
@@ -163,7 +163,7 @@ value_conformance <- function(results,
                 isTRUE(error_flag),
                 paste0(
                   "Values that are not conform with regular expression:  \n",
-                  paste(as.character(s_out[, get(i)])[errors],
+                  paste(as.character(s_out[!is.na(get(i)), get(i)])[errors],
                         collapse = "  \n")
                 ),
                 "No 'value conformance' issues found."
