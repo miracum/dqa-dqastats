@@ -187,8 +187,10 @@ dqa <- function(source_system_name,
   }
 
   # calculate descriptive results
-  rv$results_descriptive <- descriptive_results(rv = rv,
-                                                headless = rv$headless)
+  rv$results_descriptive <- descriptive_results(
+    rv = rv,
+    headless = rv$headless
+  )
 
   # get time_interval
   # TODO hardcoded for MIRACUM
