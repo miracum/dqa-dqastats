@@ -26,11 +26,15 @@
 #'   run only in the console (headless = TRUE) or on a GUI frontend
 #'   (headless = FALSE).
 #'
+#' @param timeout A timeout in sec. for the db-connection establishment.
+#'   Values below 2 seconds are not recommended.
+#'
 #' @export
 #'
 # test db connection
 test_db <- function(settings,
-                    headless = FALSE) {
+                    headless = FALSE,
+                    timeout = 30) {
 
   drv <- RPostgres::Postgres()
 
@@ -41,7 +45,8 @@ test_db <- function(settings,
       host = settings$host,
       port = settings$port,
       user = settings$user,
-      password = settings$password
+      password = settings$password,
+      connect_timeout = timeout
     )
     db_con
   }, error = function(e) {
