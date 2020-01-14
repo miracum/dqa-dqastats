@@ -25,9 +25,9 @@
 #' @param headless A boolean (default: FALSE). Indicating, if the function is
 #'   run only in the console (headless = TRUE) or on a GUI frontend
 #'   (headless = FALSE).
-#'
 #' @param timeout A timeout in sec. for the db-connection establishment.
 #'   Values below 2 seconds are not recommended.
+#'   Default is 30 seconds.
 #'
 #' @export
 #'

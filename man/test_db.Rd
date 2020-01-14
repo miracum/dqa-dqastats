@@ -4,7 +4,7 @@
 \alias{test_db}
 \title{test_db helper function}
 \usage{
-test_db(settings, headless = FALSE)
+test_db(settings, headless = FALSE, timeout = 30)
 }
 \arguments{
 \item{settings}{A list object containing the database settings.}
@@ -12,6 +12,10 @@ test_db(settings, headless = FALSE)
 \item{headless}{A boolean (default: FALSE). Indicating, if the function is
 run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
+
+\item{timeout}{A timeout in sec. for the db-connection establishment.
+Values below 2 seconds are not recommended.
+Default is 30 seconds.}
 }
 \description{
 Internal function to test and get the database connection of
