@@ -1,6 +1,6 @@
 # DQAstats - Perform data quality assessment (DQA)
 # of electronic health records (EHR)
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

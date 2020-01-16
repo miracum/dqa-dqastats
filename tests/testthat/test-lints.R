@@ -16,12 +16,7 @@ test_that(desc = "test lints",
                 "completeness.R" = NULL,
                 "conformance.R" = "cyclomatic complexity",
                 "database.R" = NULL,
-                "dataloading.R" = list(
-                  list(message = "cyclomatic complexity",
-                       line_number = 179),
-                  list(message = "cyclomatic complexity",
-                       line_number = 281)
-                ),
+                "dataloading.R" = "cyclomatic complexity",
                 "datamap.R" = NULL,
                 "descriptive_results.R" = NULL,
                 "DQA.R" = "cyclomatic complexity",
@@ -33,9 +28,9 @@ test_that(desc = "test lints",
                 "statistics.R" = NULL,
                 "utils.R" = list(
                   list(message = "snake_case",
-                       line_number = 109),
+                       line_number = 41),
                   list(message = "space before left parenthesis",
-                       line_number = 111)
+                       line_number = 43)
                 )
               ),
               "tests/testthat" = list(

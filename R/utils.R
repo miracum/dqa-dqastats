@@ -1,6 +1,6 @@
 # DQAstats - Perform data quality assessment (DQA) of electronic health
 # records (EHR)
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,74 +34,6 @@
 #'
 clean_path_name <- function(pathname) {
   return(gsub("([[:alnum:]])$", "\\1/", pathname))
-}
-
-
-
-#' @title transform_factors helper function
-#'
-#' @description Internal function to transform factors of the German §21-EHR
-#'   billing data format
-#'
-#' @param vector A vector containing the data that is to be transformed.
-#' @param transformation A character string. The name of the (predefined)
-#'   transformation.
-#'
-#' @export
-#'
-# transform some factor variables
-transform_factors <- function(vector, transformation) {
-
-  vector <- gsub("[[:alnum:]]*\\:", "", vector)
-
-  # quick and dirty workaround
-  # TODO better would be to work with regex
-
-  # Discharge
-  if (transformation == "encounter_hospitalization_dischargeDisposition") {
-    keep_values <- c("059", "069", "079", "089", "099", "109",
-                     "119", "139", "179", "229", "239", "249", "259")
-    # lt. (https://www.g-drg.de/Datenlieferung_gem._21_KHEntgG/
-    # Dokumente_zur_Datenlieferung/Datensatzbeschreibung)
-
-    if (any(vector %in% keep_values)) {
-      trans_out <- ifelse(
-        vector %in%
-          keep_values,
-        as.character(vector),
-        ifelse(
-          !is.na(vector),
-          paste0(substr(vector, 1, 2), "x"),
-          vector
-        )
-      )
-    } else {
-      trans_out <- ifelse(
-        !is.na(vector),
-        paste0(substr(vector, 1, 2), "x"),
-        vector
-      )
-    }
-
-    # Admission
-  } else if (transformation == "encounter_hospitalization_class") {
-    trans_out <- ifelse(
-      !is.na(vector),
-      paste0(substr(vector, 1, 2), "xx"),
-      vector
-    )
-
-    # ICD
-  } else if (transformation == "condition_code_coding_code") {
-    trans_out <- gsub("\\+|\\*|\\!|\\#", "", vector)
-
-    # all other variables that need to be transformed
-  } else {
-    trans_out <- vector
-  }
-
-  return(factor(trans_out))
-  invisible(gc())
 }
 
 

@@ -1,6 +1,6 @@
 # DQAstats - Perform data quality assessment (DQA) of electronic health
 # records (EHR)
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,33 +19,36 @@
 count_uniques <- function(data,
                           var,
                           sourcesystem,
-                          datamap = TRUE) {
+                          datamap = TRUE,
+                          utils_path) {
 
   valids <- NULL
 
   if (isTRUE(datamap)) {
-    # workaround to control for aggregated values in source system (CSV)
-    # TODO this is hard-coded for MIRACUM variables
-    special_treatment_vars <-
-      c(
-        "patient_identifier_value",
-        "patient_address_postalCode",
-        "patient_birthDate",
-        "patient_gender"
-      )
+    # control for aggregated values
+    grouping_file <- paste0(utils_path, "/MISC/grouping_variables.JSON")
+    if (file.exists(grouping_file)) {
+      grouping_vars <- jsonlite::fromJSON(grouping_file)
 
-    if (var %in% special_treatment_vars) {
-      n <- unique(
-        data[, get(var), by = "patient_identifier_value"]
-      )[, .N]
-      valids <-
-        unique(
-          data[!is.na(get(var)), get(var), by = "patient_identifier_value"]
-        )[, .N]
-      missings <-
-        unique(
-          data[is.na(get(var)), get(var), by = "patient_identifier_value"]
-        )[, .N]
+      if (length(grouping_vars) > 0) {
+        for (name in names(grouping_vars)) {
+          special_treatment_vars <- grouping_vars[[name]]
+        }
+
+        if (var %in% special_treatment_vars) {
+          n <- unique(
+            data[, get(var), by = name]
+          )[, .N]
+          valids <-
+            unique(
+              data[!is.na(get(var)), get(var), by = name]
+            )[, .N]
+          missings <-
+            unique(
+              data[is.na(get(var)), get(var), by = name]
+            )[, .N]
+        }
+      }
     }
   }
 

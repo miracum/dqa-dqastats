@@ -1,6 +1,6 @@
 # DQAstats - Perform data quality assessment (DQA) of electronic health
 # records (EHR)
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -172,20 +172,6 @@ create_helper_vars <- function(mdr,
   outlist$date_vars <-
     outlist$dqa_assessment[get("variable_type") ==
                              "calendar", get("variable_name")]
-
-  # get variable names, that need to be transformed (cleaning neccessary
-  # due to i2b2-prefixes)
-  # TODO this is yet hard-coded
-  # TODO in the future, define format to let users add customized
-  # transformations
-  outlist$trans_vars <- c(
-    "encounter_hospitalization_dischargeDisposition",
-    "encounter_hospitalization_class",
-    "condition_code_coding_code",
-    "procedure_code_coding_code",
-    "encounter_hospitalization_admitSource",
-    "condition_category_encounter_diagnosis"
-  )
 
   return(outlist)
 }

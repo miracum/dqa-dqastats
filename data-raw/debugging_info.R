@@ -12,8 +12,8 @@ source_system_name = "p21csv"
 target_system_name = "i2b2"
 config_file = "tests/testthat/testdata/demo_settings_INTERNAL.yml"
 utils_path = system.file("application/_utilities/", package = "miRacumDQA")
-mdr_filename = "samply_export.csv"
-#mdr_filename = "mdr.csv"
+#mdr_filename = "samply_export.csv"
+mdr_filename = "mdr.csv"
 output_dir = "output/"
 
 

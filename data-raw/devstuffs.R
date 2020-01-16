@@ -15,7 +15,9 @@ my_desc$set_authors(c(
     role = c("cre", "aut"),
     comment = c(ORCID = "0000-0003-1866-860X")
   ),
-  person("Jonathan M.", "Mang", role = c("aut"))
+  person("Jonathan M.", "Mang", role = c("aut"),
+         comment = c(ORCID = "0000-0003-0518-4710")),
+  person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = c("fnd"))
 )) #,
 #  person("Name2", "Surname2", email = "mail@2", role = 'aut')))
 # Set copyright
@@ -23,7 +25,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.5.9001")
+my_desc$set_version("0.0.5.9002")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
@@ -45,7 +47,7 @@ my_desc$set("License", "GPL-3")
 my_desc$write(file = "DESCRIPTION")
 
 # License
-usethis::use_gpl3_license(name = "Universitätsklinikum Erlangen")
+#usethis::use_gpl3_license(name = "Universitätsklinikum Erlangen")
 
 
 # add Imports and Depends

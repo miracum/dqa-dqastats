@@ -1,6 +1,6 @@
 # DQAstats - Perform data quality assessment (DQA) of electronic health
 # records (EHR)
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -64,7 +64,7 @@ test_that("correct functioning of DQA", {
   )
 
   expect_type(all_results, "list")
-  expect_length(all_results, 23)
+  expect_length(all_results, 22)
 
   outputfiles <- list.files(output_dir)
   expect_true("DQA_report.md" %in% outputfiles)

@@ -1,6 +1,6 @@
 Package: DQAstats
 Title: DQAstats - Core Functions for Data Quality Assessment
-Version: 0.0.5.9001
+Version: 0.0.5.9002
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -9,7 +9,10 @@ Authors@R:
              comment = c(ORCID = "0000-0003-1866-860X")),
       person(given = "Jonathan M.",
              family = "Mang",
-             role = "aut"))
+             role = "aut",
+             comment = c(ORCID = "0000-0003-0518-4710")),
+      person(given = "MIRACUM - Medical Informatics in Research and Care in University Medicine",
+             role = "fnd"))
 Description: Perform data quality assessment (DQA) of electronic health records (EHR).
 License: GPL-3
 LazyData: true
@@ -17,7 +20,7 @@ URL: https://gitlab.miracum.org/miracum-dqa/dqastats
 BugReports: https://gitlab.miracum.org/miracum-dqa/dqastats/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date: 2019-12-13
+Date: 2020-01-16
 Imports: 
     data.table,
     shiny,

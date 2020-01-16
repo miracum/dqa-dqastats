@@ -1,6 +1,6 @@
 # DQAstats - Perform data quality assessment (DQA) of electronic health
 # records (EHR)
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -246,13 +246,6 @@ load_csv <- function(rv,
           )]
         }
 
-        if (vn %in% rv$trans_vars) {
-          outlist[[i]][, (vn) := transform_factors(
-            vector = get(vn),
-            transformation = vn
-          )]
-        }
-
         # transform cat_vars to factor
         if (vn %in% rv$cat_vars) {
           outlist[[i]][, (vn) := factor(get(vn))]
@@ -355,13 +348,6 @@ load_database <- function(rv,
 
     # check, if column name in variables of interest
     for (j in col_names) {
-
-      if (j %in% rv$trans_vars) {
-        outlist[[i]][, (j) := transform_factors(
-          vector = get(j),
-          transformation = j
-        )]
-      }
 
       # transform cat_vars to factor
       if (j %in% rv$cat_vars) {

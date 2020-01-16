@@ -1,6 +1,6 @@
 # DQAstats - Perform data quality assessment (DQA) of electronic health
 # records (EHR)
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -137,14 +137,16 @@ calc_counts <- function(cnt_dat,
                                          get(key_col_name_src)]]],
           var = count_key,
           sourcesystem = rv$source$system_name,
-          datamap = datamap
+          datamap = datamap,
+          utils_path = rv$utilspath
         )
       } else if (isTRUE(plausibility)) {
         cnt <- count_uniques(
           data = rv$data_source[[plausibility_key]],
           var = count_key,
           sourcesystem = rv$source$system_name,
-          datamap = datamap
+          datamap = datamap,
+          utils_path = rv$utilspath
         )
       } else {
         cnt <- count_uniques(
@@ -153,7 +155,8 @@ calc_counts <- function(cnt_dat,
                                          get("key")]]],
           var = count_key,
           sourcesystem = rv$source$system_name,
-          datamap = datamap
+          datamap = datamap,
+          utils_path = rv$utilspath
         )
       }
       cnt
@@ -181,14 +184,16 @@ calc_counts <- function(cnt_dat,
                                          get(key_col_name_tar)]]],
           var = count_key,
           sourcesystem = rv$target$system_name,
-          datamap = datamap
+          datamap = datamap,
+          utils_path = rv$utilspath
         )
       } else if (isTRUE(plausibility)) {
         cnt <- count_uniques(
           data = rv$data_target[[plausibility_key]],
           var = count_key,
           sourcesystem = rv$target$system_name,
-          datamap = datamap
+          datamap = datamap,
+          utils_path = rv$utilspath
         )
       } else {
         cnt <- count_uniques(
@@ -197,7 +202,8 @@ calc_counts <- function(cnt_dat,
                                          get("key")]]],
           var = count_key,
           sourcesystem = rv$target$system_name,
-          datamap = datamap
+          datamap = datamap,
+          utils_path = rv$utilspath
         )
       }
       cnt
