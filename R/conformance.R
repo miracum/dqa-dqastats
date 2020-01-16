@@ -59,6 +59,9 @@ value_conformance <- function(results,
     desc_out <- results[[i]]$description
     stat_out <- results[[i]]$statistics
 
+    # internal variable name
+    int_name <- desc_out$source_data$internal_variable_name
+
     for (j in c("source_data", "target_data")) {
       d_out <- desc_out[[j]]
       s_out <- stat_out[[j]]
@@ -151,7 +154,7 @@ value_conformance <- function(results,
             # returns the number of not matching items
             errors <- !grepl(
               pattern = pattern,
-              x = as.character(s_out[!is.na(get(i)), get(i)])
+              x = as.character(s_out[!is.na(get(int_name)), get(int_name)])
             )
             cnt_errors <- sum(errors)
 
@@ -163,7 +166,8 @@ value_conformance <- function(results,
                 isTRUE(error_flag),
                 paste0(
                   "Values that are not conform with regular expression:  \n",
-                  paste(as.character(s_out[!is.na(get(i)), get(i)])[errors],
+                  paste(as.character(s_out[!is.na(get(int_name)),
+                                           get(int_name)])[errors],
                         collapse = "  \n")
                 ),
                 "No 'value conformance' issues found."

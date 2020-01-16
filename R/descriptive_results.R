@@ -65,13 +65,18 @@ descriptive_results <- function(rv,
     }
 
     # generate descriptions
-    desc_dat <- rv$mdr[get("dqa_assessment") == 1, ][
-      get("variable_name") == rv$variable_list[[i]],
+    desc_dat <- rv$mdr[get("dqa_assessment") == 1 &
+                         get("source_system_name") %in%
+                         c(rv$source$system_name,
+                           rv$target$system_name), ][
+      get("variable_name") == rv$variable_list[[i]] &
+        get("designation") == i,
       c(
         "designation",
         "source_system_name",
         "source_variable_name",
         "source_table_name",
+        "variable_name",
         "fhir",
         "definition",
         "variable_type",
@@ -82,7 +87,7 @@ descriptive_results <- function(rv,
       ), with = F]
 
     if (nrow(desc_dat) > 1) {
-      outlist[[rv$variable_list[[i]]]]$description <-
+      outlist[[i]]$description <-
         calc_description(desc_dat, rv)
     } else {
       msg <- paste0("Error occured during creating ",
@@ -106,9 +111,12 @@ descriptive_results <- function(rv,
     }
 
     # generate counts
-    cnt_dat <- rv$mdr[get("dqa_assessment") == 1, ][
-      get("variable_name") ==
-        rv$variable_list[[i]], c(
+    cnt_dat <- rv$mdr[get("dqa_assessment") == 1 &
+                        get("source_system_name") %in%
+                        c(rv$source$system_name,
+                          rv$target$system_name), ][
+      get("variable_name") == rv$variable_list[[i]] &
+        get("designation") == i, c(
           "source_system_name",
           "source_variable_name",
           "source_table_name",
@@ -118,7 +126,7 @@ descriptive_results <- function(rv,
           "filter"
         ), with = F]
 
-    outlist[[rv$variable_list[[i]]]]$counts <- calc_counts(
+    outlist[[i]]$counts <- calc_counts(
       cnt_dat = cnt_dat,
       count_key = rv$variable_list[[i]],
       rv = rv,
@@ -140,9 +148,12 @@ descriptive_results <- function(rv,
 
 
     # generate statistics
-    stat_dat <- rv$mdr[get("dqa_assessment") == 1, ][
-      get("variable_name") ==
-        rv$variable_list[[i]], c(
+    stat_dat <- rv$mdr[get("dqa_assessment") == 1 &
+                         get("source_system_name") %in%
+                         c(rv$source$system_name,
+                           rv$target$system_name), ][
+      get("variable_name") == rv$variable_list[[i]] &
+        get("designation") == i, c(
           "source_system_name",
           "source_variable_name",
           "source_table_name",
@@ -154,14 +165,18 @@ descriptive_results <- function(rv,
 
     if (stat_dat[, unique(get("variable_type"))] %in%
         c("permittedValues", "string")) {
-      outlist[[rv$variable_list[[i]]]]$statistics <-
-        calc_cat_stats(stat_dat, rv$variable_list[[i]], rv)
+      outlist[[i]]$statistics <-
+        calc_cat_stats(
+          stat_dat = stat_dat,
+          stat_key = rv$variable_list[[i]],
+          rv = rv
+        )
       # for target_data; our data is in rv$list_target$key
     } else {
-      outlist[[rv$variable_list[[i]]]]$statistics <- calc_num_stats(
-        stat_dat,
-        rv$variable_list[[i]],
-        rv
+      outlist[[i]]$statistics <- calc_num_stats(
+        stat_dat = stat_dat,
+        stat_key = rv$variable_list[[i]],
+        rv = rv
       )
     }
   }

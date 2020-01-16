@@ -195,7 +195,7 @@ dqa <- function(source_system_name,
   # get time_interval
   # TODO hardcoded for MIRACUM
   rv$time_interval <-
-    time_interval(rv$results_descriptive$EpisodeOfCare_period_end)
+    time_interval(rv$results_descriptive[["Entlassungsdatum"]])
 
   if (!is.null(rv$data_plausibility$atemporal)) {
     # calculate plausibilites
@@ -219,7 +219,7 @@ dqa <- function(source_system_name,
   # delete raw data
   rv$data_source <- NULL
   rv$data_target <- NULL
-  gc()
+  invisible(gc())
 
   # conformance
   rv$conformance$value_conformance <-

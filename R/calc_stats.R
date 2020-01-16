@@ -22,6 +22,9 @@ calc_description <- function(desc_dat,
     description$source_data <- list(
       name = desc_dat[get("source_system_name") ==
                         rv$source$system_name, get("designation")],
+      internal_variable_name = desc_dat[get("source_system_name") ==
+                                          rv$source$system_name,
+                                        get("variable_name")],
       description = desc_dat[get("source_system_name") ==
                                rv$source$system_name, get("definition")],
       var_name = desc_dat[get("source_system_name") ==
@@ -362,8 +365,8 @@ calc_num_stats <- function(stat_dat,
   key_col_name_tar <- key_cols$target
 
   if (stat_dat[get("source_system_name") ==
-               rv$source$system_name, get("variable_type") !=
-               "calendar"]) {
+               rv$source$system_name, get("variable_type")] !=
+               "calendar") {
     statistics$source_data <- tryCatch(
       expr = {
         f <- stat_dat[get("source_system_name") ==

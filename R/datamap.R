@@ -53,7 +53,7 @@ generate_datamap <- function(results,
     }
     return(NULL)
   } else {
-    obj_names <- data_names[, get("variable_name")]
+    obj_names <- data_names[, get("designation")]
 
     outlist <- list()
 
@@ -72,9 +72,7 @@ generate_datamap <- function(results,
           rbind(
             out,
             data.table::data.table(
-              "variable" = data_names[get(
-                "variable_name"
-                ) == j, get("designation")],
+              "variable" = j,
               "n" = results[[j]]$counts[[i]]$cnt$n,
               "valids" = results[[j]]$counts[[i]]$cnt$valids,
               "missings" = results[[j]]$counts[[i]]$cnt$missings,
