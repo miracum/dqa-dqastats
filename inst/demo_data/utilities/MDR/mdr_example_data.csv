@@ -7,7 +7,7 @@ Birthdate;BIRTHDATE;dqa_example_data_01.csv;exampleCSV_source;csv;dqa.birthdate;
 Sex;SEX;dqa_example_data_01.csv;exampleCSV_source;csv;dqa.sex;dqa_sex;;permittedValues;"{""value_set"":[""m, f, x""]} ";;;1;The sex of the person in one letter: m, f or x for unknown.;;;;;1;
 Income;INCOME;dqa_example_data_01.csv;exampleCSV_source;csv;dqa.income;dqa_income;;integer;"{""range"":{""min"":[0],""max"":[""Inf""],""unit"":[""money""]}} ";;;1;The income of the person at the time of contact;;;;;;
 Job;JOB;dqa_example_data_01.csv;exampleCSV_source;csv;dqa.job;dqa_job;;string;;;;1;The job of the person at the time of contact;;;;;;
-Current bank balance;BANK-BALANCE;dqa_example_data_01.csv;exampleCSV_source;csv;dqa.bank_balance;dqa_bank_balance;;integer;"{""range"":{""min"":[""-Inf""],""max"":[""Inf""],""unit"":[""money""]}} ";;;1;The bank-balance at the time oc contact;;;;;;
+Current bank balance;BANK-BALANCE;dqa_example_data_01.csv;exampleCSV_source;csv;dqa.bank_balance;dqa_bank_balance;;integer;"{""range"":{""min"":[""-Inf""],""max"":[""Inf""],""unit"":[""money""]}} ";;;1;The bank-balance at the time of contact;;;;;;
 Credit worthy?;CREDIT-WORTHY;dqa_example_data_01.csv;exampleCSV_source;csv;dqa.credit_worthy;dqa_credit_worthy;;permittedValues;"{""value_set"": ""yes, no""}";;;1;Indicates whether the person is creditworthy at the time of the contact;;;;;;
 Amount of credit;CREDIT-AMOUNT;dqa_example_data_01.csv;exampleCSV_source;csv;dqa.credit_amount;dqa_credit_amount;;integer;"{""range"":{""min"":[0],""max"":[""Inf""],""unit"":[""money""]}} ";;;1;That's the amount of credit the person has used;;;;;;
 Date of contact;CONTACT-DATE;dqa_example_data_01.csv;exampleCSV_source;csv;dqa.contact_date;dqa_contact_date;;calendar;;;;1;Date of contact;;;;;;
