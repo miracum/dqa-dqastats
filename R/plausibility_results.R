@@ -88,7 +88,7 @@ atemp_pausi_results <- function(rv,
                  "variable_type",
                  "key",
                  "variable_name",
-                 "variable_name"
+                 "filter"
                ), with = F]
     # # workaround, to get old calc_counts function working with new cnt_dat
     # desc_dat[get("source_system_name") ==

@@ -130,6 +130,15 @@ calc_counts <- function(cnt_dat,
 
   counts$source_data$cnt <- tryCatch(
     expr = {
+      f <- cnt_dat[get("source_system_name") ==
+                     rv$source$system_name,
+                   get("filter")]
+      f <- setdiff(f, NA)
+      if (length(f) > 0) {
+        where_filter <- get_where_filter(f)
+      } else {
+        where_filter <- NULL
+      }
       if (isTRUE(datamap)) {
         cnt <- count_uniques(
           data = rv$data_source[[cnt_dat[get("source_system_name") ==
@@ -138,7 +147,8 @@ calc_counts <- function(cnt_dat,
           var = count_key,
           sourcesystem = rv$source$system_name,
           datamap = datamap,
-          utils_path = rv$utilspath
+          utils_path = rv$utilspath,
+          filter = where_filter
         )
       } else if (isTRUE(plausibility)) {
         cnt <- count_uniques(
@@ -146,7 +156,8 @@ calc_counts <- function(cnt_dat,
           var = count_key,
           sourcesystem = rv$source$system_name,
           datamap = datamap,
-          utils_path = rv$utilspath
+          utils_path = rv$utilspath,
+          filter = where_filter
         )
       } else {
         cnt <- count_uniques(
@@ -156,7 +167,8 @@ calc_counts <- function(cnt_dat,
           var = count_key,
           sourcesystem = rv$source$system_name,
           datamap = datamap,
-          utils_path = rv$utilspath
+          utils_path = rv$utilspath,
+          filter = where_filter
         )
       }
       cnt
@@ -177,6 +189,15 @@ calc_counts <- function(cnt_dat,
   # for target_data; our data is in rv$data_target$key
   counts$target_data$cnt <- tryCatch(
     expr = {
+      f <- cnt_dat[get("source_system_name") ==
+                  rv$target$system_name,
+                get("filter")]
+      f <- setdiff(f, NA)
+      if (length(f) > 0) {
+        where_filter <- get_where_filter(f)
+      } else {
+        where_filter <- NULL
+      }
       if (isTRUE(datamap)) {
         cnt <- count_uniques(
           data = rv$data_target[[cnt_dat[get("source_system_name") ==
@@ -185,7 +206,8 @@ calc_counts <- function(cnt_dat,
           var = count_key,
           sourcesystem = rv$target$system_name,
           datamap = datamap,
-          utils_path = rv$utilspath
+          utils_path = rv$utilspath,
+          filter = where_filter
         )
       } else if (isTRUE(plausibility)) {
         cnt <- count_uniques(
@@ -193,7 +215,8 @@ calc_counts <- function(cnt_dat,
           var = count_key,
           sourcesystem = rv$target$system_name,
           datamap = datamap,
-          utils_path = rv$utilspath
+          utils_path = rv$utilspath,
+          filter = where_filter
         )
       } else {
         cnt <- count_uniques(
@@ -203,7 +226,8 @@ calc_counts <- function(cnt_dat,
           var = count_key,
           sourcesystem = rv$target$system_name,
           datamap = datamap,
-          utils_path = rv$utilspath
+          utils_path = rv$utilspath,
+          filter = where_filter
         )
       }
       cnt
@@ -242,6 +266,15 @@ calc_cat_stats <- function(stat_dat,
 
   statistics$source_data <- tryCatch(
     expr = {
+      f <- stat_dat[get("source_system_name") ==
+                   rv$source$system_name,
+                 get("filter")]
+      f <- setdiff(f, NA)
+      if (length(f) > 0) {
+        where_filter <- get_where_filter(f)
+      } else {
+        where_filter <- NULL
+      }
       if (isFALSE(plausibility)) {
         # for source_data; our data is in rv$data_source$source_table_name
         source_data <- categorical_analysis(
@@ -249,13 +282,15 @@ calc_cat_stats <- function(stat_dat,
             "source_system_name") == rv$source$system_name,
             get(key_col_name_src)]]],
           var = stat_key,
-          levellimit = Inf
+          levellimit = Inf,
+          filter = where_filter
         )
       } else {
         source_data <- categorical_analysis(
           data = rv$data_source[[plausibility_key]],
           var = stat_key,
-          levellimit = Inf
+          levellimit = Inf,
+          filter = where_filter
         )
       }
       source_data
@@ -270,19 +305,30 @@ calc_cat_stats <- function(stat_dat,
 
   statistics$target_data <- tryCatch(
     expr = {
+      f <- stat_dat[get("source_system_name") ==
+                   rv$target$system_name,
+                 get("filter")]
+      f <- setdiff(f, NA)
+      if (length(f) > 0) {
+        where_filter <- get_where_filter(f)
+      } else {
+        where_filter <- NULL
+      }
       if (isFALSE(plausibility)) {
         target_data <- categorical_analysis(
           data = rv$data_target[[stat_dat[get(
             "source_system_name") ==
               rv$target$system_name, get(key_col_name_tar)]]],
           var = stat_key,
-          levellimit = Inf
+          levellimit = Inf,
+          filter = where_filter
         )
       } else {
         target_data <- categorical_analysis(
           data = rv$data_target[[plausibility_key]],
           var = stat_key,
-          levellimit = Inf
+          levellimit = Inf,
+          filter = where_filter
         )
       }
       target_data
@@ -320,18 +366,40 @@ calc_num_stats <- function(stat_dat,
                "calendar"]) {
     statistics$source_data <- tryCatch(
       expr = {
-        if (isFALSE(plausibility)) {
-          # for source_data; our data is in rv$data_source$source_table_name
-          source_data <- extensive_summary(
-            rv$data_source[[stat_dat[get(
-              "source_system_name"
-            ) == rv$source$system_name, get(
-              key_col_name_src
-            )]]][, get(stat_key)]
-          )
+        f <- stat_dat[get("source_system_name") ==
+                     rv$source$system_name,
+                   get("filter")]
+        f <- setdiff(f, NA)
+        if (length(f) > 0) {
+          where_filter <- get_where_filter(f)
         } else {
-          source_data <- extensive_summary(
-            rv$data_source[[plausibility_key]][, get(stat_key)])
+          where_filter <- NULL
+        }
+        if (isFALSE(plausibility)) {
+          data <- rv$data_source[[stat_dat[get(
+            "source_system_name"
+          ) == rv$source$system_name, get(
+            key_col_name_src
+          )]]]
+          # for source_data; our data is in rv$data_source$source_table_name
+          if (length(where_filter) > 0) {
+            vector <- data[grepl(where_filter$filter_logic,
+                                 data[, get(where_filter$filter_var)]),
+                           get(stat_key)]
+          } else {
+            vector <- data[, get(stat_key)]
+          }
+          source_data <- extensive_summary(vector)
+        } else {
+          data <- rv$data_source[[plausibility_key]]
+          if (length(where_filter) > 0) {
+            vector <- data[grepl(where_filter$filter_logic,
+                                 data[, get(where_filter$filter_var)]),
+                           get(stat_key)]
+          } else {
+            vector <- data[, get(stat_key)]
+          }
+          source_data <- extensive_summary(vector)
         }
         source_data
       }, error = function(e) {
@@ -345,15 +413,37 @@ calc_num_stats <- function(stat_dat,
 
     statistics$target_data <- tryCatch(
       expr = {
-        if (isFALSE(plausibility)) {
-          target_data <- extensive_summary(
-            rv$data_target[[stat_dat[get(
-              "source_system_name"
-            ) == rv$target$system_name, get(key_col_name_tar)]]]
-            [, get(stat_key)])
+        f <- stat_dat[get("source_system_name") ==
+                     rv$target$system_name,
+                   get("filter")]
+        f <- setdiff(f, NA)
+        if (length(f) > 0) {
+          where_filter <- get_where_filter(f)
         } else {
-          target_data <- extensive_summary(
-            rv$data_target[[plausibility_key]][, get(stat_key)])
+          where_filter <- NULL
+        }
+        if (isFALSE(plausibility)) {
+          data <- rv$data_target[[stat_dat[get(
+            "source_system_name"
+          ) == rv$target$system_name, get(key_col_name_tar)]]]
+          if (length(where_filter) > 0) {
+            vector <- data[grepl(where_filter$filter_logic,
+                                 data[, get(where_filter$filter_var)]),
+                           get(stat_key)]
+          } else {
+            vector <- data[, get(stat_key)]
+          }
+          target_data <- extensive_summary(vector)
+        } else {
+          data <- rv$data_target[[plausibility_key]]
+          if (length(where_filter) > 0) {
+            vector <- data[grepl(where_filter$filter_logic,
+                                 data[, get(where_filter$filter_var)]),
+                           get(stat_key)]
+          } else {
+            vector <- data[, get(stat_key)]
+          }
+          target_data <- extensive_summary(vector)
         }
         target_data
 
@@ -368,51 +458,99 @@ calc_num_stats <- function(stat_dat,
 
 
   } else {
-    statistics$source_data <- tryCatch({
-      if (isFALSE(plausibility)) {
-        source_data <- simple_summary(
-          rv$data_source[[stat_dat[get(
+    statistics$source_data <- tryCatch(
+      expr = {
+        f <- stat_dat[get("source_system_name") ==
+                     rv$source$system_name,
+                   get("filter")]
+        f <- setdiff(f, NA)
+        if (length(f) > 0) {
+          where_filter <- get_where_filter(f)
+        } else {
+          where_filter <- NULL
+        }
+        if (isFALSE(plausibility)) {
+          data <- rv$data_source[[stat_dat[get(
             "source_system_name"
           ) == rv$source$system_name, get(
             key_col_name_src
-          )]]][, get(stat_key)])
-      } else {
-        source_data <- simple_summary(
-          rv$data_source[[plausibility_key]][, get(stat_key)])
-      }
-      source_data
+          )]]]
+          if (length(where_filter) > 0) {
+            vector <- data[grepl(where_filter$filter_logic,
+                                 data[, get(where_filter$filter_var)]),
+                           get(stat_key)]
+          } else {
+            vector <- data[, get(stat_key)]
+          }
+          source_data <- simple_summary(vector)
+        } else {
+          data <- rv$data_source[[plausibility_key]]
+          if (length(where_filter) > 0) {
+            vector <- data[grepl(where_filter$filter_logic,
+                                 data[, get(where_filter$filter_var)]),
+                           get(stat_key)]
+          } else {
+            vector <- data[, get(stat_key)]
+          }
+          source_data <- simple_summary(vector)
+        }
+        source_data
 
-    }, error = function(e) {
-      message("Error occured when calculating simple source numStats\n")
-      print(e)
-      source_data <- NULL
-      source_data
-    }, finally = function(f) {
-      return(source_data)
-    })
+      }, error = function(e) {
+        message("Error occured when calculating simple source numStats\n")
+        print(e)
+        source_data <- NULL
+        source_data
+      }, finally = function(f) {
+        return(source_data)
+      })
 
-    statistics$target_data <- tryCatch({
-      if (isFALSE(plausibility)) {
-        target_data <- simple_summary(
-          rv$data_target[[stat_dat[get(
+    statistics$target_data <- tryCatch(
+      expr = {
+        f <- stat_dat[get("source_system_name") ==
+                     rv$target$system_name,
+                   get("filter")]
+        f <- setdiff(f, NA)
+        if (length(f) > 0) {
+          where_filter <- get_where_filter(f)
+        } else {
+          where_filter <- NULL
+        }
+        if (isFALSE(plausibility)) {
+          data <- rv$data_target[[stat_dat[get(
             "source_system_name"
           ) == rv$target$system_name, get(
             key_col_name_tar
-          )]]][, get(stat_key)])
-      } else {
-        target_data <- simple_summary(
-          rv$data_target[[plausibility_key]][, get(stat_key)])
-      }
-      target_data
+          )]]]
+          if (length(where_filter) > 0) {
+            vector <- data[grepl(where_filter$filter_logic,
+                                 data[, get(where_filter$filter_var)]),
+                           get(stat_key)]
+          } else {
+            vector <- data[, get(stat_key)]
+          }
+          target_data <- simple_summary(vector)
+        } else {
+          data <- rv$data_target[[plausibility_key]]
+          if (length(where_filter) > 0) {
+            vector <- data[grepl(where_filter$filter_logic,
+                                 data[, get(where_filter$filter_var)]),
+                           get(stat_key)]
+          } else {
+            vector <- data[, get(stat_key)]
+          }
+          target_data <- simple_summary(vector)
+        }
+        target_data
 
-    }, error = function(e) {
-      message("Error occured when calculating simple target numStats\n")
-      print(e)
-      target_data <- NULL
-      target_data
-    }, finally = function(f) {
-      return(target_data)
-    })
+      }, error = function(e) {
+        message("Error occured when calculating simple target numStats\n")
+        print(e)
+        target_data <- NULL
+        target_data
+      }, finally = function(f) {
+        return(target_data)
+      })
   }
 
   return(statistics)

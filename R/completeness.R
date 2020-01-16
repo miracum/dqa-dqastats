@@ -79,7 +79,8 @@ completeness <- function(results, headless = FALSE) {
             4
           ) * 100
         )
-      )
+      ),
+      fill = TRUE
     )
   }
 

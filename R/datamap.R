@@ -29,12 +29,21 @@
 generate_datamap <- function(results,
                              mdr,
                              db,
+                             rv,
                              headless = FALSE) {
   # get names
   data_names <-
     mdr[get("data_map") == 1 &
           get("source_system_name") == db, c("variable_name",
                                         "designation"), with = F]
+
+  # not in variable list
+  nivl <- setdiff(data_names$designation, names(rv$variable_list))
+  if (length(nivl) > 0) {
+    data_names <- data_names[get("designation") %in%
+                               setdiff(data_names$designation, nivl), ]
+  }
+
 
   if (nrow(data_names) < 1) {
     msg <- "No variables suitable for the data map found in the MDR"

@@ -77,7 +77,8 @@ descriptive_results <- function(rv,
         "variable_type",
         "constraints",
         "value_threshold",
-        "missing_threshold"
+        "missing_threshold",
+        "filter"
       ), with = F]
 
     if (nrow(desc_dat) > 1) {
@@ -113,7 +114,8 @@ descriptive_results <- function(rv,
           "source_table_name",
           "variable_type",
           "key",
-          "variable_name"
+          "variable_name",
+          "filter"
         ), with = F]
 
     outlist[[rv$variable_list[[i]]]]$counts <- calc_counts(
@@ -146,7 +148,8 @@ descriptive_results <- function(rv,
           "source_table_name",
           "variable_type",
           "key",
-          "variable_name"
+          "variable_name",
+          "filter"
         ), with = F]
 
     if (stat_dat[, unique(get("variable_type"))] %in%

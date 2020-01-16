@@ -4,7 +4,7 @@
 \alias{generate_datamap}
 \title{generate_datamap helper function}
 \usage{
-generate_datamap(results, mdr, db, headless = FALSE)
+generate_datamap(results, mdr, db, rv, headless = FALSE)
 }
 \arguments{
 \item{results}{A list object. The list should contain the results

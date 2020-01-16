@@ -44,6 +44,9 @@ read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
   )][
     get("plausibility_relation") == "", ("plausibility_relation") := NA
     ]
+  mdr[, ("filter") := gsub("\"\"", "\"", get("filter"))][
+    get("filter") == "", ("filter") := NA
+    ]
 
   # fix representation of missing values in all columns
   for (i in colnames(mdr)) {

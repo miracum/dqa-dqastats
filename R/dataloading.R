@@ -87,11 +87,13 @@ load_csv_files <- function(mdr,
 
 
 
-    input_vars <- available_systems[get("source_table_name") ==
-                                      inputfile &
-                                      !is.na(get("variable_type")),
-                                    c("source_variable_name",
-                                      "variable_type")]
+    input_vars <- unique(
+      available_systems[get("source_table_name") ==
+                          inputfile &
+                          !is.na(get("variable_type")),
+                        c("source_variable_name",
+                          "variable_type")]
+    )
 
     select_cols <- unlist(
       sapply(
@@ -236,7 +238,7 @@ load_csv <- function(rv,
                        get("source_system_name") == system$system_name,
                      ][
                        get("source_variable_name") ==
-                         j, get("variable_name")]
+                         j, unique(get("variable_name"))]
         colnames(outlist[[i]])[which(col_names == j)] <- vn
 
         # transform date_vars to dates

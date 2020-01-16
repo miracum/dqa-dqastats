@@ -20,9 +20,15 @@ count_uniques <- function(data,
                           var,
                           sourcesystem,
                           datamap = TRUE,
-                          utils_path) {
+                          utils_path,
+                          filter) {
 
   valids <- NULL
+
+  if (length(filter) > 0) {
+    data <- data[grepl(filter$filter_logic,
+                       data[, get(filter$filter_var)]), ]
+  }
 
   if (isTRUE(datamap)) {
     # control for aggregated values
@@ -126,7 +132,13 @@ simple_summary <- function(vector) {
 # categorical_analysis
 categorical_analysis <- function(data,
                                  var,
-                                 levellimit = 25) {
+                                 levellimit = 25,
+                                 filter) {
+
+  if (length(filter) > 0) {
+    data <- data[grepl(filter$filter_logic,
+                       data[, get(filter$filter_var)]), ]
+  }
 
   # TODO we need to define variable types at the dataimport
   data[, (var) := factor(get(var))]
@@ -163,6 +175,10 @@ reduce_cat <- function(data, levellimit = 25) {
 
   # loop over variable names in list
   for (i in names(data)) {
+
+    if (is.null(data[[i]]$description)) {
+      next
+    }
 
     # only if variable type of interest
     if (data[[i]]$description$source_data$checks$var_type %in%

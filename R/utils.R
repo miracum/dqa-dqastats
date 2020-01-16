@@ -121,3 +121,8 @@ get_config <- function(config_file, config_key) {
 load_sqls <- function(utils_path, db) {
   return(jsonlite::fromJSON(paste0(utils_path, "SQL/SQL_", db, ".JSON")))
 }
+
+
+get_where_filter <- function(filter) {
+  return(jsonlite::fromJSON(filter))
+}

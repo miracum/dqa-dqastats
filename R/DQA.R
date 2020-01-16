@@ -252,6 +252,7 @@ dqa <- function(source_system_name,
     results = rv$results_descriptive,
     db = rv$target$system_name,
     mdr = rv$mdr,
+    rv = rv,
     headless = rv$headless
   )
 
