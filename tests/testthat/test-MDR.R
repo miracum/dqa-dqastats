@@ -91,7 +91,7 @@ test_that("correct functioning of MDR", {
 
   expect_type(rv$mdr, "list")
   expect_equal(nrow(rv$mdr), 24)
-  expect_true(ncol(rv$mdr) == 20)
+  expect_true(ncol(rv$mdr) == 21)
   expect_s3_class(rv$mdr, "data.table")
 
   # Remove the settings and output-folder:

@@ -35,7 +35,8 @@ test_that("correct functioning of statistics", {
     var = "gender",
     sourcesystem = "testsystem",
     datamap = F,
-    utils_path = "testpath"
+    utils_path = "testpath",
+    filter = NULL
   )
 
   expect_true(testres$valids == 20)

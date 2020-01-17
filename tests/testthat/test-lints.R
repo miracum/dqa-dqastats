@@ -12,7 +12,7 @@ test_that(desc = "test lints",
           code = {
             lintlist <- list(
               "R" = list(
-                "calc_stats.R" = NULL,
+                "calc_stats.R" = "cyclomatic complexity",
                 "completeness.R" = NULL,
                 "conformance.R" = "cyclomatic complexity",
                 "database.R" = NULL,

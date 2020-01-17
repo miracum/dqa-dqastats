@@ -94,8 +94,11 @@ calc_atemp_plausi_description <- function(dat,
     join_crit = dat$source_data$join_crit,
     checks = c(
       plausis_atemporal$source_data$checks,
-      list(var_type = desc_dat[get("source_system_name") ==
-                                 rv$source$system_name, get("variable_type")])
+      list(
+        var_type = desc_dat[get("source_system_name") ==
+                              rv$source$system_name,
+                            get("variable_type")]
+      )
     )
   )
   description$target_data <- list(
@@ -106,8 +109,11 @@ calc_atemp_plausi_description <- function(dat,
     join_crit = dat$target_data$join_crit,
     checks = c(
       plausis_atemporal$target_data$checks,
-      list(var_type = desc_dat[get("source_system_name") ==
-                                 rv$source$system_name, get("variable_type")])
+      list(
+        var_type = desc_dat[get("source_system_name") ==
+                              rv$source$system_name,
+                            get("variable_type")]
+      )
     )
   )
 
@@ -193,8 +199,8 @@ calc_counts <- function(cnt_dat,
   counts$target_data$cnt <- tryCatch(
     expr = {
       f <- cnt_dat[get("source_system_name") ==
-                  rv$target$system_name,
-                get("filter")]
+                     rv$target$system_name,
+                   get("filter")]
       f <- setdiff(f, NA)
       if (length(f) > 0) {
         where_filter <- get_where_filter(f)
@@ -270,8 +276,8 @@ calc_cat_stats <- function(stat_dat,
   statistics$source_data <- tryCatch(
     expr = {
       f <- stat_dat[get("source_system_name") ==
-                   rv$source$system_name,
-                 get("filter")]
+                      rv$source$system_name,
+                    get("filter")]
       f <- setdiff(f, NA)
       if (length(f) > 0) {
         where_filter <- get_where_filter(f)
@@ -281,9 +287,9 @@ calc_cat_stats <- function(stat_dat,
       if (isFALSE(plausibility)) {
         # for source_data; our data is in rv$data_source$source_table_name
         source_data <- categorical_analysis(
-          data = rv$data_source[[stat_dat[get(
-            "source_system_name") == rv$source$system_name,
-            get(key_col_name_src)]]],
+          data = rv$data_source[[stat_dat[get("source_system_name") ==
+                                            rv$source$system_name,
+                                          get(key_col_name_src)]]],
           var = stat_key,
           levellimit = Inf,
           filter = where_filter
@@ -309,8 +315,8 @@ calc_cat_stats <- function(stat_dat,
   statistics$target_data <- tryCatch(
     expr = {
       f <- stat_dat[get("source_system_name") ==
-                   rv$target$system_name,
-                 get("filter")]
+                      rv$target$system_name,
+                    get("filter")]
       f <- setdiff(f, NA)
       if (length(f) > 0) {
         where_filter <- get_where_filter(f)
@@ -319,9 +325,9 @@ calc_cat_stats <- function(stat_dat,
       }
       if (isFALSE(plausibility)) {
         target_data <- categorical_analysis(
-          data = rv$data_target[[stat_dat[get(
-            "source_system_name") ==
-              rv$target$system_name, get(key_col_name_tar)]]],
+          data = rv$data_target[[stat_dat[get("source_system_name") ==
+                                            rv$target$system_name,
+                                          get(key_col_name_tar)]]],
           var = stat_key,
           levellimit = Inf,
           filter = where_filter
@@ -365,13 +371,13 @@ calc_num_stats <- function(stat_dat,
   key_col_name_tar <- key_cols$target
 
   if (stat_dat[get("source_system_name") ==
-               rv$source$system_name, get("variable_type")] !=
-               "calendar") {
+               rv$source$system_name,
+               get("variable_type")] != "calendar") {
     statistics$source_data <- tryCatch(
       expr = {
         f <- stat_dat[get("source_system_name") ==
-                     rv$source$system_name,
-                   get("filter")]
+                        rv$source$system_name,
+                      get("filter")]
         f <- setdiff(f, NA)
         if (length(f) > 0) {
           where_filter <- get_where_filter(f)
@@ -379,11 +385,9 @@ calc_num_stats <- function(stat_dat,
           where_filter <- NULL
         }
         if (isFALSE(plausibility)) {
-          data <- rv$data_source[[stat_dat[get(
-            "source_system_name"
-          ) == rv$source$system_name, get(
-            key_col_name_src
-          )]]]
+          data <- rv$data_source[[stat_dat[get("source_system_name") ==
+                                             rv$source$system_name,
+                                           get(key_col_name_src)]]]
           # for source_data; our data is in rv$data_source$source_table_name
           if (length(where_filter) > 0) {
             vector <- data[grepl(where_filter$filter_logic,
@@ -417,8 +421,8 @@ calc_num_stats <- function(stat_dat,
     statistics$target_data <- tryCatch(
       expr = {
         f <- stat_dat[get("source_system_name") ==
-                     rv$target$system_name,
-                   get("filter")]
+                        rv$target$system_name,
+                      get("filter")]
         f <- setdiff(f, NA)
         if (length(f) > 0) {
           where_filter <- get_where_filter(f)
@@ -426,9 +430,9 @@ calc_num_stats <- function(stat_dat,
           where_filter <- NULL
         }
         if (isFALSE(plausibility)) {
-          data <- rv$data_target[[stat_dat[get(
-            "source_system_name"
-          ) == rv$target$system_name, get(key_col_name_tar)]]]
+          data <- rv$data_target[[stat_dat[get("source_system_name") ==
+                                             rv$target$system_name,
+                                           get(key_col_name_tar)]]]
           if (length(where_filter) > 0) {
             vector <- data[grepl(where_filter$filter_logic,
                                  data[, get(where_filter$filter_var)]),
@@ -464,8 +468,8 @@ calc_num_stats <- function(stat_dat,
     statistics$source_data <- tryCatch(
       expr = {
         f <- stat_dat[get("source_system_name") ==
-                     rv$source$system_name,
-                   get("filter")]
+                        rv$source$system_name,
+                      get("filter")]
         f <- setdiff(f, NA)
         if (length(f) > 0) {
           where_filter <- get_where_filter(f)
@@ -473,11 +477,9 @@ calc_num_stats <- function(stat_dat,
           where_filter <- NULL
         }
         if (isFALSE(plausibility)) {
-          data <- rv$data_source[[stat_dat[get(
-            "source_system_name"
-          ) == rv$source$system_name, get(
-            key_col_name_src
-          )]]]
+          data <- rv$data_source[[stat_dat[get("source_system_name") ==
+                                             rv$source$system_name,
+                                           get(key_col_name_src)]]]
           if (length(where_filter) > 0) {
             vector <- data[grepl(where_filter$filter_logic,
                                  data[, get(where_filter$filter_var)]),
@@ -511,8 +513,8 @@ calc_num_stats <- function(stat_dat,
     statistics$target_data <- tryCatch(
       expr = {
         f <- stat_dat[get("source_system_name") ==
-                     rv$target$system_name,
-                   get("filter")]
+                        rv$target$system_name,
+                      get("filter")]
         f <- setdiff(f, NA)
         if (length(f) > 0) {
           where_filter <- get_where_filter(f)
@@ -520,11 +522,9 @@ calc_num_stats <- function(stat_dat,
           where_filter <- NULL
         }
         if (isFALSE(plausibility)) {
-          data <- rv$data_target[[stat_dat[get(
-            "source_system_name"
-          ) == rv$target$system_name, get(
-            key_col_name_tar
-          )]]]
+          data <- rv$data_target[[stat_dat[get("source_system_name") ==
+                                             rv$target$system_name,
+                                           get(key_col_name_tar)]]]
           if (length(where_filter) > 0) {
             vector <- data[grepl(where_filter$filter_logic,
                                  data[, get(where_filter$filter_var)]),

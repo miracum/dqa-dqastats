@@ -23,6 +23,7 @@
 #' @inheritParams create_helper_vars
 #' @inheritParams test_db
 #' @inheritParams load_sqls
+#' @inheritParams atemp_pausi_results
 #'
 #' @export
 #'
@@ -35,7 +36,7 @@ generate_datamap <- function(results,
   data_names <-
     mdr[get("data_map") == 1 &
           get("source_system_name") == db, c("variable_name",
-                                        "designation"), with = F]
+                                             "designation"), with = F]
 
   # not in variable list
   nivl <- setdiff(data_names$designation, names(rv$variable_list))

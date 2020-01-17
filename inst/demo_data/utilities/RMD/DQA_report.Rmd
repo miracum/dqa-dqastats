@@ -120,17 +120,6 @@ if (!is.null(rv$results_descriptive) &&
 
 # Plausibility Checks
 
-## Uniqueness Plausibility
-
-```{r results='asis'}
-# plausi results
-if (!is.null(rv$results_plausibility_uniqueness)) {
-  render_uniq_plausis(rv$results_plausibility_uniqueness)
-} else {
-  cat(no_data_to_display_msg)
-}
-```
-
 ## Atemporal Plausibility 
 
 ```{r results='asis'}
@@ -139,6 +128,17 @@ if (!is.null(rv$results_plausibility_atemporal) &&
     !is.null(rv$conformance$value_conformance)) {
   render_atemp_plausis(rv$results_plausibility_atemporal,
                        rv$conformance$value_conformance)
+} else {
+  cat(no_data_to_display_msg)
+}
+```
+
+## Uniqueness Plausibility
+
+```{r results='asis'}
+# plausi results
+if (!is.null(rv$results_plausibility_uniqueness)) {
+  render_uniq_plausis(rv$results_plausibility_uniqueness)
 } else {
   cat(no_data_to_display_msg)
 }

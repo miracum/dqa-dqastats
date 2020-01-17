@@ -39,20 +39,21 @@ count_uniques <- function(data,
       if (length(grouping_vars) > 0) {
         for (name in names(grouping_vars)) {
           special_treatment_vars <- grouping_vars[[name]]
-        }
 
-        if (var %in% special_treatment_vars) {
-          n <- unique(
-            data[, get(var), by = name]
-          )[, .N]
-          valids <-
-            unique(
-              data[!is.na(get(var)), get(var), by = name]
+          if (var %in% special_treatment_vars) {
+            n <- unique(
+              data[, get(var), by = name]
             )[, .N]
-          missings <-
-            unique(
-              data[is.na(get(var)), get(var), by = name]
-            )[, .N]
+            valids <-
+              unique(
+                data[!is.na(get(var)), get(var), by = name]
+              )[, .N]
+            missings <-
+              unique(
+                data[is.na(get(var)), get(var), by = name]
+              )[, .N]
+            break
+          }
         }
       }
     }
@@ -78,9 +79,9 @@ count_uniques <- function(data,
 # extensive summary
 extensive_summary <- function(vector) {
   quant <- stats::quantile(vector,
-                       probs = c(.25, .75),
-                       na.rm = T,
-                       names = F)
+                           probs = c(.25, .75),
+                           na.rm = T,
+                           names = F)
   i_out <- stats::IQR(vector, na.rm = T) * 1.5
 
   ret <- data.table::data.table(rbind(

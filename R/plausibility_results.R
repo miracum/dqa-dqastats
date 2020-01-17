@@ -79,18 +79,18 @@ atemp_pausi_results <- function(rv,
     # add the raw data to data_target and data_source
     desc_dat <-
       mdr[get("variable_name") == dat$source_data$var_dependent &
-               get("source_system_name") %in%
+            get("source_system_name") %in%
             c(rv$source$system_name,
               rv$target$system_name), ][
-               get("dqa_assessment") == 1, c(
-                 "source_system_name",
-                 "source_variable_name",
-                 "source_table_name",
-                 "variable_type",
-                 "key",
-                 "variable_name",
-                 "filter"
-               ), with = F]
+                get("dqa_assessment") == 1, c(
+                  "source_system_name",
+                  "source_variable_name",
+                  "source_table_name",
+                  "variable_type",
+                  "key",
+                  "variable_name",
+                  "filter"
+                ), with = F]
     # # workaround, to get old calc_counts function working with new cnt_dat
     # desc_dat[get("source_system_name") ==
     #            # Back to key: 'variable_name' was here, instead of 'key':

@@ -69,22 +69,22 @@ descriptive_results <- function(rv,
                          get("source_system_name") %in%
                          c(rv$source$system_name,
                            rv$target$system_name), ][
-      get("variable_name") == rv$variable_list[[i]] &
-        get("designation") == i,
-      c(
-        "designation",
-        "source_system_name",
-        "source_variable_name",
-        "source_table_name",
-        "variable_name",
-        "fhir",
-        "definition",
-        "variable_type",
-        "constraints",
-        "value_threshold",
-        "missing_threshold",
-        "filter"
-      ), with = F]
+                             get("variable_name") == rv$variable_list[[i]] &
+                               get("designation") == i,
+                             c(
+                               "designation",
+                               "source_system_name",
+                               "source_variable_name",
+                               "source_table_name",
+                               "variable_name",
+                               "fhir",
+                               "definition",
+                               "variable_type",
+                               "constraints",
+                               "value_threshold",
+                               "missing_threshold",
+                               "filter"
+                             ), with = F]
 
     if (nrow(desc_dat) > 1) {
       outlist[[i]]$description <-
@@ -115,16 +115,16 @@ descriptive_results <- function(rv,
                         get("source_system_name") %in%
                         c(rv$source$system_name,
                           rv$target$system_name), ][
-      get("variable_name") == rv$variable_list[[i]] &
-        get("designation") == i, c(
-          "source_system_name",
-          "source_variable_name",
-          "source_table_name",
-          "variable_type",
-          "key",
-          "variable_name",
-          "filter"
-        ), with = F]
+                            get("variable_name") == rv$variable_list[[i]] &
+                              get("designation") == i, c(
+                                "source_system_name",
+                                "source_variable_name",
+                                "source_table_name",
+                                "variable_type",
+                                "key",
+                                "variable_name",
+                                "filter"
+                              ), with = F]
 
     outlist[[i]]$counts <- calc_counts(
       cnt_dat = cnt_dat,
@@ -152,16 +152,16 @@ descriptive_results <- function(rv,
                          get("source_system_name") %in%
                          c(rv$source$system_name,
                            rv$target$system_name), ][
-      get("variable_name") == rv$variable_list[[i]] &
-        get("designation") == i, c(
-          "source_system_name",
-          "source_variable_name",
-          "source_table_name",
-          "variable_type",
-          "key",
-          "variable_name",
-          "filter"
-        ), with = F]
+                             get("variable_name") == rv$variable_list[[i]] &
+                               get("designation") == i, c(
+                                 "source_system_name",
+                                 "source_variable_name",
+                                 "source_table_name",
+                                 "variable_type",
+                                 "key",
+                                 "variable_name",
+                                 "filter"
+                               ), with = F]
 
     if (stat_dat[, unique(get("variable_type"))] %in%
         c("permittedValues", "string")) {
