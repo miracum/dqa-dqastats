@@ -155,13 +155,39 @@ utils::packageVersion("DQAstats")
 ```
 
 
-## SQLs Target Data System  
-
 ```{r}
-for (i in names(rv$sql_target)){
-  cat(paste0("  \nMDR key: ", i, "  \n  \n"))
-  cat(paste0(rv$sql_target[[i]]))
-  cat("  \n  \n")
+if (length(rv$source$sql) > 0 ||
+    length(rv$target$sql) > 0) {
+  cat("\n## SQL Statments  \n")
 }
 ```
+
+```{r}
+if (length(rv$source$sql) > 0) {
+  cat("\n### Source Data System  \n")
+  for (i in names(rv$source$sql)) {
+    cat(paste0("  \nMDR key: ", i, "  \n  \n"))
+    cat(paste0(rv$source$sql[[i]]))
+    cat("  \n  \n")
+  }
+} else {
+  cat("\nNo source data system SQL statements found.\n")
+}
+```
+
+  
+
+```{r}
+if (length(rv$target$sql) > 0) {
+  cat("\n### Target Data System  \n")
+  for (i in names(rv$target$sql)) {
+    cat(paste0("  \nMDR key: ", i, "  \n  \n"))
+    cat(paste0(rv$target$sql[[i]]))
+    cat("  \n  \n")
+  }
+} else {
+  cat("\nNo target data system SQL statements found.\n")
+}
+```
+
 

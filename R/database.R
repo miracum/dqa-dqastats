@@ -122,9 +122,13 @@ test_csv <- function(settings,
         shiny::showModal(
           shiny::modalDialog(
             title = "Invalid path",
-            paste0("The specified directory does not contain the expected ",
-                   "neccessary CSV-files: ", paste0(required_files,
-                                                    collapse = ", "))
+            paste0(
+              "The specified directory does not contain the expected ",
+              "neccessary CSV-files for ",
+              source_db,
+              ": ",
+              paste0(required_files, collapse = ", ")
+            )
           )
         )
       }
@@ -144,11 +148,19 @@ test_csv <- function(settings,
       shiny::showModal(
         shiny::modalDialog(
           title = "Invalid path",
-          "There are no CSV-files in the specified directory."
+          paste0(
+            "There are no CSV-files in the specified directory for system ",
+            source_db,
+            "."
+          )
         )
       )
     }
-    message("There are no CSV-files in the specified directory.\n")
+    message(paste0(
+      "There are no CSV-files in the specified directory for system ",
+      source_db,
+      ".\n"
+    ))
     outflag <- NULL
     outflag
   }, finally = function(f) {
