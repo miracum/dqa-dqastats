@@ -16,8 +16,8 @@ Authors@R:
 Description: Perform data quality assessment (DQA) of electronic health records (EHR).
 License: GPL-3
 LazyData: true
-URL: https://gitlab.miracum.org/miracum-dqa/dqastats
-BugReports: https://gitlab.miracum.org/miracum-dqa/dqastats/issues
+URL: https://gitlab.miracum.org/miracum/dqa/dqastats
+BugReports: https://gitlab.miracum.org/miracum/dqa/dqastats/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
 Date: 2020-01-28
@@ -39,4 +39,3 @@ Imports:
 Suggests: 
     testthat,
     lintr
-RoxygenNote: 7.0.2

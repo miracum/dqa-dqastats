@@ -38,9 +38,9 @@ my_desc$set(
 # The description of your package
 my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
-my_desc$set("URL", "https://gitlab.miracum.org/miracum-dqa/dqastats")
+my_desc$set("URL", "https://gitlab.miracum.org/miracum/dqa/dqastats")
 my_desc$set("BugReports",
-            "https://gitlab.miracum.org/miracum-dqa/dqastats/issues")
+            "https://gitlab.miracum.org/miracum/dqa/dqastats/issues")
 # License
 my_desc$set("License", "GPL-3")
 # Save everyting
