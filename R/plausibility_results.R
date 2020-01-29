@@ -132,7 +132,11 @@ atemp_pausi_results <- function(rv,
         plausibility_key = i
       )
     } else {
-      message("Error occured during creating counts\n")
+      msg <- ("Error occured during creating counts.")
+      if (isFALSE(headless)) {
+        shinyjs::logjs(msg)
+      }
+      stop("", msg, "\n")
     }
 
 

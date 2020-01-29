@@ -93,10 +93,10 @@ descriptive_results <- function(rv,
     } else {
       msg <- paste0("Error occured during creating ",
                     "descriptions of source system")
-      message("", msg, "\n")
       if (isFALSE(headless)) {
         shinyjs::logjs(msg)
       }
+      stop("", msg, "\n")
     }
 
     # workaround to hide shiny-stuff, when going headless
