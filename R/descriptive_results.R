@@ -86,7 +86,8 @@ descriptive_results <- function(rv,
                                "filter"
                              ), with = F]
 
-    if (nrow(desc_dat) > 1) {
+    if (nrow(desc_dat) > 1 ||
+        rv$source$system_name == rv$target$system_name) {
       outlist[[i]]$description <-
         calc_description(desc_dat, rv)
     } else {

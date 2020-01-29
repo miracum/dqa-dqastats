@@ -17,7 +17,8 @@
 
 calc_description <- function(desc_dat,
                              rv) {
-  if (nrow(desc_dat) > 1) {
+  if (nrow(desc_dat) > 1 ||
+      rv$source$system_name == rv$target$system_name) {
     description <- list()
     description$source_data <- list(
       name = desc_dat[get("source_system_name") ==
