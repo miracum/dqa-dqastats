@@ -10,14 +10,6 @@ default:
   before_script:
     - echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
     - mkdir -p ci
-  except:
-    refs:
-      - tags
-  only:
-    refs:
-      - master
-      - development
-
 
 stages:
   - build
@@ -34,6 +26,13 @@ check:
       - "${CI_PROJECT_DIR}/ci/*.Rcheck"
     when: on_failure # upload check artifacts when job fails!
     expire_in: 1 week
+  except:
+    refs:
+      - tags
+  only:
+    refs:
+      - master
+      - development
 
 create_manual:
   stage: build
@@ -45,6 +44,9 @@ create_manual:
     paths:
       - "${CI_PROJECT_DIR}/ci/*.pdf"
     expire_in: 1 week
+  except:
+    refs:
+      - tags
   only:
     refs:
       - master
@@ -59,6 +61,9 @@ build_source_and_binary:
     paths:
       - "${CI_PROJECT_DIR}/ci/*.tar.gz"
     expire_in: 1 week
+  except:
+    refs:
+      - tags
   only:
     refs:
       - master
@@ -77,6 +82,13 @@ testing:
   script:
     - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
     - R -e "devtools::test(pkg = '.')"
+  except:
+    refs:
+      - tags
+  only:
+    refs:
+      - master
+      - development
 
 # To produce a code coverage report as a GitLab page see
 # https://about.gitlab.com/2016/11/03/publish-code-coverage-report-with-gitlab-pages/
@@ -86,3 +98,10 @@ install:
   script:
     - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
     - R -e "devtools::install(pkg = '.', upgrade = 'always')"
+  except:
+    refs:
+      - tags
+  only:
+    refs:
+      - master
+      - development
