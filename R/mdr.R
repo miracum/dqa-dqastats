@@ -176,5 +176,10 @@ create_helper_vars <- function(mdr,
     outlist$dqa_assessment[get("variable_type") ==
                              "calendar", get("variable_name")]
 
+  # get date variables
+  outlist$num_vars <-
+    outlist$dqa_assessment[get("variable_type") %in%
+                             c("integer", "float"), get("variable_name")]
+
   return(outlist)
 }

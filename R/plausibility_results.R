@@ -302,7 +302,7 @@ uniq_plausi_results <- function(rv,
 
         } else {
           msg <- paste(i, "not in", colnames(rv[[raw_data]][[u_key]]))
-          message("", msg, "\n")
+          message("\n\n", msg, "\n")
           if (isFALSE(headless)) {
             shinyjs::logjs(msg)
           }
@@ -335,7 +335,47 @@ uniq_plausi_results <- function(rv,
             m_x <- rv[[raw_data]][[u_key]]
           }
 
-          m_y <- rv[[raw_data]][[m_key]]
+          # look, if join_crit is already in our target table, if so,
+          # create m_y directly
+          if (any(grepl(i, colnames(rv[[raw_data]][[m_key]])))) {
+            m_y <- rv[[raw_data]][[m_key]]
+          }  else {
+            # else join another table
+            if (k == "source_data") {
+              j_key <-
+                mdr[!grepl("^pl\\.", get("variable_name")), ][
+                  get("source_system_name") == rv$source$system_name &
+                      get("variable_name") == i &
+                      get("dqa_assessment") == 1, get(key_col_name_src)]
+            } else {
+              j_key <-
+                mdr[!grepl("^pl\\.", get("variable_name")), ][
+                  get("source_system_name") == rv$target$system_name &
+                      get("variable_name") == i &
+                      # Back to key: 'variable_name' was assigned here:
+                      get("dqa_assessment") == 1, get(key_col_name_tar)]
+            }
+
+            # get colnames
+            coln_x <- colnames(rv[[raw_data]][[m_key]])
+            coln_y <- colnames(rv[[raw_data]][[j_key]])
+
+            # find matching colname
+            coln_x <- coln_x[lapply(coln_x, function(i) {
+              any(grepl(i, coln_y))
+            }) == TRUE]
+            coln_y <- coln_y[grepl(coln_x, coln_y)]
+
+            m_y <- merge(
+              x = rv[[raw_data]][[m_key]],
+              y = rv[[raw_data]][[j_key]],
+              by.x = coln_x,
+              by.y = coln_y,
+              all = T,
+              suffixes = c("", ""),
+              allow.cartesian = T
+            )
+          }
 
           merge_data <- merge(
             x = m_x,
@@ -343,7 +383,8 @@ uniq_plausi_results <- function(rv,
             by.x = u$variable_name,
             by.y = colnames(m_y)[grepl(u$variable_name, colnames(m_y))],
             all = T,
-            suffixes = c("", "")
+            suffixes = c("", ""),
+            allow.cartesian = T
           )
 
           group_data <- unique(

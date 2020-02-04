@@ -161,7 +161,7 @@ get_atemp_plausis <- function(rv,
 
         } else {
           msg <- paste(i, "not in", colnames(rv[[raw_data]][[u_key]]))
-          message("", msg, "\n")
+          message("\n\n", msg, "\n")
           if (isFALSE(headless)) {
             shinyjs::logjs(msg)
           }
@@ -224,9 +224,9 @@ get_atemp_plausis <- function(rv,
               by.x = coln_x,
               by.y = coln_y,
               all = T,
-              suffixes = c("", "")
+              suffixes = c("", ""),
+              allow.cartesian = T
             )
-
           }
 
           group_data <- merge(

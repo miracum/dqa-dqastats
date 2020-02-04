@@ -246,12 +246,16 @@ load_csv <- function(rv,
           outlist[[i]][, (vn) := as.Date(
             substr(as.character(get(vn)), 1, 8), format = "%Y%m%d"
           )]
-        }
-
-        # transform cat_vars to factor
-        if (vn %in% rv$cat_vars) {
+        } else if (vn %in% rv$cat_vars) {
+          # transform cat_vars to factor
           outlist[[i]][, (vn) := factor(get(vn))]
         }
+        # the following should not be necessary due to the variable type
+        # mapping in the fread function
+        # else if (vn %in% rv$num_vars) {
+        #   # transform num_vars to numeric
+        #   outlist[[i]][, (vn) := as.numeric(get(vn))]
+        # }
       }
     }
   }
@@ -354,6 +358,17 @@ load_database <- function(rv,
       # transform cat_vars to factor
       if (j %in% rv$cat_vars) {
         outlist[[i]][, (j) := factor(get(j))]
+
+        # transform date vars
+      } else if (j %in% rv$date_vars) {
+        if (outlist[[i]][, is.factor(get(j))]) {
+          outlist[[i]][, (j) := as.Date(
+            substr(as.character(get(j)), 1, 8), format = "%Y%m%d"
+          )]
+        }
+      } else if (j %in% rv$num_vars) {
+        # transform num_vars to numeric
+        outlist[[i]][, (j) := as.numeric(get(j))]
       }
     }
   }
