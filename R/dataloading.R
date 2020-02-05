@@ -252,10 +252,10 @@ load_csv <- function(rv,
         }
         # the following should not be necessary due to the variable type
         # mapping in the fread function
-        # else if (vn %in% rv$num_vars) {
-        #   # transform num_vars to numeric
-        #   outlist[[i]][, (vn) := as.numeric(get(vn))]
-        # }
+        #% else if (vn %in% rv$num_vars) {
+        #%   # transform num_vars to numeric
+        #%   outlist[[i]][, (vn) := as.numeric(get(vn))]
+        #% }
       }
     }
   }

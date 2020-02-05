@@ -105,7 +105,7 @@ test_that("correct functioning of helper vars", {
   # We don't need this explicitely because it is tested later in the
   # 'rv'-object.
   expect_type(reactive_to_append, "list")
-  expect_length(reactive_to_append, 7)
+  expect_length(reactive_to_append, 8)
   expect_equal(reactive_to_append$keys_source, "dqa_example_data_01.csv")
   expect_equal(reactive_to_append$keys_target, "dqa_example_data_02.csv")
   expect_s3_class(reactive_to_append$dqa_assessment, "data.table")
@@ -135,7 +135,7 @@ test_that("correct functioning of helper vars", {
   rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
   expect_type(rv, "list")
-  expect_length(rv, 15)
+  expect_length(rv, 16)
   expect_equal(rv$keys_source, "dqa_example_data_01.csv")
   expect_equal(rv$keys_target, "dqa_example_data_02.csv")
   expect_s3_class(rv$dqa_assessment, "data.table")

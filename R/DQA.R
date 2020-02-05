@@ -267,6 +267,12 @@ dqa <- function(source_system_name,
   if (!dir.exists(output_dir)) {
     dir.create(output_dir)
   }
+
+  export_aggregated(
+    output_dir = output_dir,
+    rv = rv
+  )
+
   create_markdown(
     rv = rv,
     utils_path = rv$utilspath,
