@@ -90,6 +90,27 @@ all_results_overview <- function(rv) {
     )
   }
 
+  if (!is.null(rv$results_plausibility_atemporal)) {
+    for (name in names(rv$results_plausibility_atemporal)) {
+      # source counts
+      cnt_src <-
+        rv$results_plausibility_atemporal[[name]]$counts$source_data$cnt
+      cnt_src <- cnt_src[, 2:(ncol(cnt_src) - 1)]
+      colnames(cnt_src) <- paste0(colnames(cnt_src), "_src")
+
+      # target counts
+      cnt_tar <-
+        rv$results_plausibility_atemporal[[name]]$counts$target_data$cnt
+      cnt_tar <- cnt_tar[, 2:(ncol(cnt_tar) - 1)]
+      colnames(cnt_tar) <- paste0(colnames(cnt_tar), "_tar")
+
+      outlist <- rbind(
+        outlist,
+        cbind(name, cnt_src, cnt_tar)
+      )
+    }
+  }
+
   # add conformance checks
   checks_conf <- rv$checks$value_conformance
   colnames(checks_conf)[2:3] <- c("check_conf_source",
