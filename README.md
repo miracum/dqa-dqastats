@@ -28,7 +28,7 @@ You can install the development version of `DQAstats` with:
 ``` r
 install.packages("devtools")
 options('repos' = 'https://ftp.fau.de/cran/')
-devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqastats.git")
+devtools::install_git("https://gitlab.miracum.org/miracum/dqa/dqastats.git")
 ```
 
 ## Example
