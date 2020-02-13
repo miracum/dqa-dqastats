@@ -30,7 +30,9 @@ export_aggregated <- function(output_dir, rv) {
   # create export dir
   exportdir <- paste0(output_dir, "/export/")
   message("\nCreating ", exportdir, "\n")
-  dir.create(exportdir)
+  if (!dir.exists(exportdir)) {
+    dir.create(exportdir)
+  }
 
   # write files
   # datamap
