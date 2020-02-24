@@ -15,9 +15,8 @@
 /tests/testthat/test_settings_use.yml
 /tests/testthat/testdata/
 /.Rhistory
-/*.Rproj
 /.Rproj*
 /.RData
 .~lock.*.csv#
 .Rproj.user
-/!*.Rproj
+!/*.Rproj
