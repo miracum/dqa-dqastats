@@ -25,7 +25,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.6.9001")
+my_desc$set_version("0.0.6.9002")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
@@ -119,7 +119,7 @@ usethis::use_git_ignore("!/tests/")
 usethis::use_git_ignore("/tests/testthat/test_settings_use.yml")
 usethis::use_git_ignore("/tests/testthat/testdata/")
 usethis::use_git_ignore("/.Rhistory")
-usethis::use_git_ignore("/*.Rproj")
+usethis::use_git_ignore("/!*.Rproj")
 usethis::use_git_ignore("/.Rproj*")
 usethis::use_git_ignore("/.RData")
 #usethis::use_git_ignore("/inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#")

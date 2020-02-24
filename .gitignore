@@ -20,3 +20,4 @@
 /.RData
 .~lock.*.csv#
 .Rproj.user
+/!*.Rproj
