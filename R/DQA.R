@@ -56,7 +56,8 @@ dqa <- function(source_system_name,
                 config_file,
                 utils_path,
                 mdr_filename = "mdr.csv",
-                output_dir = "./output/") {
+                output_dir = "./output/",
+                logfile_dir = tempdir()) {
 
   if (missing(target_system_name)) {
     target_system_name <- source_system_name
@@ -68,8 +69,12 @@ dqa <- function(source_system_name,
     is.character(config_file),
     is.character(utils_path),
     is.character(mdr_filename),
-    is.character(output_dir)
+    is.character(output_dir),
+    is.character(logfile_dir)
   )
+
+  # Save logfile_dir globally:
+  assign("logfile_dir", clean_path_name(logfile_dir), envir = .GlobalEnv)
 
   # initialize rv-list
   rv <- list()

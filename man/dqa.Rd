@@ -10,7 +10,8 @@ dqa(
   config_file,
   utils_path,
   mdr_filename = "mdr.csv",
-  output_dir = "./output/"
+  output_dir = "./output/",
+  logfile_dir = tempdir()
 )
 }
 \arguments{

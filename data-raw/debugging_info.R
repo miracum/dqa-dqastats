@@ -8,8 +8,8 @@
 
 
 ## using real data:
-source_system_name = "i2b2"
-#source_system_name = "p21csv"
+# source_system_name = "i2b2"
+source_system_name = "p21csv"
 #source_system_name = "p21staging"
 target_system_name = "i2b2"
 #target_system_name = "p21staging"
@@ -18,6 +18,7 @@ utils_path = system.file("application/_utilities/", package = "miRacumDQA")
 #mdr_filename = "samply_export.csv"
 mdr_filename = "mdr.csv"
 output_dir = "output/"
+logfile_dir = "~/share/logfiles/"
 
 
 ## Testfunction to test it all:
@@ -27,5 +28,6 @@ all_results <- DQAstats::dqa(
   config_file = config_file,
   utils_path = utils_path,
   mdr_filename = mdr_filename,
-  output_dir = output_dir
+  output_dir = output_dir,
+  logfile_dir = logfile_dir
 )
