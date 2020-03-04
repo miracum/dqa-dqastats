@@ -293,51 +293,60 @@ feedback_to_logfile <- function(print_this, type, findme, prefix, suffix) {
   # and a linebreak at the end:
   res <- paste0("[", Sys.time(), "] ", res, "\n")
 
-  # Check if there is a logfile path set. If not, set tempdir() as logfile_dir:
-  if (exists("logfile_dir") &&
-      !is.na(logfile_dir) && nchar(logfile_dir) > 1) {
-    # Check if last character of the path is a slash and add one if not:
-    logfile_dir <- clean_path_name(logfile_dir)
-  } else {
-    print("Cannot determine logfile_dir. (912df0da89)")
-    assign("logfile_dir", clean_path_name(tempdir()), envir = .GlobalEnv)
-  }
+  # # Check if there is a logfile path set. If not, set tempdir() as logfile_dir:
+  # if (exists("logfile_dir") &&
+  #     !is.na(logfile_dir) && nchar(logfile_dir) > 1) {
+  #   # Check if last character of the path is a slash and add one if not:
+  #   logfile_dir <- clean_path_name(logfile_dir)
+  # } else {
+  #   print("Cannot determine logfile_dir. (912df0da89)")
+  #   assign("logfile_dir", clean_path_name(tempdir()), envir = .GlobalEnv)
+  # }
 
 
+  # Create the path if it does not exist:
+  dir.create(logfile_dir)
 
   path_with_file <- paste0(logfile_dir, "logfile.log")
 
-  # Check if logfile.log is already the logfile for this session:
-  if (isTRUE(check_file_current_runtime_id(path_with_file = path_with_file))) {
-    # There is a logfile for the current runtime id,
-    # so append the existing logfile:
-    # Open the connection to the logfile:
-    log_con <- file(path_with_file, open = "a")
-    # Write to the logfile:
-    cat(res, file = log_con)
-    # Close the connection to logfile:
-    close(log_con)
-  } else {
-    # There is no logfile for the current runtime id,
-    # so rename the logfile.log to logfile_2020-01-01-1234h and
-    # create a new logfile and write the current runtime id to it:
-    filename_datetime <- format(Sys.time(), "%Y-%m-%d-%H%M%OS")
-    path_with_file_datetime <-
-      paste0(logfile_dir, "logfile_", filename_datetime, ".log")
-    file.rename(from = path_with_file, to = path_with_file_datetime)
-    # ... create a new logfile.log and paste the current runtime_id here:
-    if (!file.exists(path_with_file)) {
-      # Open the connection to the logfile:
-      log_con <- file(path_with_file, open = "a")
-      # Write current runtime_id to the logfile:
-      runtime_id <- paste0("runtime_id=", get_runtime_id(), "\n\n")
-      cat(runtime_id, file = log_con)
-      # Write current message to the logfile:
-      cat(res, file = log_con)
-      # Close the connection to logfile:
-      close(log_con)
-    }
-  }
+  # Open the connection to the logfile:
+  log_con <- file(path_with_file, open = "a")
+  # Write to the logfile:
+  cat(res, file = log_con)
+  # Close the connection to logfile:
+  close(log_con)
+
+  # # Check if logfile.log is already the logfile for this session:
+  # if (isTRUE(check_file_current_runtime_id(path_with_file = path_with_file))) {
+  #   # There is a logfile for the current runtime id,
+  #   # so append the existing logfile:
+  #   # Open the connection to the logfile:
+  #   log_con <- file(path_with_file, open = "a")
+  #   # Write to the logfile:
+  #   cat(res, file = log_con)
+  #   # Close the connection to logfile:
+  #   close(log_con)
+  # } else {
+  #   # There is no logfile for the current runtime id,
+  #   # so rename the logfile.log to logfile_2020-01-01-1234h and
+  #   # create a new logfile and write the current runtime id to it:
+  #   filename_datetime <- format(Sys.time(), "%Y-%m-%d-%H%M%OS")
+  #   path_with_file_datetime <-
+  #     paste0(logfile_dir, "logfile_", filename_datetime, ".log")
+  #   file.rename(from = path_with_file, to = path_with_file_datetime)
+  #   # ... create a new logfile.log and paste the current runtime_id here:
+  #   if (!file.exists(path_with_file)) {
+  #     # Open the connection to the logfile:
+  #     log_con <- file(path_with_file, open = "a")
+  #     # Write current runtime_id to the logfile:
+  #     runtime_id <- paste0("runtime_id=", get_runtime_id(), "\n\n")
+  #     cat(runtime_id, file = log_con)
+  #     # Write current message to the logfile:
+  #     cat(res, file = log_con)
+  #     # Close the connection to logfile:
+  #     close(log_con)
+  #   }
+  # }
 }
 
 #' @title Returns the current runtime_id and stores it to rv$runtime_id
@@ -434,7 +443,6 @@ check_file_current_runtime_id <- function(path_with_file) {
 #'
 feedback_get_formatted_string <-
   function(print_this, type, findme, prefix, suffix) {
-
     if (length(print_this) == 1) {
       if (findme == "") {
         res <- paste0("[", type, "] ", prefix, print_this, suffix)
@@ -449,11 +457,35 @@ feedback_get_formatted_string <-
     return(res)
   }
 
+#' @title Archives the current logfile and creates a new blank one.
+#' @description  This function is called once at the beginning of the
+#'   runtime of the tool. It checks whether there is an old logfile
+#'   and renames it (if existing) to "logfile_20xx-xx-xx-xxxxxx.log".
+#'   Then a new, empty, logfile "logfile.log" is created.
+#' @export
+#'
+cleanup_old_logfile <- function(){
+  path_with_file <- paste0(logfile_dir, "logfile.log")
+  # Check if logfile.log is already the logfile for this session:
+  if (isTRUE(file.exists(path_with_file))) {
+    ## There is an old logfile, so rename the logfile.log to
+    ## logfile_2020-01-01-1234h:
+    filename_datetime <- format(Sys.time(), "%Y-%m-%d-%H%M%OS")
+    path_with_file_datetime <-
+      paste0(logfile_dir, "logfile_", filename_datetime, ".log")
+    file.rename(from = path_with_file, to = path_with_file_datetime)
+    ## ... and create a new logfile:
+    file.create(path_with_file)
+  }
+}
+
 
 #' @title Converts the first letter of the input string to uppercase
 #' @description Converts the first letter of the input string to uppercase
 #'
 #' @param x A character string. E.g. "hello world" will become "Hello world".
+#'
+#' @export
 #'
 firstup <- function(x) {
   substr(x, 1, 1) <- toupper(substr(x, 1, 1))

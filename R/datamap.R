@@ -48,7 +48,7 @@ generate_datamap <- function(results,
 
   if (nrow(data_names) < 1) {
     msg <- "No variables suitable for the data map found in the MDR"
-    message("", msg, "\n")
+    feedback(paste0("", msg), findme = "02c0846290")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
     }

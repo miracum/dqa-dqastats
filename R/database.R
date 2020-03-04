@@ -59,7 +59,7 @@ test_db <- function(settings,
         )
       )
     }
-    message("DB connection error\n")
+    feedback("DB connection error\n", findme = "9431c8c61f")
     db_con <- NULL
     db_con
   }, finally = function(f) {
@@ -111,7 +111,7 @@ test_csv <- function(settings,
   # iterate over list and check for presence of required filenames:
   # FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV
   check <- sapply(filelist, function(i) {
-    message("", i, "\n")
+    feedback(paste0("", i), findme = "208282630a")
     return(grepl(files_pattern, i))
   })
 
@@ -132,10 +132,11 @@ test_csv <- function(settings,
           )
         )
       }
-      message(
+      feedback(
         paste0("The specified directory does not contain the expected ",
                "neccessary CSV-files: ", paste0(required_files,
-                                                collapse = ", "))
+                                                collapse = ", ")),
+        findme = "e8cdd32764"
       )
       outflag <- NULL
       outflag
@@ -156,11 +157,11 @@ test_csv <- function(settings,
         )
       )
     }
-    message(paste0(
+    feedback(paste0(
       "There are no CSV-files in the specified directory for system ",
       source_db,
       ".\n"
-    ))
+    ), findme = "ed6dceaeaf")
     outflag <- NULL
     outflag
   }, finally = function(f) {

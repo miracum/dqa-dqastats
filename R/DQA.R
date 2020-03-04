@@ -75,6 +75,7 @@ dqa <- function(source_system_name,
 
   # Save logfile_dir globally:
   assign("logfile_dir", clean_path_name(logfile_dir), envir = .GlobalEnv)
+  cleanup_old_logfile()
 
   # initialize rv-list
   rv <- list()

@@ -80,7 +80,7 @@ get_atemp_plausis <- function(rv,
 
       # workaround to hide shiny-stuff, when going headless
       msg <- paste("Getting atemporal plausibility", u$name)
-      message("", msg, "\n")
+      feedback(paste0("", msg), findme = "0c70327436")
       if (isFALSE(headless)) {
         shinyjs::logjs(msg)
         # Increment the progress bar, and update the detail text.
@@ -161,7 +161,7 @@ get_atemp_plausis <- function(rv,
 
         } else {
           msg <- paste(i, "not in", colnames(rv[[raw_data]][[u_key]]))
-          message("\n\n", msg, "\n")
+          feedback(paste0("\n\n", msg), findme = "9d48df8805")
           if (isFALSE(headless)) {
             shinyjs::logjs(msg)
           }

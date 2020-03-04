@@ -47,7 +47,7 @@ value_conformance <- function(results,
   # loop over objects
   for (i in obj_names) {
     msg <- paste("Performing value conformance check", i)
-    message("", msg, "\n")
+    feedback(paste0("", msg), findme = "5d061425eb")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
@@ -130,12 +130,14 @@ value_conformance <- function(results,
             # compare levels from results to constraints from valueset
             #% (TRUE = constraint_error)
             if (result_min < constraints$range$min) {
-              message(paste0(i, "/ ", j, ": result_min < range$min\n"))
+              feedback(paste0(i, "/ ", j, ": result_min < range$min\n"),
+                       findme = "21abaa37e2")
               error_flag <- TRUE
             }
 
             if (result_max > constraints$range$max) {
-              message(paste0(i, "/ ", j, ": result_max > range$max\n"))
+              feedback(paste0(i, "/ ", j, ": result_max > range$max\n"),
+                       findme = "44264e3a64")
               error_flag <- TRUE
             }
             outlist2$conformance_error <- error_flag

@@ -66,7 +66,7 @@ atemp_pausi_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Getting plausibility descriptions of", i)
-    message("", msg, "\n")
+    feedback(paste0("", msg), findme = "0888fa800d")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
@@ -109,7 +109,7 @@ atemp_pausi_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating plausibility counts of", i)
-    message("", msg, "\n")
+    feedback(paste0("", msg), findme = "0e918bd0fd")
 
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
@@ -142,7 +142,7 @@ atemp_pausi_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating plausibility statistics of", i)
-    message("", msg, "\n")
+    feedback(paste0("", msg), findme = "cf90f11533")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
@@ -241,7 +241,7 @@ uniq_plausi_results <- function(rv,
 
       # workaround to hide shiny-stuff, when going headless
       msg <- paste("Getting uniqueness plausibility", u$name)
-      message("", msg, "\n")
+      feedback(paste0("", msg), findme = "e4fe49cd9e")
       if (isFALSE(headless)) {
         shinyjs::logjs(msg)
         # Increment the progress bar, and update the detail text.
@@ -302,7 +302,7 @@ uniq_plausi_results <- function(rv,
 
         } else {
           msg <- paste(i, "not in", colnames(rv[[raw_data]][[u_key]]))
-          message("\n\n", msg, "\n")
+          feedback(msg, findme = "39a4eeb70b")
           if (isFALSE(headless)) {
             shinyjs::logjs(msg)
           }

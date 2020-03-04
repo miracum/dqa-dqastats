@@ -183,7 +183,8 @@ calc_counts <- function(cnt_dat,
       }
       cnt
     }, error = function(e) {
-      message("Error occured when counting source_data\n")
+      feedback("Error occured when counting source_data\n",
+               findme = "0adf10abcc")
       print(e)
       cnt <- NULL
       cnt
@@ -243,7 +244,8 @@ calc_counts <- function(cnt_dat,
       cnt
 
     }, error = function(e) {
-      message("Error occured when counting target_data\n")
+      feedback("Error occured when counting target_data\n",
+               findme = "486bd17564")
       print(e)
       cnt <- NULL
       cnt
@@ -305,7 +307,8 @@ calc_cat_stats <- function(stat_dat,
       }
       source_data
     }, error = function(e) {
-      message("Error occured when calculating source catStats\n")
+      feedback("Error occured when calculating source catStats\n",
+               findme = "b8e039a302")
       print(e)
       source_data <- NULL
       source_data
@@ -344,7 +347,8 @@ calc_cat_stats <- function(stat_dat,
       target_data
 
     }, error = function(e) {
-      message("Error occured when calculating target catStats\n")
+      feedback("Error occured when calculating target catStats\n",
+               findme = "5b1a5937e5")
       print(e)
       target_data <- NULL
       target_data
@@ -411,7 +415,8 @@ calc_num_stats <- function(stat_dat,
         }
         source_data
       }, error = function(e) {
-        message("Error occured when calculating simple source numStats\n")
+        feedback("Error occured when calculating simple source numStats\n",
+                 findme = "65c004f101")
         print(e)
         source_data <- NULL
         source_data
@@ -456,7 +461,8 @@ calc_num_stats <- function(stat_dat,
         target_data
 
       }, error = function(e) {
-        message("Error occured when calculating simple target numStats\n")
+        feedback("Error occured when calculating simple target numStats\n",
+                 findme = "7d01e3744a")
         print(e)
         target_data <- NULL
         target_data
@@ -503,7 +509,8 @@ calc_num_stats <- function(stat_dat,
         source_data
 
       }, error = function(e) {
-        message("Error occured when calculating simple source numStats\n")
+        feedback("Error occured when calculating simple source numStats\n",
+                 findme = "0b7d075ee0")
         print(e)
         source_data <- NULL
         source_data
@@ -548,7 +555,8 @@ calc_num_stats <- function(stat_dat,
         target_data
 
       }, error = function(e) {
-        message("Error occured when calculating simple target numStats\n")
+        feedback("Error occured when calculating simple target numStats\n",
+                 findme = "10b1904a51")
         print(e)
         target_data <- NULL
         target_data
