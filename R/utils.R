@@ -142,6 +142,8 @@ get_where_filter <- function(filter) {
 #'   also be printed to the user in form of a modal. Can also be a string.
 #' @param console (Optional, Boolean/String) If true, the message will also
 #'   be printed to the console as is. Can also be a string.
+#' @param logfile (Optional, Boolean) If true (default) the print_this string
+#'   will also be printed to the console.
 #' @param prefix Prefix (Optional, String) This is useful if
 #'   print_this is an array/list.
 #'   Each entry will then be new row with this prefix.
@@ -279,7 +281,7 @@ feedback_to_ui <- function(print_this, type) {
 #' @description  Helper function for the feedback function to add content
 #'   to the logfile. Internal use.
 #'   Use the robust 'feedback' function instead.
-#' @param input The input string to be added to the logfile.
+#' @inheritParams feedback
 #'
 feedback_to_logfile <- function(print_this, type, findme, prefix, suffix) {
   # Get the formatted string out of the parameters which looks like
@@ -293,19 +295,8 @@ feedback_to_logfile <- function(print_this, type, findme, prefix, suffix) {
   # and a linebreak at the end:
   res <- paste0("[", Sys.time(), "] ", res, "\n")
 
-  # # Check if there is a logfile path set. If not, set tempdir() as logfile_dir:
-  # if (exists("logfile_dir") &&
-  #     !is.na(logfile_dir) && nchar(logfile_dir) > 1) {
-  #   # Check if last character of the path is a slash and add one if not:
-  #   logfile_dir <- clean_path_name(logfile_dir)
-  # } else {
-  #   print("Cannot determine logfile_dir. (912df0da89)")
-  #   assign("logfile_dir", clean_path_name(tempdir()), envir = .GlobalEnv)
-  # }
-
-
   # Create the path if it does not exist:
-  dir.create(logfile_dir)
+  dir.create(logfile_dir, showWarnings = F)
 
   path_with_file <- paste0(logfile_dir, "logfile.log")
 
@@ -315,121 +306,6 @@ feedback_to_logfile <- function(print_this, type, findme, prefix, suffix) {
   cat(res, file = log_con)
   # Close the connection to logfile:
   close(log_con)
-
-  # # Check if logfile.log is already the logfile for this session:
-  # if (isTRUE(check_file_current_runtime_id(path_with_file = path_with_file))) {
-  #   # There is a logfile for the current runtime id,
-  #   # so append the existing logfile:
-  #   # Open the connection to the logfile:
-  #   log_con <- file(path_with_file, open = "a")
-  #   # Write to the logfile:
-  #   cat(res, file = log_con)
-  #   # Close the connection to logfile:
-  #   close(log_con)
-  # } else {
-  #   # There is no logfile for the current runtime id,
-  #   # so rename the logfile.log to logfile_2020-01-01-1234h and
-  #   # create a new logfile and write the current runtime id to it:
-  #   filename_datetime <- format(Sys.time(), "%Y-%m-%d-%H%M%OS")
-  #   path_with_file_datetime <-
-  #     paste0(logfile_dir, "logfile_", filename_datetime, ".log")
-  #   file.rename(from = path_with_file, to = path_with_file_datetime)
-  #   # ... create a new logfile.log and paste the current runtime_id here:
-  #   if (!file.exists(path_with_file)) {
-  #     # Open the connection to the logfile:
-  #     log_con <- file(path_with_file, open = "a")
-  #     # Write current runtime_id to the logfile:
-  #     runtime_id <- paste0("runtime_id=", get_runtime_id(), "\n\n")
-  #     cat(runtime_id, file = log_con)
-  #     # Write current message to the logfile:
-  #     cat(res, file = log_con)
-  #     # Close the connection to logfile:
-  #     close(log_con)
-  #   }
-  # }
-}
-
-#' @title Returns the current runtime_id and stores it to rv$runtime_id
-#' @description  Helper function for the feedback function, especially
-#'   the logfile function. If there is already a runtime_id, the current
-#'   one will be returned. Otherwise a new one will be set,
-#'   stored to rv$runtime_id and also be returned.
-#' @param force If true, a new runtime_id will be created.
-#'   If false (default) it depends wether there already is one or not.
-#'
-get_runtime_id <- function(force = FALSE) {
-  # Length of the new runtime_id:
-  runtime_id_length <- 20
-
-  # Determine wether we run in console mode (headless) only
-  # or if there is a gui. Depending on this the "global env hack" (gui)
-  # or the rv object (console) is available:
-  if (exists("rv") && isTRUE(rv$headless == T)) {
-    ## Console only - no GUI
-    if (isTRUE(exists("rv$runtime_id") &&
-               !is.na(rv$runtime_id)) &&
-        nchar(rv$runtime_id) == runtime_id_length && isFALSE(force)) {
-      # There is already a runtime_id so return it:
-      return(rv$runtime_id)
-    } else {
-      print("Getting a new runtime_id... (ddb97805b0)")
-      rv$runtime_id <- get_new_runtime_id(runtime_id_length)
-      return(rv$runtime_id)
-    }
-  } else {
-    ## Console AND GUI
-    if (isTRUE(exists("runtime_id") &&
-               !is.na(runtime_id)) &&
-        nchar(runtime_id) == runtime_id_length && isFALSE(force)) {
-      # There is already a runtime_id so return it:
-      return(runtime_id)
-    } else {
-      print("Getting a new runtime_id... (845836d17a)")
-      runtime_id <- get_new_runtime_id(runtime_id_length)
-      return(runtime_id)
-    }
-  }
-
-}
-
-#' @title Creates a new random runtime_id with certain length
-#' @description  Helper function for the feedback function, especially
-#'   the logfile function. Creates a new random runtime_id
-#'   with the given length.
-#' @param runtime_id_length The length of the resulting runtime_id
-#'
-get_new_runtime_id <- function(runtime_id_length){
-  # Random hex-number:
-  res <-
-    paste0(sample(c(0:9, LETTERS[1:6]), runtime_id_length, T), collapse = "")
-  return(res)
-}
-
-#' @title Is current runtime_id the one in this file?
-#' @description  Helper function for the feedback function, especially
-#'   the logfile function. Extracts the runtime_id from the
-#'   logfile and compares it to the current runtime_id.
-#'   If equal, return = TRUE.
-#' @param path_with_file The path with the file to look at
-#'
-check_file_current_runtime_id <- function(path_with_file) {
-  tryCatch({
-    con <- file(path_with_file, "r")
-    first_line <- readLines(con, n = 1)
-    runtime_id_tmp <- gsub("([runtime_id\\=])", "", first_line)
-    if (isTRUE(runtime_id_tmp == runtime_id)) {
-      return(TRUE)
-    } else {
-      return(FALSE)
-    }
-    close(con)
-  },
-  error = function(cond) {
-    return(FALSE)
-  },
-  warning = function(cond) {
-    return(FALSE)
-  }, finally = close(con))
 }
 
 #' @title Format the feedback string
@@ -464,7 +340,7 @@ feedback_get_formatted_string <-
 #'   Then a new, empty, logfile "logfile.log" is created.
 #' @export
 #'
-cleanup_old_logfile <- function(){
+cleanup_old_logfile <- function() {
   path_with_file <- paste0(logfile_dir, "logfile.log")
   # Check if logfile.log is already the logfile for this session:
   if (isTRUE(file.exists(path_with_file))) {

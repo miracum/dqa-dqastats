@@ -27,6 +27,9 @@ also be printed to the user in form of a modal. Can also be a string.}
 \item{console}{(Optional, Boolean/String) If true, the message will also
 be printed to the console as is. Can also be a string.}
 
+\item{logfile}{(Optional, Boolean) If true (default) the print_this string
+will also be printed to the console.}
+
 \item{prefix}{Prefix (Optional, String) This is useful if
 print_this is an array/list.
 Each entry will then be new row with this prefix.}

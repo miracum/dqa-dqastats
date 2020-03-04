@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+utils::globalVariables("logfile_dir")
 
 #' @title Perform Data Quality Assessment of Electronic Health Records.
 #'
@@ -34,11 +35,12 @@
 #' @param utils_path A character string. The path to the utils-folder,
 #'   containing the required app utilities like the MDR and the settings folder.
 #' @param mdr_filename A character string.
-#' The filename of the MDR e.g. "mdr_example_data.csv"
-#' For a detailed description please visit \url{#TODO}.
-#'
+#'   The filename of the MDR e.g. "mdr_example_data.csv"
+#'   For a detailed description please visit \url{#TODO}.
 #' @param output_dir The path to the output folder where all the results will
-#' be stored.
+#'   be stored.
+#' @param logfile_dir The absolute path to folder where the logfile
+#'   will be stored.
 #'
 #' @import data.table
 #' @importFrom magrittr "%>%"
@@ -74,7 +76,8 @@ dqa <- function(source_system_name,
   )
 
   # Save logfile_dir globally:
-  assign("logfile_dir", clean_path_name(logfile_dir), envir = .GlobalEnv)
+  #% assign("logfile_dir", clean_path_name(logfile_dir), envir = .GlobalEnv)
+  logfile_dir <- clean_path_name(logfile_dir)
   cleanup_old_logfile()
 
   # initialize rv-list

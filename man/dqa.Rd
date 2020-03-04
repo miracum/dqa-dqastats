@@ -37,6 +37,9 @@ For a detailed description please visit \url{#TODO}.}
 
 \item{output_dir}{The path to the output folder where all the results will
 be stored.}
+
+\item{logfile_dir}{The absolute path to folder where the logfile
+will be stored.}
 }
 \description{
 This function performs a data quality assessment (DQA)
