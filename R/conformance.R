@@ -130,13 +130,13 @@ value_conformance <- function(results,
             # compare levels from results to constraints from valueset
             #% (TRUE = constraint_error)
             if (result_min < constraints$range$min) {
-              feedback(paste0(i, "/ ", j, ": result_min < range$min\n"),
+              feedback(paste0(i, "/ ", j, ": result_min < range$min"),
                        findme = "21abaa37e2")
               error_flag <- TRUE
             }
 
             if (result_max > constraints$range$max) {
-              feedback(paste0(i, "/ ", j, ": result_max > range$max\n"),
+              feedback(paste0(i, "/ ", j, ": result_max > range$max"),
                        findme = "44264e3a64")
               error_flag <- TRUE
             }

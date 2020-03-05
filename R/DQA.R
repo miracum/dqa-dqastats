@@ -15,7 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-utils::globalVariables("logfile_dir")
+
+if (getRversion() >= "2.15.1") {
+  utils::globalVariables(c("logfile_dir"))
+}
 
 #' @title Perform Data Quality Assessment of Electronic Health Records.
 #'
@@ -44,6 +47,7 @@ utils::globalVariables("logfile_dir")
 #'
 #' @import data.table
 #' @importFrom magrittr "%>%"
+#' @import utils
 #'
 #' @examples
 #' \dontrun{
@@ -77,7 +81,8 @@ dqa <- function(source_system_name,
 
   # Save logfile_dir globally:
   #% assign("logfile_dir", clean_path_name(logfile_dir), envir = .GlobalEnv)
-  logfile_dir <- clean_path_name(logfile_dir)
+  #% logfile_dir <- clean_path_name(logfile_dir)
+  logfile_assign_to_global(logfile_dir)
   cleanup_old_logfile()
 
   # initialize rv-list

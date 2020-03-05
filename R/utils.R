@@ -104,9 +104,28 @@ time_interval <- function(data) {
 #' @export
 #'
 get_config <- function(config_file, config_key) {
-  return(
+  res <- tryCatch({
     config::get(config_key, file = config_file)
-  )
+  },
+  error = function(cond) {
+    cond <- paste(unlist(cond), collapse = " ")
+    feedback(
+      print_this = paste0("Cannot access config_file. ", cond),
+      type = "Error",
+      findme = "e3e1b9c5f9"
+    )
+    return(NULL)
+  },
+  warning = function(cond) {
+    cond <- paste(unlist(cond), collapse = " ")
+    feedback(
+      print_this = paste0("Cannot access config_file. ", cond),
+      type = "Warning",
+      findme = "718e0f3d88"
+    )
+    return(NULL)
+  })
+  return(res)
 }
 
 #' @title load_sqls helper function
@@ -366,4 +385,10 @@ cleanup_old_logfile <- function() {
 firstup <- function(x) {
   substr(x, 1, 1) <- toupper(substr(x, 1, 1))
   return(x)
+}
+
+#' Stores logfile_dir to global environment
+#' @param logfile_dir_tmp Path to the logfile folder
+logfile_assign_to_global <- function(logfile_dir_tmp) {
+  assign("logfile_dir", logfile_dir_tmp, envir = as.environment(1))
 }
