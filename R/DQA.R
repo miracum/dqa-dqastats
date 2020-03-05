@@ -15,11 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-if (getRversion() >= "2.15.1") {
-  utils::globalVariables(c("logfile_dir"))
-}
-
 #' @title Perform Data Quality Assessment of Electronic Health Records.
 #'
 #' @description This function performs a data quality assessment (DQA)
@@ -47,7 +42,6 @@ if (getRversion() >= "2.15.1") {
 #'
 #' @import data.table
 #' @importFrom magrittr "%>%"
-#' @import utils
 #'
 #' @examples
 #' \dontrun{

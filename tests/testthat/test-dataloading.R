@@ -17,8 +17,6 @@
 
 context("test dataloading")
 
-utils::globalVariables("logfile_dir")
-
 if (dir.exists("../../00_pkg_src")) {
   prefix <- "../../00_pkg_src/DQAstats/"
 } else if (dir.exists("../../R")) {
