@@ -4,7 +4,7 @@
 \alias{feedback_to_console}
 \title{Print to the console. Internal use.}
 \usage{
-feedback_to_console(print_this, type, findme, prefix, suffix)
+feedback_to_console(print_this, type, findme, prefix, suffix, logjs)
 }
 \arguments{
 \item{print_this}{(Optional, String)}
@@ -21,6 +21,10 @@ Each entry will then be new row with this prefix.}
 
 \item{suffix}{Suffix (Optional, String). Same like prefix but at the
 end of each line.}
+
+\item{logjs}{(Optional, Boolean) If true (default: false) the print_this
+string will also be printed to the javascript-console.
+This only makes sense, if the gui is active.}
 }
 \description{
 Helper function for the feedback function to print

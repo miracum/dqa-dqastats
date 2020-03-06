@@ -30,25 +30,27 @@ render_results <- function(descriptive_results,
     stat_out <- descriptive_results[[i]]$statistics
 
     # title of variable
-    cat(paste0("\n## ", desc_out$source_data$name, "  \n"))
+    feedback(paste0("Variable title: ", desc_out$source_data$name),
+             findme = "e3e82667a9")
     # description of variable
-    cat(paste0("\n", desc_out$source_data$description, "  \n"))
+    feedback(paste0("Variable description", desc_out$source_data$description),
+             findme = "c6c1c389aa")
 
     # representation in the source system
-    cat("\n### Representation in source data system  \n")
+    feedback("### Representation in source data system", findme = "09aafb991d")
     render_representation(desc_out, "source_data")
 
     # overview
-    cat("\n **Overview:**  \n")
+    feedback(" **Overview:** ", findme = "dd2b160443")
     render_counts(count_out, "source_data")
 
     # statistics
-    cat("\n **Results:**  \n")
-    print(kable_table(stat_out$source_data))
+    feedback(" **Results:** ", findme = "ea15e1342d")
+    feedback(kable_table(stat_out$source_data), findme = "5dff68cb10")
 
     # conformance checks
     if (i %in% names(valueconformance_results)) {
-      cat("\n **Value conformance:**  \n")
+      feedback(" **Value conformance:** ", findme = "49bb7ce6f4")
       render_value_conformance(
         valueconformance_results[[i]],
         desc_out,
@@ -58,20 +60,20 @@ render_results <- function(descriptive_results,
 
 
     # representation in the target system
-    cat("\n### Representation in target data system  \n")
+    feedback("### Representation in target data system ", findme = "d5838548d5")
     render_representation(desc_out, "target_data")
 
     # overview
-    cat("\n **Overview:**  \n")
+    feedback(" **Overview:**  ", findme = "9400c38aa2")
     render_counts(count_out, "target_data")
 
     # statistics
-    cat("\n **Results:**  \n")
+    feedback(" **Results:**  ", findme = "837f030013")
     print(kable_table(stat_out$target_data))
 
     # conformance checks
     if (i %in% names(valueconformance_results)) {
-      cat("\n **Value conformance:**  \n")
+      feedback(" **Value conformance:**  ", findme = "87537dee88")
       render_value_conformance(
         valueconformance_results[[i]],
         desc_out,
@@ -83,8 +85,10 @@ render_results <- function(descriptive_results,
 
 render_representation <- function(desc_out, source) {
   # source either "source_data" or "target_data"
-  cat(paste0("\n- Variable: ", desc_out[[source]]$var_name, "\n"))
-  cat(paste0("- Table: ", desc_out[[source]]$table_name, "  \n  \n"))
+  feedback(paste0("- Variable: ", desc_out[[source]]$var_name, ""),
+           findme = "1cd1a4aa6e")
+  feedback(paste0("- Table: ", desc_out[[source]]$table_name, "    "),
+           findme = "5d3379ad25")
 }
 
 render_counts <- function(count_out,
@@ -93,38 +97,30 @@ render_counts <- function(count_out,
   # source either "source_data" or "target_data"
   # n = sample size
   # N = population size
-  cat(paste0("\n- Variable name: ",
-             count_out[[source]]$cnt$variable,
-             "\n"))
-  cat(paste0("- Variable type: ",
-             count_out[[source]]$type,
-             "  \n"))
-  cat(paste0("    + n: ",
-             count_out[[source]]$cnt$n,
-             "\n"))
-  cat(paste0("    + Valid values: ",
-             count_out[[source]]$cnt$valids,
-             "\n"))
-  cat(paste0("    + Missing values: ",
-             count_out[[source]]$cnt$missings,
-             "\n"))
-  cat(paste0("    + Distinct values: ",
-             count_out[[source]]$cnt$distinct,
-             "  \n  \n"))
+  feedback(paste0("- Variable name: ",
+             count_out[[source]]$cnt$variable), findme = "b25f7beade")
+  feedback(paste0("- Variable type: ",
+             count_out[[source]]$type), findme = "cbbc671470")
+  feedback(paste0("    + n: ",
+             count_out[[source]]$cnt$n), findme = "20653c3bf2")
+  feedback(paste0("    + Valid values: ",
+             count_out[[source]]$cnt$valids), findme = "ebd0662820")
+  feedback(paste0("    + Missing values: ",
+             count_out[[source]]$cnt$missings), findme = "6508d99ec5")
+  feedback(paste0("    + Distinct values: ",
+             count_out[[source]]$cnt$distinct), findme = "688aa7f542")
 }
 
 render_value_conformance <- function(results,
                                      desc_out,
                                      source) {
-  cat(paste0(
-    "\n- Conformance check: ",
+  feedback(paste0(
+    "- Conformance check: ",
     ifelse(
       results[[source]]$conformance_error,
       "failed",
       "passed"
-    ),
-    "\n"
-  ))
+    )), findme = "bcd4409a02")
 
   # get value set
   json_obj <- jsonlite::fromJSON(
@@ -133,23 +129,29 @@ render_value_conformance <- function(results,
 
   if (desc_out[[source]]$checks$var_type ==
       "permittedValues") {
-    cat("- Constraining values/rules: '", json_obj$value_set, "'")
+    feedback(paste0("- Constraining values/rules: '",
+                    json_obj$value_set,
+                    "'"),
+             findme = "0537cde62e")
 
   } else if (desc_out[[source]]$checks$var_type ==
              "string") {
-    cat("- Constraining values/rules: '", json_obj$regex, "'")
+    feedback(paste0("- Constraining values/rules: '",
+                    json_obj$regex,
+                    "'"),
+             findme = "45b53db8d1")
 
   } else if (desc_out[[source]]$checks$var_type %in%
              c("integer", "float")) {
-    cat(paste0("- Constraining values/rules:"))
-    print(kable_table(as.data.table(json_obj$range)))
+    feedback("- Constraining values/rules:", findme = "e75f50c2a4")
+    feedback(kable_table(as.data.table(json_obj$range)), findme = "cc12fad6b6")
   }
 
   if (isTRUE(results[[source]]$conformance_error)) {
-    cat("\n- ", paste0(results[[source]]$conformance_results,
-                       "  \n  \n"))
+    feedback(paste0("- ", results[[source]]$conformance_results),
+             findme = "08aec5b485")
   } else {
-    cat("  \n  \n")
+    feedback("    ", findme = "dd3df09145")
   }
 }
 
@@ -172,32 +174,35 @@ render_uniq_plausis <- function(plausiresults) {
     pl_item <- plausiresults[[i]]
 
     # title of variable
-    cat(paste0("\n### ", i, "  \n"))
+    feedback(paste0("### ", i, "  "), findme = "60ee4df254")
 
     # description of variable
-    cat(paste0("\n", pl_item$description, "  \n"))
+    feedback(paste0("", pl_item$description, "  "), findme = "3d08b9acdb")
 
     # representation in the source system
-    cat("\n#### Representation in source data system  \n")
+    feedback("#### Representation in source data system  ",
+             findme = "19577d3353")
     render_uniq_pl_representation(pl_item, "source_data")
 
     # representation in the source system
-    cat("\n#### Representation in target data system  \n")
+    feedback("#### Representation in target data system  ",
+             findme = "8efaede976")
     render_uniq_pl_representation(pl_item, "target_data")
   }
 }
 
 render_uniq_pl_representation <- function(pl_item, source) {
   # source either "source_data" or "target_data"
-  cat(paste0(
-    "\n- Plausibility check: ",
-    ifelse(pl_item[[source]]$error == "FALSE", "passed", "failed"),
-    "\n"
-  ))
+  feedback(paste0(
+    "- Plausibility check: ",
+    ifelse(pl_item[[source]]$error == "FALSE", "passed", "failed")),
+    findme = "d7559637bc")
   if (!is.null(pl_item[[source]]$filter)) {
-    cat(paste0("- Filter criterion: ", pl_item[[source]]$filter, "\n"))
+    feedback(paste0("- Filter criterion: ", pl_item[[source]]$filter),
+             findme = "f18226f701")
   }
-  cat(paste0("- Message: ", pl_item[[source]]$message, "\n"))
+  feedback(paste0("- Message: ", pl_item[[source]]$message),
+           findme = "1fc516792f")
 }
 
 
@@ -213,25 +218,26 @@ render_atemp_plausis <- function(plausiresults,
     stat_out <- plausiresults[[i]]$statistics
 
     # title of variable
-    cat(paste0("\n### ", desc_out$source_data$name, "  \n"))
+    feedback(paste0("### ", desc_out$source_data$name), findme = "692ed21e7a")
     # description of variable
-    cat(paste0("\n", desc_out$source_data$description, "  \n"))
+    feedback(desc_out$source_data$description, findme = "347554e930")
 
     # representation in the source system
-    cat("\n#### Representation in source data system  \n")
+    feedback("#### Representation in source data system  ",
+             findme = "a219db1e31")
     render_atemp_pl_representation(desc_out, "source_data")
 
     # overview
-    cat("\n **Overview:**  \n")
+    feedback(" **Overview:**  ", findme = "95ea976d6d")
     render_counts(count_out, "source_data")
 
     # statistics
-    cat("\n **Results:**  \n")
+    feedback(" **Results:**  ", findme = "c8c01ff344")
     print(kable_table(stat_out$source_data))
 
     # conformance checks
     if (i %in% names(valueconformance_results)) {
-      cat("\n **Value conformance:**  \n")
+      feedback(" **Value conformance:**  ", findme = "0bf2c35dd5")
       render_value_conformance(
         valueconformance_results[[i]],
         desc_out,
@@ -240,20 +246,21 @@ render_atemp_plausis <- function(plausiresults,
     }
 
     # representation in the target system
-    cat("\n#### Representation in target data system  \n")
+    feedback("#### Representation in target data system  ",
+             findme = "9d65ad71af")
     render_atemp_pl_representation(desc_out, "target_data")
 
     # overview
-    cat("\n **Overview:**  \n")
+    feedback(" **Overview:**  ", findme = "880d16732f")
     render_counts(count_out, "target_data")
 
     # statistics
-    cat("\n **Results:**  \n")
+    feedback(" **Results:**  ", findme = "1f6fcc70fd")
     print(kable_table(stat_out$target_data))
 
     # conformance checks
     if (i %in% names(valueconformance_results)) {
-      cat("\n **Value conformance:**  \n")
+      feedback(" **Value conformance:**  ", findme = "2043793018")
       render_value_conformance(
         valueconformance_results[[i]],
         desc_out,
@@ -265,14 +272,15 @@ render_atemp_plausis <- function(plausiresults,
 
 render_atemp_pl_representation <- function(desc_out, source) {
   # source either "source_data" or "target_data"
-  cat(paste0("\n- Variable 1: ", desc_out[[source]]$var_dependent, "\n"))
-  cat(paste0("- Variable 2: ", desc_out[[source]]$var_independent, "\n"))
-  cat(paste0(
+  feedback(paste0("- Variable 1: ", desc_out[[source]]$var_dependent),
+           findme = "70da187221")
+  feedback(paste0("- Variable 2: ", desc_out[[source]]$var_independent),
+           findme = "94ec97b1a8")
+  feedback(paste0(
     "- Filter criterion variable 2 (regex): ",
-    desc_out[[source]]$filter,
-    "\n"
-  ))
-  cat(paste0("- Join criterion: ", desc_out[[source]]$join_crit, "\n"))
+    desc_out[[source]]$filter), findme = "d9ef877f2e")
+  feedback(paste0("- Join criterion: ", desc_out[[source]]$join_crit),
+           findme = "47aeca9c91")
 }
 
 
@@ -293,10 +301,8 @@ create_markdown <- function(rv = rv,
                             headless = FALSE) {
 
   msg <- "Creating report "
-  cat("\n", msg, "\n")
+  feedback(msg, logjs = isFALSE(headless), findme = "1147c689ab")
   if (isFALSE(headless)) {
-    shinyjs::logjs(msg)
-
     # Create a Progress object
     progress <- shiny::Progress$new()
     # Make sure it closes when we exit this reactive, even if

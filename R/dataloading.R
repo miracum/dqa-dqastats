@@ -76,9 +76,8 @@ load_csv_files <- function(mdr,
   for (inputfile in available_systems[, unique(get("source_table_name"))]) {
 
     msg <- paste("Reading", inputfile, "from CSV.")
-    feedback(paste0("", msg), findme = "73c0aae8d4")
+    feedback(msg, logjs = isFALSE(headless), findme = "73c0aae8d4")
     if (isFALSE(headless)) {
-      shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
       progress$inc(
         1 / length(available_systems[, unique(get("source_table_name"))]),
@@ -123,7 +122,6 @@ load_csv_files <- function(mdr,
       if (outlist[[inputfile]][get("AUFNAHMEANLASS") == "B", .N] > 0) {
         feedback(
           paste0(
-            "\n",
             outlist[[inputfile]][get("AUFNAHMEANLASS") == "B", .N],
             paste0(" chaperones present in source data system.\n\n",
                    "These will be removed from further analyses.")
@@ -224,9 +222,8 @@ load_csv <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming source variable types", i)
-    feedback(paste0("", msg), findme = "776ba03cbf")
+    feedback(msg, logjs = isFALSE(headless), findme = "776ba03cbf")
     if (isFALSE(headless)) {
-      shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
       progress$inc(
         1 / length(keys_to_test),
@@ -301,10 +298,8 @@ load_database <- function(rv,
   # read target data
   outlist <- sapply(keys_to_test, function(i) {
     msg <- paste("Getting", i, "from database.")
-    feedback(paste0("", msg), findme = "c12a1dd9ce")
+    feedback(msg, logjs = isFALSE(headless), findme = "c12a1dd9ce")
     if (isFALSE(headless)) {
-      shinyjs::logjs(msg)
-
       # Increment the progress bar, and update the detail text.
       progress$inc(
         1 / length(keys_to_test),
@@ -341,9 +336,8 @@ load_database <- function(rv,
   for (i in keys_to_test) {
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming target variable types", i)
-    feedback(paste0("", msg), findme = "7a3e28f291")
+    feedback(msg, logjs = isFALSE(headless), findme = "7a3e28f291")
     if (isFALSE(headless)) {
-      shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
       progress$inc(
         1 / length(keys_to_test),

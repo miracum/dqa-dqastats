@@ -66,9 +66,8 @@ atemp_pausi_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Getting plausibility descriptions of", i)
-    feedback(paste0("", msg), findme = "0888fa800d")
+    feedback(msg, logjs = isFALSE(headless), findme = "0888fa800d")
     if (isFALSE(headless)) {
-      shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
       progress1$inc(
         1 / length(names(atemp_vars)),
@@ -109,10 +108,9 @@ atemp_pausi_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating plausibility counts of", i)
-    feedback(paste0("", msg), findme = "0e918bd0fd")
+    feedback(msg, logjs = isFALSE(headless), findme = "0e918bd0fd")
 
     if (isFALSE(headless)) {
-      shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
       progress2$inc(
         1 / length(names(atemp_vars)),
@@ -133,18 +131,18 @@ atemp_pausi_results <- function(rv,
       )
     } else {
       msg <- ("Error occured during creating counts.")
-      if (isFALSE(headless)) {
-        shinyjs::logjs(msg)
-      }
+      feedback(msg,
+               logjs = isFALSE(headless),
+               type = "Error",
+               findme = "c57cb255fe")
       stop("", msg, "\n")
     }
 
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating plausibility statistics of", i)
-    feedback(paste0("", msg), findme = "cf90f11533")
+    feedback(msg, logjs = isFALSE(headless), findme = "cf90f11533")
     if (isFALSE(headless)) {
-      shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
       progress3$inc(
         1 / length(names(atemp_vars)),
@@ -241,9 +239,8 @@ uniq_plausi_results <- function(rv,
 
       # workaround to hide shiny-stuff, when going headless
       msg <- paste("Getting uniqueness plausibility", u$name)
-      feedback(paste0("", msg), findme = "e4fe49cd9e")
+      feedback(msg, logjs = isFALSE(headless), findme = "e4fe49cd9e")
       if (isFALSE(headless)) {
-        shinyjs::logjs(msg)
         # Increment the progress bar, and update the detail text.
         progress$inc(
           1 / length(names(uniques[[i]])),
@@ -302,10 +299,7 @@ uniq_plausi_results <- function(rv,
 
         } else {
           msg <- paste(i, "not in", colnames(rv[[raw_data]][[u_key]]))
-          feedback(msg, findme = "39a4eeb70b")
-          if (isFALSE(headless)) {
-            shinyjs::logjs(msg)
-          }
+          feedback(msg, logjs = isFALSE(headless), findme = "39a4eeb70b")
 
           # we need to find the correct data and merge
           if (k == "source_data") {

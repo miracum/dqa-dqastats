@@ -11,6 +11,7 @@ feedback(
   ui = FALSE,
   console = TRUE,
   logfile = TRUE,
+  logjs = FALSE,
   prefix = "",
   suffix = "",
   findme = ""
@@ -29,6 +30,10 @@ be printed to the console as is. Can also be a string.}
 
 \item{logfile}{(Optional, Boolean) If true (default) the print_this string
 will also be printed to the console.}
+
+\item{logjs}{(Optional, Boolean) If true (default: false) the print_this
+string will also be printed to the javascript-console.
+This only makes sense, if the gui is active.}
 
 \item{prefix}{Prefix (Optional, String) This is useful if
 print_this is an array/list.

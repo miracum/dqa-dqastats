@@ -183,7 +183,7 @@ calc_counts <- function(cnt_dat,
       }
       cnt
     }, error = function(e) {
-      feedback("Error occured when counting source_data\n",
+      feedback("Error occured when counting source_data",
                findme = "0adf10abcc")
       print(e)
       cnt <- NULL
@@ -555,7 +555,7 @@ calc_num_stats <- function(stat_dat,
         target_data
 
       }, error = function(e) {
-        feedback("Error occured when calculating simple target numStats\n",
+        feedback("Error occured when calculating simple target numStats",
                  findme = "10b1904a51")
         print(e)
         target_data <- NULL

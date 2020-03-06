@@ -163,6 +163,9 @@ get_where_filter <- function(filter) {
 #'   be printed to the console as is. Can also be a string.
 #' @param logfile (Optional, Boolean) If true (default) the print_this string
 #'   will also be printed to the console.
+#' @param logjs (Optional, Boolean) If true (default: false) the print_this
+#'   string will also be printed to the javascript-console.
+#'   This only makes sense, if the gui is active.
 #' @param prefix Prefix (Optional, String) This is useful if
 #'   print_this is an array/list.
 #'   Each entry will then be new row with this prefix.
@@ -180,6 +183,7 @@ feedback <-
            ui = FALSE,
            console = TRUE,
            logfile = TRUE,
+           logjs = FALSE,
            prefix = "",
            suffix = "",
            findme = "") {
@@ -207,7 +211,8 @@ feedback <-
         type = type,
         findme = findme,
         prefix = prefix,
-        suffix = suffix
+        suffix = suffix,
+        logjs = logjs
       )
     }
 
@@ -225,7 +230,8 @@ feedback <-
         type = type,
         findme = findme,
         prefix = prefix,
-        suffix = suffix
+        suffix = suffix,
+        logjs = logjs
       )
     }
   }
@@ -237,47 +243,65 @@ feedback <-
 #'
 #' @inheritParams feedback
 #'
-feedback_to_console <- function(print_this, type, findme, prefix, suffix) {
-  if (length(print_this) == 1) {
-    res <-
-      feedback_get_formatted_string(
+feedback_to_console <-
+  function(print_this,
+           type,
+           findme,
+           prefix,
+           suffix,
+           logjs) {
+    if (length(print_this) == 1) {
+      res <-
+        feedback_get_formatted_string(
+          print_this = print_this,
+          type = type,
+          findme = findme,
+          prefix = prefix,
+          suffix = suffix
+        )
+      # To console:
+      message(res)
+      # To logjs:
+      if (isTRUE(logjs)) {
+        feedback_to_logjs(res)
+      }
+      # To logfile:
+      feedback_to_logfile(
         print_this = print_this,
         type = type,
         findme = findme,
         prefix = prefix,
         suffix = suffix
       )
-    message(res)
-    feedback_to_logfile(
-      print_this = print_this,
-      type = type,
-      findme = findme,
-      prefix = prefix,
-      suffix = suffix
-    )
-  } else if (length(print_this) > 1) {
-    i <- 1
-    for (tmp in print_this) {
-      res <-
-        feedback_get_formatted_string(
+    } else if (length(print_this) > 1) {
+      i <- 1
+      for (tmp in print_this) {
+        res <-
+          feedback_get_formatted_string(
+            print_this = tmp,
+            type = type,
+            findme = findme,
+            prefix = paste0(prefix, i, ": "),
+            suffix = suffix
+          )
+        # To console:
+        message(res)
+        # To logjs:
+        if (isTRUE(logjs)) {
+          feedback_to_logjs(res)
+        }
+        # To logfile:
+        feedback_to_logfile(
           print_this = tmp,
           type = type,
           findme = findme,
-          prefix = paste0(prefix, i, ": "),
+          prefix = prefix,
           suffix = suffix
         )
-      message(res)
-      feedback_to_logfile(
-        print_this = tmp,
-        type = type,
-        findme = findme,
-        prefix = prefix,
-        suffix = suffix
-      )
-      i <- i + 1
+        i <- i + 1
+      }
     }
   }
-}
 
 #' @title Feedback to the user with a modal. Internal use.
 #' @description  Helper function for the feedback function to show modals
@@ -286,14 +310,56 @@ feedback_to_console <- function(print_this, type, findme, prefix, suffix) {
 #' @inheritParams feedback
 #'
 feedback_to_ui <- function(print_this, type) {
-  if (isTRUE(type == "Error")) {
-    title <- "Sorry, an error has occured"
-  } else {
-    title <- type
-  }
-  shiny::showModal(modalDialog(title = title,
-                               easyClose = TRUE,
-                               print_this))
+  catch_msg <- paste0("Something went wrong while trying",
+                      " to show feedback to the UI: ")
+  tryCatch({
+    if (isTRUE(type == "Error")) {
+      title <- "Sorry, an error has occured"
+    } else {
+      title <- type
+    }
+    shiny::showModal(modalDialog(title = title,
+                                 easyClose = TRUE,
+                                 print_this))
+  },
+  error = function(cond) {
+    feedback(print_this = paste0(catch_msg, cond),
+             type = "Error",
+             findme = "58eb015c10"
+    )
+  },
+  warning = function(cond) {
+    feedback(print_this = paste0(catch_msg, cond),
+             type = "Warning",
+             findme = "ef7fa319a5"
+    )
+  })
+}
+
+#' @title Feedback to the gui/browser-console with logjs. Internal use.
+#' @description  Helper function for the feedback function to also show the
+#'   messages to the gui/user via the browser console.
+#'   Internal use. Use the robust 'feedback' function instead.
+#' @inheritParams feedback
+#'
+feedback_to_logjs <- function(print_this) {
+  catch_msg <- paste0("Something went wrong while trying",
+                      " to print feedback to the browser console: ")
+  tryCatch({
+    shinyjs::logjs(print_this)
+  },
+  error = function(cond) {
+    feedback(print_this = paste0(catch_msg, cond),
+             type = "Error",
+             findme = "2e68833975"
+    )
+  },
+  warning = function(cond) {
+    feedback(print_this = paste0(catch_msg, cond),
+             type = "Warning",
+             findme = "f3600cc9d2"
+    )
+  })
 }
 
 #' @title Add to the logfile. Internal use.

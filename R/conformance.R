@@ -47,9 +47,8 @@ value_conformance <- function(results,
   # loop over objects
   for (i in obj_names) {
     msg <- paste("Performing value conformance check", i)
-    feedback(paste0("", msg), findme = "5d061425eb")
+    feedback(paste0("", msg), logjs = isFALSE(headless), findme = "5d061425eb")
     if (isFALSE(headless)) {
-      shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
       progress$inc(
         1 / length(obj_names),
