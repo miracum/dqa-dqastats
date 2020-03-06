@@ -317,14 +317,15 @@ create_markdown <- function(rv = rv,
     )
   }
 
+  catch_msg <- "Something went wrong with tinytex: "
   tryCatch({
     if (tinytex::tinytex_root() == "") {
       tinytex::install_tinytex()
     }
   }, error = function(e) {
-    print(e)
+    feedback(paste0(catch_msg, e), type = "Error", findme = "210d434926")
   }, warning = function(w) {
-    print(w)
+    feedback(paste0(catch_msg, w), type = "Warning", findme = "6293ffd675")
   })
 
   knitr::knit(
