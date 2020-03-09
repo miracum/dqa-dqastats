@@ -293,10 +293,8 @@ create_markdown <- function(rv = rv,
                             headless = FALSE) {
 
   msg <- "Creating report "
-  cat("\n", msg, "\n")
+  feedback(msg, logjs = isFALSE(headless), findme = "aa5c87f7da")
   if (isFALSE(headless)) {
-    shinyjs::logjs(msg)
-
     # Create a Progress object
     progress <- shiny::Progress$new()
     # Make sure it closes when we exit this reactive, even if
@@ -311,14 +309,28 @@ create_markdown <- function(rv = rv,
     )
   }
 
+  catch_msg <- "Something went wrong with tinytex: "
+  tryCatch({
+    list.of.packages <- c("tinytex")
+    new.packages <-
+      list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
+    if (length(new.packages)) {
+      install.packages(new.packages)
+    }
+  }, error = function(e) {
+    feedback(paste0(catch_msg, e), type = "Error", findme = "e50d001ed4")
+  }, warning = function(w) {
+    feedback(paste0(catch_msg, w), type = "Warning", findme = "6c366260eb")
+  })
+
   tryCatch({
     if (tinytex::tinytex_root() == "") {
       tinytex::install_tinytex()
     }
   }, error = function(e) {
-    print(e)
+    feedback(paste0(catch_msg, e), type = "Error", findme = "d70293cd83")
   }, warning = function(w) {
-    print(w)
+    feedback(paste0(catch_msg, w), type = "Warning", findme = "f72559b707")
   })
 
   knitr::knit(
