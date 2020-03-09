@@ -318,9 +318,13 @@ feedback_to_ui <- function(print_this, type) {
     } else {
       title <- type
     }
-    shiny::showModal(modalDialog(title = title,
-                                 easyClose = TRUE,
-                                 print_this))
+    shiny::showModal(
+      shiny::modalDialog(
+        title = title,
+        easyClose = TRUE,
+        print_this
+        )
+      )
   },
   error = function(cond) {
     feedback(print_this = paste0(catch_msg, cond),
@@ -380,8 +384,18 @@ feedback_to_logfile <- function(print_this, type, findme, prefix, suffix) {
   # and a linebreak at the end:
   res <- paste0("[", Sys.time(), "] ", res, "\n")
 
-  # Create the path if it does not exist:
-  dir.create(logfile_dir, showWarnings = F)
+  # Try to create the path if it does not exist:or assign tempdir
+  tryCatch({
+    dir.create(logfile_dir, showWarnings = F)
+  },
+  error = function(cond) {
+    print("Can't create logfile_dir. Assigning tempdir now.")
+    logfile_dir <- tempdir()
+  },
+  warning = function(cond) {
+    print("Can't create logfile_dir. Assigning tempdir now.")
+    logfile_dir <- tempdir()
+  })
 
   path_with_file <- paste0(logfile_dir, "logfile.log")
 
@@ -453,8 +467,45 @@ firstup <- function(x) {
   return(x)
 }
 
+#' @title global_env_hack
+#' @description Hack variable into global env (bypasses R CMD checks).
+#'
+#' @param key A character string. The name of the assigned variable
+#' @param val An object. The object that will be assigned to 'key'.
+#' @param pos An integer. The position of the environment (default: 1).
+#'
+#' @seealso \url{http://adv-r.had.co.nz/Environments.html}
+#'
+#' @export
+#'
+global_env_hack <- function(key,
+                            val,
+                            pos = 1) {
+  assign(
+    key,
+    val,
+    envir = as.environment(pos)
+  )
+}
+
+
 #' Stores logfile_dir to global environment
 #' @param logfile_dir_tmp Path to the logfile folder
 logfile_assign_to_global <- function(logfile_dir_tmp) {
-  assign("logfile_dir", logfile_dir_tmp, envir = as.environment(1))
+  global_env_hack(
+    key = "logfile_dir",
+    val = logfile_dir_tmp
+  )
+}
+
+#' @title Cleanup function to unset/close all open connections
+#' @description This function is meant to be called at the end of a
+#'   run of the app. It will close all open connections to files.
+#'
+#' @export
+#'
+close_all_connections <- function() {
+  feedback("Doing application cleanup", findme = "8b224d503c")
+  lapply(showConnections(), close)
+  feedback("Closed all file-connections.", findme = "0c5cb72ecc")
 }
