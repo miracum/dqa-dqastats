@@ -29,10 +29,13 @@
 export_aggregated <- function(output_dir, rv) {
   # create export dir
   exportdir <- paste0(output_dir, "/export/")
-  feedback(paste0("Creating ", exportdir), findme = "4f10124602",
-           logfile_dir = rv$log$logfile_dir,
-           headless = rv$headless)
   if (!dir.exists(exportdir)) {
+    feedback(
+      paste0("Creating ", exportdir),
+      findme = "4f10124602",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless
+    )
     dir.create(exportdir)
   }
 
