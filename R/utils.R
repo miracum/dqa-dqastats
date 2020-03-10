@@ -386,7 +386,9 @@ feedback_to_logfile <- function(print_this, type, findme, prefix, suffix) {
 
   # Try to create the path if it does not exist:or assign tempdir
   tryCatch({
-    dir.create(logfile_dir, showWarnings = F)
+    if (logfile_dir != tempdir()) {
+      dir.create(logfile_dir, showWarnings = F)
+    }
   },
   error = function(cond) {
     print("Can't create logfile_dir. Assigning tempdir now.")
@@ -485,16 +487,6 @@ global_env_hack <- function(key,
     key,
     val,
     envir = as.environment(pos)
-  )
-}
-
-
-#' Stores logfile_dir to global environment
-#' @param logfile_dir_tmp Path to the logfile folder
-logfile_assign_to_global <- function(logfile_dir_tmp) {
-  global_env_hack(
-    key = "logfile_dir",
-    val = logfile_dir_tmp
   )
 }
 

@@ -16,10 +16,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-if (getRversion() >= "2.15.1") {
-  utils::globalVariables(c("logfile_dir"))
-}
-
 #' @title Perform Data Quality Assessment of Electronic Health Records.
 #'
 #' @description This function performs a data quality assessment (DQA)
@@ -80,9 +76,11 @@ dqa <- function(source_system_name,
   )
 
   # Save logfile_dir globally:
-  #% assign("logfile_dir", clean_path_name(logfile_dir), envir = .GlobalEnv)
-  #% logfile_dir <- clean_path_name(logfile_dir)
-  logfile_assign_to_global(logfile_dir)
+  logfile_dir <- clean_path_name(logfile_dir)
+  global_env_hack(
+    key = "logfile_dir",
+    val = logfile_dir
+  )
   cleanup_old_logfile()
 
   # initialize rv-list
