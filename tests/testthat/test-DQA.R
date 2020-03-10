@@ -64,7 +64,7 @@ test_that("correct functioning of DQA", {
   )
 
   expect_type(all_results, "list")
-  expect_length(all_results, 23)
+  expect_length(all_results, 24)
 
   outputfiles <- list.files(output_dir)
   expect_true("DQA_report.md" %in% outputfiles)

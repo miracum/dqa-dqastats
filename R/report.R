@@ -293,7 +293,9 @@ create_markdown <- function(rv = rv,
                             headless = FALSE) {
 
   msg <- "Creating report "
-  feedback(msg, logjs = isFALSE(headless), findme = "aa5c87f7da")
+  feedback(msg, logjs = isFALSE(headless), findme = "aa5c87f7da",
+           logfile_dir = rv$log$logfile_dir,
+           headless = rv$headless)
   if (isFALSE(headless)) {
     # Create a Progress object
     progress <- shiny::Progress$new()
@@ -319,9 +321,13 @@ create_markdown <- function(rv = rv,
       install.packages(new_packages)
     }
   }, error = function(e) {
-    feedback(paste0(catch_msg, e), type = "Error", findme = "e50d001ed4")
+    feedback(paste0(catch_msg, e), type = "Error", findme = "e50d001ed4",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
   }, warning = function(w) {
-    feedback(paste0(catch_msg, w), type = "Warning", findme = "6c366260eb")
+    feedback(paste0(catch_msg, w), type = "Warning", findme = "6c366260eb",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
   })
 
   tryCatch({
@@ -329,9 +335,13 @@ create_markdown <- function(rv = rv,
       tinytex::install_tinytex()
     }
   }, error = function(e) {
-    feedback(paste0(catch_msg, e), type = "Error", findme = "d70293cd83")
+    feedback(paste0(catch_msg, e), type = "Error", findme = "d70293cd83",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
   }, warning = function(w) {
-    feedback(paste0(catch_msg, w), type = "Warning", findme = "f72559b707")
+    feedback(paste0(catch_msg, w), type = "Warning", findme = "f72559b707",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
   })
 
   knitr::knit(
