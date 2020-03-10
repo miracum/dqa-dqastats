@@ -58,11 +58,7 @@ test_that("correct functioning of dataloading", {
   rv$source$system_name <- source_system_name
   rv$target$system_name <- target_system_name
 
-  # get configs
-  rv$source$settings <- get_config(config_file = config_file,
-                                   config_key = tolower(rv$source$system_name))
-  rv$target$settings <- get_config(config_file = config_file,
-                                   config_key = tolower(rv$target$system_name))
+  rv$log$logfile_dir <- "logfile.log"
 
   expect_true(!is.null(rv$source$settings$dir))
   expect_true(!is.null(rv$target$settings$dir))
@@ -70,6 +66,15 @@ test_that("correct functioning of dataloading", {
   # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
 
+  # get configs
+  rv$source$settings <- get_config(config_file = config_file,
+                                   config_key = tolower(rv$source$system_name),
+                                   logfile_dir = rv$log$logfile_dir,
+                                   headless = rv$headless)
+  rv$target$settings <- get_config(config_file = config_file,
+                                   config_key = tolower(rv$target$system_name),
+                                   logfile_dir = rv$log$logfile_dir,
+                                   headless = rv$headless)
   # clean paths (to append the ending slash)
   rv$utilspath <- clean_path_name(utils_path)
   output_dir <- clean_path_name(output_dir)

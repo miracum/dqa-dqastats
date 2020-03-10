@@ -58,17 +58,24 @@ test_that("correct functioning of helper vars", {
   rv$source$system_name <- source_system_name
   rv$target$system_name <- target_system_name
 
-  # get configs
-  rv$source$settings <- get_config(config_file = config_file,
-                                   config_key = tolower(rv$source$system_name))
-  rv$target$settings <- get_config(config_file = config_file,
-                                   config_key = tolower(rv$target$system_name))
+  rv$log$logfile_dir <- "logfile.log"
+
 
   expect_true(!is.null(rv$source$settings$dir))
   expect_true(!is.null(rv$target$settings$dir))
 
   # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
+
+  # get configs
+  rv$source$settings <- get_config(config_file = config_file,
+                                   config_key = tolower(rv$source$system_name),
+                                   logfile_dir = rv$log$logfile_dir,
+                                   headless = rv$headless)
+  rv$target$settings <- get_config(config_file = config_file,
+                                   config_key = tolower(rv$target$system_name),
+                                   logfile_dir = rv$log$logfile_dir,
+                                   headless = rv$headless)
 
   # clean paths (to append the ending slash)
   rv$utilspath <- clean_path_name(utils_path)
@@ -135,7 +142,7 @@ test_that("correct functioning of helper vars", {
   rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
   expect_type(rv, "list")
-  expect_length(rv, 16)
+  expect_length(rv, 17)
   expect_equal(rv$keys_source, "dqa_example_data_01.csv")
   expect_equal(rv$keys_target, "dqa_example_data_02.csv")
   expect_s3_class(rv$dqa_assessment, "data.table")

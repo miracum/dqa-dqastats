@@ -23,11 +23,12 @@
 #' @inheritParams descriptive_results
 #' @param results A list object. The list should contain the results of
 #'   either 'rv$results_descriptive' or 'rv$results_plausibility_atemporal'.
+#' @inheritParams feedback
 #'
 #' @export
 #'
 value_conformance <- function(results,
-                              headless = FALSE) {
+                              headless = FALSE, logfile_dir) {
   # get names
   obj_names <- names(results)
 
@@ -47,7 +48,9 @@ value_conformance <- function(results,
   # loop over objects
   for (i in obj_names) {
     msg <- paste("Performing value conformance check", i)
-    feedback(paste0("", msg), logjs = isFALSE(headless), findme = "5d061425eb")
+    feedback(paste0("", msg), logjs = isFALSE(headless), findme = "5d061425eb",
+             logfile_dir = logfile_dir,
+             headless = headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress$inc(
@@ -130,13 +133,17 @@ value_conformance <- function(results,
             #% (TRUE = constraint_error)
             if (result_min < constraints$range$min) {
               feedback(paste0(i, "/ ", j, ": result_min < range$min"),
-                       findme = "21abaa37e2")
+                       findme = "21abaa37e2",
+                       logfile_dir = logfile_dir,
+                       headless = headless)
               error_flag <- TRUE
             }
 
             if (result_max > constraints$range$max) {
               feedback(paste0(i, "/ ", j, ": result_max > range$max"),
-                       findme = "44264e3a64")
+                       findme = "44264e3a64",
+                       logfile_dir = logfile_dir,
+                       headless = headless)
               error_flag <- TRUE
             }
             outlist2$conformance_error <- error_flag

@@ -28,13 +28,15 @@
 #' @param timeout A timeout in sec. for the db-connection establishment.
 #'   Values below 2 seconds are not recommended.
 #'   Default is 30 seconds.
+#' @inheritParams feedback
 #'
 #' @export
 #'
 # test db connection
 test_db <- function(settings,
                     headless = FALSE,
-                    timeout = 30) {
+                    timeout = 30,
+                    logfile_dir) {
 
   drv <- RPostgres::Postgres()
 
@@ -59,7 +61,9 @@ test_db <- function(settings,
         )
       )
     }
-    feedback("DB connection error\n", findme = "9431c8c61f")
+    feedback("DB connection error", findme = "9431c8c61f",
+             logfile_dir = logfile_dir,
+             headless = headless)
     db_con <- NULL
     db_con
   }, finally = function(f) {
@@ -76,13 +80,15 @@ test_db <- function(settings,
 #' @param settings A list object containing the database settings.
 #' @inheritParams create_helper_vars
 #' @inheritParams test_db
+#' @inheritParams feedback
 #'
 #' @export
 #'
 test_csv <- function(settings,
                      source_db,
                      mdr,
-                     headless = FALSE) {
+                     headless = FALSE,
+                     logfile_dir) {
 
   # get filenames of csv files inside the provided directory
   filelist <- list.files(
@@ -111,7 +117,9 @@ test_csv <- function(settings,
   # iterate over list and check for presence of required filenames:
   # FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV
   check <- sapply(filelist, function(i) {
-    feedback(paste0("", i), findme = "208282630a")
+    feedback(i, findme = "208282630a",
+             logfile_dir = logfile_dir,
+             headless = headless)
     return(grepl(files_pattern, i))
   })
 
@@ -136,7 +144,9 @@ test_csv <- function(settings,
         paste0("The specified directory does not contain the expected ",
                "neccessary CSV-files: ", paste0(required_files,
                                                 collapse = ", ")),
-        findme = "e8cdd32764"
+        findme = "e8cdd32764",
+        logfile_dir = logfile_dir,
+        headless = headless
       )
       outflag <- NULL
       outflag
@@ -157,11 +167,16 @@ test_csv <- function(settings,
         )
       )
     }
-    feedback(paste0(
-      "There are no CSV-files in the specified directory for system ",
-      source_db,
-      ".\n"
-    ), findme = "ed6dceaeaf")
+    feedback(
+      paste0(
+        "There are no CSV-files in the specified directory for system ",
+        source_db,
+        ".\n"
+      ),
+      findme = "ed6dceaeaf",
+      logfile_dir = logfile_dir,
+      headless = headless
+    )
     outflag <- NULL
     outflag
   }, finally = function(f) {

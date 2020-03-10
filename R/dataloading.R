@@ -44,7 +44,8 @@ fire_sql_statement <- function(rv,
 load_csv_files <- function(mdr,
                            inputdir,
                            sourcesystem,
-                           headless = T) {
+                           headless = T,
+                           logfile_dir) {
 
   if (isFALSE(headless)) {
     # Create a Progress object
@@ -76,7 +77,9 @@ load_csv_files <- function(mdr,
   for (inputfile in available_systems[, unique(get("source_table_name"))]) {
 
     msg <- paste("Reading", inputfile, "from CSV.")
-    feedback(msg, logjs = isFALSE(headless), findme = "73c0aae8d4")
+    feedback(msg, logjs = isFALSE(headless), findme = "73c0aae8d4",
+             logfile_dir = logfile_dir,
+             headless = headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress$inc(
@@ -126,14 +129,18 @@ load_csv_files <- function(mdr,
             paste0(" chaperones present in source data system.\n\n",
                    "These will be removed from further analyses.")
           ),
-          findme = "14ae722d8b"
+          findme = "14ae722d8b",
+          logfile_dir = logfile_dir,
+          headless = headless
         )
         outlist[[inputfile]] <-
           outlist[[inputfile]][get("AUFNAHMEANLASS") != "B" |
                                  is.na(get("AUFNAHMEANLASS")), ]
       } else {
         feedback("No chaperones present in your source data.",
-                 findme = "469a0f6dde")
+                 findme = "469a0f6dde",
+                 logfile_dir = logfile_dir,
+                 headless = headless)
       }
     }
   }
@@ -193,7 +200,8 @@ load_csv <- function(rv,
     mdr = rv$mdr,
     inputdir = clean_path_name(system$settings$dir),
     sourcesystem = system$system_name,
-    headless = headless
+    headless = headless,
+    logfile_dir = rv$log$logfile_dir
   )
 
   if (isFALSE(headless)) {
@@ -222,7 +230,9 @@ load_csv <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming source variable types", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "776ba03cbf")
+    feedback(msg, logjs = isFALSE(headless), findme = "776ba03cbf",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress$inc(
@@ -298,7 +308,9 @@ load_database <- function(rv,
   # read target data
   outlist <- sapply(keys_to_test, function(i) {
     msg <- paste("Getting", i, "from database.")
-    feedback(msg, logjs = isFALSE(headless), findme = "c12a1dd9ce")
+    feedback(msg, logjs = isFALSE(headless), findme = "c12a1dd9ce",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress$inc(
@@ -336,7 +348,9 @@ load_database <- function(rv,
   for (i in keys_to_test) {
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming target variable types", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "7a3e28f291")
+    feedback(msg, logjs = isFALSE(headless), findme = "7a3e28f291",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress$inc(

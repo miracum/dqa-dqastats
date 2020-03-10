@@ -54,7 +54,9 @@ descriptive_results <- function(rv,
   for (i in names(rv$variable_list)) {
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Getting variable descriptions of", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "eb95542ec1")
+    feedback(msg, logjs = isFALSE(headless), findme = "eb95542ec1",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress1$inc(
@@ -95,13 +97,17 @@ descriptive_results <- function(rv,
       feedback(msg,
                logjs = isFALSE(headless),
                type = "Error",
-               findme = "b640b3c662")
+               findme = "b640b3c662",
+               logfile_dir = rv$log$logfile_dir,
+               headless = rv$headless)
       stop("", msg, "\n")
     }
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating variable counts of", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "056f1ee2e0")
+    feedback(msg, logjs = isFALSE(headless), findme = "056f1ee2e0",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress2$inc(
@@ -136,7 +142,9 @@ descriptive_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating variable statistics of", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "edf4f006a9")
+    feedback(msg, logjs = isFALSE(headless), findme = "edf4f006a9",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress3$inc(

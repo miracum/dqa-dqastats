@@ -48,7 +48,9 @@ generate_datamap <- function(results,
 
   if (nrow(data_names) < 1) {
     msg <- "No variables suitable for the data map found in the MDR"
-    feedback(msg, logjs = isFALSE(headless), findme = "02c0846290")
+    feedback(msg, logjs = isFALSE(headless), findme = "02c0846290",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
     return(NULL)
   } else {
     obj_names <- data_names[, get("designation")]

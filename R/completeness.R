@@ -24,7 +24,7 @@
 #'
 #' @export
 #'
-completeness <- function(results, headless = FALSE) {
+completeness <- function(results, headless = FALSE, logfile_dir) {
   # get names
   obj_names <- names(results)
 
@@ -51,7 +51,9 @@ completeness <- function(results, headless = FALSE) {
   # loop over objects
   for (i in obj_names) {
     msg <- paste("Performing missing analysis", i)
-    feedback(msg, findme = "7a28e87b30", logjs = isFALSE(headless))
+    feedback(msg, findme = "7a28e87b30", logjs = isFALSE(headless),
+             logfile_dir = logfile_dir,
+             headless = headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress$inc(

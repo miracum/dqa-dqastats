@@ -104,11 +104,13 @@ dqa <- function(source_system_name,
   # get configs
   rv$source$settings <- get_config(
     config_file = config_file,
-    config_key = tolower(rv$source$system_name)
+    config_key = tolower(rv$source$system_name),
+    logfile_dir = rv$log$logfile_dir
   )
   rv$target$settings <- get_config(
     config_file = config_file,
-    config_key = tolower(rv$target$system_name)
+    config_key = tolower(rv$target$system_name),
+    logfile_dir = rv$log$logfile_dir
   )
 
   # read MDR
@@ -233,7 +235,8 @@ dqa <- function(source_system_name,
   # conformance
   rv$conformance$value_conformance <-
     value_conformance(results = rv$results_descriptive,
-                      headless = rv$headless)
+                      headless = rv$headless,
+                      logfile_dir = rv$log_logfile_dir)
 
   # reduce categorical variables to display max. 25 values
   rv$results_descriptive <- reduce_cat(data = rv$results_descriptive,
@@ -243,7 +246,8 @@ dqa <- function(source_system_name,
   if (!is.null(rv$results_plausibility_atemporal)) {
     add_value_conformance <- value_conformance(
       results = rv$results_plausibility_atemporal,
-      headless = rv$headless
+      headless = rv$headless,
+      logfile_dir = rv$log_logfile_dir
     )
 
     # workaround, to keep "rv" an reactiveValues object in shiny app
@@ -254,7 +258,8 @@ dqa <- function(source_system_name,
   }
   # completeness
   rv$completeness <- completeness(results = rv$results_descriptive,
-                                  headless = rv$headless)
+                                  headless = rv$headless,
+                                  logfile_dir = rv$log$logfile_dir)
 
   # generate datamap
   rv$datamap <- generate_datamap(
