@@ -36,7 +36,9 @@ test_that(desc = "test lints",
                   list(message = "snake_case",
                        line_number = 41),
                   list(message = "space before left parenthesis",
-                       line_number = 43)
+                       line_number = 43),
+                  list(message = "cyclomatic complexity",
+                       line_number = 189)
                 )
               ),
               "tests/testthat" = list(

@@ -66,7 +66,9 @@ atemp_pausi_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Getting plausibility descriptions of", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "0888fa800d")
+    feedback(msg, logjs = isFALSE(headless), findme = "0888fa800d",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress1$inc(
@@ -108,7 +110,9 @@ atemp_pausi_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating plausibility counts of", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "0e918bd0fd")
+    feedback(msg, logjs = isFALSE(headless), findme = "0e918bd0fd",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
 
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
@@ -134,14 +138,18 @@ atemp_pausi_results <- function(rv,
       feedback(msg,
                logjs = isFALSE(headless),
                type = "Error",
-               findme = "c57cb255fe")
+               findme = "c57cb255fe",
+               logfile_dir = rv$log$logfile_dir,
+               headless = rv$headless)
       stop("", msg, "\n")
     }
 
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating plausibility statistics of", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "cf90f11533")
+    feedback(msg, logjs = isFALSE(headless), findme = "cf90f11533",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress3$inc(
@@ -239,7 +247,9 @@ uniq_plausi_results <- function(rv,
 
       # workaround to hide shiny-stuff, when going headless
       msg <- paste("Getting uniqueness plausibility", u$name)
-      feedback(msg, logjs = isFALSE(headless), findme = "e4fe49cd9e")
+      feedback(msg, logjs = isFALSE(headless), findme = "e4fe49cd9e",
+               logfile_dir = rv$log$logfile_dir,
+               headless = rv$headless)
       if (isFALSE(headless)) {
         # Increment the progress bar, and update the detail text.
         progress$inc(
@@ -299,7 +309,9 @@ uniq_plausi_results <- function(rv,
 
         } else {
           msg <- paste(i, "not in", colnames(rv[[raw_data]][[u_key]]))
-          feedback(msg, logjs = isFALSE(headless), findme = "39a4eeb70b")
+          feedback(msg, logjs = isFALSE(headless), findme = "39a4eeb70b",
+                   logfile_dir = rv$log$logfile_dir,
+                   headless = rv$headless)
 
           # we need to find the correct data and merge
           if (k == "source_data") {

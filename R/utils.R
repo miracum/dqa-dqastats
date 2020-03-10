@@ -101,9 +101,11 @@ time_interval <- function(data) {
 #'   database. This string must be conform with the corresponding config
 #'   section in the config.yml-file.
 #'
+#' @inheritParams feedback
+#'
 #' @export
 #'
-get_config <- function(config_file, config_key) {
+get_config <- function(config_file, config_key, logfile_dir, headless) {
   res <- tryCatch({
     config::get(config_key, file = config_file)
   },
@@ -112,7 +114,9 @@ get_config <- function(config_file, config_key) {
     feedback(
       print_this = paste0("Cannot access config_file. ", cond),
       type = "Error",
-      findme = "e3e1b9c5f9"
+      findme = "e3e1b9c5f9",
+      logfile_dir = logfile_dir,
+      headless = headless
     )
     return(NULL)
   },
@@ -121,7 +125,9 @@ get_config <- function(config_file, config_key) {
     feedback(
       print_this = paste0("Cannot access config_file. ", cond),
       type = "Warning",
-      findme = "718e0f3d88"
+      findme = "718e0f3d88",
+      logfile_dir = logfile_dir,
+      headless = headless
     )
     return(NULL)
   })
@@ -304,7 +310,8 @@ feedback_to_console <-
 #'   Internal use. Use the robust 'feedback' function instead.
 #' @inheritParams feedback
 #'
-feedback_to_ui <- function(print_this, type) {
+feedback_to_ui <- function(print_this, type, logfile_dir, headless) {
+
   catch_msg <- paste0("Something went wrong while trying",
                       " to show feedback to the UI: ")
   tryCatch({
@@ -324,13 +331,17 @@ feedback_to_ui <- function(print_this, type) {
   error = function(cond) {
     feedback(print_this = paste0(catch_msg, cond),
              type = "Error",
-             findme = "58eb015c10"
+             findme = "58eb015c10",
+             logfile_dir = logfile_dir,
+             headless = headless
     )
   },
   warning = function(cond) {
     feedback(print_this = paste0(catch_msg, cond),
              type = "Warning",
-             findme = "ef7fa319a5"
+             findme = "ef7fa319a5",
+             logfile_dir = logfile_dir,
+             headless = headless
     )
   })
 }
@@ -341,7 +352,7 @@ feedback_to_ui <- function(print_this, type) {
 #'   Internal use. Use the robust 'feedback' function instead.
 #' @inheritParams feedback
 #'
-feedback_to_logjs <- function(print_this) {
+feedback_to_logjs <- function(print_this, logfile_dir, headless) {
   catch_msg <- paste0("Something went wrong while trying",
                       " to print feedback to the browser console: ")
   tryCatch({
@@ -350,13 +361,17 @@ feedback_to_logjs <- function(print_this) {
   error = function(cond) {
     feedback(print_this = paste0(catch_msg, cond),
              type = "Error",
-             findme = "2e68833975"
+             findme = "2e68833975",
+             logfile_dir = logfile_dir,
+             headless = headless
     )
   },
   warning = function(cond) {
     feedback(print_this = paste0(catch_msg, cond),
              type = "Warning",
-             findme = "f3600cc9d2"
+             findme = "f3600cc9d2",
+             logfile_dir = logfile_dir,
+             headless = headless
     )
   })
 }
@@ -478,10 +493,16 @@ global_env_hack <- function(key,
 #' @description This function is meant to be called at the end of a
 #'   run of the app. It will close all open connections to files.
 #'
+#' @inheritParams feedback
+#'
 #' @export
 #'
-close_all_connections <- function() {
-  feedback("Doing application cleanup", findme = "8b224d503c")
+close_all_connections <- function(logfile_dir, headless) {
+  feedback("Doing application cleanup", findme = "8b224d503c",
+           logfile_dir = logfile_dir,
+           headless = headless)
   lapply(showConnections(), close)
-  feedback("Closed all file-connections.", findme = "0c5cb72ecc")
+  feedback("Closed all file-connections.", findme = "0c5cb72ecc",
+           logfile_dir = logfile_dir,
+           headless = headless)
 }

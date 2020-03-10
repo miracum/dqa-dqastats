@@ -4,12 +4,19 @@
 \alias{feedback_to_ui}
 \title{Feedback to the user with a modal. Internal use.}
 \usage{
-feedback_to_ui(print_this, type)
+feedback_to_ui(print_this, type, logfile_dir, headless)
 }
 \arguments{
 \item{print_this}{(Optional, String)}
 
 \item{type}{(Optional, String) E.g. "Warning", "Error. Default: "Info"}
+
+\item{logfile_dir}{The absolute path to folder where the logfile
+will be stored.}
+
+\item{headless}{A boolean (default: FALSE). Indicating, if the function is
+run only in the console (headless = TRUE) or on a GUI frontend
+(headless = FALSE).}
 }
 \description{
 Helper function for the feedback function to show modals
