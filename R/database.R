@@ -28,6 +28,7 @@
 #' @param timeout A timeout in sec. for the db-connection establishment.
 #'   Values below 2 seconds are not recommended.
 #'   Default is 30 seconds.
+#'
 #' @inheritParams feedback
 #'
 #' @export

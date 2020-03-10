@@ -4,7 +4,7 @@
 \alias{completeness}
 \title{completeness helper function}
 \usage{
-completeness(results, headless = FALSE)
+completeness(results, headless = FALSE, logfile_dir)
 }
 \arguments{
 \item{results}{A list object. The list should contain the results of
@@ -13,6 +13,9 @@ either 'rv$results_descriptive' or 'rv$results_plausibility_atemporal'.}
 \item{headless}{A boolean (default: FALSE). Indicating, if the function is
 run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
+
+\item{logfile_dir}{The absolute path to folder where the logfile
+will be stored.}
 }
 \description{
 Internal function to perform missing analysis.

@@ -4,7 +4,7 @@
 \alias{test_db}
 \title{test_db helper function}
 \usage{
-test_db(settings, headless = FALSE, timeout = 30)
+test_db(settings, headless = FALSE, timeout = 30, logfile_dir)
 }
 \arguments{
 \item{settings}{A list object containing the database settings.}

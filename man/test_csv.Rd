@@ -4,7 +4,7 @@
 \alias{test_csv}
 \title{test_csv helper function}
 \usage{
-test_csv(settings, source_db, mdr, headless = FALSE)
+test_csv(settings, source_db, mdr, headless = FALSE, logfile_dir)
 }
 \arguments{
 \item{settings}{A list object containing the database settings.}
@@ -18,6 +18,9 @@ in the config.yml-file.}
 \item{headless}{A boolean (default: FALSE). Indicating, if the function is
 run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
+
+\item{logfile_dir}{The absolute path to folder where the logfile
+will be stored.}
 }
 \description{
 Internal function to test and get the database connection
