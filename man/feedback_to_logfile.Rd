@@ -4,7 +4,7 @@
 \alias{feedback_to_logfile}
 \title{Add to the logfile. Internal use.}
 \usage{
-feedback_to_logfile(print_this, type, findme, prefix, suffix)
+feedback_to_logfile(print_this, type, findme, prefix, suffix, logfile_dir)
 }
 \arguments{
 \item{print_this}{(Optional, String)}
@@ -21,6 +21,9 @@ Each entry will then be new row with this prefix.}
 
 \item{suffix}{Suffix (Optional, String). Same like prefix but at the
 end of each line.}
+
+\item{logfile_dir}{The absolute path to folder where the logfile
+will be stored.}
 }
 \description{
 Helper function for the feedback function to add content

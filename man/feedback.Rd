@@ -14,7 +14,9 @@ feedback(
   logjs = FALSE,
   prefix = "",
   suffix = "",
-  findme = ""
+  findme = "",
+  logfile_dir = tempdir(),
+  headless = TRUE
 )
 }
 \arguments{
@@ -45,6 +47,13 @@ end of each line.}
 \item{findme}{(Optional, String) String to find the message in the code.
 E.g. 10-digit random hex from https://www.browserling.com/tools/random-hex
 or https://onlinerandomtools.com/generate-random-hexadecimal-numbers}
+
+\item{logfile_dir}{The absolute path to folder where the logfile
+will be stored.}
+
+\item{headless}{A boolean (default: FALSE). Indicating, if the function is
+run only in the console (headless = TRUE) or on a GUI frontend
+(headless = FALSE).}
 }
 \description{
 This function provides the functionality to publish

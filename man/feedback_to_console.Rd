@@ -4,7 +4,15 @@
 \alias{feedback_to_console}
 \title{Print to the console. Internal use.}
 \usage{
-feedback_to_console(print_this, type, findme, prefix, suffix, logjs)
+feedback_to_console(
+  print_this,
+  type,
+  findme,
+  prefix,
+  suffix,
+  logjs,
+  logfile_dir
+)
 }
 \arguments{
 \item{print_this}{(Optional, String)}
@@ -25,6 +33,9 @@ end of each line.}
 \item{logjs}{(Optional, Boolean) If true (default: false) the print_this
 string will also be printed to the javascript-console.
 This only makes sense, if the gui is active.}
+
+\item{logfile_dir}{The absolute path to folder where the logfile
+will be stored.}
 }
 \description{
 Helper function for the feedback function to print

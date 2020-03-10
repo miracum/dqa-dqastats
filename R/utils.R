@@ -175,6 +175,9 @@ get_where_filter <- function(filter) {
 #'   E.g. 10-digit random hex from https://www.browserling.com/tools/random-hex
 #'   or https://onlinerandomtools.com/generate-random-hexadecimal-numbers
 #'
+#' @inheritParams dqa
+#' @inheritParams test_db
+#'
 #' @export
 #'
 feedback <-
@@ -186,33 +189,31 @@ feedback <-
            logjs = FALSE,
            prefix = "",
            suffix = "",
-           findme = "") {
+           findme = "",
+           logfile_dir = tempdir(),
+           headless = TRUE) {
     # Make the first letter of type Uppercase:
     type <- firstup(type)
-
-    # we need parts of the rv object here so if it is not set yet
-    # initialize it now:
-    if (!exists("rv")) {
-      rv <- c()
-    }
 
     # If the gui is active, show the message to the user.
     # If its an error message, also show the error messages in the gui
     # even if the user did not explicitely said it should be displayed
     # in the gui
     if (isTRUE(ui) ||
-        (isFALSE(rv$headless) && isTRUE(type == "Error") && isFALSE(ui))) {
+        (isFALSE(headless) && isTRUE(type == "Error") && isFALSE(ui))) {
       feedback_to_ui(print_this = print_this, type = type)
     }
 
-    if (isTRUE(console) && isFALSE(print_this == "")) {
+    if ((isTRUE(console) && isFALSE(print_this == "")) ||
+        (isTRUE(typeof(console) == "character"))) {
       feedback_to_console(
         print_this = print_this,
         type = type,
         findme = findme,
         prefix = prefix,
         suffix = suffix,
-        logjs = logjs
+        logjs = logjs,
+        logfile_dir = logfile_dir
       )
     }
 
@@ -223,16 +224,6 @@ feedback <-
     #       be printed to the logfile.
     if (isTRUE(typeof(ui) == "character")) {
       feedback_to_ui(print_this = print_this, type = type)
-    }
-    if (isTRUE(typeof(console) == "character")) {
-      feedback_to_console(
-        print_this = print_this,
-        type = type,
-        findme = findme,
-        prefix = prefix,
-        suffix = suffix,
-        logjs = logjs
-      )
     }
   }
 
@@ -249,7 +240,9 @@ feedback_to_console <-
            findme,
            prefix,
            suffix,
-           logjs) {
+           logjs,
+           logfile_dir) {
+
     if (length(print_this) == 1) {
       res <-
         feedback_get_formatted_string(
@@ -271,7 +264,8 @@ feedback_to_console <-
         type = type,
         findme = findme,
         prefix = prefix,
-        suffix = suffix
+        suffix = suffix,
+        logfile_dir
       )
     } else if (length(print_this) > 1) {
       i <- 1
@@ -296,7 +290,8 @@ feedback_to_console <-
           type = type,
           findme = findme,
           prefix = prefix,
-          suffix = suffix
+          suffix = suffix,
+          logfile_dir
         )
         i <- i + 1
       }
@@ -372,7 +367,8 @@ feedback_to_logjs <- function(print_this) {
 #'   Use the robust 'feedback' function instead.
 #' @inheritParams feedback
 #'
-feedback_to_logfile <- function(print_this, type, findme, prefix, suffix) {
+feedback_to_logfile <- function(print_this, type, findme, prefix, suffix,
+                                logfile_dir) {
   # Get the formatted string out of the parameters which looks like
   # "[Info] System is running (1234567890)":
   res <- feedback_get_formatted_string(print_this = print_this,
@@ -383,21 +379,6 @@ feedback_to_logfile <- function(print_this, type, findme, prefix, suffix) {
   # Set the string for the logfile containing the current time and date
   # and a linebreak at the end:
   res <- paste0("[", Sys.time(), "] ", res, "\n")
-
-  # Try to create the path if it does not exist:or assign tempdir
-  tryCatch({
-    if (logfile_dir != tempdir()) {
-      dir.create(logfile_dir, showWarnings = F)
-    }
-  },
-  error = function(cond) {
-    print("Can't create logfile_dir. Assigning tempdir now.")
-    logfile_dir <- tempdir()
-  },
-  warning = function(cond) {
-    print("Can't create logfile_dir. Assigning tempdir now.")
-    logfile_dir <- tempdir()
-  })
 
   path_with_file <- paste0(logfile_dir, "logfile.log")
 
@@ -439,9 +420,12 @@ feedback_get_formatted_string <-
 #'   runtime of the tool. It checks whether there is an old logfile
 #'   and renames it (if existing) to "logfile_20xx-xx-xx-xxxxxx.log".
 #'   Then a new, empty, logfile "logfile.log" is created.
+#'
+#' @inheritParams dqa
+#'
 #' @export
 #'
-cleanup_old_logfile <- function() {
+cleanup_old_logfile <- function(logfile_dir) {
   path_with_file <- paste0(logfile_dir, "logfile.log")
   # Check if logfile.log is already the logfile for this session:
   if (isTRUE(file.exists(path_with_file))) {

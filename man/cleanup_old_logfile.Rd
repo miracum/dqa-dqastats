@@ -4,7 +4,11 @@
 \alias{cleanup_old_logfile}
 \title{Archives the current logfile and creates a new blank one.}
 \usage{
-cleanup_old_logfile()
+cleanup_old_logfile(logfile_dir)
+}
+\arguments{
+\item{logfile_dir}{The absolute path to folder where the logfile
+will be stored.}
 }
 \description{
 This function is called once at the beginning of the

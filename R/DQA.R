@@ -72,16 +72,9 @@ dqa <- function(source_system_name,
     is.character(utils_path),
     is.character(mdr_filename),
     is.character(output_dir),
-    is.character(logfile_dir)
+    is.character(logfile_dir),
+    dir.exists(logfile_dir)
   )
-
-  # Save logfile_dir globally:
-  logfile_dir <- clean_path_name(logfile_dir)
-  global_env_hack(
-    key = "logfile_dir",
-    val = logfile_dir
-  )
-  cleanup_old_logfile()
 
   # initialize rv-list
   rv <- list()
@@ -89,6 +82,24 @@ dqa <- function(source_system_name,
   # save source/target vars
   rv$source$system_name <- source_system_name
   rv$target$system_name <- target_system_name
+
+  # set headless (without GUI, progressbars, etc.)
+  rv$headless <- TRUE
+
+  # clean paths (to append the ending slash)
+  rv$utilspath <- clean_path_name(utils_path)
+  output_dir <- clean_path_name(output_dir)
+
+  # Save logfile_dir globally:
+  rv$log$logfile_dir <- clean_path_name(logfile_dir)
+  cleanup_old_logfile(logfile_dir = rv$log$logfile_dir)
+
+  # add mdr-filename
+  rv$mdr_filename <- mdr_filename
+
+  # current date
+  rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
+
 
   # get configs
   rv$source$settings <- get_config(
@@ -99,20 +110,6 @@ dqa <- function(source_system_name,
     config_file = config_file,
     config_key = tolower(rv$target$system_name)
   )
-
-  # set headless (without GUI, progressbars, etc.)
-  rv$headless <- TRUE
-
-  # clean paths (to append the ending slash)
-  rv$utilspath <- clean_path_name(utils_path)
-  output_dir <- clean_path_name(output_dir)
-
-  # add mdr-filename
-  rv$mdr_filename <- mdr_filename
-
-  # current date
-  rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
-
 
   # read MDR
   rv$mdr <- read_mdr(utils_path = rv$utilspath,
