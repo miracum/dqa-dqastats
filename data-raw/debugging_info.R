@@ -18,7 +18,7 @@ utils_path = system.file("application/_utilities/", package = "miRacumDQA")
 #mdr_filename = "samply_export.csv"
 mdr_filename = "mdr.csv"
 output_dir = "output/"
-logfile_dir = "~/share/logfiles/"
+logfile_dir = "./"
 
 
 ## Testfunction to test it all:

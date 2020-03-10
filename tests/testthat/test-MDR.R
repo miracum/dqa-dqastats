@@ -58,11 +58,7 @@ test_that("correct functioning of MDR", {
   rv$source$system_name <- source_system_name
   rv$target$system_name <- target_system_name
 
-  rv$log$logfile_dir <- "logfile.log"
-
-
-  expect_true(!is.null(rv$source$settings$dir))
-  expect_true(!is.null(rv$target$settings$dir))
+  rv$log$logfile_dir <- paste0(prefix, "tests/testthat/")
 
   # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
@@ -76,6 +72,10 @@ test_that("correct functioning of MDR", {
                                    config_key = tolower(rv$target$system_name),
                                    logfile_dir = rv$log$logfile_dir,
                                    headless = rv$headless)
+
+
+  expect_true(!is.null(rv$source$settings$dir))
+  expect_true(!is.null(rv$target$settings$dir))
 
   # clean paths (to append the ending slash)
   rv$utilspath <- clean_path_name(utils_path)
@@ -94,7 +94,7 @@ test_that("correct functioning of MDR", {
 
 
   expect_type(rv, "list")
-  expect_length(rv, 7)
+  expect_length(rv, 8)
 
   expect_type(rv$mdr, "list")
   expect_equal(nrow(rv$mdr), 24)
@@ -107,5 +107,6 @@ test_that("correct functioning of MDR", {
   )))
   unlink(paste0(output_dir, "_header"), recursive = T)
   unlink(output_dir, recursive = T)
+  file.remove(paste0(prefix, "tests/testthat/logfile.log"))
   file.remove(settings)
 })

@@ -16,6 +16,9 @@ run only in the console (headless = TRUE) or on a GUI frontend
 \item{timeout}{A timeout in sec. for the db-connection establishment.
 Values below 2 seconds are not recommended.
 Default is 30 seconds.}
+
+\item{logfile_dir}{The absolute path to folder where the logfile
+will be stored.}
 }
 \description{
 Internal function to test and get the database connection of

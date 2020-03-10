@@ -105,12 +105,14 @@ dqa <- function(source_system_name,
   rv$source$settings <- get_config(
     config_file = config_file,
     config_key = tolower(rv$source$system_name),
-    logfile_dir = rv$log$logfile_dir
+    logfile_dir = rv$log$logfile_dir,
+    headless = rv$headless
   )
   rv$target$settings <- get_config(
     config_file = config_file,
     config_key = tolower(rv$target$system_name),
-    logfile_dir = rv$log$logfile_dir
+    logfile_dir = rv$log$logfile_dir,
+    headless = rv$headless
   )
 
   # read MDR

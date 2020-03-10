@@ -434,7 +434,8 @@ data_loading <- function(rv, system, keys_to_test) {
       settings = system$settings,
       source_db = system$system_name,
       mdr = rv$mdr,
-      headless = rv$headless
+      headless = rv$headless,
+      logfile_dir = rv$log$logfile_dir
     )
     stopifnot(isTRUE(test_csv_result))
 
@@ -456,7 +457,8 @@ data_loading <- function(rv, system, keys_to_test) {
     # test target_db
     db_con <-
       test_db(settings = system$settings,
-              headless = rv$headless)
+              headless = rv$headless,
+              logfile_dir = rv$log$logfile_dir)
     stopifnot(!is.null(db_con))
 
     # load target data

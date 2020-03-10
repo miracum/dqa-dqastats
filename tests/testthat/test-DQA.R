@@ -60,7 +60,8 @@ test_that("correct functioning of DQA", {
     config_file = config_file,
     utils_path = utils_path,
     mdr_filename = mdr_filename,
-    output_dir = output_dir
+    output_dir = output_dir,
+    logfile_dir = paste0(prefix, "tests/testthat/")
   )
 
   expect_type(all_results, "list")
