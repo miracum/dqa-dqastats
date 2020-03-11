@@ -113,17 +113,25 @@ create_helper_vars <- function(mdr,
 
   # get list of DQ-variables of interest (convention: definition has only to
   # be assigned for the source system)
-  outlist$dqa_assessment <- mdr[get("source_system_name") == source_db &
-                                  get("dqa_assessment") == 1, ][
-                                    order(get("source_table_name")), c(
-                                      "designation",
-                                      "source_variable_name",
-                                      "variable_name",
-                                      "variable_type",
-                                      "key",
-                                      "source_table_name"
-                                    ), with = F
-                                    ]
+  dqa_assessment <- mdr[get("source_system_name") == source_db &
+                          get("dqa_assessment") == 1, ][
+                            order(get("source_table_name")), c(
+                              "designation",
+                              "source_variable_name",
+                              "variable_name",
+                              "variable_type",
+                              "key",
+                              "source_table_name"
+                            ), with = F]
+
+  # get only keys with corresponding keys in target_db
+  dqa_assessment_intersect <- intersect(
+    dqa_assessment[, get("key")],
+    mdr[get("source_system_name") == target_db, get("key")]
+  )
+
+  outlist$dqa_assessment <- dqa_assessment[get("key") %in%
+                                             dqa_assessment_intersect, ]
 
   # variable_list
   variable_list <- outlist$dqa_assessment[order(get("designation"))]

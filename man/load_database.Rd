@@ -4,7 +4,14 @@
 \alias{load_database}
 \title{load_database helper function}
 \usage{
-load_database(rv, sql_statements, db_con, keys_to_test, headless = FALSE)
+load_database(
+  rv,
+  sql_statements,
+  db_con,
+  keys_to_test,
+  db_name,
+  headless = FALSE
+)
 }
 \arguments{
 \item{rv}{A list object. Internal list simulating Shiny's

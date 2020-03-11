@@ -8,11 +8,12 @@
 
 
 ## using real data:
-# source_system_name = "i2b2"
-source_system_name = "p21csv"
+source_system_name = "i2b2"
+#source_system_name = "p21csv"
 #source_system_name = "p21staging"
-target_system_name = "i2b2"
+#target_system_name = "i2b2"
 #target_system_name = "p21staging"
+target_system_name = "omop"
 config_file = "tests/testthat/testdata/demo_settings_INTERNAL.yml"
 utils_path = system.file("application/_utilities/", package = "miRacumDQA")
 #mdr_filename = "samply_export.csv"

@@ -53,8 +53,11 @@ load_csv_files <- function(mdr,
     # Make sure it closes when we exit this reactive, even if
     # there's an error
     on.exit(progress$close())
-    progress$set(message = "Reading CSV file from directory",
-                 value = 0)
+    progress$set(
+      message = paste0("Reading CSV file from directory: ",
+                       inputdir),
+      value = 0
+    )
   }
 
   # original beginning of function
@@ -290,6 +293,7 @@ load_database <- function(rv,
                           sql_statements,
                           db_con,
                           keys_to_test,
+                          db_name,
                           headless = FALSE) {
 
   # initialize outlist
@@ -301,16 +305,24 @@ load_database <- function(rv,
     # Make sure it closes when we exit this reactive, even if
     # there's an error
     on.exit(progress$close())
-    progress$set(message = "Reading data from database",
-                 value = 0)
+    progress$set(
+      message = paste0(
+        "Reading data from database: ",
+        db_name
+      ),
+      value = 0
+    )
   }
 
   # read target data
   outlist <- sapply(keys_to_test, function(i) {
-    msg <- paste("Getting", i, "from database.")
-    feedback(msg, logjs = isFALSE(headless), findme = "c12a1dd9ce",
+    msg <- paste("Getting", i, "from database:", db_name)
+    feedback(msg,
+             logjs = isFALSE(headless),
+             findme = "c12a1dd9ce",
              logfile_dir = rv$log$logfile_dir,
              headless = rv$headless)
+
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress$inc(
@@ -467,7 +479,8 @@ data_loading <- function(rv, system, keys_to_test) {
       sql_statements = outlist$sql_statements,
       db_con = db_con,
       keys_to_test = keys_to_test,
-      headless = rv$headless
+      headless = rv$headless,
+      db_name = system$system_name
     )
     rm(db_con)
 
