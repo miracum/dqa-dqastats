@@ -238,7 +238,7 @@ dqa <- function(source_system_name,
   rv$conformance$value_conformance <-
     value_conformance(results = rv$results_descriptive,
                       headless = rv$headless,
-                      logfile_dir = rv$log_logfile_dir)
+                      logfile_dir = rv$log$logfile_dir)
 
   # reduce categorical variables to display max. 25 values
   rv$results_descriptive <- reduce_cat(data = rv$results_descriptive,
@@ -249,7 +249,7 @@ dqa <- function(source_system_name,
     add_value_conformance <- value_conformance(
       results = rv$results_plausibility_atemporal,
       headless = rv$headless,
-      logfile_dir = rv$log_logfile_dir
+      logfile_dir = rv$log$logfile_dir
     )
 
     # workaround, to keep "rv" an reactiveValues object in shiny app

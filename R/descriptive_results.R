@@ -100,7 +100,7 @@ descriptive_results <- function(rv,
                findme = "b640b3c662",
                logfile_dir = rv$log$logfile_dir,
                headless = rv$headless)
-      next("", msg, "\n")
+      next
     }
 
     # workaround to hide shiny-stuff, when going headless

@@ -25,7 +25,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.7.9013")
+my_desc$set_version("0.0.7.9014")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
@@ -101,6 +101,7 @@ usethis::use_build_ignore("DQA_report.tex")
 usethis::use_build_ignore("DQA_report.toc")
 usethis::use_build_ignore("DQA_report.out")
 usethis::use_build_ignore("output")
+usethis::use_build_ignore(".log")
 
 ## .gitignore:
 usethis::use_git_ignore("/*")

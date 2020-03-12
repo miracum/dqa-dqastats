@@ -88,19 +88,25 @@ value_conformance <- function(results,
 
           # categorical treatment (value_set)
           if (d_out$checks$var_type == "permittedValues") {
-            # get valueset from mdr
-            constraints <-
-              unlist(strsplit(constraints$value_set, ", ", fixed = T))
-            # get levels from results
-            levels_results <-
-              s_out[, levels(get(colnames(s_out)[1]))]
-            # compare levels from results to constraints from valueset
-            #% (TRUE = constraint_error)
-            if (is.null(levels_results)) {
+
+            if ((nrow(s_out) == 1) && is.na(s_out[[1, 1]])) {
               outlist2$conformance_error <- TRUE
+              levels_results <- "No data available."
             } else {
-              outlist2$conformance_error <- any(levels_results %!in%
-                                                  constraints)
+              # get valueset from mdr
+              constraints <-
+                unlist(strsplit(constraints$value_set, ", ", fixed = T))
+              # get levels from results
+              levels_results <-
+                s_out[, levels(get(colnames(s_out)[1]))]
+              # compare levels from results to constraints from valueset
+              #% (TRUE = constraint_error)
+              if (is.null(levels_results)) {
+                outlist2$conformance_error <- TRUE
+              } else {
+                outlist2$conformance_error <- any(levels_results %!in%
+                                                    constraints)
+              }
             }
             # if TRUE, get those values, that do not fit
             outlist2$conformance_results <-
@@ -121,31 +127,38 @@ value_conformance <- function(results,
             # set colnames (we need them here to correctly select the data)
             colnames(s_out) <- c("name", "value")
 
-            # TODO add value_thresholds here as tolerance-/border zone
-            result_min <- as.numeric(
-              s_out[get("name") == "Minimum", get("value")]
-            )
-            result_max <- as.numeric(
-              s_out[get("name") == "Maximum", get("value")]
-            )
-
-            # compare levels from results to constraints from valueset
-            #% (TRUE = constraint_error)
-            if (result_min < constraints$range$min) {
-              feedback(paste0(i, "/ ", j, ": result_min < range$min"),
-                       findme = "21abaa37e2",
-                       logfile_dir = logfile_dir,
-                       headless = headless)
+            if (any(is.na(s_out$value)) ||
+                (s_out[1, get("value")] == "NaN")) {
               error_flag <- TRUE
+            } else {
+
+              # TODO add value_thresholds here as tolerance-/border zone
+              result_min <- as.numeric(
+                s_out[get("name") == "Minimum", get("value")]
+              )
+              result_max <- as.numeric(
+                s_out[get("name") == "Maximum", get("value")]
+              )
+
+              # compare levels from results to constraints from valueset
+              #% (TRUE = constraint_error)
+              if (result_min < constraints$range$min) {
+                feedback(paste0(i, "/ ", j, ": result_min < range$min"),
+                         findme = "21abaa37e2",
+                         logfile_dir = logfile_dir,
+                         headless = headless)
+                error_flag <- TRUE
+              }
+
+              if (result_max > constraints$range$max) {
+                feedback(paste0(i, "/ ", j, ": result_max > range$max"),
+                         findme = "44264e3a64",
+                         logfile_dir = logfile_dir,
+                         headless = headless)
+                error_flag <- TRUE
+              }
             }
 
-            if (result_max > constraints$range$max) {
-              feedback(paste0(i, "/ ", j, ": result_max > range$max"),
-                       findme = "44264e3a64",
-                       logfile_dir = logfile_dir,
-                       headless = headless)
-              error_flag <- TRUE
-            }
             outlist2$conformance_error <- error_flag
             outlist2$conformance_results <-
               ifelse(
@@ -156,30 +169,36 @@ value_conformance <- function(results,
 
             # string treatment (regex)
           } else if (d_out$checks$var_type == "string") {
-            # get regex-pattern
-            pattern <- constraints$regex
 
-            # returns the number of not matching items
-            errors <- !grepl(
-              pattern = pattern,
-              x = as.character(s_out[!is.na(get(int_name)), get(int_name)])
-            )
-            cnt_errors <- sum(errors)
+            if ((nrow(s_out) == 1) && is.na(s_out[[1, 1]])) {
+              outlist2$conformance_error <- TRUE
+              outlist2$conformance_results <- "No data availible"
+            } else {
+              # get regex-pattern
+              pattern <- constraints$regex
 
-            error_flag <- ifelse(cnt_errors > 0, TRUE, FALSE)
-
-            outlist2$conformance_error <- error_flag
-            outlist2$conformance_results <-
-              ifelse(
-                isTRUE(error_flag),
-                paste0(
-                  "Values that are not conform with regular expression:  \n",
-                  paste(as.character(s_out[!is.na(get(int_name)),
-                                           get(int_name)])[errors],
-                        collapse = "  \n")
-                ),
-                "No 'value conformance' issues found."
+              # returns the number of not matching items
+              errors <- !grepl(
+                pattern = pattern,
+                x = as.character(s_out[!is.na(get(int_name)), get(int_name)])
               )
+              cnt_errors <- sum(errors)
+
+              error_flag <- ifelse(cnt_errors > 0, TRUE, FALSE)
+
+              outlist2$conformance_error <- error_flag
+              outlist2$conformance_results <-
+                ifelse(
+                  isTRUE(error_flag),
+                  paste0(
+                    "Values that are not conform with regular expression:  \n",
+                    paste(as.character(s_out[!is.na(get(int_name)),
+                                             get(int_name)])[errors],
+                          collapse = "  \n")
+                  ),
+                  "No 'value conformance' issues found."
+                )
+            }
           }
           outlist[[i]][[j]] <- outlist2
         }

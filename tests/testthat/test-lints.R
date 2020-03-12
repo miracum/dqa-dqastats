@@ -18,9 +18,9 @@ test_that(desc = "test lints",
                 "database.R" = NULL,
                 "dataloading.R" = list(
                   list(message = "cyclomatic complexity",
-                       line_number = 188),
+                       line_number = 191),
                   list(message = "cyclomatic complexity",
-                       line_number = 289)
+                       line_number = 292)
                 ),
                 "datamap.R" = NULL,
                 "descriptive_results.R" = NULL,

@@ -24,6 +24,8 @@ load_database(
 \item{keys_to_test}{A vector containing the names (keys) of
 the variables to test.}
 
+\item{db_name}{The database name}
+
 \item{headless}{A boolean (default: FALSE). Indicating, if the function is
 run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
