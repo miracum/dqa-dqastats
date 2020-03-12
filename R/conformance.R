@@ -89,9 +89,11 @@ value_conformance <- function(results,
           # categorical treatment (value_set)
           if (d_out$checks$var_type == "permittedValues") {
 
-            if ((nrow(s_out) == 1) && is.na(s_out[[1, 1]])) {
+            if (((nrow(s_out) == 1) && is.na(s_out[[1, 1]])) ||
+                (nrow(s_out) == 0)) {
               outlist2$conformance_error <- TRUE
-              levels_results <- "No data available."
+              outlist2$conformance_results <-
+                "No data available to perform conformance checks."
             } else {
               # get valueset from mdr
               constraints <-
@@ -107,30 +109,33 @@ value_conformance <- function(results,
                 outlist2$conformance_error <- any(levels_results %!in%
                                                     constraints)
               }
+              # if TRUE, get those values, that do not fit
+              outlist2$conformance_results <-
+                ifelse(
+                  isTRUE(outlist2$conformance_error),
+                  paste0(
+                    "Levels that are not conform with the value set:  \n",
+                    paste(levels_results[levels_results %!in% constraints],
+                          collapse = "  \n")
+                  ),
+                  "No 'value conformance' issues found."
+                )
             }
-            # if TRUE, get those values, that do not fit
-            outlist2$conformance_results <-
-              ifelse(
-                isTRUE(outlist2$conformance_error),
-                paste0(
-                  "Levels that are not conform with the value set:  \n",
-                  paste(levels_results[levels_results %!in% constraints],
-                        collapse = "  \n")
-                ),
-                "No 'value conformance' issues found."
-              )
 
             # numerics treatment (range: min, max, unit)
           } else if (d_out$checks$var_type %in% c("integer", "float")) {
-            error_flag <- FALSE
 
             # set colnames (we need them here to correctly select the data)
             colnames(s_out) <- c("name", "value")
 
             if (any(is.na(s_out$value)) ||
                 (s_out[1, get("value")] == "NaN")) {
-              error_flag <- TRUE
+              outlist2$conformance_error <- TRUE
+              outlist2$conformance_results <-
+                "No data available to perform conformance checks."
             } else {
+
+              error_flag <- FALSE
 
               # TODO add value_thresholds here as tolerance-/border zone
               result_min <- as.numeric(
@@ -157,22 +162,24 @@ value_conformance <- function(results,
                          headless = headless)
                 error_flag <- TRUE
               }
-            }
 
-            outlist2$conformance_error <- error_flag
-            outlist2$conformance_results <-
-              ifelse(
-                isTRUE(error_flag),
-                "Extrem values are not conform with constraints.",
-                "No 'value conformance' issues found."
-              )
+              outlist2$conformance_error <- error_flag
+              outlist2$conformance_results <-
+                ifelse(
+                  isTRUE(error_flag),
+                  "Extrem values are not conform with constraints.",
+                  "No 'value conformance' issues found."
+                )
+            }
 
             # string treatment (regex)
           } else if (d_out$checks$var_type == "string") {
 
-            if ((nrow(s_out) == 0)) {
+            if (((nrow(s_out) == 1) && is.na(s_out[[1, 1]])) ||
+                (nrow(s_out) == 0)) {
               outlist2$conformance_error <- TRUE
-              outlist2$conformance_results <- "No data availible"
+              outlist2$conformance_results <-
+                "No data available to perform conformance checks."
             } else {
               # get regex-pattern
               pattern <- constraints$regex
