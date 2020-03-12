@@ -170,7 +170,7 @@ value_conformance <- function(results,
             # string treatment (regex)
           } else if (d_out$checks$var_type == "string") {
 
-            if ((nrow(s_out) == 1) && is.na(s_out[[1, 1]])) {
+            if ((nrow(s_out) == 0)) {
               outlist2$conformance_error <- TRUE
               outlist2$conformance_results <- "No data availible"
             } else {
