@@ -39,4 +39,3 @@ Imports:
 Suggests: 
     testthat,
     lintr
-RoxygenNote: 7.1.0
