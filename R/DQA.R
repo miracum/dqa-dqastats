@@ -205,11 +205,6 @@ dqa <- function(source_system_name,
     headless = rv$headless
   )
 
-  # get time_interval
-  # TODO hardcoded for MIRACUM
-  rv$time_interval <-
-    time_interval(rv$results_descriptive[["Entlassungsdatum"]])
-
   if (!is.null(rv$data_plausibility$atemporal)) {
     # calculate plausibilites
     rv$results_plausibility_atemporal <- atemp_pausi_results(

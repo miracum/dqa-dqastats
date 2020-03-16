@@ -65,32 +65,6 @@ kable_table <- function(data) {
 }
 
 
-# time interval
-#' @title time_interval helper function
-#'
-#' @description Internal function to get the time interval
-#'
-#' @param data The list object
-#'   'rv$results_descriptive$EpisodeOfCare_period_end'
-#'
-#' @export
-#'
-time_interval <- function(data) {
-  outlist <- list()
-  outlist$start <- substr(
-    as.character(data$statistics$target_data[1, ])[2],
-    1,
-    4
-  )
-  outlist$end <- substr(
-    as.character(data$statistics$target_data[6, ])[2],
-    1,
-    4
-  )
-  return(outlist)
-}
-
-
 #' @title get_config helper function
 #'
 #' @description Internal function to read config files
