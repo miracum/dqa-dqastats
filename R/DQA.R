@@ -177,7 +177,7 @@ dqa <- function(source_system_name,
     rv$data_target <- rv$data_source
   }
 
-  if (nrow(rv$pl$atemp_vars) != 0) {
+  if (nrow(rv$pl$atemp_vars) > 0) {
     # get atemporal plausibilities
     rv$data_plausibility$atemporal <- get_atemp_plausis(
       rv = rv,

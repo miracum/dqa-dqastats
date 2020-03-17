@@ -181,18 +181,18 @@ get_atemp_plausis <- function(rv,
           }
 
           if (!is.null(u$filter[[src_flag]])) {
-            m_x <- rv[[raw_data]][[u_key]][grepl(
+            m_x <- unique(rv[[raw_data]][[u_key]][grepl(
               u$filter[[src_flag]],
               get(u$variable_name)
-            ), ]
+            ), ])
           } else {
-            m_x <- rv[[raw_data]][[u_key]]
+            m_x <- unique(rv[[raw_data]][[u_key]])
           }
 
           # look, if join_crit is already in our target table, if so,
           # create m_y directly
           if (any(grepl(u$join_crit, colnames(rv[[raw_data]][[m_key]])))) {
-            m_y <- rv[[raw_data]][[m_key]]
+            m_y <- unique(rv[[raw_data]][[m_key]])
           }  else {
             # else join another table
             if (k == "source_data") {
@@ -218,24 +218,26 @@ get_atemp_plausis <- function(rv,
             }) == TRUE]
             coln_y <- coln_y[grepl(coln_x, coln_y)]
 
-            m_y <- merge(
-              x = rv[[raw_data]][[m_key]],
-              y = rv[[raw_data]][[j_key]],
+
+            m_y <- data.table::merge.data.table(
+              x = unique(rv[[raw_data]][[m_key]]),
+              y = unique(rv[[raw_data]][[j_key]]),
               by.x = coln_x,
               by.y = coln_y,
-              all = T,
+              all.x = T,
               suffixes = c("", ""),
               allow.cartesian = T
             )
           }
 
-          group_data <- merge(
+          group_data <- data.table::merge.data.table(
             x = m_x,
             y = m_y,
             by.x = colnames(m_x)[grepl(u$join_crit, colnames(m_x))],
             by.y = colnames(m_y)[grepl(u$join_crit, colnames(m_y))],
             all.x = T,
-            suffixes = c("", "")
+            suffixes = c("", ""),
+            allow.cartesian = T
           )
           rm(m_x, m_y)
           gc()

@@ -62,6 +62,7 @@ atemp_pausi_results <- function(rv,
   }
 
   for (i in names(atemp_vars)) {
+
     dat <- atemp_vars[[i]]
 
     # workaround to hide shiny-stuff, when going headless
