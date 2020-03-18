@@ -298,6 +298,13 @@ dqa <- function(source_system_name,
     rv = rv
   )
 
+  # TODO export errorneous IDs here
+  # from uniqueness
+  # from atemporal
+  # from conformance checks in general
+  # --> collect IDs from objects: e.g.
+  # rv$results_plausibility_unique$Pl.uniqueness.Item01$source_data$affected_ids
+
   create_markdown(
     rv = rv,
     utils_path = rv$utilspath,
