@@ -296,20 +296,20 @@ uniq_plausi_results <- function(rv,
 
         if (i %in% colnames(rv[[raw_data]][[u_key]])) {
           if (!is.null(u$filter[[src_flag]])) {
-            group_data <- unique(
-              rv[[raw_data]][[u_key]][get(u$variable_name) %in%
+            group_data <- rv[[raw_data]][[u_key]][get(u$variable_name) %in%
                                         u$filter[[src_flag]], get(
                                           u$variable_name
                                         ), by = get(i)]
-            )
           } else {
-            group_data <- unique(
-              rv[[raw_data]][[u_key]][, get(u$variable_name), by = get(i)]
-            )
+            group_data <- rv[[raw_data]][[u_key]][
+              , get(u$variable_name), by = get(i)]
           }
 
         } else {
-          msg <- paste(i, "not in", colnames(rv[[raw_data]][[u_key]]))
+          msg <- paste(
+            paste(i, "not in", colnames(rv[[raw_data]][[u_key]])),
+            collapse = "\n"
+          )
           feedback(msg, logjs = isFALSE(headless), findme = "39a4eeb70b",
                    logfile_dir = rv$log$logfile_dir,
                    headless = rv$headless)
@@ -345,6 +345,10 @@ uniq_plausi_results <- function(rv,
           # look, if join_crit is already in our target table, if so,
           # create m_y directly
           if (any(grepl(i, colnames(rv[[raw_data]][[m_key]])))) {
+            msg <- paste("--> found", i, "in", m_key)
+            feedback(msg, logjs = isFALSE(headless), findme = "39a4e4b70b",
+                     logfile_dir = rv$log$logfile_dir,
+                     headless = rv$headless)
             m_y <- rv[[raw_data]][[m_key]]
           }  else {
             # else join another table
@@ -362,6 +366,10 @@ uniq_plausi_results <- function(rv,
                       # Back to key: 'variable_name' was assigned here:
                       get("dqa_assessment") == 1, get(key_col_name_tar)]
             }
+            msg <- paste("--> found", i, "in", j_key)
+            feedback(msg, logjs = isFALSE(headless), findme = "39a4e6b70b",
+                     logfile_dir = rv$log$logfile_dir,
+                     headless = rv$headless)
 
             # get colnames
             coln_x <- colnames(rv[[raw_data]][[m_key]])
@@ -373,7 +381,7 @@ uniq_plausi_results <- function(rv,
             }) == TRUE]
             coln_y <- coln_y[grepl(coln_x, coln_y)]
 
-            m_y <- merge(
+            m_y <- data.table::merge.data.table(
               x = rv[[raw_data]][[m_key]],
               y = rv[[raw_data]][[j_key]],
               by.x = coln_x,
@@ -384,37 +392,35 @@ uniq_plausi_results <- function(rv,
             )
           }
 
-          merge_data <- merge(
-            x = m_x,
-            y = m_y,
-            by.x = u$variable_name,
-            by.y = colnames(m_y)[grepl(u$variable_name, colnames(m_y))],
-            all = T,
-            suffixes = c("", ""),
-            allow.cartesian = T
+          merge_data <- unique(
+            data.table::merge.data.table(
+              x = m_x,
+              y = m_y,
+              by.x = u$variable_name,
+              by.y = colnames(m_y)[grepl(u$variable_name, colnames(m_y))],
+              all.x = T,
+              suffixes = c("", ""),
+              allow.cartesian = T
+            )
           )
 
-          group_data <- unique(
-            merge_data[, get(u$variable_name), by = get(i)]
-          )
+          group_data <- merge_data[, get(u$variable_name), by = get(i)]
           rm(merge_data, m_x, m_y)
           gc()
         }
 
         colnames(group_data) <- c(i, u$variable_name)
-        get_dupl <- unique(
-          as.character(group_data[duplicated(get(i)), get(i)])
-        )
+        get_dupl <- unique(group_data[duplicated(get(i)), i, with = F])
 
         rm(group_data)
         gc()
 
         outlist[[u$name]][[k]]$message <-
           ifelse(
-            length(get_dupl) > 0,
+            nrow(get_dupl) > 0,
             paste0(
               "Found ",
-              length(get_dupl),
+              nrow(get_dupl),
               " duplicate occurrences of ",
               i,
               " in association with ",
@@ -430,10 +436,14 @@ uniq_plausi_results <- function(rv,
             )
           )
         outlist[[u$name]][[k]]$error <- ifelse(
-          length(get_dupl) > 0,
+          nrow(get_dupl) > 0,
           "Error", #% paste0(get_dupl, collapse = ", "),
           as.character(FALSE)
         )
+
+        if (nrow(get_dupl) > 0) {
+          outlist[[u$name]][[k]]$affected_ids <- get_dupl
+        }
       }
     }
 
