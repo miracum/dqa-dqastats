@@ -308,12 +308,6 @@ calc_cat_stats <- function(stat_dat,
           levellimit = Inf,
           filter = where_filter
         )
-
-        # TODO write here ids to source_data$affected_ids
-        # get_dupl <- unique(group_data[duplicated(get(i)), i, with = F])
-        # if (nrow(get_dupl) > 0) {
-        #   outlist[[u$name]][[k]]$affected_ids <- get_dupl
-        # }
       }
       source_data
     }, error = function(e) {

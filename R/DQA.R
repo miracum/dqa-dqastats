@@ -224,16 +224,24 @@ dqa <- function(source_system_name,
     )
   }
 
-  # delete raw data
-  rv$data_source <- NULL
-  rv$data_target <- NULL
+  # delete raw data but atemporal plausis (we need them until
+  # ids of errorneous cases are returend in value conformance)
+  if (nrow(rv$pl$atemp_vars) > 0) {
+    rv$data_source <- rv$data_source[names(rv$data_plausibility$atemporal)]
+    rv$data_target <- rv$data_target[names(rv$data_plausibility$atemporal)]
+  } else {
+    rv$data_source <- NULL
+    rv$data_target <- NULL
+  }
   invisible(gc())
 
   # conformance
   rv$conformance$value_conformance <-
-    value_conformance(results = rv$results_descriptive,
-                      headless = rv$headless,
-                      logfile_dir = rv$log$logfile_dir)
+    value_conformance(
+      results = rv$results_descriptive,
+      headless = rv$headless,
+      logfile_dir = rv$log$logfile_dir
+    )
 
   # reduce categorical variables to display max. 25 values
   rv$results_descriptive <- reduce_cat(data = rv$results_descriptive,
@@ -241,6 +249,12 @@ dqa <- function(source_system_name,
   invisible(gc())
 
   if (!is.null(rv$results_plausibility_atemporal)) {
+    # TODO return errorneous ids
+    # TODO (into value conformance) write here ids to source_data$affected_ids
+    # get_dupl <- unique(group_data[duplicated(get(i)), i, with = F])
+    # if (nrow(get_dupl) > 0) {
+    #   outlist[[u$name]][[k]]$affected_ids <- get_dupl
+    # }
     add_value_conformance <- value_conformance(
       results = rv$results_plausibility_atemporal,
       headless = rv$headless,
