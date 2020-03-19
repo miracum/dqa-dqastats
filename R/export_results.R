@@ -164,7 +164,7 @@ all_results_overview <- function(rv) {
 
 export_affected_ids <- function(object, output_dir, rv) {
 
-  exportdir <- paste0(output_dir, "/affected_ids/")
+  exportdir <- paste0(output_dir, "/conspicuous_ids/")
 
   if (!dir.exists(exportdir)) {
     feedback(
