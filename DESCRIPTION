@@ -1,6 +1,6 @@
 Package: DQAstats
 Title: DQAstats - Core Functions for Data Quality Assessment
-Version: 0.1.1.9003
+Version: 0.1.1.9004
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",

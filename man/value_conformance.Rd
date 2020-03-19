@@ -4,7 +4,7 @@
 \alias{value_conformance}
 \title{value_conformance helper function}
 \usage{
-value_conformance(rv, results, headless = FALSE, logfile_dir)
+value_conformance(rv, results, scope, headless = FALSE, logfile_dir)
 }
 \arguments{
 \item{rv}{A list object. Internal list simulating Shiny's
@@ -12,6 +12,8 @@ value_conformance(rv, results, headless = FALSE, logfile_dir)
 
 \item{results}{A list object. The list should contain the results of
 either 'rv$results_descriptive' or 'rv$results_plausibility_atemporal'.}
+
+\item{scope}{A character. Either "plausibility" or "descriptive".}
 
 \item{headless}{A boolean (default: FALSE). Indicating, if the function is
 run only in the console (headless = TRUE) or on a GUI frontend

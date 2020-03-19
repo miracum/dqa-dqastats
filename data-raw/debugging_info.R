@@ -8,9 +8,9 @@
 
 
 ## using real data:
-source_system_name = "i2b2"
+#source_system_name = "i2b2"
 #source_system_name = "p21csv"
-#source_system_name = "p21staging"
+source_system_name = "p21staging"
 target_system_name = "i2b2"
 #target_system_name = "p21staging"
 #target_system_name = "omop"

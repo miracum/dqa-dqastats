@@ -228,6 +228,7 @@ dqa <- function(source_system_name,
   rv$conformance$value_conformance <-
     value_conformance(
       rv = rv,
+      scope = "descriptive",
       results = rv$results_descriptive,
       headless = rv$headless,
       logfile_dir = rv$log$logfile_dir
@@ -252,6 +253,7 @@ dqa <- function(source_system_name,
   if (!is.null(rv$results_plausibility_atemporal)) {
     add_value_conformance <- value_conformance(
       rv = rv,
+      scope = "plausibility",
       results = rv$results_plausibility_atemporal,
       headless = rv$headless,
       logfile_dir = rv$log$logfile_dir

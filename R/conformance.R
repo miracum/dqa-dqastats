@@ -23,6 +23,7 @@
 #' @inheritParams descriptive_results
 #' @param results A list object. The list should contain the results of
 #'   either 'rv$results_descriptive' or 'rv$results_plausibility_atemporal'.
+#' @param scope A character. Either "plausibility" or "descriptive".
 #' @inheritParams feedback
 #'
 #' @export
@@ -30,8 +31,13 @@
 value_conformance <- function(
   rv,
   results,
+  scope,
   headless = FALSE,
   logfile_dir) {
+
+  stopifnot(
+    scope %in% c("plausibility", "descriptive")
+  )
 
   # get names
   obj_names <- names(results)
@@ -72,7 +78,11 @@ value_conformance <- function(
       d_out <- desc_out[[j]]
       s_out <- stat_out[[j]]
 
-      raw_data <- ifelse(j == "source_data", "data_source", "data_target")
+      if (j == "source_data") {
+        raw_data <- "data_source"
+      } else if (j == "target_data") {
+        raw_data <- "data_target"
+      }
 
       # parse constraints
       constraints <- tryCatch(
@@ -129,10 +139,21 @@ value_conformance <- function(
 
               # return affected ids in case, if conformance_error = true
               if (isTRUE(outlist2$conformance_error)) {
-                vec <- setdiff(
-                  colnames(rv[[raw_data]][[i]]),
-                  d_out$var_dependent
-                )
+                if (scope == "plausibility") {
+                  vec <- setdiff(
+                    colnames(rv[[raw_data]][[i]]),
+                    d_out$var_dependent
+                  )
+                } else if (scope == "descriptive") {
+                  tab <- rv$dqa_assessment[get("designation") == i,
+                                           get("key")]
+                  ih <- desc_out$source_data$internal_variable_name
+                  vec <- setdiff(
+                    colnames(rv[[raw_data]][[tab]]),
+                    ih
+                  )
+                }
+
                 if (length(vec) != 1) {
                   msg <- paste("Error occured when trying to get",
                                "duplicates of", i)
@@ -142,11 +163,20 @@ value_conformance <- function(
                            headless = headless)
                   next
                 }
-                outlist2$affected_ids <-
-                  unique(
-                    rv[[raw_data]][[i]][get(d_out$var_dependent) %!in%
-                                          constraints, vec, with = F]
-                  )
+
+                if (scope == "plausibility") {
+                  outlist2$affected_ids <-
+                    unique(
+                      rv[[raw_data]][[i]][get(d_out$var_dependent) %!in%
+                                            constraints, vec, with = F]
+                    )
+                } else if (scope == "descriptive") {
+                  outlist2$affected_ids <-
+                    unique(
+                      rv[[raw_data]][[tab]][
+                        get(ih) %!in% constraints, vec, with = F]
+                    )
+                }
               }
             }
 
@@ -200,10 +230,21 @@ value_conformance <- function(
                 )
 
               if (isTRUE(outlist2$conformance_error)) {
-                vec <- setdiff(
-                  colnames(rv[[raw_data]][[i]]),
-                  d_out$var_dependent
-                )
+                if (scope == "plausibility") {
+                  vec <- setdiff(
+                    colnames(rv[[raw_data]][[i]]),
+                    d_out$var_dependent
+                  )
+                } else if (scope == "descriptive") {
+                  tab <- rv$dqa_assessment[get("designation") == i,
+                                           get("key")]
+                  ih <- desc_out$source_data$internal_variable_name
+                  vec <- setdiff(
+                    colnames(rv[[raw_data]][[tab]]),
+                    ih
+                  )
+                }
+
                 if (length(vec) != 1) {
                   msg <- paste("Error occured when trying to get",
                                "duplicates of", i)
@@ -213,13 +254,24 @@ value_conformance <- function(
                            headless = headless)
                   next
                 }
-                outlist2$affected_ids <-
-                  unique(
-                    rv[[raw_data]][[i]][get(d_out$var_dependent) <
-                                          result_min |
-                                          get(d_out$var_dependent) >
-                                          result_max, vec, with = F]
-                  )
+
+                if (scope == "plausibility") {
+                  outlist2$affected_ids <-
+                    unique(
+                      rv[[raw_data]][[i]][get(d_out$var_dependent) <
+                                            result_min |
+                                            get(d_out$var_dependent) >
+                                            result_max, vec, with = F]
+                    )
+                } else if (scope == "descriptive") {
+                  outlist2$affected_ids <-
+                    unique(
+                      rv[[raw_data]][[tab]][
+                        get(ih) < result_min |
+                          get(ih) >
+                          result_max, vec, with = F]
+                    )
+                }
               }
             }
 
@@ -258,10 +310,21 @@ value_conformance <- function(
                 )
 
               if (isTRUE(outlist2$conformance_error)) {
-                vec <- setdiff(
-                  colnames(rv[[raw_data]][[i]]),
-                  d_out$var_dependent
-                )
+                if (scope == "plausibility") {
+                  vec <- setdiff(
+                    colnames(rv[[raw_data]][[i]]),
+                    d_out$var_dependent
+                  )
+                } else if (scope == "descriptive") {
+                  tab <- rv$dqa_assessment[get("designation") == i,
+                                           get("key")]
+                  ih <- desc_out$source_data$internal_variable_name
+                  vec <- setdiff(
+                    colnames(rv[[raw_data]][[tab]]),
+                    ih
+                  )
+                }
+
                 if (length(vec) != 1) {
                   msg <- paste("Error occured when trying to get",
                                "duplicates of", i)
@@ -271,13 +334,24 @@ value_conformance <- function(
                            headless = headless)
                   next
                 }
-                outlist2$affected_ids <-
-                  unique(
-                    rv[[raw_data]][[i]][!grepl(
-                      pattern = pattern,
-                      x = get(d_out$var_dependent)
+
+                if (scope == "plausibility") {
+                  outlist2$affected_ids <-
+                    unique(
+                      rv[[raw_data]][[i]][!grepl(
+                        pattern = pattern,
+                        x = get(d_out$var_dependent)
                       ), vec, with = F]
-                  )
+                    )
+                } else if (scope == "descriptive") {
+                  outlist2$affected_ids <-
+                    unique(
+                      rv[[raw_data]][[tab]][!grepl(
+                        pattern = pattern,
+                        x = get(ih)
+                      ), vec, with = F]
+                    )
+                }
               }
             }
           }
