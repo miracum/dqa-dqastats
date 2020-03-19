@@ -147,3 +147,46 @@ all_results_overview <- function(rv) {
 
   return(outlist)
 }
+
+
+
+
+#' @title Export results to csv/zip file.
+#'
+#' @description This function exports export_affected_ids in csv files that
+#'   are added to a zip archive.
+#'
+#' @param object The object to analyse.
+#' @inheritParams dqa
+#' @inheritParams load_csv
+#'
+#' @export
+
+export_affected_ids <- function(object, output_dir, rv) {
+
+  exportdir <- paste0(output_dir, "/affected_ids/")
+
+  if (!dir.exists(exportdir)) {
+    feedback(
+      paste0("Creating ", exportdir),
+      findme = "4f10sfghs602",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless
+    )
+    dir.create(exportdir)
+  }
+
+  for (i in names(object)) {
+    for (k in c("source_data", "target_data")) {
+
+      if (!is.null(object[[i]][[k]]$affected_ids)) {
+        data.table::fwrite(
+          x = object[[i]][[k]]$affected_ids,
+          file = paste0(exportdir,
+                        gsub("[[:punct:]]|\\s", "", i), "_", k, ".csv")
+        )
+      }
+    }
+  }
+
+}

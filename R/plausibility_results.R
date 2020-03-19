@@ -277,6 +277,9 @@ uniq_plausi_results <- function(rv,
         if (!is.null(u$filter[[src_flag]])) {
           outlist[[u$name]][[k]]$filter <- u$filter[[src_flag]]
         }
+        if (!is.null(u$all_observations)) {
+          outlist[[u$name]][[k]]$all_observations <- u$all_observations
+        }
 
         # TODO this is yet tailored to §21
         if (k == "source_data") {
@@ -295,17 +298,46 @@ uniq_plausi_results <- function(rv,
         }
 
         if (i %in% colnames(rv[[raw_data]][[u_key]])) {
-          if (!is.null(u$filter[[src_flag]])) {
-            group_data <- rv[[raw_data]][[u_key]][get(u$variable_name) %in%
-                                        u$filter[[src_flag]], get(
-                                          u$variable_name
-                                        ), by = get(i)]
+
+          if (is.null(u$all_observations) || u$all_observations == "0") {
+
+            if (!is.null(u$filter[[src_flag]])) {
+              group_data <- unique(
+                rv[[raw_data]][[u_key]][get(u$variable_name) %in%
+                                          u$filter[[src_flag]], get(
+                                            u$variable_name
+                                          ), by = get(i)]
+              )
+            } else {
+              group_data <- unique(
+                rv[[raw_data]][[u_key]][
+                  , get(u$variable_name), by = get(i)]
+              )
+            }
+          } else if (u$all_observations == "1") {
+
+            if (!is.null(u$filter[[src_flag]])) {
+              group_data <- rv[[raw_data]][[u_key]][get(u$variable_name) %in%
+                                          u$filter[[src_flag]], get(
+                                            u$variable_name
+                                          ), by = get(i)]
+            } else {
+              group_data <- rv[[raw_data]][[u_key]][
+                  , get(u$variable_name), by = get(i)]
+            }
           } else {
-            group_data <- rv[[raw_data]][[u_key]][
-              , get(u$variable_name), by = get(i)]
+            msg <- paste(
+              "Error: wrong character in u$all_observations.",
+              collapse = "\n"
+            )
+            feedback(msg, logjs = isFALSE(headless), findme = "39a123470b",
+                     logfile_dir = rv$log$logfile_dir,
+                     headless = rv$headless)
+            next
           }
 
         } else {
+
           msg <- paste(
             paste(i, "not in", colnames(rv[[raw_data]][[u_key]])),
             collapse = "\n"
@@ -392,19 +424,32 @@ uniq_plausi_results <- function(rv,
             )
           }
 
-          merge_data <- unique(
-            data.table::merge.data.table(
-              x = m_x,
-              y = m_y,
-              by.x = u$variable_name,
-              by.y = colnames(m_y)[grepl(u$variable_name, colnames(m_y))],
-              all.x = T,
-              suffixes = c("", ""),
-              allow.cartesian = T
-            )
+          merge_data <- data.table::merge.data.table(
+            x = m_x,
+            y = m_y,
+            by.x = u$variable_name,
+            by.y = colnames(m_y)[grepl(u$variable_name, colnames(m_y))],
+            all.x = T,
+            suffixes = c("", ""),
+            allow.cartesian = T
           )
 
-          group_data <- merge_data[, get(u$variable_name), by = get(i)]
+          if (is.null(u$all_observations) || u$all_observations == "0") {
+            group_data <- unique(
+              merge_data[, get(u$variable_name), by = get(i)]
+            )
+          } else if (u$all_observations == "1") {
+            group_data <- merge_data[, get(u$variable_name), by = get(i)]
+          } else {
+            msg <- paste(
+              "Error: wrong character in u$all_observations.",
+              collapse = "\n"
+            )
+            feedback(msg, logjs = isFALSE(headless), findme = "39a456770b",
+                     logfile_dir = rv$log$logfile_dir,
+                     headless = rv$headless)
+            next
+          }
           rm(merge_data, m_x, m_y)
           gc()
         }

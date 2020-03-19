@@ -4,9 +4,12 @@
 \alias{value_conformance}
 \title{value_conformance helper function}
 \usage{
-value_conformance(results, headless = FALSE, logfile_dir)
+value_conformance(rv, results, headless = FALSE, logfile_dir)
 }
 \arguments{
+\item{rv}{A list object. Internal list simulating Shiny's
+'reactive values'.}
+
 \item{results}{A list object. The list should contain the results of
 either 'rv$results_descriptive' or 'rv$results_plausibility_atemporal'.}
 

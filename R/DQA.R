@@ -224,6 +224,15 @@ dqa <- function(source_system_name,
     )
   }
 
+  # conformance
+  rv$conformance$value_conformance <-
+    value_conformance(
+      rv = rv,
+      results = rv$results_descriptive,
+      headless = rv$headless,
+      logfile_dir = rv$log$logfile_dir
+    )
+
   # delete raw data but atemporal plausis (we need them until
   # ids of errorneous cases are returend in value conformance)
   if (nrow(rv$pl$atemp_vars) > 0) {
@@ -235,27 +244,14 @@ dqa <- function(source_system_name,
   }
   invisible(gc())
 
-  # conformance
-  rv$conformance$value_conformance <-
-    value_conformance(
-      results = rv$results_descriptive,
-      headless = rv$headless,
-      logfile_dir = rv$log$logfile_dir
-    )
-
   # reduce categorical variables to display max. 25 values
   rv$results_descriptive <- reduce_cat(data = rv$results_descriptive,
                                        levellimit = 25)
   invisible(gc())
 
   if (!is.null(rv$results_plausibility_atemporal)) {
-    # TODO return errorneous ids
-    # TODO (into value conformance) write here ids to source_data$affected_ids
-    # get_dupl <- unique(group_data[duplicated(get(i)), i, with = F])
-    # if (nrow(get_dupl) > 0) {
-    #   outlist[[u$name]][[k]]$affected_ids <- get_dupl
-    # }
     add_value_conformance <- value_conformance(
+      rv = rv,
       results = rv$results_plausibility_atemporal,
       headless = rv$headless,
       logfile_dir = rv$log$logfile_dir
@@ -266,7 +262,11 @@ dqa <- function(source_system_name,
       rv$conformance$value_conformance[[i]] <- add_value_conformance[[i]]
     }
     rm(add_value_conformance)
+    rv$data_source <- NULL
+    rv$data_target <- NULL
+    invisible(gc())
   }
+
   # completeness
   rv$completeness <- completeness(results = rv$results_descriptive,
                                   headless = rv$headless,
@@ -298,12 +298,18 @@ dqa <- function(source_system_name,
     rv = rv
   )
 
-  # TODO export errorneous IDs here
-  # from uniqueness
-  # from atemporal
-  # from conformance checks in general
-  # --> collect IDs from objects: e.g.
-  # rv$results_plausibility_unique$Pl.uniqueness.Item01$source_data$affected_ids
+  # export descriptive results (inkl. atemporal plausbility)
+  export_affected_ids(
+    rv = rv,
+    output_dir = output_dir,
+    object = rv$conformance$value_conformance
+  )
+
+  export_affected_ids(
+    rv = rv,
+    output_dir = output_dir,
+    object = rv$results_plausibility_unique
+  )
 
   create_markdown(
     rv = rv,

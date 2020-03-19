@@ -160,9 +160,11 @@ test_that("correct functioning of descriptive results", {
 
   # conformance
   rv$conformance$value_conformance <-
-    value_conformance(results = rv$results_descriptive,
-                      headless = rv$headless,
-                      logfile_dir = rv$log$logfile_dir)
+    value_conformance(rv = rv,
+      results = rv$results_descriptive,
+      headless = rv$headless,
+      logfile_dir = rv$log$logfile_dir
+    )
 
   expect_length(rv$conformance$value_conformance, 6)
   expect_false(!any(sapply(rv$conformance$value_conformance, length) == 2))

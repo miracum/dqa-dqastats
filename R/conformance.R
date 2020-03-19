@@ -27,8 +27,12 @@
 #'
 #' @export
 #'
-value_conformance <- function(results,
-                              headless = FALSE, logfile_dir) {
+value_conformance <- function(
+  rv,
+  results,
+  headless = FALSE,
+  logfile_dir) {
+
   # get names
   obj_names <- names(results)
 
@@ -67,6 +71,8 @@ value_conformance <- function(results,
     for (j in c("source_data", "target_data")) {
       d_out <- desc_out[[j]]
       s_out <- stat_out[[j]]
+
+      raw_data <- ifelse(j == "source_data", "data_source", "data_target")
 
       # parse constraints
       constraints <- tryCatch(
@@ -120,6 +126,28 @@ value_conformance <- function(results,
                   ),
                   "No 'value conformance' issues found."
                 )
+
+              # return affected ids in case, if conformance_error = true
+              if (isTRUE(outlist2$conformance_error)) {
+                vec <- setdiff(
+                  colnames(rv[[raw_data]][[i]]),
+                  d_out$var_dependent
+                )
+                if (length(vec) != 1) {
+                  msg <- paste("Error occured when trying to get",
+                               "duplicates of", i)
+                  feedback(paste0("", msg), logjs = isFALSE(headless),
+                           findme = "5d05678955eb",
+                           logfile_dir = logfile_dir,
+                           headless = headless)
+                  next
+                }
+                outlist2$affected_ids <-
+                  unique(
+                    rv[[raw_data]][[i]][get(d_out$var_dependent) %!in%
+                                          constraints, vec, with = F]
+                  )
+              }
             }
 
             # numerics treatment (range: min, max, unit)
@@ -170,6 +198,29 @@ value_conformance <- function(results,
                   "Extrem values are not conform with constraints.",
                   "No 'value conformance' issues found."
                 )
+
+              if (isTRUE(outlist2$conformance_error)) {
+                vec <- setdiff(
+                  colnames(rv[[raw_data]][[i]]),
+                  d_out$var_dependent
+                )
+                if (length(vec) != 1) {
+                  msg <- paste("Error occured when trying to get",
+                               "duplicates of", i)
+                  feedback(paste0("", msg), logjs = isFALSE(headless),
+                           findme = "5d05698563eb",
+                           logfile_dir = logfile_dir,
+                           headless = headless)
+                  next
+                }
+                outlist2$affected_ids <-
+                  unique(
+                    rv[[raw_data]][[i]][get(d_out$var_dependent) <
+                                          result_min |
+                                          get(d_out$var_dependent) >
+                                          result_max, vec, with = F]
+                  )
+              }
             }
 
             # string treatment (regex)
@@ -205,6 +256,29 @@ value_conformance <- function(results,
                   ),
                   "No 'value conformance' issues found."
                 )
+
+              if (isTRUE(outlist2$conformance_error)) {
+                vec <- setdiff(
+                  colnames(rv[[raw_data]][[i]]),
+                  d_out$var_dependent
+                )
+                if (length(vec) != 1) {
+                  msg <- paste("Error occured when trying to get",
+                               "duplicates of", i)
+                  feedback(paste0("", msg), logjs = isFALSE(headless),
+                           findme = "5d01111111eb",
+                           logfile_dir = logfile_dir,
+                           headless = headless)
+                  next
+                }
+                outlist2$affected_ids <-
+                  unique(
+                    rv[[raw_data]][[i]][!grepl(
+                      pattern = pattern,
+                      x = get(d_out$var_dependent)
+                      ), vec, with = F]
+                  )
+              }
             }
           }
           outlist[[i]][[j]] <- outlist2
