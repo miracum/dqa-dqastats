@@ -344,29 +344,41 @@ create_markdown <- function(rv = rv,
              headless = rv$headless)
   })
 
-  knitr::knit(
-    input = paste0(utils_path, "RMD/DQA_report.Rmd"),
-    output = paste0(outdir, "/DQA_report.md"),
-    encoding = "UTF-8"
-  )
-
-  # copy header-folder to tempdir to make files available for
-  # the next command
-  if (dir.exists(paste0(utils_path, "RMD/_header"))) {
-    file.copy(
-      paste0(utils_path, "RMD/_header"),
-      outdir,
-      recursive = TRUE
+  catch_msg <- "Error occured when rendering the PDF document"
+  tryCatch({
+    knitr::knit(
+      input = paste0(utils_path, "RMD/DQA_report.Rmd"),
+      output = paste0(outdir, "/DQA_report.md"),
+      encoding = "UTF-8"
     )
-  }
 
-  rmarkdown::render(
-    input = paste0(outdir, "/DQA_report.md"),
-    output_file = paste0(outdir, "/DQA_report_", gsub(
-      "\\-|\\:| ", "", substr(rv$start_time, 1, 16)
-    ), ".pdf"),
-    encoding = "UTF-8"
-  )
+    # copy header-folder to tempdir to make files available for
+    # the next command
+    if (dir.exists(paste0(utils_path, "RMD/_header"))) {
+      file.copy(
+        paste0(utils_path, "RMD/_header"),
+        outdir,
+        recursive = TRUE
+      )
+    }
+
+    rmarkdown::render(
+      input = paste0(outdir, "/DQA_report.md"),
+      output_file = paste0(outdir, "/DQA_report_", gsub(
+        "\\-|\\:| ", "", substr(rv$start_time, 1, 16)
+      ), ".pdf"),
+      encoding = "UTF-8"
+    )
+  }, error = function(e) {
+    feedback(paste0(catch_msg, e), type = "Error", findme = "d70789cd83",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
+  }, warning = function(w) {
+    feedback(paste0(catch_msg, w), type = "Warning", findme = "d70654cd83",
+             logfile_dir = rv$log$logfile_dir,
+             headless = rv$headless)
+  })
+
 
   # delete temporary files
   #% do.call(file.remove,

@@ -20,3 +20,4 @@
 .~lock.*.csv#
 .Rproj.user
 !/*.Rproj
+/.vscode

@@ -16,3 +16,4 @@
 ^DQA_report\.out$
 ^output$
 ^\.log$
+^\.vscode$
