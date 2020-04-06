@@ -25,7 +25,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.2.9001")
+my_desc$set_version("0.1.2.9002")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
@@ -103,6 +103,7 @@ usethis::use_build_ignore("DQA_report.out")
 usethis::use_build_ignore("output")
 usethis::use_build_ignore(".log")
 usethis::use_build_ignore(".vscode")
+usethis::use_build_ignore(".lintr")
 
 ## .gitignore:
 usethis::use_git_ignore("/*")
@@ -127,3 +128,6 @@ usethis::use_git_ignore("/.RData")
 usethis::use_git_ignore("/.vscode")
 #usethis::use_git_ignore("/inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#")
 usethis::use_git_ignore(".~lock.*.csv#")
+
+
+usethis::use_tidy_description()

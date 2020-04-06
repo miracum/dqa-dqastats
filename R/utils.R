@@ -38,9 +38,9 @@ clean_path_name <- function(pathname) {
 
 
 # define %notin% function
-"%!in%" <- function(x, y) {
+"%!in%" <- function(x, y) { # nolint
   return(
-    !("%in%"(x, y))
+    !("%in%"(x, y)) # nolint
   )
 }
 

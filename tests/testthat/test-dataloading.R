@@ -173,5 +173,6 @@ test_that("correct functioning of dataloading", {
   )))
   unlink(paste0(output_dir, "_header"), recursive = T)
   unlink(output_dir, recursive = T)
+  file.remove(paste0(prefix, "tests/testthat/logfile.log"))
   file.remove(settings)
 })

@@ -72,10 +72,12 @@ test_that("correct functioning of DQA", {
   expect_true(any(grepl("^DQA_report_([[:digit:]])+.pdf$", outputfiles)))
   expect_true(any(grepl("^DQA_report_([[:digit:]])+.tex$", outputfiles)))
 
-  do.call(file.remove, list(
-    list.files(paste0(output_dir, "_header"), full.names = TRUE))
-  )
+  # Remove the settings and output-folder:
+  do.call(file.remove, list(list.files(
+    paste0(output_dir, "_header"), full.names = TRUE
+  )))
   unlink(paste0(output_dir, "_header"), recursive = T)
   unlink(output_dir, recursive = T)
+  file.remove(paste0(prefix, "tests/testthat/logfile.log"))
   file.remove(settings)
 })

@@ -170,6 +170,7 @@ test_that("correct functioning of descriptive results", {
 
   expect_length(rv$conformance$value_conformance, 6)
   expect_false(!any(sapply(rv$conformance$value_conformance, length) == 2))
+
   file.remove(paste0(prefix, "tests/testthat/logfile.log"))
 })
 
@@ -311,5 +312,6 @@ test_that("correct functioning of descriptive results - single source", {
   )))
   unlink(paste0(output_dir, "_header"), recursive = T)
   unlink(output_dir, recursive = T)
+  file.remove(paste0(prefix, "tests/testthat/logfile.log"))
   file.remove(settings)
 })
