@@ -11,5 +11,7 @@ if (dir.exists("../../00_pkg_src")) {
 test_that(
   desc = "test lints",
   code = {
-    lintr::expect_lint_free()
+    skip_on_cran()
+    skip_if(dir.exists("../../00_pkg_src"))
+    lintr::expect_lint_free(path = prefix)
   })
