@@ -126,6 +126,7 @@ usethis::use_git_ignore("!/*.Rproj")
 usethis::use_git_ignore("/.Rproj*")
 usethis::use_git_ignore("/.RData")
 usethis::use_git_ignore("/.vscode")
+usethis::use_git_ignore("!/.lintr")
 #usethis::use_git_ignore("/inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#")
 usethis::use_git_ignore(".~lock.*.csv#")
 
