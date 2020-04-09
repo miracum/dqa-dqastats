@@ -64,11 +64,11 @@ test_that("correct functioning of importing names and settings", {
   rv$headless <- TRUE
 
   # get configs
-  rv$source$settings <- get_config(config_file = config_file,
+  rv$source$settings <- DIZutils::get_config(config_file = config_file,
                                    config_key = tolower(rv$source$system_name),
                                    logfile_dir = rv$log$logfile_dir,
                                    headless = rv$headless)
-  rv$target$settings <- get_config(config_file = config_file,
+  rv$target$settings <- DIZutils::get_config(config_file = config_file,
                                    config_key = tolower(rv$target$system_name),
                                    logfile_dir = rv$log$logfile_dir,
                                    headless = rv$headless)

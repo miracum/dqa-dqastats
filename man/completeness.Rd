@@ -9,9 +9,6 @@ completeness(results, headless = FALSE, logfile_dir)
 \arguments{
 \item{results}{A list object. The list should contain the results of
 either 'rv$results_descriptive' or 'rv$results_plausibility_atemporal'.}
-
-\item{logfile_dir}{The absolute path to folder where the logfile
-will be stored.}
 }
 \description{
 Internal function to perform missing analysis.
