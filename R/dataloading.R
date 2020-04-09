@@ -61,7 +61,7 @@ load_csv_files <- function(mdr,
   }
 
   # original beginning of function
-  inputdir <- clean_path_name(inputdir)
+  inputdir <- DIZutils::clean_path_name(inputdir)
 
 
   available_systems <- mdr[get("source_system_name") == sourcesystem &
@@ -201,7 +201,7 @@ load_csv <- function(rv,
   # read sourcedata
   outlist <- load_csv_files(
     mdr = rv$mdr,
-    inputdir = clean_path_name(system$settings$dir),
+    inputdir = DIZutils::clean_path_name(system$settings$dir),
     sourcesystem = system$system_name,
     headless = headless,
     logfile_dir = rv$log$logfile_dir
@@ -468,9 +468,11 @@ data_loading <- function(rv, system, keys_to_test) {
 
     # test target_db
     db_con <-
-      test_db(settings = system$settings,
-              headless = rv$headless,
-              logfile_dir = rv$log$logfile_dir)
+      DIZutils::db_connection(
+        db_name = system$system_name,
+        headless = rv$headless,
+        logfile_dir = rv$log$logfile_dir
+      )
     stopifnot(!is.null(db_con))
 
     # load target data

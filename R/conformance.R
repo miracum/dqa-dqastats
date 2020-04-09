@@ -122,7 +122,7 @@ value_conformance <- function(
               if (is.null(levels_results)) {
                 outlist2$conformance_error <- TRUE
               } else {
-                outlist2$conformance_error <- any(levels_results %!in%
+                outlist2$conformance_error <- any(levels_results %not in%
                                                     constraints)
               }
               # if TRUE, get those values, that do not fit
@@ -131,7 +131,7 @@ value_conformance <- function(
                   isTRUE(outlist2$conformance_error),
                   paste0(
                     "Levels that are not conform with the value set:  \n",
-                    paste(levels_results[levels_results %!in% constraints],
+                    paste(levels_results[levels_results %not in% constraints],
                           collapse = "  \n")
                   ),
                   "No 'value conformance' issues found."
@@ -167,14 +167,14 @@ value_conformance <- function(
                 if (scope == "plausibility") {
                   outlist2$affected_ids <-
                     unique(
-                      rv[[raw_data]][[i]][get(d_out$var_dependent) %!in%
+                      rv[[raw_data]][[i]][get(d_out$var_dependent) %not in%
                                             constraints, vec, with = F]
                     )
                 } else if (scope == "descriptive") {
                   outlist2$affected_ids <-
                     unique(
                       rv[[raw_data]][[tab]][
-                        get(ih) %!in% constraints, vec, with = F]
+                        get(ih) %not in% constraints, vec, with = F]
                     )
                 }
               }

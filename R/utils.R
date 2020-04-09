@@ -15,36 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#' @title clean_path_name helper function
-#'
-#' @description Internal function to clean paths to have a tailing slash
-#'
-#' @param pathname A character string. A pathname to be cleaned
-#'   (to have a tailing slash).
-#'
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' # Both function calls will return "home/test/"
-#' clean_path_name("home/test")
-#' clean_path_name("home/test/")
-#' }
-#'
-clean_path_name <- function(pathname) {
-  return(gsub("([[:alnum:]])$", "\\1/", pathname))
-}
-
-
-# define %notin% function
-"%!in%" <- function(x, y) { # nolint
-  return(
-    !("%in%"(x, y)) # nolint
-  )
-}
-
-
 # needed for markdown formating
 kable_table <- function(data) {
   if (" " %in% colnames(data)) {

@@ -43,7 +43,7 @@
 #'
 #' @import data.table
 #' @importFrom magrittr "%>%"
-#' @import utils
+#' @importFrom DIZutils "%not in%"
 #'
 #' @examples
 #' \dontrun{
@@ -87,11 +87,11 @@ dqa <- function(source_system_name,
   rv$headless <- TRUE
 
   # clean paths (to append the ending slash)
-  rv$utilspath <- clean_path_name(utils_path)
-  output_dir <- clean_path_name(output_dir)
+  rv$utilspath <- DIZutils::clean_path_name(utils_path)
+  output_dir <- DIZutils::clean_path_name(output_dir)
 
   # Save logfile_dir globally:
-  rv$log$logfile_dir <- clean_path_name(logfile_dir)
+  rv$log$logfile_dir <- DIZutils::clean_path_name(logfile_dir)
   cleanup_old_logfile(logfile_dir = rv$log$logfile_dir)
 
   # add mdr-filename

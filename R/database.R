@@ -15,64 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#' @title test_db helper function
-#'
-#' @description Internal function to test and get the database connection of
-#'   the target data system.
-#'
-#' @param settings A list object containing the database settings.
-#' @param headless A boolean (default: FALSE). Indicating, if the function is
-#'   run only in the console (headless = TRUE) or on a GUI frontend
-#'   (headless = FALSE).
-#' @param timeout A timeout in sec. for the db-connection establishment.
-#'   Values below 2 seconds are not recommended.
-#'   Default is 30 seconds.
-#'
-#' @inheritParams dqa
-#'
-#' @export
-#'
-# test db connection
-test_db <- function(settings,
-                    headless = FALSE,
-                    timeout = 30,
-                    logfile_dir) {
-
-  drv <- RPostgres::Postgres()
-
-  db_con <- tryCatch({
-    db_con <- RPostgres::dbConnect(
-      drv = drv,
-      dbname = settings$dbname,
-      host = settings$host,
-      port = settings$port,
-      user = settings$user,
-      password = settings$password,
-      connect_timeout = timeout
-    )
-    db_con
-  }, error = function(e) {
-    if (isFALSE(headless)) {
-      shiny::showModal(
-        shiny::modalDialog(
-          title = "Error occured during testing database connection",
-          paste0("An error occured during the test of the database ",
-                 "connection. Please check your settings and try again.")
-        )
-      )
-    }
-    feedback("DB connection error", findme = "9431c8c61f",
-             logfile_dir = logfile_dir,
-             headless = headless)
-    db_con <- NULL
-    db_con
-  }, finally = function(f) {
-    return(db_con)
-  })
-  return(db_con)
-}
-
 #' @title test_csv helper function
 #'
 #' @description Internal function to test and get the database connection

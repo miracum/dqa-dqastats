@@ -78,8 +78,8 @@ test_that("correct functioning of importing names and settings", {
   expect_true(!is.null(rv$target$settings$dir))
 
   # clean paths (to append the ending slash)
-  rv$utilspath <- clean_path_name(utils_path)
-  output_dir <- clean_path_name(output_dir)
+  rv$utilspath <- DIZutils::clean_path_name(utils_path)
+  output_dir <- DIZutils::clean_path_name(output_dir)
 
   # add mdr-filename
   rv$mdr_filename <- mdr_filename

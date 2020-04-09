@@ -21,6 +21,8 @@ mdr_filename = "mdr.csv"
 output_dir = "output/"
 logfile_dir = "./"
 
+DIZutils::set_env_vars("../env_INTERNAL")
+
 
 ## Testfunction to test it all:
 all_results <- DQAstats::dqa(
