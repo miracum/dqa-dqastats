@@ -293,9 +293,12 @@ create_markdown <- function(rv = rv,
                             headless = FALSE) {
 
   msg <- "Creating report "
-  DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "aa5c87f7da",
-           logfile_dir = rv$log$logfile_dir,
-           headless = rv$headless)
+  DIZutils::feedback(
+    msg,
+    logjs = isFALSE(headless),
+    findme = "aa5c87f7da",
+    logfile_dir = rv$log$logfile_dir,
+    headless = rv$headless)
   if (isFALSE(headless)) {
     # Create a Progress object
     progress <- shiny::Progress$new()
@@ -321,13 +324,19 @@ create_markdown <- function(rv = rv,
       utils::install.packages(new_packages)
     }
   }, error = function(e) {
-    DIZutils::feedback(paste0(catch_msg, e), type = "Error", findme = "e50d001ed4",
-             logfile_dir = rv$log$logfile_dir,
-             headless = rv$headless)
+    DIZutils::feedback(
+      paste0(catch_msg, e),
+      type = "Error",
+      findme = "e50d001ed4",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless)
   }, warning = function(w) {
-    DIZutils::feedback(paste0(catch_msg, w), type = "Warning", findme = "6c366260eb",
-             logfile_dir = rv$log$logfile_dir,
-             headless = rv$headless)
+    DIZutils::feedback(
+      paste0(catch_msg, w),
+      type = "Warning",
+      findme = "6c366260eb",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless)
   })
 
   tryCatch({
@@ -335,13 +344,19 @@ create_markdown <- function(rv = rv,
       tinytex::install_tinytex()
     }
   }, error = function(e) {
-    DIZutils::feedback(paste0(catch_msg, e), type = "Error", findme = "d70293cd83",
-             logfile_dir = rv$log$logfile_dir,
-             headless = rv$headless)
+    DIZutils::feedback(
+      paste0(catch_msg, e),
+      type = "Error",
+      findme = "d70293cd83",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless)
   }, warning = function(w) {
-    DIZutils::feedback(paste0(catch_msg, w), type = "Warning", findme = "f72559b707",
-             logfile_dir = rv$log$logfile_dir,
-             headless = rv$headless)
+    DIZutils::feedback(
+      paste0(catch_msg, w),
+      type = "Warning",
+      findme = "f72559b707",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless)
   })
 
   catch_msg <- "Error occured when rendering the PDF document"
@@ -370,13 +385,19 @@ create_markdown <- function(rv = rv,
       encoding = "UTF-8"
     )
   }, error = function(e) {
-    DIZutils::feedback(paste0(catch_msg, e), type = "Error", findme = "d70789cd83",
-             logfile_dir = rv$log$logfile_dir,
-             headless = rv$headless)
+    DIZutils::feedback(
+      paste0(catch_msg, e),
+      type = "Error",
+      findme = "d70789cd83",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless)
   }, warning = function(w) {
-    DIZutils::feedback(paste0(catch_msg, w), type = "Warning", findme = "d70654cd83",
-             logfile_dir = rv$log$logfile_dir,
-             headless = rv$headless)
+    DIZutils::feedback(
+      paste0(catch_msg, w),
+      type = "Warning",
+      findme = "d70654cd83",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless)
   })
 
 

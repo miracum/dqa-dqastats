@@ -67,9 +67,13 @@ value_conformance <- function(
   # loop over objects
   for (i in obj_names) {
     msg <- paste("Performing value conformance check", i)
-    DIZutils::feedback(paste0("", msg), logjs = isFALSE(headless), findme = "5d061425eb",
-             logfile_dir = logfile_dir,
-             headless = headless)
+    DIZutils::feedback(
+      paste0("", msg),
+      logjs = isFALSE(headless),
+      findme = "5d061425eb",
+      logfile_dir = logfile_dir,
+      headless = headless
+    )
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress$inc(
@@ -167,9 +171,9 @@ value_conformance <- function(
                   msg <- paste("Error occured when trying to get",
                                "duplicates of", i)
                   DIZutils::feedback(paste0("", msg), logjs = isFALSE(headless),
-                           findme = "5d05678955eb",
-                           logfile_dir = logfile_dir,
-                           headless = headless)
+                                     findme = "5d05678955eb",
+                                     logfile_dir = logfile_dir,
+                                     headless = headless)
                   next
                 }
 
@@ -215,18 +219,21 @@ value_conformance <- function(
               # compare levels from results to constraints from valueset
               #% (TRUE = constraint_error)
               if (result_min < constraints$range$min) {
-                DIZutils::feedback(paste0(i, "/ ", j, ": result_min < range$min"),
-                         findme = "21abaa37e2",
-                         logfile_dir = logfile_dir,
-                         headless = headless)
+                DIZutils::feedback(
+                  paste0(i, "/ ", j, ": result_min < range$min"),
+                  findme = "21abaa37e2",
+                  logfile_dir = logfile_dir,
+                  headless = headless
+                )
                 error_flag <- TRUE
               }
 
               if (result_max > constraints$range$max) {
-                DIZutils::feedback(paste0(i, "/ ", j, ": result_max > range$max"),
-                         findme = "44264e3a64",
-                         logfile_dir = logfile_dir,
-                         headless = headless)
+                DIZutils::feedback(
+                  paste0(i, "/ ", j, ": result_max > range$max"),
+                  findme = "44264e3a64",
+                  logfile_dir = logfile_dir,
+                  headless = headless)
                 error_flag <- TRUE
               }
 
@@ -257,10 +264,11 @@ value_conformance <- function(
                 if (length(vec) != 1) {
                   msg <- paste("Error occured when trying to get",
                                "duplicates of", i)
-                  DIZutils::feedback(paste0("", msg), logjs = isFALSE(headless),
-                           findme = "5d05698563eb",
-                           logfile_dir = logfile_dir,
-                           headless = headless)
+                  DIZutils::feedback(
+                    paste0("", msg), logjs = isFALSE(headless),
+                    findme = "5d05698563eb",
+                    logfile_dir = logfile_dir,
+                    headless = headless)
                   next
                 }
 
@@ -337,10 +345,11 @@ value_conformance <- function(
                 if (length(vec) != 1) {
                   msg <- paste("Error occured when trying to get",
                                "duplicates of", i)
-                  DIZutils::feedback(paste0("", msg), logjs = isFALSE(headless),
-                           findme = "5d01111111eb",
-                           logfile_dir = logfile_dir,
-                           headless = headless)
+                  DIZutils::feedback(
+                    paste0("", msg), logjs = isFALSE(headless),
+                    findme = "5d01111111eb",
+                    logfile_dir = logfile_dir,
+                    headless = headless)
                   next
                 }
 

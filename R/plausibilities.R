@@ -63,7 +63,8 @@ get_atemp_plausis <- function(rv,
     if (isFALSE(headless)) {
       # Create a Progress object
       progress <- shiny::Progress$new()
-      # Make sure it closes when we exit this reactive, even if there's an error
+      # Make sure it closes when we exit this reactive,
+      # even if there's an error
       on.exit(progress$close())
       progress$set(
         message = paste(
@@ -80,9 +81,12 @@ get_atemp_plausis <- function(rv,
 
       # workaround to hide shiny-stuff, when going headless
       msg <- paste("Getting atemporal plausibility", u$name)
-      DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "0c70327436",
-               logfile_dir = rv$log$logfile_dir,
-               headless = rv$headless)
+      DIZutils::feedback(
+        msg,
+        logjs = isFALSE(headless),
+        findme = "0c70327436",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless)
       if (isFALSE(headless)) {
         # Increment the progress bar, and update the detail text.
         progress$inc(
@@ -166,9 +170,12 @@ get_atemp_plausis <- function(rv,
             paste(i, "not in", colnames(rv[[raw_data]][[u_key]])),
             collapse = "\n"
           )
-          DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "9d48df8805",
-                   logfile_dir = rv$log$logfile_dir,
-                   headless = rv$headless)
+          DIZutils::feedback(
+            msg,
+            logjs = isFALSE(headless),
+            findme = "9d48df8805",
+            logfile_dir = rv$log$logfile_dir,
+            headless = rv$headless)
 
           # we need to find the correct data and merge
           if (k == "source_data") {
@@ -197,9 +204,13 @@ get_atemp_plausis <- function(rv,
           # create m_y directly
           if (any(grepl(u$join_crit, colnames(rv[[raw_data]][[m_key]])))) {
             msg <- paste("--> found", i, "in", m_key)
-            DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "39a4e1b70b",
-                     logfile_dir = rv$log$logfile_dir,
-                     headless = rv$headless)
+            DIZutils::feedback(
+              msg,
+              logjs = isFALSE(headless),
+              findme = "39a4e1b70b",
+              logfile_dir = rv$log$logfile_dir,
+              headless = rv$headless
+            )
 
             m_y <- unique(rv[[raw_data]][[m_key]])
           }  else {
@@ -217,9 +228,13 @@ get_atemp_plausis <- function(rv,
                       get("dqa_assessment") == 1, get(key_col_name_tar)]
             }
             msg <- paste("--> found", i, "in", j_key)
-            DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "39a4e2b70b",
-                     logfile_dir = rv$log$logfile_dir,
-                     headless = rv$headless)
+            DIZutils::feedback(
+              msg,
+              logjs = isFALSE(headless),
+              findme = "39a4e2b70b",
+              logfile_dir = rv$log$logfile_dir,
+              headless = rv$headless
+            )
 
             # get colnames
             coln_x <- colnames(rv[[raw_data]][[m_key]])

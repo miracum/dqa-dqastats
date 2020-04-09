@@ -91,7 +91,7 @@ dqa <- function(source_system_name,
 
   # Save logfile_dir globally:
   rv$log$logfile_dir <- DIZutils::clean_path_name(logfile_dir)
-  cleanup_old_logfile(logfile_dir = rv$log$logfile_dir)
+  DIZutils::cleanup_old_logfile(logfile_dir = rv$log$logfile_dir)
 
   # add mdr-filename
   rv$mdr_filename <- mdr_filename
