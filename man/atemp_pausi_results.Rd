@@ -13,10 +13,6 @@ atemp_pausi_results(rv, atemp_vars, mdr, headless = FALSE)
 \item{atemp_vars}{These are the atemporal variables}
 
 \item{mdr}{A data.table object containing the MDR.}
-
-\item{headless}{A boolean (default: FALSE). Indicating, if the function is
-run only in the console (headless = TRUE) or on a GUI frontend
-(headless = FALSE).}
 }
 \description{
 Internal function to generate the results of the

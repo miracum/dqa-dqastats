@@ -16,10 +16,6 @@ generate_datamap(results, mdr, db, rv, headless = FALSE)
 
 \item{rv}{A list object. Internal list simulating Shiny's
 'reactive values'.}
-
-\item{headless}{A boolean (default: FALSE). Indicating, if the function is
-run only in the console (headless = TRUE) or on a GUI frontend
-(headless = FALSE).}
 }
 \description{
 Internal function to generate the dashboard data maps

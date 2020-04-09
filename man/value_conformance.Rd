@@ -15,10 +15,6 @@ either 'rv$results_descriptive' or 'rv$results_plausibility_atemporal'.}
 
 \item{scope}{A character. Either "plausibility" or "descriptive".}
 
-\item{headless}{A boolean (default: FALSE). Indicating, if the function is
-run only in the console (headless = TRUE) or on a GUI frontend
-(headless = FALSE).}
-
 \item{logfile_dir}{The absolute path to folder where the logfile
 will be stored.}
 }

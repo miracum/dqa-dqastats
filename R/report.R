@@ -316,9 +316,9 @@ create_markdown <- function(rv = rv,
     list_of_packages <- c("tinytex")
     new_packages <-
       list_of_packages[!(list_of_packages %in%
-                           installed.packages()[, "Package"])]
+                           utils::installed.packages()[, "Package"])]
     if (length(new_packages)) {
-      install.packages(new_packages)
+      utils::install.packages(new_packages)
     }
   }, error = function(e) {
     feedback(paste0(catch_msg, e), type = "Error", findme = "e50d001ed4",

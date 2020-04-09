@@ -80,6 +80,7 @@ usethis::use_package("knitr", type = "Imports")
 usethis::use_package("rmarkdown", type = "Imports")
 usethis::use_package("tinytex", type = "Imports")
 usethis::use_package("kableExtra", type = "Imports")
+usethis::use_package("utils", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")

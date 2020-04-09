@@ -13,10 +13,6 @@ load_csv(rv, keys_to_test, headless = FALSE, system)
 \item{keys_to_test}{A vector containing the names (keys) of
 the variables to test.}
 
-\item{headless}{A boolean (default: FALSE). Indicating, if the function is
-run only in the console (headless = TRUE) or on a GUI frontend
-(headless = FALSE).}
-
 \item{system}{The system object rv$system}
 }
 \description{

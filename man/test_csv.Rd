@@ -15,10 +15,6 @@ in the config.yml-file.}
 
 \item{mdr}{A data.table object containing the MDR.}
 
-\item{headless}{A boolean (default: FALSE). Indicating, if the function is
-run only in the console (headless = TRUE) or on a GUI frontend
-(headless = FALSE).}
-
 \item{logfile_dir}{The absolute path to folder where the logfile
 will be stored.}
 }

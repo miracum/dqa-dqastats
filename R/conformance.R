@@ -26,6 +26,7 @@
 #' @param scope A character. Either "plausibility" or "descriptive".
 #' @inheritParams feedback
 #'
+#'
 #' @export
 #'
 value_conformance <- function(
@@ -37,6 +38,11 @@ value_conformance <- function(
 
   stopifnot(
     scope %in% c("plausibility", "descriptive")
+  )
+
+  assignInMyNamespace(
+    x = "%notin%",
+    value = DIZutils:::`%notin%`
   )
 
   # get names
@@ -122,7 +128,7 @@ value_conformance <- function(
               if (is.null(levels_results)) {
                 outlist2$conformance_error <- TRUE
               } else {
-                outlist2$conformance_error <- any(levels_results %not in%
+                outlist2$conformance_error <- any(levels_results %notin%
                                                     constraints)
               }
               # if TRUE, get those values, that do not fit
@@ -131,7 +137,7 @@ value_conformance <- function(
                   isTRUE(outlist2$conformance_error),
                   paste0(
                     "Levels that are not conform with the value set:  \n",
-                    paste(levels_results[levels_results %not in% constraints],
+                    paste(levels_results[levels_results %notin% constraints],
                           collapse = "  \n")
                   ),
                   "No 'value conformance' issues found."
@@ -167,14 +173,14 @@ value_conformance <- function(
                 if (scope == "plausibility") {
                   outlist2$affected_ids <-
                     unique(
-                      rv[[raw_data]][[i]][get(d_out$var_dependent) %not in%
+                      rv[[raw_data]][[i]][get(d_out$var_dependent) %notin%
                                             constraints, vec, with = F]
                     )
                 } else if (scope == "descriptive") {
                   outlist2$affected_ids <-
                     unique(
                       rv[[raw_data]][[tab]][
-                        get(ih) %not in% constraints, vec, with = F]
+                        get(ih) %notin% constraints, vec, with = F]
                     )
                 }
               }

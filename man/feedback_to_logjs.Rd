@@ -11,10 +11,6 @@ feedback_to_logjs(print_this, logfile_dir, headless)
 
 \item{logfile_dir}{The absolute path to folder where the logfile
 will be stored.}
-
-\item{headless}{A boolean (default: FALSE). Indicating, if the function is
-run only in the console (headless = TRUE) or on a GUI frontend
-(headless = FALSE).}
 }
 \description{
 Helper function for the feedback function to also show the
