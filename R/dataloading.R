@@ -80,7 +80,7 @@ load_csv_files <- function(mdr,
   for (inputfile in available_systems[, unique(get("source_table_name"))]) {
 
     msg <- paste("Reading", inputfile, "from CSV.")
-    feedback(msg, logjs = isFALSE(headless), findme = "73c0aae8d4",
+    DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "73c0aae8d4",
              logfile_dir = logfile_dir,
              headless = headless)
     if (isFALSE(headless)) {
@@ -126,7 +126,7 @@ load_csv_files <- function(mdr,
     # treating of §21 chaperones
     if (tolower(inputfile) == "fall.csv") {
       if (outlist[[inputfile]][get("AUFNAHMEANLASS") == "B", .N] > 0) {
-        feedback(
+        DIZutils::feedback(
           paste0(
             outlist[[inputfile]][get("AUFNAHMEANLASS") == "B", .N],
             paste0(" chaperones present in source data system.\n\n",
@@ -140,7 +140,7 @@ load_csv_files <- function(mdr,
           outlist[[inputfile]][get("AUFNAHMEANLASS") != "B" |
                                  is.na(get("AUFNAHMEANLASS")), ]
       } else {
-        feedback("No chaperones present in your source data.",
+        DIZutils::feedback("No chaperones present in your source data.",
                  findme = "469a0f6dde",
                  logfile_dir = logfile_dir,
                  headless = headless)
@@ -233,7 +233,7 @@ load_csv <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming source variable types", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "776ba03cbf",
+    DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "776ba03cbf",
              logfile_dir = rv$log$logfile_dir,
              headless = rv$headless)
     if (isFALSE(headless)) {
@@ -317,7 +317,7 @@ load_database <- function(rv,
   # read target data
   outlist <- sapply(keys_to_test, function(i) {
     msg <- paste("Getting", i, "from database:", db_name)
-    feedback(msg,
+    DIZutils::feedback(msg,
              logjs = isFALSE(headless),
              findme = "c12a1dd9ce",
              logfile_dir = rv$log$logfile_dir,
@@ -360,7 +360,7 @@ load_database <- function(rv,
   for (i in keys_to_test) {
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming target variable types", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "7a3e28f291",
+    DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "7a3e28f291",
              logfile_dir = rv$log$logfile_dir,
              headless = rv$headless)
     if (isFALSE(headless)) {

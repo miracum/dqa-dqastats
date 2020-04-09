@@ -293,7 +293,7 @@ create_markdown <- function(rv = rv,
                             headless = FALSE) {
 
   msg <- "Creating report "
-  feedback(msg, logjs = isFALSE(headless), findme = "aa5c87f7da",
+  DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "aa5c87f7da",
            logfile_dir = rv$log$logfile_dir,
            headless = rv$headless)
   if (isFALSE(headless)) {
@@ -321,11 +321,11 @@ create_markdown <- function(rv = rv,
       utils::install.packages(new_packages)
     }
   }, error = function(e) {
-    feedback(paste0(catch_msg, e), type = "Error", findme = "e50d001ed4",
+    DIZutils::feedback(paste0(catch_msg, e), type = "Error", findme = "e50d001ed4",
              logfile_dir = rv$log$logfile_dir,
              headless = rv$headless)
   }, warning = function(w) {
-    feedback(paste0(catch_msg, w), type = "Warning", findme = "6c366260eb",
+    DIZutils::feedback(paste0(catch_msg, w), type = "Warning", findme = "6c366260eb",
              logfile_dir = rv$log$logfile_dir,
              headless = rv$headless)
   })
@@ -335,11 +335,11 @@ create_markdown <- function(rv = rv,
       tinytex::install_tinytex()
     }
   }, error = function(e) {
-    feedback(paste0(catch_msg, e), type = "Error", findme = "d70293cd83",
+    DIZutils::feedback(paste0(catch_msg, e), type = "Error", findme = "d70293cd83",
              logfile_dir = rv$log$logfile_dir,
              headless = rv$headless)
   }, warning = function(w) {
-    feedback(paste0(catch_msg, w), type = "Warning", findme = "f72559b707",
+    DIZutils::feedback(paste0(catch_msg, w), type = "Warning", findme = "f72559b707",
              logfile_dir = rv$log$logfile_dir,
              headless = rv$headless)
   })
@@ -370,11 +370,11 @@ create_markdown <- function(rv = rv,
       encoding = "UTF-8"
     )
   }, error = function(e) {
-    feedback(paste0(catch_msg, e), type = "Error", findme = "d70789cd83",
+    DIZutils::feedback(paste0(catch_msg, e), type = "Error", findme = "d70789cd83",
              logfile_dir = rv$log$logfile_dir,
              headless = rv$headless)
   }, warning = function(w) {
-    feedback(paste0(catch_msg, w), type = "Warning", findme = "d70654cd83",
+    DIZutils::feedback(paste0(catch_msg, w), type = "Warning", findme = "d70654cd83",
              logfile_dir = rv$log$logfile_dir,
              headless = rv$headless)
   })

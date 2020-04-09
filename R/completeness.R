@@ -51,7 +51,7 @@ completeness <- function(results, headless = FALSE, logfile_dir) {
   # loop over objects
   for (i in obj_names) {
     msg <- paste("Performing missing analysis", i)
-    feedback(msg, findme = "7a28e87b30", logjs = isFALSE(headless),
+    DIZutils::feedback(msg, findme = "7a28e87b30", logjs = isFALSE(headless),
              logfile_dir = logfile_dir,
              headless = headless)
     if (isFALSE(headless)) {

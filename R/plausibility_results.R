@@ -67,7 +67,7 @@ atemp_pausi_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Getting plausibility descriptions of", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "0888fa800d",
+    DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "0888fa800d",
              logfile_dir = rv$log$logfile_dir,
              headless = rv$headless)
     if (isFALSE(headless)) {
@@ -111,7 +111,7 @@ atemp_pausi_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating plausibility counts of", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "0e918bd0fd",
+    DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "0e918bd0fd",
              logfile_dir = rv$log$logfile_dir,
              headless = rv$headless)
 
@@ -136,7 +136,7 @@ atemp_pausi_results <- function(rv,
       )
     } else {
       msg <- ("Error occured during creating counts.")
-      feedback(msg,
+      DIZutils::feedback(msg,
                logjs = isFALSE(headless),
                type = "Error",
                findme = "c57cb255fe",
@@ -148,7 +148,7 @@ atemp_pausi_results <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Calculating plausibility statistics of", i)
-    feedback(msg, logjs = isFALSE(headless), findme = "cf90f11533",
+    DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "cf90f11533",
              logfile_dir = rv$log$logfile_dir,
              headless = rv$headless)
     if (isFALSE(headless)) {
@@ -248,7 +248,7 @@ uniq_plausi_results <- function(rv,
 
       # workaround to hide shiny-stuff, when going headless
       msg <- paste("Getting uniqueness plausibility", u$name)
-      feedback(msg, logjs = isFALSE(headless), findme = "e4fe49cd9e",
+      DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "e4fe49cd9e",
                logfile_dir = rv$log$logfile_dir,
                headless = rv$headless)
       if (isFALSE(headless)) {
@@ -330,7 +330,7 @@ uniq_plausi_results <- function(rv,
               "Error: wrong character in u$all_observations.",
               collapse = "\n"
             )
-            feedback(msg, logjs = isFALSE(headless), findme = "39a123470b",
+            DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "39a123470b",
                      logfile_dir = rv$log$logfile_dir,
                      headless = rv$headless)
             next
@@ -342,7 +342,7 @@ uniq_plausi_results <- function(rv,
             paste(i, "not in", colnames(rv[[raw_data]][[u_key]])),
             collapse = "\n"
           )
-          feedback(msg, logjs = isFALSE(headless), findme = "39a4eeb70b",
+          DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "39a4eeb70b",
                    logfile_dir = rv$log$logfile_dir,
                    headless = rv$headless)
 
@@ -378,7 +378,7 @@ uniq_plausi_results <- function(rv,
           # create m_y directly
           if (any(grepl(i, colnames(rv[[raw_data]][[m_key]])))) {
             msg <- paste("--> found", i, "in", m_key)
-            feedback(msg, logjs = isFALSE(headless), findme = "39a4e4b70b",
+            DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "39a4e4b70b",
                      logfile_dir = rv$log$logfile_dir,
                      headless = rv$headless)
             m_y <- rv[[raw_data]][[m_key]]
@@ -399,7 +399,7 @@ uniq_plausi_results <- function(rv,
                       get("dqa_assessment") == 1, get(key_col_name_tar)]
             }
             msg <- paste("--> found", i, "in", j_key)
-            feedback(msg, logjs = isFALSE(headless), findme = "39a4e6b70b",
+            DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "39a4e6b70b",
                      logfile_dir = rv$log$logfile_dir,
                      headless = rv$headless)
 
@@ -445,7 +445,7 @@ uniq_plausi_results <- function(rv,
               "Error: wrong character in u$all_observations.",
               collapse = "\n"
             )
-            feedback(msg, logjs = isFALSE(headless), findme = "39a456770b",
+            DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "39a456770b",
                      logfile_dir = rv$log$logfile_dir,
                      headless = rv$headless)
             next

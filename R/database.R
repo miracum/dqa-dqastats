@@ -63,7 +63,7 @@ test_csv <- function(settings,
   # iterate over list and check for presence of required filenames:
   # FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV
   check <- sapply(filelist, function(i) {
-    feedback(i, findme = "208282630a",
+    DIZutils::feedback(i, findme = "208282630a",
              logfile_dir = logfile_dir,
              headless = headless)
     return(grepl(files_pattern, i))
@@ -86,7 +86,7 @@ test_csv <- function(settings,
           )
         )
       }
-      feedback(
+      DIZutils::feedback(
         paste0("The specified directory does not contain the expected ",
                "neccessary CSV-files: ", paste0(required_files,
                                                 collapse = ", ")),
@@ -113,7 +113,7 @@ test_csv <- function(settings,
         )
       )
     }
-    feedback(
+    DIZutils::feedback(
       paste0(
         "There are no CSV-files in the specified directory for system ",
         source_db,

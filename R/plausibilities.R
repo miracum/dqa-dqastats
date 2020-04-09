@@ -80,7 +80,7 @@ get_atemp_plausis <- function(rv,
 
       # workaround to hide shiny-stuff, when going headless
       msg <- paste("Getting atemporal plausibility", u$name)
-      feedback(msg, logjs = isFALSE(headless), findme = "0c70327436",
+      DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "0c70327436",
                logfile_dir = rv$log$logfile_dir,
                headless = rv$headless)
       if (isFALSE(headless)) {
@@ -166,7 +166,7 @@ get_atemp_plausis <- function(rv,
             paste(i, "not in", colnames(rv[[raw_data]][[u_key]])),
             collapse = "\n"
           )
-          feedback(msg, logjs = isFALSE(headless), findme = "9d48df8805",
+          DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "9d48df8805",
                    logfile_dir = rv$log$logfile_dir,
                    headless = rv$headless)
 
@@ -197,7 +197,7 @@ get_atemp_plausis <- function(rv,
           # create m_y directly
           if (any(grepl(u$join_crit, colnames(rv[[raw_data]][[m_key]])))) {
             msg <- paste("--> found", i, "in", m_key)
-            feedback(msg, logjs = isFALSE(headless), findme = "39a4e1b70b",
+            DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "39a4e1b70b",
                      logfile_dir = rv$log$logfile_dir,
                      headless = rv$headless)
 
@@ -217,7 +217,7 @@ get_atemp_plausis <- function(rv,
                       get("dqa_assessment") == 1, get(key_col_name_tar)]
             }
             msg <- paste("--> found", i, "in", j_key)
-            feedback(msg, logjs = isFALSE(headless), findme = "39a4e2b70b",
+            DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "39a4e2b70b",
                      logfile_dir = rv$log$logfile_dir,
                      headless = rv$headless)
 
