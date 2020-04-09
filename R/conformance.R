@@ -40,9 +40,12 @@ value_conformance <- function(
     scope %in% c("plausibility", "descriptive")
   )
 
-  assignInMyNamespace(
+  # workaround until DIZutils is on CRAN
+  # (when using 'importFrom DIZutils %notin%', error exists due to
+  # referencing package in NAMESPACE but not as Import in DESCRIPTION)
+  "%notin%" <- utils::getFromNamespace(
     x = "%notin%",
-    value = DIZutils:::`%notin%`
+    ns = "DIZutils"
   )
 
   # get names

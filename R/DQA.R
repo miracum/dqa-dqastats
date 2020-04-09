@@ -43,7 +43,6 @@
 #'
 #' @import data.table
 #' @importFrom magrittr "%>%"
-# @importFrom DIZutils "%notin%"
 #'
 #' @examples
 #' \dontrun{
