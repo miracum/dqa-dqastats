@@ -24,7 +24,7 @@
 #' @param results A list object. The list should contain the results of
 #'   either 'rv$results_descriptive' or 'rv$results_plausibility_atemporal'.
 #' @param scope A character. Either "plausibility" or "descriptive".
-#' @inheritParams feedback
+#' @inheritParams dqa
 #'
 #'
 #' @export

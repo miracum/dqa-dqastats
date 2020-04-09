@@ -20,10 +20,13 @@
 #' @description Internal function to test and get the database connection
 #'   of the source data system.
 #'
+#' @param headless A boolean (default: FALSE). Indicating, if the function is
+#'   run only in the console (headless = TRUE) or on a GUI frontend
+#'   (headless = FALSE).
+#'
 #' @param settings A list object containing the database settings.
 #' @inheritParams create_helper_vars
-#' @inheritParams test_db
-#' @inheritParams feedback
+#' @inheritParams dqa
 #'
 #' @export
 #'

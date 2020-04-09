@@ -185,7 +185,7 @@ map_var_types <- function(string) {
 #' @param keys_to_test A vector containing the names (keys) of
 #'   the variables to test.
 #' @param system The system object rv$system
-#' @inheritParams test_db
+#' @inheritParams test_csv
 #'
 #' @export
 load_csv <- function(rv,

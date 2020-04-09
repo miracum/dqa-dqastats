@@ -25,7 +25,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.2.9002")
+my_desc$set_version("0.1.2.9003")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
@@ -68,10 +68,8 @@ my_desc$write(file = "DESCRIPTION")
 # Imports
 usethis::use_package("data.table", type = "Imports")
 usethis::use_package("shiny", type = "Imports")
-usethis::use_package("shinyjs", type = "Imports")
 usethis::use_package("magrittr", type = "Imports")
 usethis::use_package("stats", type = "Imports")
-usethis::use_package("config", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("RPostgres", type = "Imports")
 usethis::use_package("DBI", type = "Imports")

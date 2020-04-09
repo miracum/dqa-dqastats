@@ -15,6 +15,10 @@ containing the required app utilities like the MDR and the settings folder.}
 
 \item{outdir}{A character string. The directory to store the resulting
 PDF document. Default: \code{tempdir}.}
+
+\item{headless}{A boolean (default: FALSE). Indicating, if the function is
+run only in the console (headless = TRUE) or on a GUI frontend
+(headless = FALSE).}
 }
 \description{
 Internal function to generate the final PDF report.

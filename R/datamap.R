@@ -21,7 +21,7 @@
 #'
 #' @inheritParams etl_checks
 #' @inheritParams create_helper_vars
-#' @inheritParams test_db
+#' @inheritParams test_csv
 #' @inheritParams load_sqls
 #' @inheritParams atemp_pausi_results
 #'

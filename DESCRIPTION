@@ -1,6 +1,6 @@
 Package: DQAstats
 Title: DQAstats - Core Functions for Data Quality Assessment
-Version: 0.1.2.9002
+Version: 0.1.2.9003
 Date: 2020-04-09
 Authors@R: 
     c(person(given = "Lorenz A.",
@@ -21,7 +21,6 @@ URL: https://gitlab.miracum.org/miracum/dqa/dqastats
 BugReports: 
     https://gitlab.miracum.org/miracum/dqa/dqastats/issues
 Imports: 
-    config,
     data.table,
     DBI,
     e1071,
@@ -32,7 +31,6 @@ Imports:
     rmarkdown,
     RPostgres,
     shiny,
-    shinyjs,
     stats,
     tinytex,
     utils
