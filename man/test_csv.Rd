@@ -14,9 +14,6 @@ This string must be conform with the corresponding config section
 in the config.yml-file.}
 
 \item{mdr}{A data.table object containing the MDR.}
-
-\item{logfile_dir}{The absolute path to folder where the logfile
-will be stored.}
 }
 \description{
 Internal function to test and get the database connection

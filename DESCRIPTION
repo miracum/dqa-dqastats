@@ -34,7 +34,8 @@ Imports:
     shiny,
     shinyjs,
     stats,
-    tinytex
+    tinytex,
+    utils
 Suggests: 
     lintr,
     testthat
