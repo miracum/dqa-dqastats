@@ -1,7 +1,7 @@
 Package: DQAstats
 Title: DQAstats - Core Functions for Data Quality Assessment
-Version: 0.1.2.9003
-Date: 2020-04-09
+Version: 0.1.2.9004
+Date: 2020-04-15
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -38,7 +38,7 @@ Suggests:
     lintr,
     testthat
 Remotes: 
-    url::https://gitlab.miracum.org/miracum/dqa/dizutils/-/archive/master/dizutils-master.zip
+    url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/master/dizutils-master.zip
 Copyright: Universitätsklinikum Erlangen
 Encoding: UTF-8
 LazyData: true
