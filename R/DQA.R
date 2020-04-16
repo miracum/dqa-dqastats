@@ -95,20 +95,6 @@ dqa <- function(source_system_name,
   # current date
   rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
 
-  # # get configs (old)
-  # rv$source$settings <- DIZutils::get_config(
-  #   config_file = config_file,
-  #   config_key = tolower(rv$source$system_name),
-  #   logfile_dir = rv$log$logfile_dir,
-  #   headless = rv$headless
-  # )
-  # rv$target$settings <- DIZutils::get_config(
-  #   config_file = config_file,
-  #   config_key = tolower(rv$target$system_name),
-  #   logfile_dir = rv$log$logfile_dir,
-  #   headless = rv$headless
-  # )
-
   # get configs (new: with env):
   rv$source$settings <- DIZutils::get_config_env(
     system_name = rv$source$system_name,
@@ -120,7 +106,6 @@ dqa <- function(source_system_name,
     logfile_dir = rv$log$logfile_dir,
     headless = rv$headless
   )
-
 
   # read MDR
   rv$mdr <- read_mdr(utils_path = rv$utilspath,

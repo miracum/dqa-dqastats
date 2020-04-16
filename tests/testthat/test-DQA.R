@@ -29,11 +29,13 @@ library(data.table)
 
 test_that("correct functioning of DQA", {
 
-  Sys.setenv("EXAMPLECSV_SOURCE_PATH" = paste0(prefix, "inst/demo_data"))
-  Sys.setenv("EXAMPLECSV_TARGET_PATH" = paste0(prefix, "inst/demo_data"))
-
   source_system_name <- "exampleCSV_source"
   target_system_name <- "exampleCSV_target"
+
+  demo_files <- system.file("demo_data", package = "DQAstats")
+  Sys.setenv("EXAMPLECSV_SOURCE_PATH" = demo_files)
+  Sys.setenv("EXAMPLECSV_TARGET_PATH" = demo_files)
+
   utils_path <- system.file("demo_data/utilities", package = "DQAstats")
   mdr_filename <- "mdr_example_data.csv"
   output_dir <- paste0(prefix,
@@ -65,5 +67,4 @@ test_that("correct functioning of DQA", {
   unlink(paste0(output_dir, "_header"), recursive = T)
   unlink(output_dir, recursive = T)
   file.remove(paste0(prefix, "tests/testthat/logfile.log"))
-  file.remove(settings)
 })
