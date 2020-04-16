@@ -29,8 +29,6 @@
 #'   This name must be identical and unique to one entry in the
 #'   config-yml file or null. If the argument is empty, the source will
 #'   be processed as standalone on its own.
-#' @param config_file The config.yml-file containig all the information
-#'   needed to access the source (and optional the target) system(s).
 #' @param utils_path A character string. The path to the utils-folder,
 #'   containing the required app utilities like the MDR and the settings folder.
 #' @param mdr_filename A character string.
@@ -54,7 +52,6 @@
 
 dqa <- function(source_system_name,
                 target_system_name,
-                config_file,
                 utils_path,
                 mdr_filename = "mdr.csv",
                 output_dir = "./output/",
@@ -67,7 +64,6 @@ dqa <- function(source_system_name,
   stopifnot(
     is.character(source_system_name),
     is.character(target_system_name),
-    is.character(config_file),
     is.character(utils_path),
     is.character(mdr_filename),
     is.character(output_dir),
@@ -99,20 +95,32 @@ dqa <- function(source_system_name,
   # current date
   rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
 
+  # # get configs (old)
+  # rv$source$settings <- DIZutils::get_config(
+  #   config_file = config_file,
+  #   config_key = tolower(rv$source$system_name),
+  #   logfile_dir = rv$log$logfile_dir,
+  #   headless = rv$headless
+  # )
+  # rv$target$settings <- DIZutils::get_config(
+  #   config_file = config_file,
+  #   config_key = tolower(rv$target$system_name),
+  #   logfile_dir = rv$log$logfile_dir,
+  #   headless = rv$headless
+  # )
 
-  # get configs
-  rv$source$settings <- DIZutils::get_config(
-    config_file = config_file,
-    config_key = tolower(rv$source$system_name),
+  # get configs (new: with env):
+  rv$source$settings <- DIZutils::get_config_env(
+    system_name = rv$source$system_name,
     logfile_dir = rv$log$logfile_dir,
     headless = rv$headless
   )
-  rv$target$settings <- DIZutils::get_config(
-    config_file = config_file,
-    config_key = tolower(rv$target$system_name),
+  rv$target$settings <- DIZutils::get_config_env(
+    system_name = tolower(rv$target$system_name),
     logfile_dir = rv$log$logfile_dir,
     headless = rv$headless
   )
+
 
   # read MDR
   rv$mdr <- read_mdr(utils_path = rv$utilspath,

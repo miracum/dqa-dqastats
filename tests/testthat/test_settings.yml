@@ -1,6 +1,0 @@
-default:
-  examplecsv_source:
-    dir: replace_me
-
-  examplecsv_target:
-    dir: replace_me

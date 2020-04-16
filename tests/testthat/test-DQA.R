@@ -25,28 +25,15 @@ if (dir.exists("../../00_pkg_src")) {
   prefix <- "./"
 }
 
-settings <- paste0(prefix, "tests/testthat/test_settings.yml")
-file.copy(settings,
-          paste0(prefix, "tests/testthat/test_settings_use.yml"),
-          overwrite = T)
-settings <- paste0(prefix, "tests/testthat/test_settings_use.yml")
-tx  <- readLines(settings)
-tx2  <- gsub(
-  pattern = "replace_me",
-  replacement = paste0("\"",
-                       system.file("demo_data", package = "DQAstats"),
-                       "\""),
-  x = tx
-)
-writeLines(tx2, con = settings)
-
 library(data.table)
 
 test_that("correct functioning of DQA", {
 
+  Sys.setenv("EXAMPLECSV_SOURCE_PATH" = paste0(prefix, "inst/demo_data"))
+  Sys.setenv("EXAMPLECSV_TARGET_PATH" = paste0(prefix, "inst/demo_data"))
+
   source_system_name <- "exampleCSV_source"
   target_system_name <- "exampleCSV_target"
-  config_file <- settings
   utils_path <- system.file("demo_data/utilities", package = "DQAstats")
   mdr_filename <- "mdr_example_data.csv"
   output_dir <- paste0(prefix,
@@ -57,7 +44,6 @@ test_that("correct functioning of DQA", {
   all_results <- dqa(
     source_system_name = source_system_name,
     target_system_name = target_system_name,
-    config_file = config_file,
     utils_path = utils_path,
     mdr_filename = mdr_filename,
     output_dir = output_dir,

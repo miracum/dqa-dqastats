@@ -7,7 +7,6 @@
 dqa(
   source_system_name,
   target_system_name,
-  config_file,
   utils_path,
   mdr_filename = "mdr.csv",
   output_dir = "./output/",
@@ -24,9 +23,6 @@ The name of the target-system, e.g. "P21" or "i2b2".
 This name must be identical and unique to one entry in the
 config-yml file or null. If the argument is empty, the source will
 be processed as standalone on its own.}
-
-\item{config_file}{The config.yml-file containig all the information
-needed to access the source (and optional the target) system(s).}
 
 \item{utils_path}{A character string. The path to the utils-folder,
 containing the required app utilities like the MDR and the settings folder.}

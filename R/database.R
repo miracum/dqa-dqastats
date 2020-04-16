@@ -38,7 +38,7 @@ test_csv <- function(settings,
 
   # get filenames of csv files inside the provided directory
   filelist <- list.files(
-    path = settings$dir,
+    path = settings$path,
     pattern = "\\.CSV|\\.csv",
     full.names = T
   )

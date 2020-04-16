@@ -81,8 +81,8 @@ load_csv_files <- function(mdr,
 
     msg <- paste("Reading", inputfile, "from CSV.")
     DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "73c0aae8d4",
-             logfile_dir = logfile_dir,
-             headless = headless)
+                       logfile_dir = logfile_dir,
+                       headless = headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress$inc(
@@ -141,9 +141,9 @@ load_csv_files <- function(mdr,
                                  is.na(get("AUFNAHMEANLASS")), ]
       } else {
         DIZutils::feedback("No chaperones present in your source data.",
-                 findme = "469a0f6dde",
-                 logfile_dir = logfile_dir,
-                 headless = headless)
+                           findme = "469a0f6dde",
+                           logfile_dir = logfile_dir,
+                           headless = headless)
       }
     }
   }
@@ -193,7 +193,7 @@ load_csv <- function(rv,
                      headless = FALSE,
                      system) {
 
-  stopifnot(is.character(system$settings$dir))
+  stopifnot(is.character(system$settings$path))
 
   # initialize outlist
   outlist <- list()
@@ -201,7 +201,7 @@ load_csv <- function(rv,
   # read sourcedata
   outlist <- load_csv_files(
     mdr = rv$mdr,
-    inputdir = DIZutils::clean_path_name(system$settings$dir),
+    inputdir = DIZutils::clean_path_name(system$settings$path),
     sourcesystem = system$system_name,
     headless = headless,
     logfile_dir = rv$log$logfile_dir
@@ -226,16 +226,16 @@ load_csv <- function(rv,
     # var_names of interest:
     var_names <- rv$mdr[get("source_table_name") == i &
                           get("source_system_name") == system$system_name,
-                        ][
-                          , get("source_variable_name")
-                          ]
+    ][
+      , get("source_variable_name")
+    ]
     stopifnot(is.character(var_names))
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming source variable types", i)
     DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "776ba03cbf",
-             logfile_dir = rv$log$logfile_dir,
-             headless = rv$headless)
+                       logfile_dir = rv$log$logfile_dir,
+                       headless = rv$headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress$inc(
@@ -248,9 +248,9 @@ load_csv <- function(rv,
       if (j %in% var_names) {
         vn <- rv$mdr[get("source_table_name") == i &
                        get("source_system_name") == system$system_name,
-                     ][
-                       get("source_variable_name") ==
-                         j, unique(get("variable_name"))]
+        ][
+          get("source_variable_name") ==
+            j, unique(get("variable_name"))]
         colnames(outlist[[i]])[which(col_names == j)] <- vn
 
         # transform date_vars to dates
@@ -318,10 +318,10 @@ load_database <- function(rv,
   outlist <- sapply(keys_to_test, function(i) {
     msg <- paste("Getting", i, "from database:", db_name)
     DIZutils::feedback(msg,
-             logjs = isFALSE(headless),
-             findme = "c12a1dd9ce",
-             logfile_dir = rv$log$logfile_dir,
-             headless = rv$headless)
+                       logjs = isFALSE(headless),
+                       findme = "c12a1dd9ce",
+                       logfile_dir = rv$log$logfile_dir,
+                       headless = rv$headless)
 
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
@@ -361,8 +361,8 @@ load_database <- function(rv,
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming target variable types", i)
     DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "7a3e28f291",
-             logfile_dir = rv$log$logfile_dir,
-             headless = rv$headless)
+                       logfile_dir = rv$log$logfile_dir,
+                       headless = rv$headless)
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress$inc(

@@ -41,10 +41,11 @@ This is a basic example to demonstrate how to perform the data quality assessmen
 
 ``` r
 library(DQAstats)
+Sys.setenv("EXAMPLECSV_SOURCE_PATH" = "inst/demo_data")
+Sys.setenv("EXAMPLECSV_TARGET_PATH" = "inst/demo_data")
 dqa(
   source_system_name = "exampleCSV_source",
   target_system_name = "exampleCSV_target",
-  config_file = "inst/demo_data/utilities/settings/demo_settings.yml",
   utils_path = "inst/demo_data/utilities",
   mdr_filename = "mdr_example_data.csv",
   output_dir = "output/"

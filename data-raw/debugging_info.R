@@ -14,7 +14,7 @@ source_system_name = "p21staging"
 target_system_name = "i2b2"
 #target_system_name = "p21staging"
 #target_system_name = "omop"
-config_file = "../demo_settings_INTERNAL.yml"
+# config_file = "../demo_settings_INTERNAL.yml"
 utils_path = system.file("application/_utilities/", package = "miRacumDQA")
 #mdr_filename = "samply_export.csv"
 mdr_filename = "mdr.csv"
@@ -28,7 +28,7 @@ DIZutils::set_env_vars("../env_INTERNAL")
 all_results <- DQAstats::dqa(
   source_system_name = source_system_name,
   target_system_name = target_system_name,
-  config_file = config_file,
+  # config_file = config_file,
   utils_path = utils_path,
   mdr_filename = mdr_filename,
   output_dir = output_dir,
