@@ -102,7 +102,7 @@ dqa <- function(source_system_name,
     headless = rv$headless
   )
   rv$target$settings <- DIZutils::get_config_env(
-    system_name = tolower(rv$target$system_name),
+    system_name = rv$target$system_name,
     logfile_dir = rv$log$logfile_dir,
     headless = rv$headless
   )
