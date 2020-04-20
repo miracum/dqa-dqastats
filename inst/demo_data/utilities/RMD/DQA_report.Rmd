@@ -154,6 +154,12 @@ if (!is.null(rv$results_plausibility_uniqueness)) {
 utils::packageVersion("DQAstats")
 ```
 
+## R-Package Version 'DIZutils' 
+
+```{r}
+utils::packageVersion("DIZutils")
+```
+
 
 ```{r}
 if (length(rv$source$sql) > 0 ||
