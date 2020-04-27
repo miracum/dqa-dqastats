@@ -1,7 +1,7 @@
 Package: DQAstats
 Title: DQAstats - Core Functions for Data Quality Assessment
-Version: 0.1.3.9001
-Date: 2020-04-23
+Version: 0.1.3.9002
+Date: 2020-04-27
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -42,4 +42,3 @@ Remotes:
 Copyright: Universitätsklinikum Erlangen
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0

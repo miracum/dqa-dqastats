@@ -28,6 +28,7 @@
 #' @export
 #'
 read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
+
   mdr <- data.table::fread(
     paste0(utils_path, "MDR/", mdr_filename),
     header = T
@@ -133,10 +134,16 @@ create_helper_vars <- function(mdr,
   outlist$dqa_assessment <- dqa_assessment[get("key") %in%
                                              dqa_assessment_intersect, ]
 
-  outlist$keys_source <-
-    outlist$keys_source[outlist$keys_source %in% dqa_assessment_intersect]
-  outlist$keys_target <-
-    outlist$keys_target[outlist$keys_target %in% dqa_assessment_intersect]
+
+  for (f in c("source", "target")) {
+    if ("csv" != mdr[get("source_system_name") ==
+                          eval(parse(text = paste0(f, "_db"))),
+                          unique(get("source_system_type"))]) {
+      outlist[[paste0("keys_", f)]] <-
+        outlist[[paste0("keys_", f)]][outlist[[paste0("keys_", f)]] %in%
+                                        dqa_assessment_intersect]
+    }
+  }
 
   # variable_list
   variable_list <- outlist$dqa_assessment[order(get("designation"))]
