@@ -196,15 +196,16 @@ value_conformance <- function(
             # numerics treatment (range: min, max, unit)
           } else if (d_out$checks$var_type %in% c("integer", "float")) {
 
-            # set colnames (we need them here to correctly select the data)
-            colnames(s_out) <- c("name", "value")
-
-            if (any(is.na(s_out$value)) ||
-                (s_out[1, get("value")] == "NaN")) {
+            if (is.null(s_out) || nrow(s_out) == 0 ||
+                (any(is.na(s_out[, 1])) ||
+                (s_out[1, 1] == "NaN"))) {
               outlist2$conformance_error <- TRUE
               outlist2$conformance_results <-
                 "No data available to perform conformance checks."
             } else {
+
+              # set colnames (we need them here to correctly select the data)
+              colnames(s_out) <- c("name", "value")
 
               error_flag <- FALSE
 

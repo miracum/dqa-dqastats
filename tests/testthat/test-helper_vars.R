@@ -102,7 +102,7 @@ test_that("correct functioning of helper vars", {
   # We don't need this explicitely because it is tested later in the
   # 'rv'-object.
   expect_type(reactive_to_append, "list")
-  expect_length(reactive_to_append, 8)
+  expect_length(reactive_to_append, 5)
   expect_equal(reactive_to_append$keys_source, "dqa_example_data_01.csv")
   expect_equal(reactive_to_append$keys_target, "dqa_example_data_02.csv")
   expect_s3_class(reactive_to_append$dqa_assessment, "data.table")
@@ -114,10 +114,6 @@ test_that("correct functioning of helper vars", {
   expect_length(reactive_to_append$pl, 4)
   expect_s3_class(reactive_to_append$pl$atemp_vars, "data.table")
   expect_s3_class(reactive_to_append$pl$uniq_vars, "data.table")
-  expect_type(reactive_to_append$cat_vars, "character")
-  expect_length(reactive_to_append$cat_vars, 6)
-  expect_type(reactive_to_append$date_vars, "character")
-  expect_length(reactive_to_append$date_vars, 2)
 
 
   # workaround, to keep "rv" an reactiveValues object in shiny app
@@ -132,7 +128,7 @@ test_that("correct functioning of helper vars", {
   rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
   expect_type(rv, "list")
-  expect_length(rv, 17)
+  expect_length(rv, 14)
   expect_equal(rv$keys_source, "dqa_example_data_01.csv")
   expect_equal(rv$keys_target, "dqa_example_data_02.csv")
   expect_s3_class(rv$dqa_assessment, "data.table")
@@ -144,10 +140,6 @@ test_that("correct functioning of helper vars", {
   expect_length(rv$pl, 4)
   expect_s3_class(rv$pl$atemp_vars, "data.table")
   expect_s3_class(rv$pl$uniq_vars, "data.table")
-  expect_type(rv$cat_vars, "character")
-  expect_length(rv$cat_vars, 6)
-  expect_type(rv$date_vars, "character")
-  expect_length(rv$date_vars, 2)
 
 
   # Remove the settings and output-folder:

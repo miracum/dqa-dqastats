@@ -11,7 +11,7 @@ devtools::load_all()
 #source_system_name = "i2b2"
 #source_system_name = "p21csv"
 source_system_name = "p21staging"
-source_system_name = "fhirgw"
+#source_system_name = "fhirgw"
 target_system_name = "i2b2"
 #target_system_name = "p21staging"
 #target_system_name = "omop"
@@ -23,6 +23,7 @@ output_dir = "output/"
 logfile_dir = "./"
 
 DIZutils::set_env_vars("../env_INTERNAL")
+Sys.setenv("P21CSV_PATH" = "~/development/_p21/data/2018_merged/")
 
 
 ## Testfunction to test it all:

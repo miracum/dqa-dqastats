@@ -245,6 +245,12 @@ load_csv <- function(rv,
     }
 
     for (j in col_names) {
+
+      var_type <- rv$mdr[get("source_system_name") == system$system_name &
+                           get("source_table_name") == i &
+                           get("source_variable_name") == j,
+                         unique(get("variable_type"))]
+
       if (j %in% var_names) {
         vn <- rv$mdr[get("source_table_name") == i &
                        get("source_system_name") == system$system_name,
@@ -253,21 +259,20 @@ load_csv <- function(rv,
             j, unique(get("variable_name"))]
         colnames(outlist[[i]])[which(col_names == j)] <- vn
 
-        # transform date_vars to dates
-        if (vn %in% rv$date_vars) {
+        if (var_type %in% c("permittedValues", "string", "catalog")) {
+          # transform to factor
+          outlist[[i]][, (vn) := factor(get(vn))]
+        } else if (var_type == "calendar") {
+          # transform date variables
           outlist[[i]][, (vn) := as.Date(
             substr(as.character(get(vn)), 1, 8), format = "%Y%m%d"
           )]
-        } else if (vn %in% rv$cat_vars) {
-          # transform cat_vars to factor
-          outlist[[i]][, (vn) := factor(get(vn))]
+        } else if (var_type %in% c("integer", "float")) {
+          # transform numeric variables
+          outlist[[i]][, (vn) := as.numeric(
+            as.character(get(vn))
+          )]
         }
-        # the following should not be necessary due to the variable type
-        # mapping in the fread function
-        #% else if (vn %in% rv$num_vars) {
-        #%   # transform num_vars to numeric
-        #%   outlist[[i]][, (vn) := as.numeric(get(vn))]
-        #% }
       }
     }
   }
@@ -377,20 +382,26 @@ load_database <- function(rv,
     # check, if column name in variables of interest
     for (j in col_names) {
 
-      # transform cat_vars to factor
-      if (j %in% rv$cat_vars) {
-        outlist[[i]][, (j) := factor(get(j))]
+      var_type <- rv$mdr[get("source_system_name") == db_name &
+                           get("key") == i &
+                           get("variable_name") == j, get("variable_type")]
 
-        # transform date vars
-      } else if (j %in% rv$date_vars) {
+
+      if (var_type %in% c("permittedValues", "string", "catalog")) {
+        # transform to factor
+        outlist[[i]][, (j) := factor(get(j))]
+      } else if (var_type == "calendar") {
+        # transform date variables
         if (outlist[[i]][, is.factor(get(j))]) {
           outlist[[i]][, (j) := as.Date(
             substr(as.character(get(j)), 1, 8), format = "%Y%m%d"
           )]
         }
-      } else if (j %in% rv$num_vars) {
-        # transform num_vars to numeric
-        outlist[[i]][, (j) := as.numeric(get(j))]
+      } else if (var_type %in% c("integer", "float")) {
+        # transform numeric variables
+        outlist[[i]][, (j) := as.numeric(
+          as.character(get(j))
+        )]
       }
     }
   }

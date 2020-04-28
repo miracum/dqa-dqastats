@@ -270,23 +270,5 @@ create_helper_vars <- function(mdr,
     outlist$pl$uniq_possible <- FALSE
   }
 
-
-  # get variables for type-transformations
-  # get categorical variables
-  outlist$cat_vars <- unique(
-    mdr[get("variable_type") %in%
-          c("permittedValues", "string"), get("variable_name")]
-  )
-
-  # get date variables
-  outlist$date_vars <-
-    outlist$dqa_assessment[get("variable_type") ==
-                             "calendar", get("variable_name")]
-
-  # get date variables
-  outlist$num_vars <-
-    outlist$dqa_assessment[get("variable_type") %in%
-                             c("integer", "float"), get("variable_name")]
-
   return(outlist)
 }
