@@ -25,7 +25,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.4")
+my_desc$set_version("0.1.4.9001")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
@@ -86,7 +86,7 @@ usethis::use_package("lintr", type = "Suggests")
 
 # Remotes
 # Development package
-utils_tag <- "v0.0.2"
+utils_tag <- "development"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/misc/dizutils.git", ref = utils_tag, upgrade = "always")
 # usethis::use_dev_package("DQAstats", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html

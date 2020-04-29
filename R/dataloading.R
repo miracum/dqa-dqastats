@@ -15,31 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-# fire SQL to database
-fire_sql_statement <- function(rv,
-                               db_con,
-                               sql,
-                               headless = FALSE) {
-  # for debugging:
-  #% print(jsonobj)
-
-  # Errorhandling
-  if (!is.null(sql)) {
-    # avoid sql-injection
-    # https://db.rstudio.com/best-practices/run-queries-safely/
-    sql <- DBI::sqlInterpolate(db_con, sql)
-    outdat <-
-      data.table::data.table(
-        RPostgres::dbGetQuery(db_con, sql),
-        stringsAsFactors = TRUE
-      )
-    return(outdat)
-  } else {
-    return(NULL)
-  }
-}
-
 # load csv files
 load_csv_files <- function(mdr,
                            inputdir,
@@ -338,11 +313,9 @@ load_database <- function(rv,
 
     stopifnot(!is.null(sql_statements[[i]]))
 
-    fire_sql_statement(
-      rv = rv,
+    DIZutils::query_database(
       db_con = db_con,
-      sql = sql_statements[[i]],
-      headless = headless
+      sql_statement = sql_statements[[i]]
     )
   }, simplify = F, USE.NAMES = T)
 
