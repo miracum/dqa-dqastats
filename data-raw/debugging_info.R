@@ -9,10 +9,11 @@
 devtools::load_all()
 ## using real data:
 #source_system_name = "i2b2"
-#source_system_name = "p21csv"
-source_system_name = "p21staging"
+source_system_name = "p21csv"
+# source_system_name = "p21staging"
 #source_system_name = "fhirgw"
 target_system_name = "i2b2"
+# target_system_name = "p21csv"
 #target_system_name = "p21staging"
 #target_system_name = "omop"
 # config_file = "../demo_settings_INTERNAL.yml"
@@ -22,8 +23,10 @@ mdr_filename = "mdr.csv"
 output_dir = "output/"
 logfile_dir = "./"
 
-DIZutils::set_env_vars("../env_INTERNAL")
-Sys.setenv("P21CSV_PATH" = "~/development/_p21/data/2018_merged/")
+DIZutils::set_env_vars(paste0("../",
+                              list.files(path = "../", pattern = "^env_INTERNAL.*")))
+
+# Sys.setenv("P21CSV_PATH" = "~/development/_p21/data/2018_merged/")
 
 
 ## Testfunction to test it all:

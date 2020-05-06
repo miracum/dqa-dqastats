@@ -115,7 +115,9 @@ test_csv <- function(settings,
     }
     DIZutils::feedback(
       paste0(
-        "There are no CSV-files in the specified directory for system ",
+        "There are no CSV-files in the specified directory ('",
+        settings$path,
+        "') for system ",
         source_db,
         ".\n"
       ),

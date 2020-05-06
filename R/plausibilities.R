@@ -203,7 +203,7 @@ get_atemp_plausis <- function(rv,
           # look, if join_crit is already in our target table, if so,
           # create m_y directly
           if (any(grepl(u$join_crit, colnames(rv[[raw_data]][[m_key]])))) {
-            msg <- paste("--> found", i, "in", m_key)
+            msg <- paste("--> found", i, "in", m_key, " (Joined over 2 tables)")
             DIZutils::feedback(
               msg,
               logjs = isFALSE(headless),
@@ -213,6 +213,7 @@ get_atemp_plausis <- function(rv,
             )
 
             m_y <- unique(rv[[raw_data]][[m_key]])
+            coln_x <- NULL
           }  else {
             # else join another table
             if (k == "source_data") {
@@ -227,7 +228,7 @@ get_atemp_plausis <- function(rv,
                       # Back to key: 'variable_name' was assigned here:
                       get("dqa_assessment") == 1, get(key_col_name_tar)]
             }
-            msg <- paste("--> found", i, "in", j_key)
+            msg <- paste("--> found", i, "in", j_key, " (Joined over 3 tables)")
             DIZutils::feedback(
               msg,
               logjs = isFALSE(headless),
