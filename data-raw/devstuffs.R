@@ -72,7 +72,6 @@ usethis::use_package("magrittr", type = "Imports")
 usethis::use_package("stats", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("RPostgres", type = "Imports")
-usethis::use_package("DBI", type = "Imports")
 usethis::use_package("e1071", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("rmarkdown", type = "Imports")
@@ -86,7 +85,7 @@ usethis::use_package("lintr", type = "Suggests")
 
 # Remotes
 # Development package
-utils_tag <- "v0.0.2"
+utils_tag <- "v0.0.3"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/misc/dizutils.git", ref = utils_tag, upgrade = "always")
 # usethis::use_dev_package("DQAstats", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html

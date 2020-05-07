@@ -22,7 +22,6 @@ BugReports:
     https://gitlab.miracum.org/miracum/dqa/dqastats/issues
 Imports: 
     data.table,
-    DBI,
     e1071,
     jsonlite,
     kableExtra,
@@ -38,7 +37,7 @@ Suggests:
     lintr,
     testthat
 Remotes: 
-    url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/v0.0.2/dizutils-v0.0.2.zip
+    url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/v0.0.3/dizutils-v0.0.3.zip
 Copyright: Universitätsklinikum Erlangen
 Encoding: UTF-8
 LazyData: true
