@@ -1,6 +1,7 @@
 # DQAstats (!!! currently under development !!!)
  
 <!-- badges: start -->
+[![R CMD Check via {tic}](https://github.com/miracum/dqa-dqastats/workflows/R%20CMD%20Check%20via%20{tic}/badge.svg?branch=master)](https://github.com/miracum/dqa-dqastats/actions)
 [![pipeline status](https://gitlab.miracum.org/miracum-dqa/dqastats/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum-dqa/dqastats/commits/master)
 [![coverage report](https://gitlab.miracum.org/miracum-dqa/dqastats/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum-dqa/dqastats/commits/master)
 <!-- badges: end -->
