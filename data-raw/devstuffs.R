@@ -25,7 +25,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.5")
+my_desc$set_version("0.1.5.9001")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
@@ -38,9 +38,9 @@ my_desc$set(
 # The description of your package
 my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
-my_desc$set("URL", "https://gitlab.miracum.org/miracum/dqa/dqastats")
+my_desc$set("URL", "https://github.com/miracum/dqa-dqastats")
 my_desc$set("BugReports",
-            "https://gitlab.miracum.org/miracum/dqa/dqastats/issues")
+            "https://github.com/miracum/dqa-dqastats/issues")
 # License
 my_desc$set("License", "GPL-3")
 # Save everyting
@@ -78,23 +78,11 @@ usethis::use_package("rmarkdown", type = "Imports")
 usethis::use_package("tinytex", type = "Imports")
 usethis::use_package("kableExtra", type = "Imports")
 usethis::use_package("utils", type = "Imports")
+usethis::use_package("DIZutils", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
-
-# Remotes
-# Development package
-utils_tag <- "v0.0.3"
-devtools::install_git(url = "https://gitlab.miracum.org/miracum/misc/dizutils.git", ref = utils_tag, upgrade = "always")
-# usethis::use_dev_package("DQAstats", type = "Imports")
-# https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
-desc::desc_set_remotes(c(
-  paste0(
-    "url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/", utils_tag, "/dizutils-", utils_tag, ".zip")
-),
-file = usethis::proj_get())
-
 
 ## .Rbuildignore: ##
 usethis::use_build_ignore("docker")

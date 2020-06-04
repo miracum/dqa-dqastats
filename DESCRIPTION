@@ -1,7 +1,7 @@
 Package: DQAstats
 Title: DQAstats - Core Functions for Data Quality Assessment
-Version: 0.1.5
-Date: 2020-05-07
+Version: 0.1.5.9001
+Date: 2020-06-04
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -17,11 +17,11 @@ Authors@R:
 Description: Perform data quality assessment (DQA) of electronic
     health records (EHR).
 License: GPL-3
-URL: https://gitlab.miracum.org/miracum/dqa/dqastats
-BugReports: 
-    https://gitlab.miracum.org/miracum/dqa/dqastats/issues
+URL: https://github.com/miracum/dqa-dqastats
+BugReports: https://github.com/miracum/dqa-dqastats/issues
 Imports: 
     data.table,
+    DIZutils,
     e1071,
     jsonlite,
     kableExtra,
@@ -36,8 +36,6 @@ Imports:
 Suggests: 
     lintr,
     testthat
-Remotes: 
-    url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/v0.0.3/dizutils-v0.0.3.zip
 Copyright: Universitätsklinikum Erlangen
 Encoding: UTF-8
 LazyData: true

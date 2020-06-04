@@ -23,3 +23,6 @@
 /.vscode
 /.lintr
 !/.lintr
+docs/
+!/tic.R
+!/.github/
