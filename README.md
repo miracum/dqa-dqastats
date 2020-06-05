@@ -2,8 +2,11 @@
  
 <!-- badges: start -->
 [![R CMD Check via {tic}](https://github.com/miracum/dqa-dqastats/workflows/R%20CMD%20Check%20via%20{tic}/badge.svg?branch=master)](https://github.com/miracum/dqa-dqastats/actions)
-[![pipeline status](https://gitlab.miracum.org/miracum-dqa/dqastats/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum-dqa/dqastats/commits/master)
-[![coverage report](https://gitlab.miracum.org/miracum-dqa/dqastats/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum-dqa/dqastats/commits/master)
+[![linting](https://github.com/miracum/dqa-dqastats/workflows/lint/badge.svg?branch=master)](https://github.com/miracum/dqa-dqastats/actions)
+[![test-coverage](https://github.com/miracum/dqa-dqastats/workflows/test-coverage/badge.svg?branch=master)](https://github.com/miracum/dqa-dqastats/actions)
+[![codecov](https://codecov.io/gh/miracum/dqa-dqastats/branch/master/graph/badge.svg)](https://codecov.io/gh/miracum/dqa-dqastats)
+[![pipeline status](https://gitlab.miracum.org/miracum/dqa/dqastats/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/dqastats/commits/master)
+[![coverage report](https://gitlab.miracum.org/miracum/dqa/dqastats/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/dqastats/commits/master)
 <!-- badges: end -->
 
 The R package 'DQAstats' provides core functionalities to perfrom data quality assessment (DQA) of electronic health record data (EHR).  
