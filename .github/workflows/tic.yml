@@ -21,9 +21,9 @@ jobs:
       matrix:
         config:
           # use a different tic template type if you do not want to build on all listed platforms
-          - { os: windows-latest, r: "release" }
-          - { os: macOS-latest, r: "release", pkgdown: "true", latex: "true" }
-          - { os: ubuntu-latest, r: "release" }
+          - { os: windows-latest, r: "release", pkgdown: "true", latex: "true", java: "true" }
+          - { os: macOS-latest, r: "release", pkgdown: "true", latex: "true", java: "true" }
+          - { os: ubuntu-latest, r: "release", pkgdown: "true", latex: "true", java: "true" }
 
     env:
       # otherwise remotes::fun() errors cause the build to fail. Example: Unavailability of binaries
@@ -46,7 +46,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v2.1.1
+      - uses: actions/checkout@master
 
       - uses: r-lib/actions/setup-r@master
         with:
@@ -61,8 +61,10 @@ jobs:
         if: matrix.config.latex == 'true'
 
       - uses: r-lib/actions/setup-pandoc@master
+        if: matrix.config.latex == 'true'
 
-      - uses: actions/setup-java@v1
+      - uses: actions/setup-java@master
+        if: matrix.config.java == 'true'
         with:
           java-version: '8'
 
@@ -76,7 +78,7 @@ jobs:
 
       - name: "[Cache] Cache R packages"
         if: runner.os != 'Windows'
-        uses: pat-s/always-upload-cache@v2.0.0
+        uses: pat-s/always-upload-cache@master
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{steps.date.outputs.date}}
@@ -93,7 +95,7 @@ jobs:
         run: sudo apt install libcurl4-openssl-dev
 
       - name: "[Stage] Configure R Java"
-        if: runner.os != 'Windows'
+        if: runner.os != 'Windows' && matrix.config.java == 'true'
         run: sudo R CMD javareconf
 
       - name: "[Stage] Install"
