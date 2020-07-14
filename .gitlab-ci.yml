@@ -2,14 +2,15 @@ variables:
   _R_CHECK_CRAN_INCOMING_: "false"
   _R_CHECK_FORCE_SUGGESTS_: "true"
   CI_IMAGE_NAME: "rocker/verse"
-  CI_IMAGE_TAG: "4.0.0"
+  CI_IMAGE_TAG: "4.0.1"
   R_PKG_NAME: "DQAstats"
 
 default:
   image: ${CI_IMAGE_NAME}:${CI_IMAGE_TAG}
   before_script:
     - echo "options('repos' = 'https://cloud.r-project.org/')" >> /usr/local/lib/R/etc/Rprofile.site
-    - R -e "install.packages('pkgbuild')"
+    # - R -e "install.packages('pkgbuild')"
+    - RUN install2.r --error pkgbuild
     - mkdir -p ci
 
 stages:
