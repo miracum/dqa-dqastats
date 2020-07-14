@@ -1,9 +1,12 @@
 variables:
   _R_CHECK_CRAN_INCOMING_: "false"
   _R_CHECK_FORCE_SUGGESTS_: "true"
-  CI_IMAGE_NAME: "rocker/r-ver"
+  CI_IMAGE_NAME: "rocker/verse"
   CI_IMAGE_TAG: "4.0.1"
   R_PKG_NAME: "DQAstats"
+
+# Example gitlab-ci for testing R packages: 
+# https://gist.github.com/artemklevtsov/785ed0472c167246e947a75216852e10
 
 default:
   image: ${CI_IMAGE_NAME}:${CI_IMAGE_TAG}
@@ -12,6 +15,8 @@ default:
     - echo "options('repos' = 'https://cloud.r-project.org/')" >> /usr/local/lib/R/etc/Rprofile.site
     # - R -e "install.packages('pkgbuild')"
     - install2.r --error pkgbuild
+    - install2.r devtools
+    - r -e 'devtools::install_dev_deps(pkg = '.', upgrade = 'always')'
     - mkdir -p ci
 
 stages:
@@ -22,7 +27,6 @@ check:
   stage: build
   allow_failure: true # necessary when having development-packages (in remotes-section of DESCRIPTION)
   script:
-    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')"
     - R -e "rcmdcheck::rcmdcheck(path = '.', args = c('--no-tests', '--no-vignettes', '--as-cran'), build_args = c('--no-build-vignettes'), check_dir = '${CI_PROJECT_DIR}/ci')"
   artifacts:
     paths:
@@ -41,7 +45,6 @@ create_manual:
   stage: build
   allow_failure: true
   script:
-    - R -e "devtools::install_deps(pkg = '.', upgrade = 'always')"
     - R -e "devtools::build_manual(pkg = '.', path = '${CI_PROJECT_DIR}/ci')"
   artifacts:
     paths:
@@ -57,7 +60,6 @@ create_manual:
 build_source_and_binary:
   stage: build
   script:
-    - R -e "devtools::install_deps(pkg = '.', upgrade = 'always')"
     - R -e "devtools::build(pkg = '.', path = '${CI_PROJECT_DIR}/ci', binary = FALSE, vignettes = FALSE)"
     - R -e "devtools::build(pkg = '.', path = '${CI_PROJECT_DIR}/ci', binary = TRUE, vignettes = FALSE)"
   artifacts:
@@ -81,7 +83,6 @@ build_source_and_binary:
 testing:
   stage: build
   script:
-    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
     - R -e "devtools::test(pkg = '.')"
   except:
     refs:
@@ -97,7 +98,6 @@ testing:
 install:
   stage: deploy
   script:
-    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
     - R -e "devtools::install(pkg = '.', upgrade = 'always')"
   except:
     refs:
