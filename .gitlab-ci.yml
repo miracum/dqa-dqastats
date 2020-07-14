@@ -11,7 +11,7 @@ default:
     - echo ".git" > .dockerignore  # Don't upload the git-folder to the context
     # - echo "options('repos' = 'https://cloud.r-project.org/')" >> /usr/local/lib/R/etc/Rprofile.site
     # - R -e "install.packages('pkgbuild')"
-    - RUN install2.r --error pkgbuild
+    - R -e install2.r --error pkgbuild
     - mkdir -p ci
 
 stages:
