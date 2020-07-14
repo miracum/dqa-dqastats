@@ -1,7 +1,7 @@
 variables:
   _R_CHECK_CRAN_INCOMING_: "false"
   _R_CHECK_FORCE_SUGGESTS_: "true"
-  CI_IMAGE_NAME: "rocker/verse"
+  CI_IMAGE_NAME: "rocker/r-ver"
   CI_IMAGE_TAG: "4.0.1"
   R_PKG_NAME: "DQAstats"
 
