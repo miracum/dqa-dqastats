@@ -9,9 +9,9 @@ default:
   image: ${CI_IMAGE_NAME}:${CI_IMAGE_TAG}
   before_script:
     - echo ".git" > .dockerignore  # Don't upload the git-folder to the context
-    # - echo "options('repos' = 'https://cloud.r-project.org/')" >> /usr/local/lib/R/etc/Rprofile.site
+    - echo "options('repos' = 'https://cloud.r-project.org/')" >> /usr/local/lib/R/etc/Rprofile.site
     # - R -e "install.packages('pkgbuild')"
-    - R -e install2.r --error pkgbuild
+    - install2.r --error pkgbuild
     - mkdir -p ci
 
 stages:
