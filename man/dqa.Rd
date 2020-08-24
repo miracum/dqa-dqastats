@@ -44,7 +44,7 @@ will be stored.}
 
 \item{ncores}{A integer. The number of cores to use. Caution: you would
 probably like to choose a low number when operating on large datasets.
-Default: 2}
+Default: 2.}
 }
 \description{
 This function performs a data quality assessment (DQA)

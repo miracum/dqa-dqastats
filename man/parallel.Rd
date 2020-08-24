@@ -15,7 +15,7 @@ will be stored.}
 
 \item{ncores}{A integer. The number of cores to use. Caution: you would
 probably like to choose a low number when operating on large datasets.
-Default: 2}
+Default: 2.}
 }
 \description{
 Internal function to initialize the parallel backend.

@@ -186,7 +186,7 @@ calc_counts <- function(cnt_dat,
       DIZutils::feedback("Error occured when counting source_data",
                          findme = "0adf10abcc",
                          logfile_dir = rv$log$logfile_dir,
-                         headless = rv$headless)
+                         headless = TRUE)
       print(e)
       cnt <- NULL
       cnt
@@ -249,7 +249,7 @@ calc_counts <- function(cnt_dat,
       DIZutils::feedback("Error occured when counting target_data\n",
                          findme = "486bd17564",
                          logfile_dir = rv$log$logfile_dir,
-                         headless = rv$headless)
+                         headless = TRUE)
       print(e)
       cnt <- NULL
       cnt
@@ -314,7 +314,7 @@ calc_cat_stats <- function(stat_dat,
       DIZutils::feedback("Error occured when calculating source catStats\n",
                          findme = "b8e039a302",
                          logfile_dir = rv$log$logfile_dir,
-                         headless = rv$headless)
+                         headless = TRUE)
       print(e)
       source_data <- NULL
       source_data
@@ -357,7 +357,7 @@ calc_cat_stats <- function(stat_dat,
         "Error occured when calculating target catStats\n",
         findme = "5b1a5937e5",
         logfile_dir = rv$log$logfile_dir,
-        headless = rv$headless
+        headless = TRUE
       )
       print(e)
       target_data <- NULL
@@ -429,7 +429,7 @@ calc_num_stats <- function(stat_dat,
           "Error occured when calculating simple source numStats\n",
           findme = "65c004f101",
           logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
+          headless = TRUE
         )
         print(e)
         source_data <- NULL
@@ -479,7 +479,7 @@ calc_num_stats <- function(stat_dat,
           "Error occured when calculating simple target numStats\n",
           findme = "7d01e3744a",
           logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
+          headless = TRUE
         )
         print(e)
         target_data <- NULL
@@ -531,7 +531,7 @@ calc_num_stats <- function(stat_dat,
           "Error occured when calculating simple source numStats\n",
           findme = "0b7d075ee0",
           logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
+          headless = TRUE
         )
         print(e)
         source_data <- NULL
@@ -581,7 +581,7 @@ calc_num_stats <- function(stat_dat,
           "Error occured when calculating simple target numStats",
           findme = "10b1904a51",
           logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
+          headless = TRUE
         )
         print(e)
         target_data <- NULL
