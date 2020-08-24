@@ -10,7 +10,9 @@ dqa(
   utils_path,
   mdr_filename = "mdr.csv",
   output_dir = "./output/",
-  logfile_dir = tempdir()
+  logfile_dir = tempdir(),
+  parallel = TRUE,
+  ncores = 2
 )
 }
 \arguments{
@@ -36,6 +38,13 @@ be stored.}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
 will be stored.}
+
+\item{parallel}{A boolean. If TRUE (the default value), initializing
+`future::plan("multiprocess")` before running the code.}
+
+\item{ncores}{A integer. The number of cores to use. Caution: you would
+probably like to choose a low number when operating on large datasets.
+Default: 2}
 }
 \description{
 This function performs a data quality assessment (DQA)

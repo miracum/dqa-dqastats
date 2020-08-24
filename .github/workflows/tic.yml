@@ -46,7 +46,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@main
 
       - uses: r-lib/actions/setup-r@master
         with:
@@ -63,7 +63,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@master
         if: matrix.config.latex == 'true'
 
-      - uses: actions/setup-java@master
+      - uses: actions/setup-java@main
         if: matrix.config.java == 'true'
         with:
           java-version: '8'
@@ -111,7 +111,7 @@ jobs:
 
       - name: "[Stage] Upload R CMD check artifacts"
         if: failure()
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@main
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check

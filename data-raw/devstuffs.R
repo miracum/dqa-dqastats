@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.5.9003")
+my_desc$set_version("0.1.5.9004")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
@@ -78,6 +78,8 @@ usethis::use_package("tinytex", type = "Imports")
 usethis::use_package("kableExtra", type = "Imports")
 usethis::use_package("utils", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports")
+usethis::use_package("future.apply", type = "Imports")
+usethis::use_package("future", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")

@@ -8,8 +8,8 @@
 
 devtools::load_all()
 ## using real data:
-#source_system_name = "i2b2"
-source_system_name = "p21csv"
+source_system_name = "i2b2"
+#source_system_name = "p21csv"
 #source_system_name = "p21staging"
 #source_system_name = "fhirgw"
 target_system_name = "i2b2"
@@ -37,5 +37,6 @@ all_results <- DQAstats::dqa(
   utils_path = utils_path,
   mdr_filename = mdr_filename,
   output_dir = output_dir,
-  logfile_dir = logfile_dir
+  logfile_dir = logfile_dir,
+  parallel = TRUE
 )

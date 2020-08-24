@@ -38,6 +38,11 @@
 #'   be stored.
 #' @param logfile_dir The absolute path to folder where the logfile
 #'   will be stored.
+#' @param parallel A boolean. If TRUE (the default value), initializing
+#'   `future::plan("multiprocess")` before running the code.
+#' @param ncores A integer. The number of cores to use. Caution: you would
+#'   probably like to choose a low number when operating on large datasets.
+#'   Default: 2.
 #'
 #' @import data.table
 #' @importFrom magrittr "%>%"
@@ -55,7 +60,10 @@ dqa <- function(source_system_name,
                 utils_path,
                 mdr_filename = "mdr.csv",
                 output_dir = "./output/",
-                logfile_dir = tempdir()) {
+                logfile_dir = tempdir(),
+                parallel = TRUE,
+                ncores = 2
+) {
 
   if (missing(target_system_name)) {
     target_system_name <- source_system_name
@@ -68,7 +76,9 @@ dqa <- function(source_system_name,
     is.character(mdr_filename),
     is.character(output_dir),
     is.character(logfile_dir),
-    dir.exists(logfile_dir)
+    dir.exists(logfile_dir),
+    is.logical(parallel),
+    is.numeric(ncores)
   )
 
   # initialize rv-list
@@ -94,6 +104,15 @@ dqa <- function(source_system_name,
 
   # current date
   rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
+
+  # set parallel backend
+  rv$parallel <- parallel
+  rv$ncores <- ncores
+  parallel(
+    parallel = rv$parallel,
+    logfile_dir = rv$log$logfile_dir,
+    ncores = rv$ncores
+  )
 
   # get configs (new: with env):
   rv$source$settings <- DIZutils::get_config_env(
@@ -318,6 +337,16 @@ dqa <- function(source_system_name,
   rv$duration <- difftime(rv$end_time,
                           rv$start_time,
                           units = "mins")
+
+  # parallel fallback
+  DIZutils::feedback(
+    "using future::plan(\"sequential\")",
+    logjs = FALSE,
+    findme = "0875ba600d",
+    logfile_dir = logfile_dir,
+    headless = TRUE
+  )
+  suppressWarnings(future::plan("sequential"))
 
   print(rv$duration)
   return(rv)

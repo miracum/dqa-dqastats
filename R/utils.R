@@ -56,3 +56,38 @@ load_sqls <- function(utils_path, db) {
 get_where_filter <- function(filter) {
   return(jsonlite::fromJSON(filter))
 }
+
+
+#' @title parallel helper function
+#'
+#' @description Internal function to initialize the parallel backend.
+#'
+#' @inheritParams dqa
+#'
+#' @export
+parallel <- function(parallel, logfile_dir, ncores) {
+  if (isTRUE(parallel) && future::availableCores() > 1) {
+    DIZutils::feedback(
+      "using future::plan(\"multiprocess\")",
+      logjs = FALSE,
+      findme = "0888fa600d",
+      logfile_dir = logfile_dir,
+      headless = TRUE
+    )
+    suppressWarnings(
+      future::plan(
+        "multiprocess",
+        workers = ncores
+      )
+    )
+  } else {
+    DIZutils::feedback(
+      "using future::plan(\"sequential\")",
+      logjs = FALSE,
+      findme = "0885ba600d",
+      logfile_dir = logfile_dir,
+      headless = TRUE
+    )
+    suppressWarnings(future::plan("sequential"))
+  }
+}

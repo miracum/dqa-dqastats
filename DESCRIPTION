@@ -1,7 +1,7 @@
 Package: DQAstats
 Title: DQAstats - Core Functions for Data Quality Assessment
-Version: 0.1.5.9003
-Date: 2020-06-18
+Version: 0.1.5.9004
+Date: 2020-08-24
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -25,6 +25,8 @@ Imports:
     data.table,
     DIZutils,
     e1071,
+    future,
+    future.apply,
     jsonlite,
     kableExtra,
     knitr,
@@ -40,4 +42,4 @@ Suggests:
     testthat
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
