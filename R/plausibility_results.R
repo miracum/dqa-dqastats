@@ -43,19 +43,19 @@ atemp_pausi_results <- function(rv,
     # there's an error
     on.exit(progress1$close())
     progress1$set(message = "Getting plausibility descriptions",
-                  value = 0)
+                  value = 1 / 2)
 
     # progress 2
     progress2 <- shiny::Progress$new()
     on.exit(progress2$close())
     progress2$set(message = "Calculating plausibility counts",
-                  value = 0)
+                  value = 1 / 2)
 
     # progress 3
     progress3 <- shiny::Progress$new()
     on.exit(progress3$close())
     progress3$set(message = "Calculating plausibility statistics",
-                  value = 0)
+                  value = 1 / 2)
   }
 
   outlist <- future.apply::future_sapply(
@@ -72,30 +72,28 @@ atemp_pausi_results <- function(rv,
         msg <- paste("Getting plausibility descriptions of", i)
         DIZutils::feedback(
           msg,
-          logjs = FALSE,
           findme = "0888fa800d",
           logfile_dir = rv$log$logfile_dir,
-          headless = TRUE
         )
 
         # add the raw data to data_target and data_source
         desc_dat <-
           mdr[
             get("variable_name") == dat$source_data$var_dependent &
-                get("source_system_name") %in%
-                c(rv$source$system_name,
-                  rv$target$system_name),
-            ][
-                    get("dqa_assessment") == 1, c(
-                      "source_system_name",
-                      "source_variable_name",
-                      "source_table_name",
-                      "variable_type",
-                      "key",
-                      "variable_name",
-                      "filter"
-                    ), with = F
-                    ]
+              get("source_system_name") %in%
+              c(rv$source$system_name,
+                rv$target$system_name),
+          ][
+            get("dqa_assessment") == 1, c(
+              "source_system_name",
+              "source_variable_name",
+              "source_table_name",
+              "variable_type",
+              "key",
+              "variable_name",
+              "filter"
+            ), with = F
+          ]
 
         outlist$description <- calc_atemp_plausi_description(
           dat,
@@ -109,10 +107,9 @@ atemp_pausi_results <- function(rv,
         msg <- paste("Calculating plausibility counts of", i)
         DIZutils::feedback(
           msg,
-          logjs = FALSE,
           findme = "0e918bd0fd",
-          logfile_dir = rv$log$logfile_dir,
-          headless = TRUE)
+          logfile_dir = rv$log$logfile_dir
+        )
 
         cnt_dat <- desc_dat
 
@@ -127,12 +124,12 @@ atemp_pausi_results <- function(rv,
           )
         } else {
           msg <- ("Error occured during creating counts.")
-          DIZutils::feedback(msg,
-                             logjs = FALSE,
-                             type = "Error",
-                             findme = "c57cb255fe",
-                             logfile_dir = rv$log$logfile_dir,
-                             headless = TRUE)
+          DIZutils::feedback(
+            msg,
+            type = "Error",
+            findme = "c57cb255fe",
+            logfile_dir = rv$log$logfile_dir
+          )
           stop("", msg, "\n")
         }
 
@@ -141,10 +138,9 @@ atemp_pausi_results <- function(rv,
         msg <- paste("Calculating plausibility statistics of", i)
         DIZutils::feedback(
           msg,
-          logjs = FALSE,
           findme = "cf90f11533",
-          logfile_dir = rv$log$logfile_dir,
-          headless = TRUE)
+          logfile_dir = rv$log$logfile_dir
+        )
 
         # generate counts
         stat_dat <- cnt_dat
@@ -233,7 +229,7 @@ uniq_plausi_results <- function(rv,
       on.exit(progress$close())
       progress$set(
         message = paste("Getting uniqueness plausibilities for", i),
-        value = 0
+        value = 1 / 2
       )
     }
 
@@ -263,10 +259,9 @@ uniq_plausi_results <- function(rv,
           msg <- paste("Getting uniqueness plausibility", u$name)
           DIZutils::feedback(
             msg,
-            logjs = FALSE,
             findme = "e4fe49cd9e",
-            logfile_dir = rv$log$logfile_dir,
-            headless = TRUE)
+            logfile_dir = rv$log$logfile_dir
+            )
 
           outlist$description <- u$description
 
@@ -343,10 +338,8 @@ uniq_plausi_results <- function(rv,
                 )
                 DIZutils::feedback(
                   msg,
-                  logjs = FALSE,
                   findme = "39a123470b",
-                  logfile_dir = rv$log$logfile_dir,
-                  headless = TRUE
+                  logfile_dir = rv$log$logfile_dir
                 )
                 return()
               }
@@ -359,10 +352,9 @@ uniq_plausi_results <- function(rv,
               )
               DIZutils::feedback(
                 msg,
-                logjs = FALSE,
                 findme = "39a4eeb70b",
-                logfile_dir = rv$log$logfile_dir,
-                headless = TRUE)
+                logfile_dir = rv$log$logfile_dir
+                )
 
               # we need to find the correct data and merge
               if (k == "source_data") {
@@ -378,7 +370,8 @@ uniq_plausi_results <- function(rv,
                   mdr[!grepl("^pl\\.", get("variable_name")), ][
                     get("source_system_name") == rv$target$system_name &
                       get("variable_name") == i &
-                      # Back to key: 'variable_name' not 'key' was assigned here:
+                      # Back to key: 'variable_name' not 'key'
+                      # was assigned here:
                       get("dqa_assessment") == 1, get(key_col_name_tar)
                   ]
               }
@@ -398,10 +391,8 @@ uniq_plausi_results <- function(rv,
                 msg <- paste("--> found", i, "in", m_key)
                 DIZutils::feedback(
                   msg,
-                  logjs = FALSE,
                   findme = "39a4e4b70b",
-                  logfile_dir = rv$log$logfile_dir,
-                  headless = TRUE
+                  logfile_dir = rv$log$logfile_dir
                 )
                 m_y <- rv[[raw_data]][[m_key]]
               }  else {
@@ -423,10 +414,8 @@ uniq_plausi_results <- function(rv,
                 msg <- paste("--> found", i, "in", j_key)
                 DIZutils::feedback(
                   msg,
-                  logjs = FALSE,
                   findme = "39a4e6b70b",
-                  logfile_dir = rv$log$logfile_dir,
-                  headless = TRUE
+                  logfile_dir = rv$log$logfile_dir
                 )
 
                 # get colnames
@@ -473,10 +462,8 @@ uniq_plausi_results <- function(rv,
                 )
                 DIZutils::feedback(
                   msg,
-                  logjs = FALSE,
                   findme = "39a456770b",
-                  logfile_dir = rv$log$logfile_dir,
-                  headless = TRUE
+                  logfile_dir = rv$log$logfile_dir
                 )
                 return()
               }

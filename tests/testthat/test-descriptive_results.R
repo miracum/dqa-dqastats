@@ -162,6 +162,7 @@ test_that("correct functioning of descriptive results", {
   expect_false(!any(sapply(rv$conformance$value_conformance, length) == 2))
 
   file.remove(paste0(prefix, "tests/testthat/logfile.log"))
+
 })
 
 

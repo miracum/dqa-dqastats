@@ -33,31 +33,35 @@ descriptive_results <- function(rv,
     # Make sure it closes when we exit this reactive, even if there's an error
     on.exit(progress1$close())
     progress1$set(message = "Getting variable descriptions",
-                  value = 0)
+                  value = 1 / 2)
 
     # progress 2
     progress2 <- shiny::Progress$new()
     on.exit(progress2$close())
     progress2$set(message = "Calculating variable counts",
-                  value = 0)
+                  value = 1 / 2)
 
     # progress 3
     progress3 <- shiny::Progress$new()
     on.exit(progress3$close())
     progress3$set(message = "Calculating variable statistics",
-                  value = 0)
+                  value = 1 / 2)
   }
 
   outlist <- future.apply::future_sapply(
     X = names(rv$variable_list),
     FUN = function(i) {
       local({
+        # initialize outlist
         outlist <- list()
+
         # workaround to hide shiny-stuff, when going headless
         msg <- paste("Getting variable descriptions of", i)
-        DIZutils::feedback(msg, logjs = FALSE, findme = "eb95542ec1",
-                           logfile_dir = rv$log$logfile_dir,
-                           headless = TRUE)
+        DIZutils::feedback(
+          msg,
+          findme = "eb95542ec1",
+          logfile_dir = rv$log$logfile_dir
+        )
 
         # generate descriptions
         desc_dat <- rv$mdr[
@@ -86,25 +90,26 @@ descriptive_results <- function(rv,
 
         if (nrow(desc_dat) > 1 ||
             rv$source$system_name == rv$target$system_name) {
-          outlist$description <-
-            calc_description(desc_dat, rv)
+          outlist$description <- calc_description(desc_dat, rv)
         } else {
           msg <- paste0("Error occured during creating ",
                         "descriptions of source system")
-          DIZutils::feedback(msg,
-                             logjs = FALSE,
-                             type = "Error",
-                             findme = "b640b3c662",
-                             logfile_dir = rv$log$logfile_dir,
-                             headless = TRUE)
+          DIZutils::feedback(
+            msg,
+            type = "Error",
+            findme = "b640b3c662",
+            logfile_dir = rv$log$logfile_dir
+          )
           return()
         }
 
         # workaround to hide shiny-stuff, when going headless
         msg <- paste("Calculating variable counts of", i)
-        DIZutils::feedback(msg, logjs = FALSE, findme = "056f1ee2e0",
-                           logfile_dir = rv$log$logfile_dir,
-                           headless = TRUE)
+        DIZutils::feedback(
+          msg,
+          findme = "056f1ee2e0",
+          logfile_dir = rv$log$logfile_dir
+        )
 
         # generate counts
         cnt_dat <- rv$mdr[
@@ -135,9 +140,11 @@ descriptive_results <- function(rv,
 
         # workaround to hide shiny-stuff, when going headless
         msg <- paste("Calculating variable statistics of", i)
-        DIZutils::feedback(msg, logjs = FALSE, findme = "edf4f006a9",
-                           logfile_dir = rv$log$logfile_dir,
-                           headless = TRUE)
+        DIZutils::feedback(
+          msg,
+          findme = "edf4f006a9",
+          logfile_dir = rv$log$logfile_dir
+        )
 
 
         # generate statistics
@@ -161,8 +168,7 @@ descriptive_results <- function(rv,
 
         if (stat_dat[, unique(get("variable_type"))] %in%
             c("permittedValues", "string")) {
-          outlist$statistics <-
-            calc_cat_stats(
+          outlist$statistics <- calc_cat_stats(
               stat_dat = stat_dat,
               stat_key = rv$variable_list[[i]],
               rv = rv
