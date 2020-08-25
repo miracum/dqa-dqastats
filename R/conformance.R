@@ -81,6 +81,10 @@ value_conformance <- function(
         # internal variable name
         int_name <- desc_out$source_data$internal_variable_name
 
+        key_cols <- get_key_col(rv)
+        key_col_name_src <- key_cols$source
+        key_col_name_tar <- key_cols$target
+
         for (j in c("source_data", "target_data")) {
           d_out <- desc_out[[j]]
           s_out <- stat_out[[j]]
@@ -103,6 +107,19 @@ value_conformance <- function(
               return(c)
             }
           )
+
+          if (j == "source_data") {
+            tab <- rv$mdr[get("source_system_name") == rv$source$system_name &
+                            get("designation") == i &
+                            get("dqa_assessment") == 1, get(key_col_name_src)]
+          } else {
+            tab <- rv$mdr[get("source_system_name") == rv$target$system_name &
+                            get("designation") == i &
+                            get("dqa_assessment") == 1, get(key_col_name_tar)]
+          }
+          # internal_variable_name is equal for source and target
+          # and only stored with source description
+          ih <- desc_out$source_data$internal_variable_name
 
           if (!is.na(constraints)) {
             if (length(constraints[[1]]) > 0) {
@@ -154,9 +171,8 @@ value_conformance <- function(
                         d_out$var_dependent
                       )
                     } else if (scope == "descriptive") {
-                      tab <- rv$dqa_assessment[get("designation") == i,
-                                               get("key")]
-                      ih <- desc_out$source_data$internal_variable_name
+                      # does only work with tables with 2 columns (most
+                      # probably not with CSV files)
                       vec <- setdiff(
                         colnames(rv[[raw_data]][[tab]]),
                         ih
@@ -165,7 +181,7 @@ value_conformance <- function(
 
                     if (length(vec) != 1) {
                       msg <- paste("Error occured when trying to get",
-                                   "duplicates of", i)
+                                   "errorneous IDs of", i)
                       DIZutils::feedback(
                         paste0("", msg),
                         findme = "5d05678955eb",
@@ -250,9 +266,8 @@ value_conformance <- function(
                         d_out$var_dependent
                       )
                     } else if (scope == "descriptive") {
-                      tab <- rv$dqa_assessment[get("designation") == i,
-                                               get("key")]
-                      ih <- desc_out$source_data$internal_variable_name
+                      # does only work with tables with 2 columns (most
+                      # probably not with CSV files)
                       vec <- setdiff(
                         colnames(rv[[raw_data]][[tab]]),
                         ih
@@ -261,7 +276,7 @@ value_conformance <- function(
 
                     if (length(vec) != 1) {
                       msg <- paste("Error occured when trying to get",
-                                   "duplicates of", i)
+                                   "errorneous IDs of of", i)
                       DIZutils::feedback(
                         paste0("", msg),
                         findme = "5d05698563eb",
@@ -334,9 +349,8 @@ value_conformance <- function(
                         d_out$var_dependent
                       )
                     } else if (scope == "descriptive") {
-                      tab <- rv$dqa_assessment[get("designation") == i,
-                                               get("key")]
-                      ih <- desc_out$source_data$internal_variable_name
+                      # does only work with tables with 2 columns (most
+                      # probably not with CSV files)
                       vec <- setdiff(
                         colnames(rv[[raw_data]][[tab]]),
                         ih
@@ -345,7 +359,7 @@ value_conformance <- function(
 
                     if (length(vec) != 1) {
                       msg <- paste("Error occured when trying to get",
-                                   "duplicates of", i)
+                                   "errorneous IDs of", i)
                       DIZutils::feedback(
                         paste0("", msg),
                         findme = "5d01111111eb",

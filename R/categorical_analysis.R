@@ -25,6 +25,9 @@ categorical_analysis <- function(data,
                        data[, get(filter$filter_var)]), ]
   }
 
+  # remove missings
+  data <- data[!is.na(get(var)), ]
+
   # TODO we need to define variable types at the dataimport
   data[, (var) := factor(get(var))]
 

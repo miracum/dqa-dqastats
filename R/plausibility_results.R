@@ -148,8 +148,8 @@ atemp_pausi_results <- function(rv,
         if (stat_dat[, unique(get("variable_type"))] %in%
             c("permittedValues", "string")) {
           outlist$statistics <- calc_cat_stats(
-            stat_dat,
-            stat_dat[, unique(get("variable_name"))],
+            stat_dat = stat_dat,
+            stat_key = stat_dat[, unique(get("variable_name"))],
             rv,
             plausibility = TRUE,
             plausibility_key = i
