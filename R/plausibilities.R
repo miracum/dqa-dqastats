@@ -71,7 +71,7 @@ get_atemp_plausis <- function(rv,
           "Getting atemporal plausibilities for",
           i
         ),
-        value = 0
+        value = 1 / 2
       )
     }
 
