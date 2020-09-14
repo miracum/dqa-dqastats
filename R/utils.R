@@ -80,6 +80,9 @@ parallel <- function(parallel, logfile_dir, ncores) {
         workers = ncores
       )
     )
+    on.exit(
+      suppressWarnings(future::plan("sequential"))
+    )
   } else {
     DIZutils::feedback(
       "using future::plan(\"sequential\")",
