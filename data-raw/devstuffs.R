@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.5.9006")
+my_desc$set_version("0.1.5.9007")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
@@ -84,6 +84,19 @@ usethis::use_package("future", type = "Imports")
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
+
+# Development package
+utils_tag <- "development" # e.g. "v0.1.5" or "development"
+devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
+
+
+# usethis::use_dev_package("DQAstats", type = "Imports")
+# https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
+desc::desc_set_remotes(c(
+  paste0(
+    "github::miracum/misc-dizutils@", utils_tag)
+),
+file = usethis::proj_get())
 
 ## .Rbuildignore: ##
 usethis::use_build_ignore("docker")
