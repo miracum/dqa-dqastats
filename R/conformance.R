@@ -191,17 +191,21 @@ value_conformance <- function(
                     }
 
                     if (scope == "plausibility") {
-                      outlist2$affected_ids <-
-                        unique(
-                          rv[[raw_data]][[i]][get(d_out$var_dependent) %notin%
-                                                constraints, vec, with = F]
-                        )
+                      outlist2$affected_ids <- unique(
+                        rv[[raw_data]][[i]][
+                          get(d_out$var_dependent) %notin% constraints,
+                          vec,
+                          with = F
+                        ]
+                      )
                     } else if (scope == "descriptive") {
-                      outlist2$affected_ids <-
-                        unique(
-                          rv[[raw_data]][[tab]][
-                            get(ih) %notin% constraints, vec, with = F]
-                        )
+                      outlist2$affected_ids <- unique(
+                        rv[[raw_data]][[tab]][
+                          get(ih) %notin% constraints,
+                          vec,
+                          with = F
+                        ]
+                      )
                     }
                   }
                 }
@@ -286,21 +290,23 @@ value_conformance <- function(
                     }
 
                     if (scope == "plausibility") {
-                      outlist2$affected_ids <-
-                        unique(
-                          rv[[raw_data]][[i]][get(d_out$var_dependent) <
-                                                result_min |
-                                                get(d_out$var_dependent) >
-                                                result_max, vec, with = F]
-                        )
+                      outlist2$affected_ids <- unique(
+                        rv[[raw_data]][[i]][
+                          get(d_out$var_dependent) < constraints$range$min |
+                            get(d_out$var_dependent) > constraints$range$max,
+                          vec,
+                          with = F
+                        ]
+                      )
                     } else if (scope == "descriptive") {
-                      outlist2$affected_ids <-
-                        unique(
-                          rv[[raw_data]][[tab]][
-                            get(ih) < result_min |
-                              get(ih) >
-                              result_max, vec, with = F]
-                        )
+                      outlist2$affected_ids <- unique(
+                        rv[[raw_data]][[tab]][
+                          get(ih) < constraints$range$min |
+                            get(ih) > constraints$range$max,
+                          vec,
+                          with = F
+                        ]
+                      )
                     }
                   }
                 }
@@ -369,21 +375,27 @@ value_conformance <- function(
                     }
 
                     if (scope == "plausibility") {
-                      outlist2$affected_ids <-
-                        unique(
-                          rv[[raw_data]][[i]][!grepl(
+                      outlist2$affected_ids <- unique(
+                        rv[[raw_data]][[i]][
+                          !grepl(
                             pattern = pattern,
                             x = get(d_out$var_dependent)
-                          ), vec, with = F]
-                        )
+                          ),
+                          vec,
+                          with = F
+                        ]
+                      )
                     } else if (scope == "descriptive") {
-                      outlist2$affected_ids <-
-                        unique(
-                          rv[[raw_data]][[tab]][!grepl(
+                      outlist2$affected_ids <- unique(
+                        rv[[raw_data]][[tab]][
+                          !grepl(
                             pattern = pattern,
                             x = get(ih)
-                          ), vec, with = F]
-                        )
+                          ),
+                          vec,
+                          with = F
+                        ]
+                      )
                     }
                   }
                 }
