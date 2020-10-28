@@ -484,7 +484,7 @@ data_loading <- function(rv, system, keys_to_test) {
         db_type = system$system_type,
         headless = rv$headless,
         logfile_dir = rv$log$logfile_dir,
-        lib_path = Sys.getenv(paste0(system$system_name, "_DRIVER"))
+        lib_path = Sys.getenv(paste0(toupper(system$system_name), "_DRIVER"))
       )
     stopifnot(!is.null(db_con))
 
