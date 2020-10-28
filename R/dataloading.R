@@ -471,6 +471,34 @@ data_loading <- function(rv, system, keys_to_test) {
     )
     rm(db_con)
 
+  }  else if (system$system_type == "oracle") {
+    # import target SQL
+    outlist$sql_statements <- load_sqls(utils_path = rv$utilspath,
+                                        db = system$system_name)
+    stopifnot(is.list(outlist$sql_statements))
+
+    # test target_db
+    db_con <-
+      DIZutils::db_connection(
+        db_name = system$system_name,
+        db_type = system$system_type,
+        headless = rv$headless,
+        logfile_dir = rv$log$logfile_dir,
+        lib_path = Sys.getenv(paste0(system$system_name, "_DRIVER"))
+      )
+    stopifnot(!is.null(db_con))
+
+    # load target data
+    outlist$outdata <- load_database(
+      rv = rv,
+      sql_statements = outlist$sql_statements,
+      db_con = db_con,
+      keys_to_test = keys_to_test,
+      headless = rv$headless,
+      db_name = system$system_name
+    )
+    rm(db_con)
+
   } else {
     stop("\nThis source_system_type is currently not implemented.\n\n")
   }
