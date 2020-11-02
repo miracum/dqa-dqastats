@@ -67,22 +67,31 @@ get_where_filter <- function(filter) {
 #' @export
 parallel <- function(parallel, logfile_dir, ncores) {
   if (isTRUE(parallel) && future::availableCores() > 1) {
-    DIZutils::feedback(
-      "using future::plan(\"multiprocess\")",
-      logjs = FALSE,
-      findme = "0888fa600d",
-      logfile_dir = logfile_dir,
-      headless = TRUE
-    )
-    suppressWarnings(
-      future::plan(
-        "multiprocess",
-        workers = ncores
+
+    if (ncores < future::availableCores()) {
+      ncores <- future::availableCores()
+    }
+
+    if (.Platform$OS.type == "unix") {
+      DIZutils::feedback(
+        "using future::plan(\"multicore\")",
+        logjs = FALSE,
+        findme = "0888fa600d",
+        logfile_dir = logfile_dir,
+        headless = TRUE
       )
-    )
-    on.exit(
-      suppressWarnings(future::plan("sequential"))
-    )
+      suppressWarnings(future::plan("multicore", worker = ncores))
+
+    } else {
+      DIZutils::feedback(
+        "using future::plan(\"multisession\")",
+        logjs = FALSE,
+        findme = "0888fa600d",
+        logfile_dir = logfile_dir,
+        headless = TRUE
+      )
+      suppressWarnings(future::plan("multisession", worker = ncores))
+    }
   } else {
     DIZutils::feedback(
       "using future::plan(\"sequential\")",

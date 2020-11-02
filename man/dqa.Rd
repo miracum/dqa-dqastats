@@ -12,7 +12,7 @@ dqa(
   output_dir = "./output/",
   logfile_dir = tempdir(),
   parallel = TRUE,
-  ncores = 2
+  ncores = 4
 )
 }
 \arguments{

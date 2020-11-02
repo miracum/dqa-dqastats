@@ -62,7 +62,7 @@ dqa <- function(source_system_name,
                 output_dir = "./output/",
                 logfile_dir = tempdir(),
                 parallel = TRUE,
-                ncores = 2
+                ncores = 4
 ) {
 
   if (missing(target_system_name)) {
