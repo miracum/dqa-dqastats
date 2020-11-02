@@ -327,7 +327,7 @@ dqa <- function(source_system_name,
   create_markdown(
     rv = rv,
     utils_path = rv$utilspath,
-    outdir = paste0(getwd(), "/", output_dir),
+    outdir = output_dir,
     headless = rv$headless
   )
 
