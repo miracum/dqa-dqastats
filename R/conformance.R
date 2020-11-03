@@ -187,25 +187,25 @@ value_conformance <- function(
                         findme = "5d05678955eb",
                         logfile_dir = logfile_dir
                       )
-                      return()
-                    }
+                    } else {
 
-                    if (scope == "plausibility") {
-                      outlist2$affected_ids <- unique(
-                        rv[[raw_data]][[i]][
-                          get(d_out$var_dependent) %notin% constraints,
-                          vec,
-                          with = F
-                        ]
-                      )
-                    } else if (scope == "descriptive") {
-                      outlist2$affected_ids <- unique(
-                        rv[[raw_data]][[tab]][
-                          get(ih) %notin% constraints,
-                          vec,
-                          with = F
-                        ]
-                      )
+                      if (scope == "plausibility") {
+                        outlist2$affected_ids <- unique(
+                          rv[[raw_data]][[i]][
+                            get(d_out$var_dependent) %notin% constraints,
+                            vec,
+                            with = F
+                          ]
+                        )
+                      } else if (scope == "descriptive") {
+                        outlist2$affected_ids <- unique(
+                          rv[[raw_data]][[tab]][
+                            get(ih) %notin% constraints,
+                            vec,
+                            with = F
+                          ]
+                        )
+                      }
                     }
                   }
                 }
@@ -286,27 +286,27 @@ value_conformance <- function(
                         findme = "5d05698563eb",
                         logfile_dir = logfile_dir
                       )
-                      return()
-                    }
+                    } else {
 
-                    if (scope == "plausibility") {
-                      outlist2$affected_ids <- unique(
-                        rv[[raw_data]][[i]][
-                          get(d_out$var_dependent) < constraints$range$min |
-                            get(d_out$var_dependent) > constraints$range$max,
-                          vec,
-                          with = F
-                        ]
-                      )
-                    } else if (scope == "descriptive") {
-                      outlist2$affected_ids <- unique(
-                        rv[[raw_data]][[tab]][
-                          get(ih) < constraints$range$min |
-                            get(ih) > constraints$range$max,
-                          vec,
-                          with = F
-                        ]
-                      )
+                      if (scope == "plausibility") {
+                        outlist2$affected_ids <- unique(
+                          rv[[raw_data]][[i]][
+                            get(d_out$var_dependent) < constraints$range$min |
+                              get(d_out$var_dependent) > constraints$range$max,
+                            vec,
+                            with = F
+                          ]
+                        )
+                      } else if (scope == "descriptive") {
+                        outlist2$affected_ids <- unique(
+                          rv[[raw_data]][[tab]][
+                            get(ih) < constraints$range$min |
+                              get(ih) > constraints$range$max,
+                            vec,
+                            with = F
+                          ]
+                        )
+                      }
                     }
                   }
                 }
@@ -371,31 +371,31 @@ value_conformance <- function(
                         findme = "5d01111111eb",
                         logfile_dir = logfile_dir
                       )
-                      return()
-                    }
+                    } else {
 
-                    if (scope == "plausibility") {
-                      outlist2$affected_ids <- unique(
-                        rv[[raw_data]][[i]][
-                          !grepl(
-                            pattern = pattern,
-                            x = get(d_out$var_dependent)
-                          ),
-                          vec,
-                          with = F
-                        ]
-                      )
-                    } else if (scope == "descriptive") {
-                      outlist2$affected_ids <- unique(
-                        rv[[raw_data]][[tab]][
-                          !grepl(
-                            pattern = pattern,
-                            x = get(ih)
-                          ),
-                          vec,
-                          with = F
-                        ]
-                      )
+                      if (scope == "plausibility") {
+                        outlist2$affected_ids <- unique(
+                          rv[[raw_data]][[i]][
+                            !grepl(
+                              pattern = pattern,
+                              x = get(d_out$var_dependent)
+                            ),
+                            vec,
+                            with = F
+                          ]
+                        )
+                      } else if (scope == "descriptive") {
+                        outlist2$affected_ids <- unique(
+                          rv[[raw_data]][[tab]][
+                            !grepl(
+                              pattern = pattern,
+                              x = get(ih)
+                            ),
+                            vec,
+                            with = F
+                          ]
+                        )
+                      }
                     }
                   }
                 }

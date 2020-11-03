@@ -240,7 +240,7 @@ load_csv <- function(rv,
         } else if (var_type == "calendar") {
           # transform date variables
           outlist[[i]][, (vn) := as.Date(
-            substr(as.character(get(vn)), 1, 8), format = "%Y%m%d"
+            as.character(get(vn))
           )]
         } else if (var_type %in% c("integer", "float")) {
           # transform numeric variables
