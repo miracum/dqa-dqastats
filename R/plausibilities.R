@@ -294,6 +294,9 @@ get_atemp_plausis <- function(rv,
               invisible(gc())
             }
             outlist[[k]][[raw_data]] <- group_data
+            if (is.null(u$filter[[src_flag]])) {
+              outlist[[k]]$filter <- NA
+            }
             rm(group_data)
             invisible(gc())
           }
