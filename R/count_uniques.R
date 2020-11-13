@@ -26,8 +26,11 @@ count_uniques <- function(data,
   valids <- NULL
 
   if (length(filter) > 0) {
-    data <- data[grepl(filter$filter_logic,
-                       data[, get(filter$filter_var)]), ]
+    data <- data[grepl(
+      filter$filter_logic,
+      data[, get(filter$filter_var)],
+      perl = TRUE
+    ), ]
   }
 
   if (isTRUE(datamap)) {

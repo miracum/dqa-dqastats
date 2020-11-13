@@ -94,9 +94,12 @@ calc_num_stats <- function(stat_dat,
                                            get(key_col_name_src)]]]
           # for source_data; our data is in rv$data_source$source_table_name
           if (length(where_filter) > 0) {
-            vector <- data[grepl(where_filter$filter_logic,
-                                 data[, get(where_filter$filter_var)]),
-                           get(stat_key)]
+            vector <- data[grepl(
+              where_filter$filter_logic,
+              data[, get(where_filter$filter_var)],
+              perl = TRUE
+            ),
+            get(stat_key)]
           } else {
             vector <- data[, get(stat_key)]
           }
@@ -104,9 +107,12 @@ calc_num_stats <- function(stat_dat,
         } else {
           data <- rv$data_source[[plausibility_key]]
           if (length(where_filter) > 0) {
-            vector <- data[grepl(where_filter$filter_logic,
-                                 data[, get(where_filter$filter_var)]),
-                           get(stat_key)]
+            vector <- data[grepl(
+              where_filter$filter_logic,
+              data[, get(where_filter$filter_var)],
+              perl = TRUE
+            ),
+            get(stat_key)]
           } else {
             vector <- data[, get(stat_key)]
           }
@@ -142,9 +148,11 @@ calc_num_stats <- function(stat_dat,
                                              rv$target$system_name,
                                            get(key_col_name_tar)]]]
           if (length(where_filter) > 0) {
-            vector <- data[grepl(where_filter$filter_logic,
-                                 data[, get(where_filter$filter_var)]),
-                           get(stat_key)]
+            vector <- data[grepl(
+              where_filter$filter_logic,
+              data[, get(where_filter$filter_var)],
+              perl = TRUE),
+              get(stat_key)]
           } else {
             vector <- data[, get(stat_key)]
           }
@@ -152,9 +160,12 @@ calc_num_stats <- function(stat_dat,
         } else {
           data <- rv$data_target[[plausibility_key]]
           if (length(where_filter) > 0) {
-            vector <- data[grepl(where_filter$filter_logic,
-                                 data[, get(where_filter$filter_var)]),
-                           get(stat_key)]
+            vector <- data[grepl(
+              where_filter$filter_logic,
+              data[, get(where_filter$filter_var)],
+              perl = TRUE
+            ),
+            get(stat_key)]
           } else {
             vector <- data[, get(stat_key)]
           }
@@ -193,9 +204,12 @@ calc_num_stats <- function(stat_dat,
                                              rv$source$system_name,
                                            get(key_col_name_src)]]]
           if (length(where_filter) > 0) {
-            vector <- data[grepl(where_filter$filter_logic,
-                                 data[, get(where_filter$filter_var)]),
-                           get(stat_key)]
+            vector <- data[grepl(
+              where_filter$filter_logic,
+              data[, get(where_filter$filter_var)],
+              perl = TRUE
+            ),
+            get(stat_key)]
           } else {
             vector <- data[, get(stat_key)]
           }

@@ -166,7 +166,8 @@ get_atemp_plausis <- function(rv,
               if (!is.null(u$filter[[src_flag]])) {
                 group_data <- rv[[raw_data]][[u_key]][grepl(
                   u$filter[[src_flag]],
-                  get(u$variable_name)
+                  get(u$variable_name),
+                  perl = TRUE
                 ), c(i, u$variable_name), with = F]
               } else {
                 group_data <- rv[[raw_data]][[u_key]][!is.na(
@@ -203,7 +204,8 @@ get_atemp_plausis <- function(rv,
               if (!is.null(u$filter[[src_flag]])) {
                 m_x <- unique(rv[[raw_data]][[u_key]][grepl(
                   u$filter[[src_flag]],
-                  get(u$variable_name)
+                  get(u$variable_name),
+                  perl = TRUE
                 ), ])
               } else {
                 m_x <- unique(rv[[raw_data]][[u_key]])

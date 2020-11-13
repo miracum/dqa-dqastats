@@ -21,8 +21,11 @@ categorical_analysis <- function(data,
                                  filter) {
 
   if (length(filter) > 0) {
-    data <- data[grepl(filter$filter_logic,
-                       data[, get(filter$filter_var)]), ]
+    data <- data[grepl(
+      filter$filter_logic,
+      data[, get(filter$filter_var)],
+      perl = TRUE
+    ), ]
   }
 
   # remove missings
