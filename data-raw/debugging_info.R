@@ -8,20 +8,20 @@
 
 devtools::load_all()
 ## using real data:
-#source_system_name = "i2b2"
-source_system_name = "kdb"
+source_system_name = "i2b2"
+# source_system_name = "kdb"
 #source_system_name = "p21csv"
 #source_system_name = "p21staging"
 #source_system_name = "fhirgw"
 target_system_name = "i2b2"
 #target_system_name = "p21csv"
 #target_system_name = "p21staging"
-#target_system_name = "omop"
+# target_system_name = "omop"
 # config_file = "../demo_settings_INTERNAL.yml"
 utils_path = system.file("application/_utilities/", package = "miRacumDQA")
 #mdr_filename = "samply_export.csv"
 mdr_filename = "mdr.csv"
-mdr_filename = "mdr_combined.csv"
+# mdr_filename = "mdr_combined.csv"
 output_dir = "output/"
 logfile_dir = "./"
 

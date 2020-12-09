@@ -451,13 +451,28 @@ data_loading <- function(rv, system, keys_to_test) {
     stopifnot(is.list(outlist$sql_statements))
 
     # test target_db
-    db_con <-
-      DIZutils::db_connection(
-        db_name = system$system_name,
-        db_type = system$system_type,
-        headless = rv$headless,
-        logfile_dir = rv$log$logfile_dir
-      )
+    if (is.null(system$settings)) {
+      ## Use environment-settings:
+      db_con <-
+        DIZutils::db_connection(
+          db_name = system$system_name,
+          db_type = system$system_type,
+          headless = rv$headless,
+          logfile_dir = rv$log$logfile_dir
+        )
+    } else {
+      ## Use included settings:
+      db_con <-
+        DIZutils::db_connection(
+          db_name = system$system_name,
+          db_type = system$system_type,
+          headless = rv$headless,
+          logfile_dir = rv$log$logfile_dir,
+          from_env = FALSE,
+          settings = system$settings
+        )
+    }
+
     stopifnot(!is.null(db_con))
 
     # load target data
@@ -478,14 +493,34 @@ data_loading <- function(rv, system, keys_to_test) {
     stopifnot(is.list(outlist$sql_statements))
 
     # test target_db
-    db_con <-
-      DIZutils::db_connection(
-        db_name = system$system_name,
-        db_type = system$system_type,
-        headless = rv$headless,
-        logfile_dir = rv$log$logfile_dir,
-        lib_path = Sys.getenv(paste0(toupper(system$system_name), "_DRIVER"))
-      )
+    if (is.null(system$settings)) {
+      ## Use environment-settings:
+      db_con <-
+        DIZutils::db_connection(
+          db_name = system$system_name,
+          db_type = system$system_type,
+          headless = rv$headless,
+          logfile_dir = rv$log$logfile_dir,
+          lib_path = Sys.getenv(paste0(
+            toupper(system$system_name), "_DRIVER"
+          ))
+        )
+    } else {
+      ## Use included settings:
+      db_con <-
+        DIZutils::db_connection(
+          db_name = system$system_name,
+          db_type = system$system_type,
+          headless = rv$headless,
+          logfile_dir = rv$log$logfile_dir,
+          lib_path = Sys.getenv(paste0(
+            toupper(system$system_name), "_DRIVER"
+          )),
+          from_env = FALSE,
+          settings = system$settings
+        )
+    }
+
     stopifnot(!is.null(db_con))
 
     # load target data
