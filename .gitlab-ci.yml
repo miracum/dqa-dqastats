@@ -1,22 +1,16 @@
 variables:
   _R_CHECK_CRAN_INCOMING_: "false"
   _R_CHECK_FORCE_SUGGESTS_: "true"
-  CI_IMAGE_NAME: "rocker/verse"
-  CI_IMAGE_TAG: "4.0.1"
+  CI_IMAGE_NAME: "docker.miracum.org/dqa/base_image:development"
   R_PKG_NAME: "DQAstats"
 
 # Example gitlab-ci for testing R packages: 
 # https://gist.github.com/artemklevtsov/785ed0472c167246e947a75216852e10
 
 default:
-  image: ${CI_IMAGE_NAME}:${CI_IMAGE_TAG}
+  image: ${CI_IMAGE_NAME}
   before_script:
     - echo ".git" > .dockerignore  # Don't upload the git-folder to the context
-    - echo "options('repos' = 'https://cloud.r-project.org/')" >> /usr/local/lib/R/etc/Rprofile.site
-    # - R -e "install.packages('pkgbuild')"
-    - install2.r --error pkgbuild
-    - install2.r devtools
-    - r -e 'devtools::install_dev_deps(pkg = '.', upgrade = 'always')'
     - mkdir -p ci
 
 stages:
