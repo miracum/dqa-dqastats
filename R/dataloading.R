@@ -246,10 +246,30 @@ load_database <- function(rv,
 
     stopifnot(!is.null(sql_statements[[i]]))
 
-    DIZutils::query_database(
+    dat <- DIZutils::query_database(
       db_con = db_con,
       sql_statement = sql_statements[[i]]
     )
+    # check, if table has more than two columns and thus does not comply
+    # with DQAstats table requirements for SQL based systems
+    if (dim(dat)[2] > 2) {
+      msg <- paste0(
+        "Table of data element '", i,
+        "' has > 2 columns. Aborting session.\n",
+        "Please adjust the SQL statement to return max. 2 columns."
+      )
+      DIZutils::feedback(msg,
+                         type = "Error",
+                         logjs = isFALSE(headless),
+                         findme = "c1902dd9cf",
+                         logfile_dir = rv$log$logfile_dir,
+                         headless = rv$headless)
+      # raise error
+      stop(msg)
+    } else {
+      return(dat)
+    }
+
   }, simplify = F, USE.NAMES = T)
 
   RPostgres::dbDisconnect(db_con)
