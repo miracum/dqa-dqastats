@@ -365,7 +365,8 @@ create_markdown <- function(rv = rv,
 
     rmarkdown::render(
       input = paste0(outdir, "/DQA_report.md"),
-      output_file = paste0(outdir, "/DQA_report_", gsub(
+      output_dir = outdir,
+      output_file = paste0("DQA_report_", gsub(
         "\\-|\\:| ", "", substr(rv$start_time, 1, 16)
       ), ".pdf"),
       encoding = "UTF-8"

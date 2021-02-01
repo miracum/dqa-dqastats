@@ -198,8 +198,16 @@ load_csv <- function(rv,
           outlist[[i]][, (vn) := factor(get(vn))]
         } else if (var_type == "calendar") {
           # transform date variables
+          # TODO fix date format
+          date_format <- rv$mdr[
+            get("source_system_name") == system$system_name &
+              get("source_table_name") == i &
+              get("variable_name") == vn,
+            unique(get("constraints"))
+          ]
           outlist[[i]][, (vn) := as.Date(
-            as.character(get(vn))
+            as.character(get(vn)),
+            format = date_format
           )]
         } else if (var_type %in% c("integer", "float")) {
           # transform numeric variables

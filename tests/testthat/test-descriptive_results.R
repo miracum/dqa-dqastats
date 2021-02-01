@@ -158,7 +158,7 @@ test_that("correct functioning of descriptive results", {
       logfile_dir = rv$log$logfile_dir
     )
 
-  expect_length(rv$conformance$value_conformance, 3)
+  expect_length(rv$conformance$value_conformance, 6)
   expect_false(!any(sapply(rv$conformance$value_conformance, length) == 2))
 
   file.remove(paste0(prefix, "tests/testthat/logfile.log"))
@@ -299,7 +299,7 @@ test_that("correct functioning of descriptive results - single source", {
       logfile_dir = rv$log$logfile_dir
     )
 
-  expect_length(rv$conformance$value_conformance, 3)
+  expect_length(rv$conformance$value_conformance, 6)
   expect_false(!any(sapply(rv$conformance$value_conformance, length) == 2))
 
   # Remove the settings and output-folder:
