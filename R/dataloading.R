@@ -198,13 +198,16 @@ load_csv <- function(rv,
           outlist[[i]][, (vn) := factor(get(vn))]
         } else if (var_type == "calendar") {
           # transform date variables
-          # TODO fix date format
           date_format <- rv$mdr[
             get("source_system_name") == system$system_name &
               get("source_table_name") == i &
               get("variable_name") == vn,
             unique(get("constraints"))
           ]
+          if (grepl("^\\s+$", date_format) || date_format == "") {
+            # set date format to default value
+            date_format = "%Y-%m-%d"
+          }
           outlist[[i]][, (vn) := as.Date(
             as.character(get(vn)),
             format = date_format
@@ -305,11 +308,21 @@ load_database <- function(rv,
         outlist[[i]][, (j) := factor(get(j))]
       } else if (var_type == "calendar") {
         # transform date variables
-        if (outlist[[i]][, is.factor(get(j))]) {
-          outlist[[i]][, (j) := as.Date(
-            substr(as.character(get(j)), 1, 8), format = "%Y%m%d"
-          )]
+        # transform date variables
+        date_format <- rv$mdr[
+          get("source_system_name") == db_name &
+            get("key") == i &
+            get("variable_name") == j,
+          unique(get("constraints"))
+        ]
+        if (grepl("^\\s+$", date_format) || date_format == "") {
+          # set date format to default value
+          date_format = "%Y%m%d"
         }
+        outlist[[i]][, (j) := as.Date(
+          as.character(get(j)),
+          format = date_format
+        )]
       } else if (var_type %in% c("integer", "float")) {
         # transform numeric variables
         outlist[[i]][, (j) := as.numeric(
