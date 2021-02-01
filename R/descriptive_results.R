@@ -27,27 +27,6 @@
 descriptive_results <- function(rv,
                                 headless = FALSE) {
 
-  if (isFALSE(headless)) {
-    # Create a Progress object
-    progress1 <- shiny::Progress$new()
-    # Make sure it closes when we exit this reactive, even if there's an error
-    on.exit(progress1$close())
-    progress1$set(message = "Getting variable descriptions",
-                  value = 1 / 2)
-
-    # progress 2
-    progress2 <- shiny::Progress$new()
-    on.exit(progress2$close())
-    progress2$set(message = "Calculating variable counts",
-                  value = 1 / 2)
-
-    # progress 3
-    progress3 <- shiny::Progress$new()
-    on.exit(progress3$close())
-    progress3$set(message = "Calculating variable statistics",
-                  value = 1 / 2)
-  }
-
   outlist <- future.apply::future_sapply(
     X = names(rv$variable_list),
     FUN = function(i) {
@@ -188,12 +167,6 @@ descriptive_results <- function(rv,
     simplify = FALSE
   )
   gc()
-
-  if (isFALSE(headless)) {
-    progress1$close()
-    progress2$close()
-    progress3$close()
-  }
 
   return(outlist)
 }

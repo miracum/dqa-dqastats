@@ -60,20 +60,6 @@ get_atemp_plausis <- function(rv,
 
   # iterate over uniqueness checks
   for (i in names(uniques)) {
-    if (isFALSE(headless)) {
-      # Create a Progress object
-      progress <- shiny::Progress$new()
-      # Make sure it closes when we exit this reactive,
-      # even if there's an error
-      on.exit(progress$close())
-      progress$set(
-        message = paste(
-          "Getting atemporal plausibilities for",
-          i
-        ),
-        value = 1 / 2
-      )
-    }
 
     seq_names <- sapply(
       X = uniques[[i]],
@@ -308,10 +294,6 @@ get_atemp_plausis <- function(rv,
       simplify = FALSE,
       USE.NAMES = TRUE
     )
-
-    if (isFALSE(headless)) {
-      progress$close()
-    }
     outlist <- c(outlist, outlist_append)
   }
   names(outlist) <- tolower(names(outlist))

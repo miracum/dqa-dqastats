@@ -51,16 +51,6 @@ value_conformance <- function(
   # get names
   obj_names <- names(results)
 
-  if (isFALSE(headless)) {
-    # Create a Progress object
-    progress <- shiny::Progress$new()
-    # Make sure it closes when we exit this reactive, even if there's
-    # an error
-    on.exit(progress$close())
-    progress$set(message = "Performing value conformance check",
-                 value = 1 / 2)
-  }
-
   outlist <- future.apply::future_sapply(
     X = obj_names,
     FUN = function(i) {
@@ -414,10 +404,6 @@ value_conformance <- function(
     simplify = FALSE,
     USE.NAMES = TRUE
   )
-
-  if (isFALSE(headless)) {
-    progress$close()
-  }
 
   # which list elements have a valid value?
   vec <- sapply(

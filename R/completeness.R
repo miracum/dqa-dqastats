@@ -39,27 +39,12 @@ completeness <- function(results, headless = FALSE, logfile_dir) {
     )
   )
 
-  if (isFALSE(headless)) {
-    # Create a Progress object
-    progress <- shiny::Progress$new()
-    # Make sure it closes when we exit this reactive, even if
-    # there's an error
-    on.exit(progress$close())
-    progress$set(message = "Performing missing analysis", value = 0)
-  }
-
   # loop over objects
   for (i in obj_names) {
     msg <- paste("Performing missing analysis", i)
     DIZutils::feedback(msg, findme = "7a28e87b30", logjs = isFALSE(headless),
              logfile_dir = logfile_dir,
              headless = headless)
-    if (isFALSE(headless)) {
-      # Increment the progress bar, and update the detail text.
-      progress$inc(
-        1 / length(obj_names),
-        detail = paste("... checking", i, "..."))
-    }
 
     count_out <- results[[i]]$counts
 
@@ -84,10 +69,5 @@ completeness <- function(results, headless = FALSE, logfile_dir) {
       fill = TRUE
     )
   }
-
-  if (isFALSE(headless)) {
-    progress$close()
-  }
-
   return(outlist)
 }

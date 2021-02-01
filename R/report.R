@@ -299,20 +299,6 @@ create_markdown <- function(rv = rv,
     findme = "aa5c87f7da",
     logfile_dir = rv$log$logfile_dir,
     headless = rv$headless)
-  if (isFALSE(headless)) {
-    # Create a Progress object
-    progress <- shiny::Progress$new()
-    # Make sure it closes when we exit this reactive, even if
-    # there's an error
-    on.exit(progress$close())
-    progress$set(message = "Creating report", value = 0)
-
-    # Increment the progress bar, and update the detail text.
-    progress$inc(
-      1 / 1,
-      detail = "... working hard to create pdf ..."
-    )
-  }
 
   catch_msg <- "Something went wrong with tinytex: "
   tryCatch({

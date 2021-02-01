@@ -36,28 +36,6 @@ atemp_pausi_results <- function(rv,
   #% source_db = rv$source$system_name
   #% headless = T
 
-  if (isFALSE(headless)) {
-    # Create a Progress object
-    progress1 <- shiny::Progress$new()
-    # Make sure it closes when we exit this reactive, even if
-    # there's an error
-    on.exit(progress1$close())
-    progress1$set(message = "Getting plausibility descriptions",
-                  value = 1 / 2)
-
-    # progress 2
-    progress2 <- shiny::Progress$new()
-    on.exit(progress2$close())
-    progress2$set(message = "Calculating plausibility counts",
-                  value = 1 / 2)
-
-    # progress 3
-    progress3 <- shiny::Progress$new()
-    on.exit(progress3$close())
-    progress3$set(message = "Calculating plausibility statistics",
-                  value = 1 / 2)
-  }
-
   outlist <- future.apply::future_sapply(
     X = names(atemp_vars),
     FUN = function(i) {
@@ -171,12 +149,6 @@ atemp_pausi_results <- function(rv,
     simplify = FALSE
   )
   gc()
-
-  if (isFALSE(headless)) {
-    progress1$close()
-    progress2$close()
-    progress3$close()
-  }
   return(outlist)
 }
 
@@ -221,17 +193,6 @@ uniq_plausi_results <- function(rv,
 
   # iterate over uniqueness checks
   for (i in names(uniques)) {
-    if (isFALSE(headless)) {
-      # Create a Progress object
-      progress <- shiny::Progress$new()
-      # Make sure it closes when we exit this reactive, even
-      # if there's an error
-      on.exit(progress$close())
-      progress$set(
-        message = paste("Getting uniqueness plausibilities for", i),
-        value = 1 / 2
-      )
-    }
 
     seq_names <- sapply(
       X = uniques[[i]],
@@ -515,9 +476,6 @@ uniq_plausi_results <- function(rv,
     )
     gc()
 
-    if (isFALSE(headless)) {
-      progress$close()
-    }
     outlist <- c(outlist, outlist_append)
   }
   return(outlist[order(names(outlist))])

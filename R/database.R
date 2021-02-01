@@ -72,20 +72,6 @@ test_csv <- function(settings,
   outflag <- tryCatch({
     # test if provided files are matching expected files
     if (base::sum(check) != length(required_files)) {
-      if (isFALSE(headless)) {
-        shiny::showModal(
-          shiny::modalDialog(
-            title = "Invalid path",
-            paste0(
-              "The specified directory does not contain the expected ",
-              "neccessary CSV-files for ",
-              source_db,
-              ": ",
-              paste0(required_files, collapse = ", ")
-            )
-          )
-        )
-      }
       DIZutils::feedback(
         paste0("The specified directory does not contain the expected ",
                "neccessary CSV-files: ", paste0(required_files,
@@ -101,18 +87,6 @@ test_csv <- function(settings,
       outflag
     }
   }, error = function(e) {
-    if (isFALSE(headless)) {
-      shiny::showModal(
-        shiny::modalDialog(
-          title = "Invalid path",
-          paste0(
-            "There are no CSV-files in the specified directory for system ",
-            source_db,
-            "."
-          )
-        )
-      )
-    }
     DIZutils::feedback(
       paste0(
         "There are no CSV-files in the specified directory ('",

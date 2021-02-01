@@ -22,19 +22,6 @@ load_csv_files <- function(mdr,
                            headless = T,
                            logfile_dir) {
 
-  if (isFALSE(headless)) {
-    # Create a Progress object
-    progress <- shiny::Progress$new()
-    # Make sure it closes when we exit this reactive, even if
-    # there's an error
-    on.exit(progress$close())
-    progress$set(
-      message = paste0("Reading CSV file from directory: ",
-                       inputdir),
-      value = 0
-    )
-  }
-
   # original beginning of function
   inputdir <- DIZutils::clean_path_name(inputdir)
 
@@ -58,14 +45,6 @@ load_csv_files <- function(mdr,
     DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "73c0aae8d4",
                        logfile_dir = logfile_dir,
                        headless = headless)
-    if (isFALSE(headless)) {
-      # Increment the progress bar, and update the detail text.
-      progress$inc(
-        1 / length(available_systems[, unique(get("source_table_name"))]),
-        detail = paste("... working hard to read", inputfile, "..."))
-    }
-
-
 
     input_vars <- unique(
       available_systems[get("source_table_name") ==
@@ -121,9 +100,6 @@ load_csv_files <- function(mdr,
                            headless = headless)
       }
     }
-  }
-  if (isFALSE(headless)) {
-    progress$close()
   }
   return(outlist)
 }
@@ -182,16 +158,6 @@ load_csv <- function(rv,
     logfile_dir = rv$log$logfile_dir
   )
 
-  if (isFALSE(headless)) {
-    # Create a Progress object
-    progress <- shiny::Progress$new()
-    # Make sure it closes when we exit this reactive, even if
-    # there's an error
-    on.exit(progress$close())
-    progress$set(message = "Transforming source variable types",
-                 value = 0)
-  }
-
   # datatransformation source:
   for (i in keys_to_test) {
     # get column names
@@ -211,13 +177,6 @@ load_csv <- function(rv,
     DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "776ba03cbf",
                        logfile_dir = rv$log$logfile_dir,
                        headless = rv$headless)
-    if (isFALSE(headless)) {
-      # Increment the progress bar, and update the detail text.
-      progress$inc(
-        1 / length(keys_to_test),
-        detail = paste("... transforming", i, "...")
-      )
-    }
 
     for (j in col_names) {
 
@@ -251,9 +210,6 @@ load_csv <- function(rv,
       }
     }
   }
-  if (isFALSE(headless)) {
-    progress$close()
-  }
   return(outlist)
 }
 
@@ -279,21 +235,6 @@ load_database <- function(rv,
   # initialize outlist
   outlist <- list()
 
-  if (isFALSE(headless)) {
-    # Create a Progress object
-    progress <- shiny::Progress$new()
-    # Make sure it closes when we exit this reactive, even if
-    # there's an error
-    on.exit(progress$close())
-    progress$set(
-      message = paste0(
-        "Reading data from database: ",
-        db_name
-      ),
-      value = 0
-    )
-  }
-
   # read target data
   outlist <- sapply(keys_to_test, function(i) {
     msg <- paste("Getting", i, "from database:", db_name)
@@ -303,14 +244,6 @@ load_database <- function(rv,
                        logfile_dir = rv$log$logfile_dir,
                        headless = rv$headless)
 
-    if (isFALSE(headless)) {
-      # Increment the progress bar, and update the detail text.
-      progress$inc(
-        1 / length(keys_to_test),
-        detail = paste("... working hard to read", i, "...")
-      )
-    }
-
     stopifnot(!is.null(sql_statements[[i]]))
 
     DIZutils::query_database(
@@ -319,21 +252,7 @@ load_database <- function(rv,
     )
   }, simplify = F, USE.NAMES = T)
 
-  if (isFALSE(headless)) {
-    progress$close()
-  }
-
   RPostgres::dbDisconnect(db_con)
-
-  if (isFALSE(headless)) {
-    # Create a Progress object
-    progress <- shiny::Progress$new()
-    # Make sure it closes when we exit this reactive, even if
-    # there's an error
-    on.exit(progress$close())
-    progress$set(message = "Transforming target variable types",
-                 value = 0)
-  }
 
   for (i in keys_to_test) {
     # workaround to hide shiny-stuff, when going headless
@@ -341,13 +260,6 @@ load_database <- function(rv,
     DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "7a3e28f291",
                        logfile_dir = rv$log$logfile_dir,
                        headless = rv$headless)
-    if (isFALSE(headless)) {
-      # Increment the progress bar, and update the detail text.
-      progress$inc(
-        1 / length(keys_to_test),
-        detail = paste("... transforming", i, "...")
-      )
-    }
 
     # get column names
     col_names <- colnames(outlist[[i]])
@@ -377,9 +289,6 @@ load_database <- function(rv,
         )]
       }
     }
-  }
-  if (isFALSE(headless)) {
-    progress$close()
   }
   return(outlist)
 }
