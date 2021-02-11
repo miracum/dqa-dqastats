@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.5.9015")
+my_desc$set_version("0.1.6")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
@@ -85,7 +85,7 @@ usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 # Development package
-utils_tag <- "development" # e.g. "v0.1.5" or "development"
+utils_tag <- "v0.0.6" # e.g. "v0.1.5" or "development"
 devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
 
 
