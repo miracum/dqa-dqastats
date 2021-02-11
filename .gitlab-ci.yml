@@ -8,15 +8,20 @@ variables:
 # Example gitlab-ci for testing R packages: 
 # https://gist.github.com/artemklevtsov/785ed0472c167246e947a75216852e10
 
-default:
-  image: ${CI_IMAGE_NAME}
+.docker_registry:
   before_script:
     - apk add git
     - echo ${REGISTRY_PASSWORD} | docker login -u ${REGISTRY_USERNAME} ${DOCKER_REGISTRY} --password-stdin
-    - echo ".git" > .dockerignore  # Don't upload the git-folder to the context
-    - mkdir -p ci
   after_script:
     - docker logout ${DOCKER_REGISTRY}
+
+
+default:
+  image: ${CI_IMAGE_NAME}
+  extends: .docker_registry
+  before_script:
+    - echo ".git" > .dockerignore  # Don't upload the git-folder to the context
+    - mkdir -p ci
 
 stages:
   - build
