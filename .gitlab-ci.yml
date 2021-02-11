@@ -3,6 +3,7 @@ variables:
   _R_CHECK_FORCE_SUGGESTS_: "true"
   CI_IMAGE_NAME: "docker.miracum.org/dqa/base_image:development"
   R_PKG_NAME: "DQAstats"
+  DOCKER_REGISTRY: "docker.miracum.org"
 
 # Example gitlab-ci for testing R packages: 
 # https://gist.github.com/artemklevtsov/785ed0472c167246e947a75216852e10
@@ -10,8 +11,12 @@ variables:
 default:
   image: ${CI_IMAGE_NAME}
   before_script:
+    - apk add git
+    - echo ${REGISTRY_PASSWORD} | docker login -u ${REGISTRY_USERNAME} ${DOCKER_REGISTRY} --password-stdin
     - echo ".git" > .dockerignore  # Don't upload the git-folder to the context
     - mkdir -p ci
+  after_script:
+    - docker logout ${DOCKER_REGISTRY}
 
 stages:
   - build
