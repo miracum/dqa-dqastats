@@ -10,16 +10,12 @@ variables:
 
 .docker_registry:
   before_script:
+    - echo ".git" > .dockerignore  # Don't upload the git-folder to the context
+    - mkdir -p ci
     - apk add git
     - echo ${REGISTRY_PASSWORD} | docker login -u ${REGISTRY_USERNAME} ${DOCKER_REGISTRY} --password-stdin
   after_script:
     - docker logout ${DOCKER_REGISTRY}
-
-
-default:
-  before_script:
-    - echo ".git" > .dockerignore  # Don't upload the git-folder to the context
-    - mkdir -p ci
 
 stages:
   - build
