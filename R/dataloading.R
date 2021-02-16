@@ -204,7 +204,7 @@ load_csv <- function(rv,
               get("variable_name") == vn,
             unique(get("constraints"))
           ]
-          if (grepl("^\\s+$", date_format) || date_format == "") {
+          if (is.na(date_format) || grepl("^\\s*$", date_format)) {
             # set date format to default value
             date_format = "%Y-%m-%d"
           }
@@ -315,7 +315,7 @@ load_database <- function(rv,
             get("variable_name") == j,
           unique(get("constraints"))
         ]
-        if (grepl("^\\s+$", date_format) || date_format == "") {
+        if (is.na(date_format) || grepl("^\\s*$", date_format)) {
           # set date format to default value
           date_format = "%Y%m%d"
         }
