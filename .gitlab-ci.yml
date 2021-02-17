@@ -100,8 +100,7 @@ install:
 .docker_registry:
   before_script:
     - echo ${REGISTRY_PASSWORD} | docker login -u ${REGISTRY_USERNAME} ${DOCKER_REGISTRY} --password-stdin
-    - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.miracum.org/miracum/dqa/dqa_base_image.git".insteadOf git@gitlab.miracum.org:miracum/dqa/dqa_base_image.git
-    - git clone https://gitlab.miracum.org/miracum/dqa/dqa_base_image.git dqa_base_image
+    - git clone https://oauth2:${CI_JOB_TOKEN}@gitlab.miracum.org/miracum/dqa/dqa_base_image.git dqa_base_image
     - cd dqa_base_image
   after_script:
     - docker logout ${DOCKER_REGISTRY}
