@@ -24,15 +24,15 @@ stages:
     - docker logout ${DOCKER_REGISTRY}
 
 
-build_new_base_image_dev:
-  stage: update_base_image
-  image: docker:git
-  extends: .docker_registry
-  script:
-    - sh deploy_image.sh -t development
-  except:
-   refs:
-     - master
+# build_new_base_image_dev:
+#   stage: update_base_image
+#   image: docker:git
+#   extends: .docker_registry
+#   script:
+#     - sh deploy_image.sh -t development
+#   except:
+#    refs:
+#      - master
 
 build_new_base_image_latest:
   stage: update_base_image
