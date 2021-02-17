@@ -110,10 +110,9 @@ install:
 build_new_base_image_dev:
   stage: update_base_image
   image: docker:git
+  extends: .docker_registry
   script:
-    - echo ${REGISTRY_PASSWORD} | docker login -u ${REGISTRY_USERNAME} ${DOCKER_REGISTRY} --password-stdin
     - sh deploy_image.sh -t development
-    - docker logout ${DOCKER_REGISTRY}
   except:
    refs:
      - master
@@ -122,9 +121,7 @@ build_new_base_image_latest:
   stage: update_base_image
   image: docker:git
   script:
-    - echo ${REGISTRY_PASSWORD} | docker login -u ${REGISTRY_USERNAME} ${DOCKER_REGISTRY} --password-stdin
     - sh deploy_image.sh
-    - docker logout ${DOCKER_REGISTRY}
   only:
    refs:
      - master
