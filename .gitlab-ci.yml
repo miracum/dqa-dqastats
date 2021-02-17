@@ -9,6 +9,7 @@ variables:
 # https://gist.github.com/artemklevtsov/785ed0472c167246e947a75216852e10
 
 .docker_registry:
+  image: docker:git
   before_script:
     - echo ".git" > .dockerignore  # Don't upload the git-folder to the context
     - mkdir -p ci
