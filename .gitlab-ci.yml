@@ -35,10 +35,6 @@ check:
   except:
     refs:
       - tags
-  only:
-    refs:
-      - master
-      - development
 
 create_manual:
   image: ${CI_IMAGE_NAME}
@@ -92,10 +88,7 @@ testing:
   except:
     refs:
       - tags
-  only:
-    refs:
-      - master
-      - development
+
 
 # To produce a code coverage report as a GitLab page see
 # https://about.gitlab.com/2016/11/03/publish-code-coverage-report-with-gitlab-pages/
@@ -109,7 +102,3 @@ install:
   except:
     refs:
       - tags
-  only:
-    refs:
-      - master
-      - development
