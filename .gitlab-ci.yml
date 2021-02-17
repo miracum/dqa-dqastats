@@ -1,7 +1,7 @@
 variables:
   _R_CHECK_CRAN_INCOMING_: "false"
   _R_CHECK_FORCE_SUGGESTS_: "true"
-  CI_IMAGE_NAME: "docker.miracum.org/dqa/base_image:development"
+  CI_IMAGE_NAME: "harbor.miracum.org/dqa_base_image/base_image:development"
   R_PKG_NAME: "DQAstats"
   DOCKER_REGISTRY: "docker.miracum.org"
 
