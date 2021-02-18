@@ -76,7 +76,6 @@ usethis::use_package("rmarkdown", type = "Imports")
 usethis::use_package("tinytex", type = "Imports")
 usethis::use_package("kableExtra", type = "Imports")
 usethis::use_package("utils", type = "Imports")
-usethis::use_package("DIZutils", type = "Imports")
 usethis::use_package("future.apply", type = "Imports")
 usethis::use_package("future", type = "Imports")
 
@@ -85,17 +84,22 @@ usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 # Development package
-utils_tag <- "v0.0.6" # e.g. "v0.1.5" or "development"
-devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
+utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+if (utils_tag == "cran") {
+  usethis::use_package("DIZutils", type = "Imports")
+  install.packages("DIZutils")
+} else{
+  devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
+  desc::desc_set_remotes(c(paste0(
+    "github::miracum/misc-dizutils@", utils_tag
+  )),
+  file = usethis::proj_get())
+}
 
 
 # usethis::use_dev_package("DQAstats", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
-desc::desc_set_remotes(c(
-  paste0(
-    "github::miracum/misc-dizutils@", utils_tag)
-),
-file = usethis::proj_get())
+
 
 ## .Rbuildignore: ##
 usethis::use_build_ignore("docker")
