@@ -1,7 +1,7 @@
 variables:
   _R_CHECK_CRAN_INCOMING_: "false"
   _R_CHECK_FORCE_SUGGESTS_: "true"
-  CI_IMAGE_NAME: "harbor.miracum.org/dqa_base_image/base_image:development"
+  CI_IMAGE_NAME: "harbor.miracum.org/dqa/base_image:development"
   R_PKG_NAME: "DQAstats"
   DOCKER_REGISTRY: "harbor.miracum.org"
 
@@ -10,7 +10,7 @@ variables:
 
 
 stages:
-  - update_base_image
+  - get_base_image
   - build
   - deploy
 
@@ -18,27 +18,29 @@ stages:
 .docker_registry:
   before_script:
     - echo ${REGISTRY_PASSWORD} | docker login -u ${REGISTRY_USERNAME} ${DOCKER_REGISTRY} --password-stdin
-    - git clone https://oauth2:${CI_JOB_TOKEN}@gitlab.miracum.org/miracum/dqa/dqa_base_image.git dqa_base_image
+    - git clone https://oauth2:${CI_JOB_TOKEN}@gitlab.miracum.org/miracum/dqa/dqatool_deployment.git dqa_base_image
     - cd dqa_base_image
   after_script:
     - docker logout ${DOCKER_REGISTRY}
 
 
-# build_new_base_image_dev:
-#   stage: update_base_image
-#   image: docker:git
-#   extends: .docker_registry
-#   script:
-#     - sh deploy_image.sh -t development
-#   except:
-#    refs:
-#      - master
-
-build_new_base_image_latest:
-  stage: update_base_image
+pull_base_image:
+  stage: get_base_image
   image: docker:git
+  extends: .docker_registry
   script:
-    - sh deploy_image.sh
+    - docker pull ${CI_IMAGE_NAME}
+  except:
+   refs:
+     - master
+     - tags
+
+build_new_base_image:
+  stage: get_base_image
+  image: docker:git
+  extends: .docker_registry
+  script:
+    - sh deploy_base_image.sh -t development
   only:
    refs:
      - master

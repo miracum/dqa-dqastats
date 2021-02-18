@@ -206,7 +206,7 @@ load_csv <- function(rv,
           ]
           if (is.na(date_format) || grepl("^\\s*$", date_format)) {
             # set date format to default value
-            date_format = "%Y-%m-%d"
+            date_format <- "%Y-%m-%d"
           }
           outlist[[i]][, (vn) := as.Date(
             as.character(get(vn)),
@@ -317,7 +317,7 @@ load_database <- function(rv,
         ]
         if (is.na(date_format) || grepl("^\\s*$", date_format)) {
           # set date format to default value
-          date_format = "%Y%m%d"
+          date_format <- "%Y%m%d"
         }
         outlist[[i]][, (j) := as.Date(
           as.character(get(j)),
