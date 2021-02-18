@@ -1,7 +1,7 @@
 variables:
   _R_CHECK_CRAN_INCOMING_: "false"
   _R_CHECK_FORCE_SUGGESTS_: "true"
-  CI_IMAGE_NAME: "harbor.miracum.org/dqa/base_image:development"
+  CI_IMAGE_NAME: "harbor.miracum.org/dqa_base_image/base_image:development"
   R_PKG_NAME: "DQAstats"
   DOCKER_REGISTRY: "harbor.miracum.org"
 
@@ -24,18 +24,6 @@ stages:
     - docker logout ${DOCKER_REGISTRY}
 
 
-pull_base_image:
-  stage: get_base_image
-  image: docker:git
-  extends: .docker_registry
-  script:
-    - docker pull ${CI_IMAGE_NAME}
-    - docker tag ${CI_IMAGE_NAME} local_dqa_base_image:1.0
-  except:
-   refs:
-     - master
-     - tags
-
 build_new_base_image:
   stage: get_base_image
   image: docker:git
@@ -49,7 +37,7 @@ build_new_base_image:
 
 check:
   stage: build
-  image: local_dqa_base_image:1.0
+  image: ${CI_IMAGE_NAME}
   # extends: .docker_registry
   allow_failure: true # necessary when having development-packages (in remotes-section of DESCRIPTION)
   script:
