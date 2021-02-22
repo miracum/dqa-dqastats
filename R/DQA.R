@@ -257,8 +257,11 @@ dqa <- function(source_system_name,
   invisible(gc())
 
   # reduce categorical variables to display max. 25 values
-  rv$results_descriptive <- reduce_cat(data = rv$results_descriptive,
-                                       levellimit = 25)
+  rv$results_descriptive <- reduce_cat(
+    data = rv$results_descriptive,
+    levellimit = 25
+  )
+
   invisible(gc())
 
   if (!is.null(rv$results_plausibility_atemporal)) {

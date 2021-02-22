@@ -29,6 +29,7 @@
 export_aggregated <- function(output_dir, rv) {
   # create export dir
   exportdir <- paste0(output_dir, "/export/")
+
   if (!dir.exists(exportdir)) {
     DIZutils::feedback(
       paste0("Creating ", exportdir),
@@ -81,20 +82,26 @@ export_aggregated <- function(output_dir, rv) {
 all_results_overview <- function(rv) {
   outlist <- data.table::data.table()
   for (name in names(rv$results_descriptive)) {
-    # source counts
-    cnt_src <- rv$results_descriptive[[name]]$counts$source_data$cnt
-    cnt_src <- cnt_src[, 2:(ncol(cnt_src) - 1)]
-    colnames(cnt_src) <- paste0(colnames(cnt_src), "_src")
 
-    # target counts
-    cnt_tar <- rv$results_descriptive[[name]]$counts$target_data$cnt
-    cnt_tar <- cnt_tar[, 2:(ncol(cnt_tar) - 1)]
-    colnames(cnt_tar) <- paste0(colnames(cnt_tar), "_tar")
+    cnt <- rv$results_descriptive[[name]]$counts
 
-    outlist <- rbind(
-      outlist,
-      cbind(name, cnt_src, cnt_tar)
-    )
+    if (!is.null(cnt$source_data$cnt) && !is.null(cnt$target_data$cnt)) {
+
+      # source counts
+      cnt_src <- cnt$source_data$cnt
+      cnt_src <- cnt_src[, 2:(ncol(cnt_src) - 1)]
+      colnames(cnt_src) <- paste0(colnames(cnt_src), "_src")
+
+      # target counts
+      cnt_tar <- cnt$target_data$cnt
+      cnt_tar <- cnt_tar[, 2:(ncol(cnt_tar) - 1)]
+      colnames(cnt_tar) <- paste0(colnames(cnt_tar), "_tar")
+
+      outlist <- rbind(
+        outlist,
+        cbind(name, cnt_src, cnt_tar)
+      )
+    }
   }
 
   if (!is.null(rv$results_plausibility_atemporal)) {

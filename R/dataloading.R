@@ -47,19 +47,23 @@ load_csv_files <- function(mdr,
                        headless = headless)
 
     input_vars <- unique(
-      available_systems[get("source_table_name") ==
-                          inputfile &
-                          !is.na(get("variable_type")),
-                        c("source_variable_name",
-                          "variable_type")]
+      available_systems[
+        get("source_table_name") == inputfile &
+          !is.na(get("variable_type")),
+        c("source_variable_name", "variable_type"),
+        with = FALSE
+      ]
     )
 
     select_cols <- unlist(
       sapply(
-        input_vars$source_variable_name,
+        X = input_vars$source_variable_name,
         FUN = function(x) {
           map_var_types(
-            input_vars[get("source_variable_name") == x, "variable_type"]
+            input_vars[
+              get("source_variable_name") == x,
+              get("variable_type")
+            ]
           )
         },
         simplify = TRUE,
@@ -185,7 +189,7 @@ load_csv <- function(rv,
                            get("source_variable_name") == j,
                          unique(get("variable_type"))]
 
-      if (j %in% var_names) {
+      if (j %in% var_names && j %in% colnames(outlist[[i]])) {
         vn <- rv$mdr[get("source_table_name") == i &
                        get("source_system_name") == system$system_name,
         ][

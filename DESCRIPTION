@@ -1,7 +1,7 @@
 Package: DQAstats
 Title: DQAstats - Core Functions for Data Quality Assessment
-Version: 0.1.6
-Date: 2021-02-18
+Version: 0.1.6.9001
+Date: 2021-02-22
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -23,7 +23,6 @@ URL: https://github.com/miracum/dqa-dqastats
 BugReports: https://github.com/miracum/dqa-dqastats/issues
 Imports: 
     data.table,
-    DIZutils,
     e1071,
     future,
     future.apply,
@@ -39,6 +38,8 @@ Imports:
 Suggests: 
     lintr,
     testthat
+Remotes: 
+    github::miracum/misc-dizutils@development
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

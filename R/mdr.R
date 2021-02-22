@@ -149,10 +149,13 @@ create_helper_vars <- function(mdr,
   # variable_list
   variable_list <- outlist$dqa_assessment[order(get("designation"))]
   outlist$variable_list <- sapply(
-    variable_list[, get("designation")],
-    function(x) {
+    X = variable_list[, get("designation")],
+    FUN = function(x) {
       variable_list[get("designation") == x, get("variable_name")]
-    }, simplify = F, USE.NAMES = T)
+    },
+    simplify = FALSE,
+    USE.NAMES = TRUE
+  )
 
   # get list of pl_vars for plausibility analyses
   pl_vars <-
@@ -164,7 +167,7 @@ create_helper_vars <- function(mdr,
             "variable_name",
             "variable_type",
             "plausibility_relation"
-          ), with = F]
+          ), with = FALSE]
   pl_vars <- pl_vars[!duplicated(pl_vars), ]
 
   # atemporal plausibility
@@ -205,8 +208,8 @@ create_helper_vars <- function(mdr,
         FUN = function(x) {
           x[1]
         },
-        USE.NAMES = F,
-        simplify = T
+        USE.NAMES = FALSE,
+        simplify = TRUE
       )
 
       if (is.null(outlist$pl$atemp_helper_vars)) {
@@ -241,12 +244,12 @@ create_helper_vars <- function(mdr,
       )
       js_names <- names(js$uniqueness)
       js_names <- sapply(
-        X = strsplit(js_names, ".", fixed = T),
+        X = strsplit(js_names, ".", fixed = TRUE),
         FUN = function(x) {
           x[1]
         },
-        USE.NAMES = F,
-        simplify = T
+        USE.NAMES = FALSE,
+        simplify = TRUE
       )
 
       if (is.null(outlist$pl$uniq_helper_vars)) {
