@@ -38,13 +38,37 @@ DIZutils::set_env_vars(
 
 
 ## Testfunction to test it all:
+# all_results <- DQAstats::dqa(
+#   source_system_name = source_system_name,
+#   target_system_name = target_system_name,
+#   # config_file = config_file,
+#   utils_path = utils_path,
+#   mdr_filename = mdr_filename,
+#   output_dir = output_dir,
+#   logfile_dir = logfile_dir,
+#   parallel = TRUE
+# )
+
+## Testfunction to run the demo files:
+Sys.setenv("EXAMPLECSV_SOURCE_PATH" = "inst/demo_data")
+Sys.setenv("EXAMPLECSV_TARGET_PATH" = "inst/demo_data")
 all_results <- DQAstats::dqa(
-  source_system_name = source_system_name,
-  target_system_name = target_system_name,
-  # config_file = config_file,
-  utils_path = utils_path,
-  mdr_filename = mdr_filename,
-  output_dir = output_dir,
-  logfile_dir = logfile_dir,
-  parallel = TRUE
+  source_system_name = "exampleCSV_source",
+  target_system_name = "exampleCSV_target",
+  utils_path = "inst/demo_data/utilities",
+  mdr_filename = "mdr_example_data.csv",
+  output_dir = "output/",
+  restricting_date_start = "2014-01-01",
+  restricting_date_end = "2014-12-31"
 )
+
+# source_system_name = "exampleCSV_source"
+# target_system_name = "exampleCSV_target"
+# utils_path = "inst/demo_data/utilities"
+# mdr_filename = "mdr_example_data.csv"
+# output_dir = "output/"
+# restricting_date_start = "2014-01-01"
+# restricting_date_end = "2014-12-31"
+# logfile_dir = tempdir()
+# parallel = TRUE
+# ncores = 4

@@ -20,7 +20,8 @@ load_csv_files <- function(mdr,
                            inputdir,
                            sourcesystem,
                            headless = T,
-                           logfile_dir) {
+                           logfile_dir,
+                           restricting_date = list(use_it = FALSE)) {
 
   # original beginning of function
   inputdir <- DIZutils::clean_path_name(inputdir)
@@ -71,7 +72,10 @@ load_csv_files <- function(mdr,
       )
     )
 
-    outlist[[inputfile]] <- data.table::fread(
+    unfiltered_table <- NULL
+    filtered_table <- NULL
+
+    unfiltered_table <- data.table::fread(
       paste0(inputdir, inputfile),
       select = names(select_cols),
       colClasses = select_cols,
@@ -79,6 +83,23 @@ load_csv_files <- function(mdr,
       na.strings = "",
       stringsAsFactors = TRUE
     )
+
+    ## Apply time filtering:
+    if (restricting_date$use_it) {
+      filtered_table <-
+        apply_time_restriciton(
+          data = unfiltered_table,
+          filter_colname = unique(mdr[get("source_system_name") == sourcesystem &
+                                        get("source_table_name") == inputfile,
+                                      get("restricting_date_var")]),
+          lower_limit = restricting_date$start,
+          upper_limit = restricting_date$end
+        )
+    } else {
+      filtered_table <- unfiltered_table
+    }
+
+    outlist[[inputfile]] <- filtered_table
 
     # TODO special MIRACUM treatment
     # treating of §21 chaperones
@@ -159,7 +180,8 @@ load_csv <- function(rv,
     inputdir = DIZutils::clean_path_name(system$settings$path),
     sourcesystem = system$system_name,
     headless = headless,
-    logfile_dir = rv$log$logfile_dir
+    logfile_dir = rv$log$logfile_dir,
+    restricting_date = rv$restricting_date
   )
 
   # datatransformation source:

@@ -43,6 +43,15 @@
 #' @param ncores A integer. The number of cores to use. Caution: you would
 #'   probably like to choose a low number when operating on large datasets.
 #'   Default: 2.
+#' @param restricting_date_start The date as the lower limit against which
+#'   the data to be analyzed will be filtered. Your input must be able to be
+#'   recognized as a date by `parsedate::parse_date("2021-02-25")`
+#' @param restricting_date_end The date as the lower limit against which
+#'   the data to be analyzed will be filtered. Your input must be able to be
+#'   recognized as a date by `parsedate::parse_date("2021-02-25")`
+#' @param restricting_date_format The format in which the input data is stored.
+#'   See `?strptime` for possible parameters.
+#'   Currently not implemented! So there is no effect if you pass a format here.
 #'
 #' @import data.table
 #' @importFrom magrittr "%>%"
@@ -62,8 +71,10 @@ dqa <- function(source_system_name,
                 output_dir = "./output/",
                 logfile_dir = tempdir(),
                 parallel = TRUE,
-                ncores = 4
-) {
+                ncores = 4,
+                restricting_date_start = NULL,
+                restricting_date_end = NULL,
+                restricting_date_format = NULL) {
 
   if (missing(target_system_name)) {
     target_system_name <- source_system_name
@@ -114,6 +125,89 @@ dqa <- function(source_system_name,
     ncores = rv$ncores
   )
 
+  ## Save restricting date information to rv object:
+  if (is.null(restricting_date_start) ||
+      is.null(restricting_date_end)) {
+    DIZutils::feedback(
+      print_this = paste0(
+        "No time contstraints will be applied to input data.",
+        " Either `restricting_date_start` or `restricting_date_end` was null."
+      ),
+      logfile = rv$log$logfile_dir,
+      findme = "08b1a85c61"
+    )
+    rv$restricting_date$use_it <- FALSE
+    rv$restricting_date$start <- restricting_date_start
+    rv$restricting_date$end <- restricting_date_end
+  } else {
+    restricting_date_start_posixct <-
+      parsedate::parse_date(dates = restricting_date_start, approx = FALSE)
+    restricting_date_end_posixct <-
+      parsedate::parse_date(dates = restricting_date_end, approx = FALSE)
+
+    ## Check the start date:
+    if (is.na(restricting_date_start_posixct)) {
+      DIZutils::feedback(
+        print_this = "Couldn't identify input date format for `restricting_date_start`.",
+        logfile = rv$log$logfile_dir,
+        type = "Error",
+        findme = "bcbb8d759e"
+      )
+      stop("See above.")
+    }
+
+    ## Check the end date:
+    if (is.na(restricting_date_end_posixct)) {
+      DIZutils::feedback(
+        print_this = paste0(
+          "Couldn't identify input date format for `restricting_date_end`.",
+          " Using current timestamp now."
+        ),
+        logfile = rv$log$logfile_dir,
+        type = "Error",
+        findme = "c802927140"
+      )
+      restricting_date_end_posixct <- as.POSIXct(Sys.time())
+    }
+
+    ## Check if start < end:
+    if (restricting_date_end_posixct <= restricting_date_start_posixct) {
+      DIZutils::feedback(
+        print_this = paste0(
+          "`restricting_date_start` needs to be a timestamp",
+          " before `restricting_date_end`.",
+          "'",
+          restricting_date_start_posixct,
+          "' !< '",
+          restricting_date_end_posixct,
+          "'. ",
+          " Please change."
+        ),
+        logfile = rv$log$logfile_dir,
+        type = "Error",
+        findme = "6d92c1e74f"
+      )
+      stop("See above.")
+    }
+
+    rv$restricting_date$use_it <- TRUE
+    rv$restricting_date$start <- restricting_date_start_posixct
+    rv$restricting_date$end <- restricting_date_end_posixct
+
+    DIZutils::feedback(
+      print_this = paste0(
+        "Time contstraints from ",
+        rv$restricting_date$start,
+        " to ",
+        rv$restricting_date$end,
+        " will be applied to input data."
+      ),
+      logfile = rv$log$logfile_dir,
+      findme = "2403fb1aa3"
+    )
+  }
+
+
   # get configs (new: with env):
   rv$source$settings <- DIZutils::get_config_env(
     system_name = rv$source$system_name,
@@ -130,6 +224,13 @@ dqa <- function(source_system_name,
   rv$mdr <- read_mdr(utils_path = rv$utilspath,
                      mdr_filename = rv$mdr_filename)
   stopifnot(data.table::is.data.table(rv$mdr))
+
+  ## Check if the MDR contains valid information about the time restrictions:
+  check_date_restriction_requirements(
+    mdr = rv$mdr,
+    restricting_date = rv$restricting_date,
+    logfile_dir = rv$log$logfile_dir
+  )
 
   # read system_types
   rv$source$system_type <-

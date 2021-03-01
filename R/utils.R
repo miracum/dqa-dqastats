@@ -103,3 +103,75 @@ parallel <- function(parallel, logfile_dir, ncores) {
     suppressWarnings(future::plan("sequential"))
   }
 }
+
+#' @title Checking the mdr integrity for time restrictions
+#'
+#' @description Internal function to check if for every input table there is
+#'   one single (or empty) column where to apply the time restriction to.
+#'   If the input is valid, it will just print a success-message, if the
+#'   data is invalid, the function will call `stop()`.
+#'
+#' @param mdr The mdr as data.table
+#' @param restriction_date (list) If `restriction_date$use_it == FALSE`,
+#'   the result will always be true since it doesn't matter if the restriction
+#'   parameters are valid, because we don't use them.
+#' @inheritParams dqa
+#'
+check_date_restriction_requirements <-
+  function(mdr, restricting_date, logfile_dir) {
+    if (restricting_date$use_it == FALSE) {
+      return(TRUE)
+    }
+
+    error <- FALSE
+    different_tables <- unique(mdr[["source_table_name"]])
+    for (table in different_tables) {
+      restricting_date_cols <-
+        unique(mdr[get("source_table_name") == table, get("restricting_date_var")])
+      if (length(restricting_date_cols) != 1) {
+        DIZutils::feedback(
+          print_this = paste0(
+            "\U2718 Date restriction parameters are invalid in the MDR.",
+            " Expected one (or empty) column per table where to apply",
+            " date restriction to but found more for table '",
+            table,
+            "': ",
+            paste(restricting_date_cols, collapse = ", ")
+          ),
+          logfile = logfile_dir,
+          type = "Error",
+          findme = "cf1148fd73"
+        )
+        error <- TRUE
+      }
+    }
+    if (!error) {
+      DIZutils::feedback(print_this = "\U2714 Date restriction parameters are valid in the MDR.",
+                         logfile = logfile_dir,
+                         findme = "47da559fd2")
+    } else {
+      stop("See above.")
+    }
+  }
+
+apply_time_restriciton <-
+  function(data,
+           filter_colname,
+           lower_limit,
+           upper_limit) {
+    ## Format the filter-column as posixct:
+    colname_tmp <- "__TMP_FILTER__"
+    data[, (colname_tmp) := parsedate::parse_date(dates = data[, get(filter_colname)])]
+
+    ## Apply the filter:
+    data <-
+      data[get(colname_tmp) >= lower_limit &
+             get(colname_tmp) <= upper_limit]
+    data[, (colname_tmp) := NULL]
+
+    res <- data
+
+    print("Filtered the data.")
+
+    return(res)
+  }
