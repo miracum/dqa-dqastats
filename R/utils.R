@@ -67,7 +67,6 @@ get_where_filter <- function(filter) {
 #' @export
 parallel <- function(parallel, logfile_dir, ncores) {
   if (isTRUE(parallel) && future::availableCores() > 1) {
-
     if (ncores < future::availableCores()) {
       ncores <- future::availableCores()
     }
@@ -118,33 +117,57 @@ parallel <- function(parallel, logfile_dir, ncores) {
 #' @inheritParams dqa
 #'
 check_date_restriction_requirements <-
-  function(mdr, restricting_date, logfile_dir) {
+  function(mdr,
+           system_names,
+           restricting_date,
+           logfile_dir) {
+    colname_restricting_date_var <- "restricting_date_var"
     if (restricting_date$use_it == FALSE) {
-      return(TRUE)
+      return()
     }
 
     error <- FALSE
-    different_tables <- unique(mdr[["source_table_name"]])
-    for (table in different_tables) {
-      restricting_date_cols <-
-        unique(mdr[get("source_table_name") == table, get("restricting_date_var")])
-      if (length(restricting_date_cols) != 1) {
-        DIZutils::feedback(
-          print_this = paste0(
-            "\U2718 Date restriction parameters are invalid in the MDR.",
-            " Expected one (or empty) column per table where to apply",
-            " date restriction to but found more for table '",
-            table,
-            "': ",
-            paste(restricting_date_cols, collapse = ", ")
-          ),
-          logfile = logfile_dir,
-          type = "Error",
-          findme = "cf1148fd73"
-        )
-        error <- TRUE
+
+    if (!colname_restricting_date_var %in% colnames(mdr)) {
+      error <- TRUE
+      DIZutils::feedback(
+        print_this = paste0(
+          "Can't find column `",
+          colname_restricting_date_var,
+          "` in the mdr."
+        ),
+        type = "Error",
+        logfile = logfile_dir,
+        findme = "fd9413e7a0"
+      )
+    } else {
+      for (system_name in system_names) {
+        different_tables <-
+          unique(mdr[get("source_system_name") == system_name][["source_table_name"]])
+        for (table in different_tables) {
+          restricting_date_cols <-
+            unique(mdr[get("source_table_name") == table, get(colname_restricting_date_var)])
+          if (length(restricting_date_cols) != 1) {
+            DIZutils::feedback(
+              print_this = paste0(
+                "\U2718 Date restriction parameters are invalid in the MDR.",
+                " Expected one (or empty) column per table where to apply",
+                " date restriction to but found more for table '",
+                table,
+                "': ",
+                paste(restricting_date_cols, collapse = ", ")
+              ),
+              logfile = logfile_dir,
+              type = "Error",
+              findme = "cf1148fd73"
+            )
+            error <- TRUE
+          }
+        }
       }
     }
+
+
     if (!error) {
       DIZutils::feedback(print_this = "\U2714 Date restriction parameters are valid in the MDR.",
                          logfile = logfile_dir,
@@ -154,24 +177,101 @@ check_date_restriction_requirements <-
     }
   }
 
+#' @title Time filtering of data.table or sql-strings.
+#'
+#' @description Internal function to filter the input data (or SQL) depending
+#'   on provided time information. Sensitive to SQL dialects.
+#'
+#' @param data If system_type is a database, the sql-string goes here.
+#'   If system_type is 'csv', the data.table of this csv goes here.
+#' @param filter_colname The name of the column to apply the time-filtering to.
+#' @param lower_limit The posixct timestamp of the lower filtering boundary.
+#' @param upper_limit The posixct timestamp of the upper filtering boundary.
+#' @param system_type 'postgres'/'oracle'/'csv'
+#'
+#' @return If system_type is a database, the new sql-string containing the
+#'   temporal filtering will be returned ('order by' parts will be removed).
+#'   If system_type is 'csv', the filtered data.table will be returned.
+#'
 apply_time_restriciton <-
   function(data,
            filter_colname,
            lower_limit,
-           upper_limit) {
-    ## Format the filter-column as posixct:
-    colname_tmp <- "__TMP_FILTER__"
-    data[, (colname_tmp) := parsedate::parse_date(dates = data[, get(filter_colname)])]
+           upper_limit,
+           system_type) {
+    if (system_type == "csv") {
+      ## Format the filter-column as posixct:
+      colname_tmp <- "__TMP_FILTER__"
+      data[, (colname_tmp) := parsedate::parse_date(dates = data[, get(filter_colname)])]
 
-    ## Apply the filter:
-    data <-
-      data[get(colname_tmp) >= lower_limit &
-             get(colname_tmp) <= upper_limit]
-    data[, (colname_tmp) := NULL]
+      ## Apply the filter:
+      data <-
+        data[get(colname_tmp) >= lower_limit &
+               get(colname_tmp) <= upper_limit]
+      data[, (colname_tmp) := NULL]
+      res <- data
+      return(res)
+    } else if (system_type %in% c("postgres", "oracle")) {
+      sql_unfiltered <- tolower(data)
 
-    res <- data
+      ## Remove '\n', '\t' etc.:
+      sql_tmp <-
+        gsub(
+          pattern = "\\s+",
+          replacement = " ",
+          x = sql_unfiltered,
+          ignore.case = TRUE
+        )
 
-    print("Filtered the data.")
+      ## Remove an 'order by' (and everything behind it) if existing:
+      sql_tmp <- gsub(
+        pattern = ".(order by)+.*",
+        replacement = "",
+        x = sql_tmp,
+        ignore.case = TRUE
+      )
 
-    return(res)
+      ## Remove tailing ';' (if existing):
+      sql_tmp <- gsub(
+        pattern = ";$",
+        replacement = "",
+        x = sql_tmp,
+        ignore.case = TRUE
+      )
+
+      ## Add db-specific time filtering:
+      if (system_type == "postgres") {
+        sql_filtered <-
+          paste0(
+            sql_tmp,
+            " and ",
+            filter_colname,
+            " >= timestamp '",
+            format(x = lower_limit, format = "%Y-%m-%d %M:%S:00"),
+            "' and ",
+            filter_colname,
+            " <= timestamp '",
+            format(x = upper_limit, format = "%Y-%m-%d %M:%S:00"),
+            "'"
+          )
+      } else if (system_type == "oracle") {
+        sql_filtered <-
+          paste0(
+            sql_tmp,
+            " and ",
+            filter_colname,
+            " >= to_timestamp('",
+            format(x = lower_limit, format = "%d-%m-%Y %M:%S:00"),
+            "', 'dd-mm-yyyy hh24:mi:ss')",
+            " and ",
+            filter_colname,
+            " <= to_timestamp('",
+            format(x = upper_limit, format = "%d-%m-%Y %M:%S:00"),
+            "', 'dd-mm-yyyy hh24:mi:ss')"
+          )
+      }
+      return(sql_filtered)
+    } else {
+      return(NULL)
+    }
   }

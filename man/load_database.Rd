@@ -10,7 +10,8 @@ load_database(
   db_con,
   keys_to_test,
   db_name,
-  headless = FALSE
+  headless = FALSE,
+  db_type
 )
 }
 \arguments{
@@ -29,6 +30,8 @@ the variables to test.}
 \item{headless}{A boolean (default: FALSE). Indicating, if the function is
 run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
+
+\item{db_type}{The database type (postgres/oracle)}
 }
 \description{
 Internal function to load the target data

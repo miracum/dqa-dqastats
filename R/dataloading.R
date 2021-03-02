@@ -258,6 +258,7 @@ load_csv <- function(rv,
 #' @param sql_statements The SQL-Statement-object
 #' @param db_con The connection-socket
 #' @param db_name The database name
+#' @param db_type The database type (postgres/oracle)
 #'
 #' @inheritParams load_csv
 #'
@@ -267,7 +268,8 @@ load_database <- function(rv,
                           db_con,
                           keys_to_test,
                           db_name,
-                          headless = FALSE) {
+                          headless = FALSE,
+                          db_type) {
 
   # initialize outlist
   outlist <- list()
@@ -283,10 +285,31 @@ load_database <- function(rv,
 
     stopifnot(!is.null(sql_statements[[i]]))
 
+
+    ## Apply time filtering:
+    if (rv$restricting_date$use_it) {
+      ## Filter SQL
+      sql <- apply_time_restriciton(
+        data = sql_statements[[i]],
+        filter_colname = unique(rv$mdr[get("key") == i &
+                                         get("source_system_name") == db_name &
+                                         get("dqa_assessment") == 1, get("restricting_date_var")]),
+        lower_limit = rv$restricting_date$start,
+        upper_limit = rv$restricting_date$end,
+        system_type = db_type
+      )
+    } else {
+      ## Unfiltered:
+      sql <- sql_statements[[i]]
+    }
+
     dat <- DIZutils::query_database(
       db_con = db_con,
-      sql_statement = sql_statements[[i]]
+      sql_statement = sql
     )
+
+
+
     # check, if table has more than two columns and thus does not comply
     # with DQAstats table requirements for SQL based systems
     if (dim(dat)[2] > 2) {
@@ -458,7 +481,8 @@ data_loading <- function(rv, system, keys_to_test) {
       db_con = db_con,
       keys_to_test = keys_to_test,
       headless = rv$headless,
-      db_name = system$system_name
+      db_name = system$system_name,
+      db_type = system$system_type
     )
     rm(db_con)
 

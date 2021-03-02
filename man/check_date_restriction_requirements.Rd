@@ -4,7 +4,12 @@
 \alias{check_date_restriction_requirements}
 \title{Checking the mdr integrity for time restrictions}
 \usage{
-check_date_restriction_requirements(mdr, restricting_date, logfile_dir)
+check_date_restriction_requirements(
+  mdr,
+  system_names,
+  restricting_date,
+  logfile_dir
+)
 }
 \arguments{
 \item{mdr}{The mdr as data.table}
