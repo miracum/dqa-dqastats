@@ -9,7 +9,7 @@ apply_time_restriciton(
   filter_colname,
   lower_limit,
   upper_limit,
-  system_name,
+  system_name = NULL,
   system_type,
   mdr = NULL,
   logfile_dir = NULL,
@@ -26,7 +26,8 @@ If system_type is 'csv', the data.table of this csv goes here.}
 
 \item{upper_limit}{The posixct timestamp of the upper filtering boundary.}
 
-\item{system_name}{'i2b2'/'p21csv'/'omop'/...}
+\item{system_name}{(Optional for non-database-changes)
+'i2b2'/'p21csv'/'omop'/...}
 
 \item{system_type}{'postgres'/'oracle'/'csv'}
 

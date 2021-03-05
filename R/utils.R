@@ -187,7 +187,8 @@ check_date_restriction_requirements <-
 #' @param filter_colname The name of the column to apply the time-filtering to.
 #' @param lower_limit The posixct timestamp of the lower filtering boundary.
 #' @param upper_limit The posixct timestamp of the upper filtering boundary.
-#' @param system_name 'i2b2'/'p21csv'/'omop'/...
+#' @param system_name (Optional for non-database-changes)
+#'   'i2b2'/'p21csv'/'omop'/...
 #' @param system_type 'postgres'/'oracle'/'csv'
 #' @param mdr (Optional for non-database-changes) The internal MDR
 #'   (get it from `rv$mdr`)
@@ -205,7 +206,7 @@ apply_time_restriciton <-
            filter_colname,
            lower_limit,
            upper_limit,
-           system_name,
+           system_name = NULL,
            system_type,
            mdr = NULL,
            logfile_dir = NULL,
