@@ -9,7 +9,11 @@ apply_time_restriciton(
   filter_colname,
   lower_limit,
   upper_limit,
-  system_type
+  system_name,
+  system_type,
+  mdr = NULL,
+  logfile_dir = NULL,
+  db_con = NULL
 )
 }
 \arguments{
@@ -22,7 +26,18 @@ If system_type is 'csv', the data.table of this csv goes here.}
 
 \item{upper_limit}{The posixct timestamp of the upper filtering boundary.}
 
+\item{system_name}{'i2b2'/'p21csv'/'omop'/...}
+
 \item{system_type}{'postgres'/'oracle'/'csv'}
+
+\item{mdr}{(Optional for non-database-changes) The internal MDR
+(get it from `rv$mdr`)}
+
+\item{logfile_dir}{(Optional) The directory to store the logfile in.
+Defaults to NULL.}
+
+\item{db_con}{(Optional for non-database-changes) The connection to the
+database. Used to create the views we need later to apply the SQLs to.}
 }
 \value{
 If system_type is a database, the new sql-string containing the

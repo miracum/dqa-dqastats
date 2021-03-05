@@ -286,7 +286,7 @@ load_database <- function(rv,
     stopifnot(!is.null(sql_statements[[i]]))
 
 
-    ## Apply time filtering:
+    ## Apply time filtering (if needed):
     if (rv$restricting_date$use_it) {
       ## Filter SQL
       sql <- apply_time_restriciton(
@@ -296,7 +296,11 @@ load_database <- function(rv,
                                          get("dqa_assessment") == 1, get("restricting_date_var")]),
         lower_limit = rv$restricting_date$start,
         upper_limit = rv$restricting_date$end,
-        system_type = db_type
+        system_name = db_name,
+        system_type = db_type,
+        mdr = rv$mdr,
+        db_con = db_con,
+        logfile_dir = rv$log$logfile_dir
       )
     } else {
       ## Unfiltered:
