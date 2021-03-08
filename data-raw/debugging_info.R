@@ -35,37 +35,39 @@ DIZutils::set_env_vars(
 )
 parallel = TRUE
 ncores = 4
-restricting_date_start = "2018-01-01"
-restricting_date_end = "2018-12-31"
+restricting_date_start = "2020-01-01"
+restricting_date_end = "2021-01-01"
 
 # Sys.setenv("P21CSV_PATH" = "~/development/_p21/data/2018_merged/")
 
 
 ## Testfunction to test it all:
-# all_results <- DQAstats::dqa(
-#   source_system_name = source_system_name,
-#   target_system_name = target_system_name,
-#   # config_file = config_file,
-#   utils_path = utils_path,
-#   mdr_filename = mdr_filename,
-#   output_dir = output_dir,
-#   logfile_dir = logfile_dir,
-#   parallel = TRUE
-# )
-#
+all_results <- DQAstats::dqa(
+  source_system_name = source_system_name,
+  target_system_name = target_system_name,
+  # config_file = config_file,
+  utils_path = utils_path,
+  mdr_filename = mdr_filename,
+  output_dir = output_dir,
+  logfile_dir = logfile_dir,
+  parallel = parallel
+  , restricting_date_start = restricting_date_start
+  , restricting_date_end = restricting_date_end
+)
+
 
 ## Testfunction to run the demo files:
-# Sys.setenv("EXAMPLECSV_SOURCE_PATH" = "inst/demo_data")
-# Sys.setenv("EXAMPLECSV_TARGET_PATH" = "inst/demo_data")
-# all_results <- DQAstats::dqa(
-#   source_system_name = "exampleCSV_source",
-#   target_system_name = "exampleCSV_target",
-#   utils_path = "inst/demo_data/utilities",
-#   mdr_filename = "mdr_example_data.csv",
-#   output_dir = "output/",
-#   restricting_date_start = "2014-01-01",
-#   restricting_date_end = "2014-12-31"
-# )
+Sys.setenv("EXAMPLECSV_SOURCE_PATH" = "inst/demo_data")
+Sys.setenv("EXAMPLECSV_TARGET_PATH" = "inst/demo_data")
+all_results <- DQAstats::dqa(
+  source_system_name = "exampleCSV_source",
+  target_system_name = "exampleCSV_target",
+  utils_path = "inst/demo_data/utilities",
+  mdr_filename = "mdr_example_data.csv",
+  output_dir = "output/",
+  restricting_date_start = "2014-01-01",
+  restricting_date_end = "2014-12-31"
+)
 #
 # source_system_name = "exampleCSV_source"
 # target_system_name = "exampleCSV_target"

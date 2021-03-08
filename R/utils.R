@@ -234,7 +234,7 @@ apply_time_restriciton <-
         stop("See error above")
       }
 
-      sql_unfiltered <- tolower(data)
+      sql_unfiltered <- data
 
       ## Remove '\n', '\t' etc.:
       sql_tmp <-
@@ -355,29 +355,29 @@ apply_time_restriciton <-
             }
             ## Create VIEW if it is not already created:
             if (DIZutils::check_if_table_exists(db_con = db_con, table_name = view_name)) {
-              DIZutils::feedback(
-                print_this = paste0(
-                  "Found a temporary VIEW for table '",
-                  table,
-                  "' which will be used now."
-                ),
-                findme = "dd695dbbe6",
-                logfile_dir = logfile_dir
-              )
+              # DIZutils::feedback(
+              #   print_this = paste0(
+              #     "Found a temporary VIEW for table '",
+              #     table,
+              #     "' which will be used now."
+              #   ),
+              #   findme = "dd695dbbe6",
+              #   logfile_dir = logfile_dir
+              # )
               ## VIEW is already there. Normally we can be sure that this
               ## VIEW is the right one and not an older one, because we
               ## only create TEMP VIEWs which will automatically be removed
               ## when the connection closes.
-              ## If you want to be sure, drop it and re-create it:
-              sql_drop_view <- paste0("DROP VIEW ", view_name)
-              ## Drop it:
-              DIZutils::query_database(db_con = db_con, sql_statement = sql_drop_view)
-              ## Re-create it:
-              DIZutils::query_database(db_con = db_con, sql_statement = sql_create_view)
+              ## If you want to be sure, drop it and re-create it here:
+              # sql_drop_view <- paste0("DROP VIEW ", view_name)
+              # ## Drop it:
+              # DIZutils::query_database(db_con = db_con, sql_statement = sql_drop_view)
+              # ## Re-create it:
+              # DIZutils::query_database(db_con = db_con, sql_statement = sql_create_view)
             } else {
               DIZutils::feedback(
                 print_this = paste0(
-                  "Did not find a temporary VIEW for table '",
+                  "Didn't find a temporary VIEW for table '",
                   table,
                   "'. Creating it now."
                 ),
@@ -391,18 +391,84 @@ apply_time_restriciton <-
             ## SQL with the new time-filtered tables:
             sql_tmp <-
               gsub(
-                pattern = paste0(" from ", table),
-                replacement = paste0(" from ", view_name),
+                pattern = paste0(" FROM ", table),
+                replacement = paste0(" FROM ", view_name),
                 x = sql_tmp,
-                ignore.case = TRUE,
-                fixed = TRUE
+                ignore.case = TRUE
+                # fixed = TRUE
+                ## Caution: If you enable 'fixed' here, 'ignore_case' will
+                ## not be applied which leads to false results due to case
+                ## sensitive column names!
               )
           }
         }
       }
-      print(sql_tmp)
+      # print(sql_tmp)
       return(sql_tmp)
     } else {
       return(NULL)
     }
   }
+
+#' @title Get a formatted string containing start and end time of the
+#'   date restriction aplpied to the data.
+#'
+#' @description See title.
+#'
+#' @param restricting_date The list applied from rv$restricting_date
+#' @param lang Language of the result. "de"/"en" (en = default).
+#'   If language is not yet implemented, "en" is used.
+#' @param date Should the date be included in the result string?
+#' @param time Should the time be included in the result string?
+#'
+#' @return String conatining start and end date obtaind from the list of
+#'   `restricting_date`.
+#'
+get_restricting_date_info <-
+  function(restricting_date,
+           lang = "en",
+           date = TRUE,
+           time = TRUE) {
+
+  lang <- tolower(lang)
+  res <- ""
+  if (!is.null(restricting_date) &&
+      !is.null(restricting_date$use_it) &&
+      restricting_date$use_it == TRUE) {
+    if (lang == "de") {
+      prefix <- "Betrachteter Zeitraum: "
+      separator <- " bis "
+    } else {
+      ## Default: lang = "en" (or not yet implemented):
+      prefix <- "Period considered: "
+      separator <- " to "
+    }
+    res <-
+      paste0(
+        prefix,
+        DIZutils::format_POSIXct(
+          x = restricting_date$start,
+          lang = lang,
+          date = date,
+          time = time
+        ),
+        separator,
+        DIZutils::format_POSIXct(
+          x = restricting_date$end,
+          lang = lang,
+          date = date,
+          time = time
+        )
+      )
+  } else {
+    if (lang == "de") {
+      res <-
+        "Keine zeitliche Einschränkung. Alle vorliegenden Daten wurden analysiert"
+    } else {
+      res <- "No time restriction. All available data were analysed"
+    }
+  }
+  return(res)
+}
+
+

@@ -93,7 +93,8 @@ load_csv_files <- function(mdr,
                                         get("source_table_name") == inputfile,
                                       get("restricting_date_var")]),
           lower_limit = restricting_date$start,
-          upper_limit = restricting_date$end
+          upper_limit = restricting_date$end,
+          system_type = "csv"
         )
     } else {
       filtered_table <- unfiltered_table
@@ -276,15 +277,9 @@ load_database <- function(rv,
 
   # read target data
   outlist <- sapply(keys_to_test, function(i) {
-    msg <- paste("Getting", i, "from database:", db_name)
-    DIZutils::feedback(msg,
-                       logjs = isFALSE(headless),
-                       findme = "c12a1dd9ce",
-                       logfile_dir = rv$log$logfile_dir,
-                       headless = rv$headless)
-
     stopifnot(!is.null(sql_statements[[i]]))
 
+    msg <- paste("Getting", i, "from database", db_name)
 
     ## Apply time filtering (if needed):
     if (rv$restricting_date$use_it) {
@@ -302,10 +297,18 @@ load_database <- function(rv,
         db_con = db_con,
         logfile_dir = rv$log$logfile_dir
       )
+      msg <- paste0(msg, " (using a TEMPORAL VIEW)")
     } else {
       ## Unfiltered:
       sql <- sql_statements[[i]]
     }
+
+
+    DIZutils::feedback(print_this = msg,
+                       logjs = isFALSE(headless),
+                       findme = "c12a1dd9ce",
+                       logfile_dir = rv$log$logfile_dir,
+                       headless = rv$headless)
 
     dat <- DIZutils::query_database(
       db_con = db_con,
@@ -341,20 +344,22 @@ load_database <- function(rv,
   for (i in keys_to_test) {
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming target variable types", i)
-    DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "7a3e28f291",
-                       logfile_dir = rv$log$logfile_dir,
-                       headless = rv$headless)
+    DIZutils::feedback(
+      print_this = msg,
+      logjs = isFALSE(headless),
+      findme = "7a3e28f291",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless
+    )
 
     # get column names
     col_names <- colnames(outlist[[i]])
 
     # check, if column name in variables of interest
     for (j in col_names) {
-
       var_type <- rv$mdr[get("source_system_name") == db_name &
                            get("key") == i &
                            get("variable_name") == j, get("variable_type")]
-
 
       if (var_type %in% c("permittedValues", "string", "catalog")) {
         # transform to factor
