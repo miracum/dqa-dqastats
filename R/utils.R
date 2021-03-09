@@ -284,12 +284,12 @@ apply_time_restriciton <-
       #       " and ",
       #       filter_colname,
       #       " >= to_timestamp('",
-      #       format(x = lower_limit, format = "%d-%m-%Y %M:%S:00"),
+      #       format(x = lower_limit, format = "%d-%m-%Y %H:%M:%S"),
       #       "', 'dd-mm-yyyy hh24:mi:ss')",
       #       " and ",
       #       filter_colname,
       #       " <= to_timestamp('",
-      #       format(x = upper_limit, format = "%d-%m-%Y %M:%S:00"),
+      #       format(x = upper_limit, format = "%d-%m-%Y %H:%M:%S"),
       #       "', 'dd-mm-yyyy hh24:mi:ss')"
       #     )
       # }
