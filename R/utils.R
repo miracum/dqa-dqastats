@@ -334,11 +334,11 @@ apply_time_restriciton <-
               " WHERE ",
               tables[get("source_table_name") == table, get("restricting_date_var")],
               " >= timestamp '",
-              format(x = lower_limit, format = "%Y-%m-%d %M:%S:00"),
+              format(x = lower_limit, format = "%Y-%m-%d %H:%M:%S"),
               "' AND ",
               tables[get("source_table_name") == table, get("restricting_date_var")],
               " <= timestamp '",
-              format(x = upper_limit, format = "%Y-%m-%d %M:%S:00"),
+              format(x = upper_limit, format = "%Y-%m-%d %H:%M:%S"),
               "')"
             )
             if (system_type == "oracle") {
