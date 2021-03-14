@@ -34,9 +34,8 @@ Currently supported data formats / databases:
 You can install the development version of `DQAstats` with:
 
 ``` r
-install.packages("devtools")
-options('repos' = 'https://ftp.fau.de/cran/')
-devtools::install_github("miracum/dqa-dqastats")
+install.packages("remotes")
+remotes::install_github("miracum/dqa-dqastats")
 ```
 
 # Configuration 
@@ -49,17 +48,34 @@ A detailed description, which environment variables need to be set for the speci
 
 This is a basic example to demonstrate how to perform the data quality assessment with DQAstats:
 
-``` r
+```r
+# load library DQAstats
 library(DQAstats)
-Sys.setenv("EXAMPLECSV_SOURCE_PATH" = "inst/demo_data")
-Sys.setenv("EXAMPLECSV_TARGET_PATH" = "inst/demo_data")
-dqa(
+
+# Set environment vars to demo files paths
+Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file(
+  "demo_data",
+  package = "DQAstats"
+))
+Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file(
+  "demo_data",
+  package = "DQAstats"
+))
+utils_path <- system.file(
+  "demo_data/utilities",
+  package = "DQAstats"
+)
+
+# execute DQA to and generate PDF report
+results <- dqa(
   source_system_name = "exampleCSV_source",
   target_system_name = "exampleCSV_target",
-  utils_path = "inst/demo_data/utilities",
+  utils_path = utils_path,
   mdr_filename = "mdr_example_data.csv",
   output_dir = "output/"
 )
+
+# the PDF report is stored at "./output/"
 ```
 
 # More Infos:
