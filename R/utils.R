@@ -115,6 +115,7 @@ parallel <- function(parallel, logfile_dir, ncores) {
 #'   the result will always be true since it doesn't matter if the restriction
 #'   parameters are valid, because we don't use them.
 #' @inheritParams dqa
+#' @export
 #'
 check_date_restriction_requirements <-
   function(mdr,
