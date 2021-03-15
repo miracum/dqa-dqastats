@@ -38,7 +38,7 @@ install.packages("remotes")
 remotes::install_github("miracum/dqa-dqastats")
 ```
 
-Note: A working LaTeX installation is a prerequisite for using this software (e.g. using the R package [`tinytex`](https://yihui.org/tinytex/)!
+Note: A working LaTeX installation is a prerequisite for using this software (e.g. using the R package [`tinytex`](https://yihui.org/tinytex/))!
 
 # Configuration 
 
