@@ -38,6 +38,8 @@ install.packages("remotes")
 remotes::install_github("miracum/dqa-dqastats")
 ```
 
+Note: A working LaTeX installation is a prerequisite for using this software (e.g. using the R package [`tinytex`](https://yihui.org/tinytex/)!
+
 # Configuration 
 
 The database connection can be configured using environment variables. These can be set using the base R command `Sys.setenv()`.
