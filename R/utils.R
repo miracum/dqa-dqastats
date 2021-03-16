@@ -121,7 +121,8 @@ check_date_restriction_requirements <-
   function(mdr,
            system_names,
            restricting_date,
-           logfile_dir) {
+           logfile_dir,
+           headless = TRUE) {
     colname_restricting_date_var <- "restricting_date_var"
     if (restricting_date$use_it == FALSE) {
       return()
@@ -145,9 +146,12 @@ check_date_restriction_requirements <-
       for (system_name in system_names) {
         different_tables <-
           unique(mdr[get("source_system_name") == system_name][["source_table_name"]])
+        different_restricting_date_cols <- c()
         for (table in different_tables) {
           restricting_date_cols <-
             unique(mdr[get("source_table_name") == table, get(colname_restricting_date_var)])
+          different_restricting_date_cols <-
+            c(different_restricting_date_cols, restricting_date_cols)
           if (length(restricting_date_cols) != 1) {
             DIZutils::feedback(
               print_this = paste0(
@@ -164,6 +168,21 @@ check_date_restriction_requirements <-
             )
             error <- TRUE
           }
+        }
+        if (all(is.na(different_restricting_date_cols))) {
+          DIZutils::feedback(
+            print_this = paste0(
+              "You specified that you want to time-filter the input data.",
+              " Unfortunatelly no column for applying time restriction to was",
+              " found for system '",
+              system_name,
+              "' in the mdr. This might lead to false results, if source and",
+              " target system are not identically filtered."
+            ),
+            type = "Warning",
+            ui = !headless,
+            findme = "a178197913"
+          )
         }
       }
     }
@@ -296,9 +315,10 @@ apply_time_restriciton <-
       # }
 
       ## Get all tables needed for this SQL:
-      tables <- unique(mdr[get("source_system_name") == system_name,
-                           .SD,
-                           .SDcols = c("source_table_name", "restricting_date_var")])
+      tables <-
+        unique(mdr[get("source_system_name") == system_name, .SD, .SDcols = c("source_table_name",
+                                                                              "restricting_date_var",
+                                                                              "restricting_date_format")])
       if (nrow(tables) != length(unique(tables[["source_table_name"]]))) {
         DIZutils::feedback(
           print_this = paste0(
@@ -327,21 +347,39 @@ apply_time_restriciton <-
                 x = table
               ),
               "__dqa_tmp")
+            format_tmp <-
+              tables[get("source_table_name") == table][["restricting_date_format"]]
+            if (is.na(format_tmp)) {
+              ## We assume that the column is formatted as timestamp,
+              ## so we don't need to cast anything:
+              timestamp_col_sql <-
+                tables[get("source_table_name") == table, get("restricting_date_var")]
+            } else {
+              ## We assume that the column is formatted as string and needs
+              ## to be casted/formatted with the given format-string
+              ## `format_tmp`:
+              timestamp_col_sql <- paste0("TO_TIMESTAMP(\"",
+                                          tables[get("source_table_name") == table, get("restricting_date_var")],
+                                          "\", '",
+                                          tables[get("source_table_name") == table, get("restricting_date_format")],
+                                          "')")
+            }
             sql_create_view <- paste0(
               "CREATE TEMPORARY VIEW ",
               view_name,
               " AS (SELECT * FROM ",
               table,
               " WHERE ",
-              tables[get("source_table_name") == table, get("restricting_date_var")],
+              timestamp_col_sql,
               " >= timestamp '",
               format(x = lower_limit, format = "%Y-%m-%d %H:%M:%S"),
               "' AND ",
-              tables[get("source_table_name") == table, get("restricting_date_var")],
+              timestamp_col_sql,
               " <= timestamp '",
               format(x = upper_limit, format = "%Y-%m-%d %H:%M:%S"),
               "')"
             )
+
             if (system_type == "oracle") {
               DIZutils::feedback(
                 print_this = paste0(
