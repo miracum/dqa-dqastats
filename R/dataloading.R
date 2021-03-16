@@ -94,7 +94,9 @@ load_csv_files <- function(mdr,
                                       get("restricting_date_var")]),
           lower_limit = restricting_date$start,
           upper_limit = restricting_date$end,
-          system_type = "csv"
+          system_type = "csv",
+          system_name = inputfile,
+          logfile_dir = logfile_dir
         )
     } else {
       filtered_table <- unfiltered_table

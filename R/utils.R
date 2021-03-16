@@ -231,6 +231,13 @@ apply_time_restriciton <-
            mdr = NULL,
            logfile_dir = NULL,
            db_con = NULL) {
+    if(is.na(filter_colname)) {
+      DIZutils::feedback(print_this = "No filter-column specified. Skipping.",
+                         findme = "3d04f6de77",
+                         logfile_dir = logfile_dir)
+      return(data)
+    }
+
     if (system_type == "csv") {
       ## Format the filter-column as posixct:
       colname_tmp <- "__TMP_FILTER__"
