@@ -241,7 +241,19 @@ apply_time_restriciton <-
     if (system_type == "csv") {
       ## Format the filter-column as posixct:
       colname_tmp <- "__TMP_FILTER__"
-      data[, (colname_tmp) := parsedate::parse_date(dates = data[, get(filter_colname)])]
+      format_params <-
+        unique(mdr[get("source_table_name") == system_name,
+                   .SD,
+                   .SDcols = c("source_table_name",
+                               "restricting_date_var",
+                               "restricting_date_format")])[["restricting_date_format"]]
+      if (is.na(format_params)) {
+        ## We need to guess the format:
+        data[, (colname_tmp) := parsedate::parse_date(dates = data[, get(filter_colname)], approx = FALSE)]
+      } else {
+        ## Puuh - we can use the user-provided timestamp-parameters:
+        data[, (colname_tmp) := as.POSIXct(x = get(filter_colname), format = format_params)]
+      }
 
       ## Apply the filter:
       data <-

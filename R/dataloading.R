@@ -84,6 +84,8 @@ load_csv_files <- function(mdr,
       stringsAsFactors = TRUE
     )
 
+    msg <- paste("Getting ", inputfile)
+
     ## Apply time filtering:
     if (restricting_date$use_it) {
       filtered_table <-
@@ -96,11 +98,20 @@ load_csv_files <- function(mdr,
           upper_limit = restricting_date$end,
           system_type = "csv",
           system_name = inputfile,
-          logfile_dir = logfile_dir
+          logfile_dir = logfile_dir,
+          mdr = mdr
         )
+      msg <- paste0(msg, " (using a TEMPORAL VIEW)")
     } else {
       filtered_table <- unfiltered_table
     }
+
+    DIZutils::feedback(print_this = msg,
+                       logjs = isFALSE(headless),
+                       findme = "81ba7f702f",
+                       logfile_dir = logfile_dir,
+                       headless = headless)
+
 
     outlist[[inputfile]] <- filtered_table
 
