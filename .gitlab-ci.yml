@@ -2,4 +2,4 @@ include:
   - remote: 'https://gitlab.miracum.org/miracum/dqa/dqa_base_image/-/raw/master/importable.gitlab-ci.yml'
 
 variables:
-  R_PKG_NAME: "DQAstats"
+  R_PKG_NAME: 'DQAstats'
