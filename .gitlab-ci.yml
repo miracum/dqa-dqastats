@@ -1,7 +1,7 @@
 include:
   - remote: 'https://gitlab.miracum.org/miracum/dqa/dqa_base_image/-/raw/master/importable.gitlab-ci.yml'
 
-## Readme: https://gitlab.miracum.org/miracum/dqa/dqa_base_image#import-ci-configuration-in-other-r-projects
+## Information: https://gitlab.miracum.org/miracum/dqa/dqa_base_image#import-ci-configuration-in-other-r-projects
 
 variables:
   R_PKG_NAME: "DQAstats"
