@@ -8,7 +8,8 @@ check_date_restriction_requirements(
   mdr,
   system_names,
   restricting_date,
-  logfile_dir
+  logfile_dir,
+  headless = TRUE
 )
 }
 \arguments{

@@ -244,9 +244,13 @@ load_csv <- function(rv,
               get("variable_name") == vn,
             unique(get("constraints"))
           ]
-          if (is.na(date_format) || grepl("^\\s*$", date_format)) {
+          if (is.na(date_format) ||
+              grepl("^\\s*$", date_format) ||
+              is.null(jsonlite::fromJSON(date_format)[["datetime_format"]])) {
             # set date format to default value
             date_format <- "%Y-%m-%d"
+          } else{
+            date_format <- jsonlite::fromJSON(date_format)[["datetime_format"]]
           }
           outlist[[i]][, (vn) := as.Date(
             as.character(get(vn)),
@@ -386,9 +390,13 @@ load_database <- function(rv,
             get("variable_name") == j,
           unique(get("constraints"))
         ]
-        if (is.na(date_format) || grepl("^\\s*$", date_format)) {
+        if (is.na(date_format) ||
+            grepl("^\\s*$", date_format) ||
+            is.null(jsonlite::fromJSON(date_format)[["datetime_format"]])) {
           # set date format to default value
           date_format <- "%Y-%m-%d"
+        } else{
+          date_format <- jsonlite::fromJSON(date_format)[["datetime_format"]]
         }
         outlist[[i]][, (j) := as.Date(
           as.character(get(j)),
