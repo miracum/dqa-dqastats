@@ -75,7 +75,7 @@ parallel <- function(parallel, logfile_dir, ncores) {
       DIZutils::feedback(
         "using future::plan(\"multicore\")",
         logjs = FALSE,
-        findme = "0888fa600d",
+        findme = "8e8817df64",
         logfile_dir = logfile_dir,
         headless = TRUE
       )
@@ -85,7 +85,7 @@ parallel <- function(parallel, logfile_dir, ncores) {
       DIZutils::feedback(
         "using future::plan(\"multisession\")",
         logjs = FALSE,
-        findme = "0888fa600d",
+        findme = "d142855e3c",
         logfile_dir = logfile_dir,
         headless = TRUE
       )
@@ -95,7 +95,7 @@ parallel <- function(parallel, logfile_dir, ncores) {
     DIZutils::feedback(
       "using future::plan(\"sequential\")",
       logjs = FALSE,
-      findme = "0885ba600d",
+      findme = "4294f43e54",
       logfile_dir = logfile_dir,
       headless = TRUE
     )
