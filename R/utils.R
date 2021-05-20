@@ -111,9 +111,15 @@ parallel <- function(parallel, logfile_dir, ncores) {
 #'   data is invalid, the function will call `stop()`.
 #'
 #' @param mdr The mdr as data.table
-#' @param restriction_date (list) If `restriction_date$use_it == FALSE`,
-#'   the result will always be true since it doesn't matter if the restriction
-#'   parameters are valid, because we don't use them.
+#' @param enable_stop (boolean, default = TRUE) If true (default) this function
+#'   will call `stop()` in case of the check fails. If `enable_stop = FALSE`
+#'   it will return `TRUE` if the check was successfull and `FALSE` if the
+#'   check failed. Use `enable_stop = FALSE` to avoid the need of a try/catch
+#'   block around this function.
+#' @return TRUE/FALSE: TRUE if the check was successfull and the given
+#'   systems can be time filtered, FALSE if something went wrong and no time
+#'   filtering is possible.
+#'
 #' @inheritParams dqa
 #' @export
 #'
@@ -122,11 +128,9 @@ check_date_restriction_requirements <-
            system_names,
            restricting_date,
            logfile_dir,
-           headless = TRUE) {
+           headless = TRUE,
+           enable_stop = TRUE) {
     colname_restricting_date_var <- "restricting_date_var"
-    if (restricting_date$use_it == FALSE) {
-      return()
-    }
 
     error <- FALSE
 
@@ -170,6 +174,7 @@ check_date_restriction_requirements <-
           }
         }
         if (all(is.na(different_restricting_date_cols))) {
+          error <- TRUE
           DIZutils::feedback(
             print_this = paste0(
               "You specified that you want to time-filter the input data.",
@@ -180,7 +185,7 @@ check_date_restriction_requirements <-
               " target system are not identically filtered."
             ),
             type = "Warning",
-            ui = !headless,
+            # ui = !headless,
             findme = "a178197913"
           )
         }
@@ -192,8 +197,13 @@ check_date_restriction_requirements <-
       DIZutils::feedback(print_this = "\U2714 Date restriction parameters are valid in the MDR.",
                          logfile = logfile_dir,
                          findme = "47da559fd2")
+      return(TRUE)
     } else {
-      stop("See above.")
+      if(enable_stop){
+        stop("See above.")
+      } else {
+        return(FALSE)
+      }
     }
   }
 

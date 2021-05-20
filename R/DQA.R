@@ -234,13 +234,24 @@ dqa <- function(source_system_name,
   stopifnot(data.table::is.data.table(rv$mdr))
 
   ## Check if the MDR contains valid information about the time restrictions:
-  check_date_restriction_requirements(
-    mdr = rv$mdr,
-    system_names = c(rv$source$system_name, rv$target$system_name),
-    restricting_date = rv$restricting_date,
-    logfile_dir = rv$log$logfile_dir,
-    headless = rv$headless
-  )
+  if (rv$restricting_date$use_it) {
+    check_date_restriction_requirements(
+      mdr = rv$mdr,
+      system_names = c(rv$source$system_name, rv$target$system_name),
+      restricting_date = rv$restricting_date,
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless
+    )
+  } else {
+    DIZutils::feedback(
+      print_this = paste0(
+        "Don't checking the time filtering columns because time filtering",
+        " is not necessarry. (`rv$restricting_date$use_it` is not TRUE)."
+      ),
+      logfile = rv$log$logfile_dir,
+      findme = "feec24b71b"
+    )
+  }
 
   # read system_types
   rv$source$system_type <-

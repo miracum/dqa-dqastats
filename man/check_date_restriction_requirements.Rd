@@ -9,7 +9,8 @@ check_date_restriction_requirements(
   system_names,
   restricting_date,
   logfile_dir,
-  headless = TRUE
+  headless = TRUE,
+  enable_stop = TRUE
 )
 }
 \arguments{
@@ -18,9 +19,16 @@ check_date_restriction_requirements(
 \item{logfile_dir}{The absolute path to folder where the logfile
 will be stored.}
 
-\item{restriction_date}{(list) If `restriction_date$use_it == FALSE`,
-the result will always be true since it doesn't matter if the restriction
-parameters are valid, because we don't use them.}
+\item{enable_stop}{(boolean, default = TRUE) If true (default) this function
+will call `stop()` in case of the check fails. If `enable_stop = FALSE`
+it will return `TRUE` if the check was successfull and `FALSE` if the
+check failed. Use `enable_stop = FALSE` to avoid the need of a try/catch
+block around this function.}
+}
+\value{
+TRUE/FALSE: TRUE if the check was successfull and the given
+  systems can be time filtered, FALSE if something went wrong and no time
+  filtering is possible.
 }
 \description{
 Internal function to check if for every input table there is
