@@ -24,18 +24,25 @@ render_results <- function(descriptive_results,
   obj_names <- names(descriptive_results)
 
   # loop over objects
+  tmp_firstline <- TRUE
   for (i in obj_names) {
     desc_out <- descriptive_results[[i]]$description
     count_out <- descriptive_results[[i]]$counts
     stat_out <- descriptive_results[[i]]$statistics
 
+    if (tmp_firstline) {
+      ## Skip newpage for the first variable
+      tmp_firstline <- FALSE
+    } else {
+      cat("\\newpage")
+    }
     # title of variable
     cat(paste0("\n## ", desc_out$source_data$name, "  \n"))
     # description of variable
     cat(paste0("\n", desc_out$source_data$description, "  \n"))
 
     # representation in the source system
-    cat("\n### Representation in source data system  \n")
+    cat("\n### Representation in **source** data system  \n")
     render_representation(desc_out, "source_data")
 
     # overview
@@ -52,9 +59,9 @@ render_results <- function(descriptive_results,
       )
     }
 
-
+    cat("\\newpage")
     # representation in the target system
-    cat("\n### Representation in target data system  \n")
+    cat("\n### Representation in **target** data system  \n")
     render_representation(desc_out, "target_data")
 
     # overview
