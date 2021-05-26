@@ -1,5 +1,5 @@
-# DQAstats 
- 
+# DQAstats
+
 <!-- badges: start -->
 [![R CMD Check via {tic}](https://github.com/miracum/dqa-dqastats/workflows/R%20CMD%20Check%20via%20{tic}/badge.svg?branch=master)](https://github.com/miracum/dqa-dqastats/actions)
 [![linting](https://github.com/miracum/dqa-dqastats/workflows/lint/badge.svg?branch=master)](https://github.com/miracum/dqa-dqastats/actions)
@@ -19,7 +19,7 @@ Currently implemented features are:
 * 'atemporal plausibility' checks (multivariate)  
 * 'uniqueness plausibility' checks (multivariate)  
 
-The tool provides one main function, `dqa()`, to create a comprehensive PDF document, which presents all statistics and results of the data quality assessment. 
+The tool provides one main function, `dqa()`, to create a comprehensive PDF document, which presents all statistics and results of the data quality assessment.
 
 Currently supported input data formats / databases:  
 
@@ -38,7 +38,7 @@ remotes::install_github("miracum/dqa-dqastats")
 
 Note: A working LaTeX installation is a prerequisite for using this software (e.g. using the R package [`tinytex`](https://yihui.org/tinytex/))!
 
-## Configuration 
+## Configuration
 
 The configuration of data systems, be it CSV files or SQL-based databases, is done with environment variables, which can be set using the base R command `Sys.setenv()`.
 
@@ -48,31 +48,24 @@ A detailed description, which environment variables need to be set for the speci
 
 The following code example is intended to provide a minimal working example on how to apply the DQA tool to data. Example data and a corresponding MDR are provided with the R package *DQAstats* (a working LaTeX installation is a prerequisite for using this software, e.g. using the R package [`tinytex`](https://yihui.org/tinytex/)).  
 
-
 * Example data: [https://github.com/miracum/dqa-dqastats/tree/master/inst/demo_data](https://github.com/miracum/dqa-dqastats/tree/master/inst/demo_data)  
 * Example MDR: [https://github.com/miracum/dqa-dqastats/blob/master/inst/demo_data/utilities/MDR/mdr_example_data.csv](https://github.com/miracum/dqa-dqastats/blob/master/inst/demo_data/utilities/MDR/mdr_example_data.csv)  
 
-
 ```r
-# load library DQAstats
+# Load library DQAstats:
 library(DQAstats)
 
-# Set environment vars to demo files paths
-Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file(
-  "demo_data",
-  package = "DQAstats"
-))
-Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file(
-  "demo_data",
-  package = "DQAstats"
-))
-utils_path <- system.file(
-  "demo_data/utilities",
-  package = "DQAstats"
-)
+# Set environment vars to demo files paths:
+Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file("demo_data",
+                                                  package = "DQAstats"))
+Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file("demo_data",
+                                                  package = "DQAstats"))
+# Set path to utilities folder where to find the mdr and template files:
+utils_path <- system.file("demo_data/utilities",
+                          package = "DQAstats")
 
-# execute DQA to and generate PDF report
-results <- dqa(
+# Execute the DQA and generate a PDF report:
+results <- DQAstats::dqa(
   source_system_name = "exampleCSV_source",
   target_system_name = "exampleCSV_target",
   utils_path = utils_path,
@@ -80,12 +73,10 @@ results <- dqa(
   output_dir = "output/"
 )
 
-# the PDF report is stored at "./output/"
+# The PDF report is stored at "./output/"
 ```
 
-# More Infos:
+## More Infos
 
-- about MIRACUM: [https://www.miracum.org/](https://www.miracum.org/)
-- about the Medical Informatics Initiative: [https://www.medizininformatik-initiative.de/index.php/de](https://www.medizininformatik-initiative.de/index.php/de)
-
-
+* about MIRACUM: [https://www.miracum.org/](https://www.miracum.org/)
+* about the Medical Informatics Initiative: [https://www.medizininformatik-initiative.de/index.php/de](https://www.medizininformatik-initiative.de/index.php/de)

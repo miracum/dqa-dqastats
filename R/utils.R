@@ -218,7 +218,6 @@ check_date_restriction_requirements <-
 #'
 #' @param data If system_type is a database, the sql-string goes here.
 #'   If system_type is 'csv', the data.table of this csv goes here.
-#' @param filter_colname The name of the column to apply the time-filtering to.
 #' @param lower_limit The posixct timestamp of the lower filtering boundary.
 #' @param upper_limit The posixct timestamp of the upper filtering boundary.
 #' @param system_name (Optional for non-database-changes)
@@ -237,30 +236,54 @@ check_date_restriction_requirements <-
 #'
 apply_time_restriciton <-
   function(data,
-           filter_colname,
+           # filter_colname,
+           key,
            lower_limit,
            upper_limit,
            system_name = NULL,
            system_type,
-           mdr = NULL,
+           mdr,
            logfile_dir = NULL,
            db_con = NULL) {
-    if(is.na(filter_colname)) {
-      DIZutils::feedback(print_this = "No filter-column specified. Skipping.",
-                         findme = "3d04f6de77",
-                         logfile_dir = logfile_dir)
-      return(data)
-    }
+
 
     if (system_type == "csv") {
+      filter_colname <- unique(mdr[get("source_table_name") == system_name &
+                                     get("dqa_assessment") == 1, get("restricting_date_var")])
+
+      if (is.na(filter_colname)) {
+        DIZutils::feedback(
+          print_this = paste0("No filter-column specified for key '",
+                              key, "'. Skipping."),
+          findme = "3d04f6de77",
+          logfile_dir = logfile_dir
+        )
+        return(data)
+      }
       ## Format the filter-column as posixct:
       colname_tmp <- "__TMP_FILTER__"
-      format_params <-
+      format_params <- tryCatch({
         unique(mdr[get("source_table_name") == system_name,
                    .SD,
                    .SDcols = c("source_table_name",
                                "restricting_date_var",
                                "restricting_date_format")])[["restricting_date_format"]]
+      },
+      error = function(cond) {
+        DIZutils::feedback(
+          print_this = paste0(
+            "Error while trying to extract the format parameters for applying",
+            " date restriction to the data. Will try to parse the date format",
+            " automatically. This is the original error message: ",
+            cond
+          ),
+          type = "Warning",
+          findme = "86e635027a",
+          logfile_dir = logfile_dir
+        )
+        return(NA)
+      })
+
       if (is.na(format_params)) {
         ## We need to guess the format:
         data[, (colname_tmp) := parsedate::parse_date(dates = data[, get(filter_colname)], approx = FALSE)]
@@ -370,6 +393,12 @@ apply_time_restriciton <-
         for (table in tables$source_table_name) {
           if (is.na(tables[get("source_table_name") == table][["restricting_date_var"]])) {
             ## No time-restriction needed. Skip this and don't change the SQL.
+            DIZutils::feedback(
+              print_this = paste0("No filter-column specified for table '",
+                                  table, "'. Skipping."),
+              findme = "1c3eb6499d",
+              logfile_dir = logfile_dir
+            )
           } else {
             ## Remove db-scheme from table name
             ## 'scheme.tablename' --> 'tablename'
@@ -457,7 +486,9 @@ apply_time_restriciton <-
                 logfile_dir = logfile_dir
               )
               ## Create the time-restricted VIEW:
-              DIZutils::query_database(db_con = db_con, sql_statement = sql_create_view)
+              DIZutils::query_database(db_con = db_con,
+                                       sql_statement = sql_create_view,
+                                       no_result = TRUE)
             }
             ## Replace the original not-time-filtered table-calls from the
             ## SQL with the new time-filtered tables:
@@ -475,6 +506,9 @@ apply_time_restriciton <-
           }
         }
       }
+      # print("Old SQL:")
+      # print(data)
+      # print("New SQL:")
       # print(sql_tmp)
       return(sql_tmp)
     } else {

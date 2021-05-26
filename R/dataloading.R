@@ -91,9 +91,7 @@ load_csv_files <- function(mdr,
       filtered_table <-
         apply_time_restriciton(
           data = unfiltered_table,
-          filter_colname = unique(mdr[get("source_system_name") == sourcesystem &
-                                        get("source_table_name") == inputfile,
-                                      get("restricting_date_var")]),
+          key = NULL,
           lower_limit = restricting_date$start,
           upper_limit = restricting_date$end,
           system_type = "csv",
@@ -191,7 +189,8 @@ load_csv <- function(rv,
   # read sourcedata
   outlist <- load_csv_files(
     mdr = rv$mdr,
-    inputdir = DIZutils::clean_path_name(system$settings$path),
+    inputdir = DIZutils::clean_path_name(pathname = system$settings$path,
+                                         remove.slash = FALSE),
     sourcesystem = system$system_name,
     headless = headless,
     logfile_dir = rv$log$logfile_dir,
@@ -219,7 +218,6 @@ load_csv <- function(rv,
                        headless = rv$headless)
 
     for (j in col_names) {
-
       var_type <- rv$mdr[get("source_system_name") == system$system_name &
                            get("source_table_name") == i &
                            get("source_variable_name") == j,
@@ -303,13 +301,14 @@ load_database <- function(rv,
       ## Filter SQL
       sql <- apply_time_restriciton(
         data = sql_statements[[i]],
-        filter_colname = unique(rv$mdr[get("key") == i &
-                                         get("source_system_name") == db_name &
-                                         get("dqa_assessment") == 1, get("restricting_date_var")]),
+        # filter_colname = unique(rv$mdr[get("key") == i &
+        #                                  get("source_system_name") == db_name &
+        #                                  get("dqa_assessment") == 1, get("restricting_date_var")]),
         lower_limit = rv$restricting_date$start,
         upper_limit = rv$restricting_date$end,
         system_name = db_name,
         system_type = db_type,
+        key = i,
         mdr = rv$mdr,
         db_con = db_con,
         logfile_dir = rv$log$logfile_dir
@@ -327,27 +326,48 @@ load_database <- function(rv,
                        logfile_dir = rv$log$logfile_dir,
                        headless = rv$headless)
 
-    dat <- DIZutils::query_database(
-      db_con = db_con,
-      sql_statement = sql
-    )
-
+    dat <- tryCatch({
+      DIZutils::query_database(db_con = db_con,
+                               sql_statement = sql)
+    },
+    error = function(cond) {
+      DIZutils::feedback(
+        print_this = paste0(
+          "Error while trying to get the data for element '",
+          i,
+          "'. The sql was '",
+          sql,
+          "'. The error message is: '",
+          cond,
+          "'."
+        ),
+        type = "Error",
+        findme = "c5291c15e3",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless
+      )
+      stop("See error above.")
+      return(NULL)
+    })
 
 
     # check, if table has more than two columns and thus does not comply
     # with DQAstats table requirements for SQL based systems
-    if (dim(dat)[2] > 2) {
+    if (is.null(dat) || dim(dat)[2] > 2) {
       msg <- paste0(
-        "Table of data element '", i,
+        "Table of data element '",
+        i,
         "' has > 2 columns. Aborting session.\n",
         "Please adjust the SQL statement to return max. 2 columns."
       )
-      DIZutils::feedback(msg,
-                         type = "Error",
-                         logjs = isFALSE(headless),
-                         findme = "c1902dd9cf",
-                         logfile_dir = rv$log$logfile_dir,
-                         headless = rv$headless)
+      DIZutils::feedback(
+        print_this = msg,
+        type = "Error",
+        logjs = isFALSE(headless),
+        findme = "c1902dd9cf",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless
+      )
       # raise error
       stop(msg)
     } else {
@@ -437,7 +457,8 @@ data_loading <- function(rv, system, keys_to_test) {
     !is.null(system) & is.list(system) & length(system) > 0,
     # system$settings:
     !is.null(system$settings) &
-      is.list(system$settings) & length(system$settings) > 0,
+      is.list(system$settings) &
+      ifelse(system$system_type == "csv", TRUE, length(system$settings) > 0),
     # system$system_name:
     !is.null(system$system_name) &
       is.character(system$system_name),
@@ -455,6 +476,9 @@ data_loading <- function(rv, system, keys_to_test) {
   outlist <- list()
 
   if (system$system_type == "csv") {
+    system$settings$path <- Sys.getenv(paste0(toupper(system$system_name), "_PATH"))
+    stopifnot(nchar(system$settings$path) > 0)
+
     test_csv_result <- test_csv(
       settings = system$settings,
       source_db = system$system_name,

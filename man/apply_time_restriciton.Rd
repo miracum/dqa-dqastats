@@ -6,12 +6,12 @@
 \usage{
 apply_time_restriciton(
   data,
-  filter_colname,
+  key,
   lower_limit,
   upper_limit,
   system_name = NULL,
   system_type,
-  mdr = NULL,
+  mdr,
   logfile_dir = NULL,
   db_con = NULL
 )
@@ -19,8 +19,6 @@ apply_time_restriciton(
 \arguments{
 \item{data}{If system_type is a database, the sql-string goes here.
 If system_type is 'csv', the data.table of this csv goes here.}
-
-\item{filter_colname}{The name of the column to apply the time-filtering to.}
 
 \item{lower_limit}{The posixct timestamp of the lower filtering boundary.}
 
