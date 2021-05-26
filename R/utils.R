@@ -542,5 +542,3 @@ get_restricting_date_info <-
   }
   return(res)
 }
-
-

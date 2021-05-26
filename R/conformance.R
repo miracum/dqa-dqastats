@@ -58,9 +58,9 @@ value_conformance <- function(
         # initialize inner outlist
         outlist <- list()
 
-        msg <- paste("Performing value conformance check", i)
+        msg <- paste("Performing value conformance check for '", i, "'")
         DIZutils::feedback(
-          paste0("", msg),
+          print_this = msg,
           findme = "5d061425eb",
           logfile_dir = logfile_dir
         )
@@ -115,6 +115,21 @@ value_conformance <- function(
             if (length(constraints[[1]]) > 0) {
               # initialize outlist
               outlist2 <- list()
+
+              DIZutils::feedback(
+                print_this = paste0(
+                  "Analyzing variable '",
+                  i,
+                  "' with type '",
+                  d_out$checks$var_type,
+                  "' (",
+                  j,
+                  ")..."
+                ),
+                findme = "d9f44d5c97",
+                logfile = logfile,
+                headless = headless
+              )
 
               # categorical treatment (value_set)
               if (d_out$checks$var_type == "permittedValues") {
@@ -389,7 +404,67 @@ value_conformance <- function(
                     }
                   }
                 }
-              }
+              } else if (d_out$checks$var_type == "calendar") {
+                if (((nrow(s_out) == 1) && is.na(s_out[[1, 1]])) ||
+                    (nrow(s_out) == 0)) {
+                  outlist2$conformance_error <- TRUE
+                  outlist2$conformance_results <-
+                    "No data available to perform conformance checks."
+                } else {
+                  ## Check if there only is a datetime_format in the
+                  ## constraints (this is implicitly already checked
+                  ## in load_database(), search for 'datetime_format'):
+                  constraints_names <- names(constraints)
+                  if (length(constraints_names) == 1 &&
+                        constraints_names[[1]] == "datetime_format") {
+                    DIZutils::feedback(
+                      print_this = paste0(
+                        "Value conformance check for variable '",
+                        i,
+                        "' will be set to 'passed', because there is no other",
+                        " constraint given next to the format of the date",
+                        " which was already tested and applied due to the",
+                        " data loading process."
+                      ),
+                      findme = "38486b5105",
+                      logfile_dir = logfile_dir,
+                      headless = headless
+                    )
+                  } else {
+                    DIZutils::feedback(
+                      print_this = paste0(
+                        "Cannot perform value conformance check for variable '",
+                        i,
+                        "' because there is no logic implemented for constrains '",
+                        paste(constraints_names[constraints_names != "datetime_format"], collapse = "', '"),
+                        "'. Search for this value in the brackets in the code to implement:"
+                      ),
+                      type = "Warning",
+                      findme = "4c83f9bb78",
+                      logfile_dir = logfile_dir,
+                      headless = headless
+                    )
+                  }
+                  outlist2$conformance_error <- FALSE
+                  outlist2$conformance_results <-
+                    "No 'value conformance' issues found."
+                }
+              } else {
+                DIZutils::feedback(
+                  print_this = paste0(
+                    "Cannot check ",
+                    scope,
+                    " value conformance for variable '",
+                    i,
+                    "' because there is no check for vartype '",
+                    d_out$checks$var_type,
+                    "' implemented yet."
+                  ),
+                  type = "Warning",
+                  findme = "4817d8aec4",
+                  logfile_dir = logfile_dir
+                )
+                }
               outlist[[j]] <- outlist2
             }
           }
