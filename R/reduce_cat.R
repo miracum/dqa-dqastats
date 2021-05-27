@@ -44,8 +44,12 @@ reduce_cat <- function(data, levellimit = 25) {
       # loop over source and target data
       for (j in c("source_data", "target_data")) {
         # if number of rows > levellimit, reduce to levellimit
-        if (nrow(data[[i]]$statistics[[j]]) > levellimit) {
-          data[[i]]$statistics[[j]] <- data[[i]]$statistics[[j]][1:levellimit, ]
+        if (!is.null(data[[i]]$statistics[[j]])) {
+          if (nrow(data[[i]]$statistics[[j]]) > levellimit) {
+            data[[i]]$statistics[[j]] <- data[[i]]$statistics[[j]][
+              1:levellimit,
+            ]
+          }
         }
       }
     }

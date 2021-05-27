@@ -20,7 +20,8 @@ load_csv_files <- function(mdr,
                            inputdir,
                            sourcesystem,
                            headless = T,
-                           logfile_dir) {
+                           logfile_dir,
+                           restricting_date = list(use_it = FALSE)) {
 
   # original beginning of function
   inputdir <- DIZutils::clean_path_name(inputdir)
@@ -47,19 +48,23 @@ load_csv_files <- function(mdr,
                        headless = headless)
 
     input_vars <- unique(
-      available_systems[get("source_table_name") ==
-                          inputfile &
-                          !is.na(get("variable_type")),
-                        c("source_variable_name",
-                          "variable_type")]
+      available_systems[
+        get("source_table_name") == inputfile &
+          !is.na(get("variable_type")),
+        c("source_variable_name", "variable_type"),
+        with = FALSE
+      ]
     )
 
     select_cols <- unlist(
       sapply(
-        input_vars$source_variable_name,
+        X = input_vars$source_variable_name,
         FUN = function(x) {
           map_var_types(
-            input_vars[get("source_variable_name") == x, "variable_type"]
+            input_vars[
+              get("source_variable_name") == x,
+              get("variable_type")
+            ]
           )
         },
         simplify = TRUE,
@@ -67,7 +72,10 @@ load_csv_files <- function(mdr,
       )
     )
 
-    outlist[[inputfile]] <- data.table::fread(
+    unfiltered_table <- NULL
+    filtered_table <- NULL
+
+    unfiltered_table <- data.table::fread(
       paste0(inputdir, inputfile),
       select = names(select_cols),
       colClasses = select_cols,
@@ -75,6 +83,37 @@ load_csv_files <- function(mdr,
       na.strings = "",
       stringsAsFactors = TRUE
     )
+
+    msg <- paste("Getting ", inputfile)
+
+    ## Apply time filtering:
+    if (restricting_date$use_it) {
+      filtered_table <-
+        apply_time_restriciton(
+          data = unfiltered_table,
+          filter_colname = unique(mdr[get("source_system_name") == sourcesystem &
+                                        get("source_table_name") == inputfile,
+                                      get("restricting_date_var")]),
+          lower_limit = restricting_date$start,
+          upper_limit = restricting_date$end,
+          system_type = "csv",
+          system_name = inputfile,
+          logfile_dir = logfile_dir,
+          mdr = mdr
+        )
+      msg <- paste0(msg, " (using a TEMPORAL VIEW)")
+    } else {
+      filtered_table <- unfiltered_table
+    }
+
+    DIZutils::feedback(print_this = msg,
+                       logjs = isFALSE(headless),
+                       findme = "81ba7f702f",
+                       logfile_dir = logfile_dir,
+                       headless = headless)
+
+
+    outlist[[inputfile]] <- filtered_table
 
     # TODO special MIRACUM treatment
     # treating of §21 chaperones
@@ -155,7 +194,8 @@ load_csv <- function(rv,
     inputdir = DIZutils::clean_path_name(system$settings$path),
     sourcesystem = system$system_name,
     headless = headless,
-    logfile_dir = rv$log$logfile_dir
+    logfile_dir = rv$log$logfile_dir,
+    restricting_date = rv$restricting_date
   )
 
   # datatransformation source:
@@ -185,7 +225,7 @@ load_csv <- function(rv,
                            get("source_variable_name") == j,
                          unique(get("variable_type"))]
 
-      if (j %in% var_names) {
+      if (j %in% var_names && j %in% colnames(outlist[[i]])) {
         vn <- rv$mdr[get("source_table_name") == i &
                        get("source_system_name") == system$system_name,
         ][
@@ -204,9 +244,13 @@ load_csv <- function(rv,
               get("variable_name") == vn,
             unique(get("constraints"))
           ]
-          if (is.na(date_format) || grepl("^\\s*$", date_format)) {
+          if (is.na(date_format) ||
+              grepl("^\\s*$", date_format) ||
+              is.null(jsonlite::fromJSON(date_format)[["datetime_format"]])) {
             # set date format to default value
             date_format <- "%Y-%m-%d"
+          } else{
+            date_format <- jsonlite::fromJSON(date_format)[["datetime_format"]]
           }
           outlist[[i]][, (vn) := as.Date(
             as.character(get(vn)),
@@ -232,6 +276,7 @@ load_csv <- function(rv,
 #' @param sql_statements The SQL-Statement-object
 #' @param db_con The connection-socket
 #' @param db_name The database name
+#' @param db_type The database type (postgres/oracle)
 #'
 #' @inheritParams load_csv
 #'
@@ -241,26 +286,54 @@ load_database <- function(rv,
                           db_con,
                           keys_to_test,
                           db_name,
-                          headless = FALSE) {
+                          headless = FALSE,
+                          db_type) {
 
   # initialize outlist
   outlist <- list()
 
   # read target data
   outlist <- sapply(keys_to_test, function(i) {
-    msg <- paste("Getting", i, "from database:", db_name)
-    DIZutils::feedback(msg,
+    stopifnot(!is.null(sql_statements[[i]]))
+
+    msg <- paste("Getting", i, "from database", db_name)
+
+    ## Apply time filtering (if needed):
+    if (rv$restricting_date$use_it) {
+      ## Filter SQL
+      sql <- apply_time_restriciton(
+        data = sql_statements[[i]],
+        filter_colname = unique(rv$mdr[get("key") == i &
+                                         get("source_system_name") == db_name &
+                                         get("dqa_assessment") == 1, get("restricting_date_var")]),
+        lower_limit = rv$restricting_date$start,
+        upper_limit = rv$restricting_date$end,
+        system_name = db_name,
+        system_type = db_type,
+        mdr = rv$mdr,
+        db_con = db_con,
+        logfile_dir = rv$log$logfile_dir
+      )
+      msg <- paste0(msg, " (using a TEMPORAL VIEW)")
+    } else {
+      ## Unfiltered:
+      sql <- sql_statements[[i]]
+    }
+
+
+    DIZutils::feedback(print_this = msg,
                        logjs = isFALSE(headless),
                        findme = "c12a1dd9ce",
                        logfile_dir = rv$log$logfile_dir,
                        headless = rv$headless)
 
-    stopifnot(!is.null(sql_statements[[i]]))
-
     dat <- DIZutils::query_database(
       db_con = db_con,
-      sql_statement = sql_statements[[i]]
+      sql_statement = sql
     )
+
+
+
     # check, if table has more than two columns and thus does not comply
     # with DQAstats table requirements for SQL based systems
     if (dim(dat)[2] > 2) {
@@ -288,20 +361,22 @@ load_database <- function(rv,
   for (i in keys_to_test) {
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming target variable types", i)
-    DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "7a3e28f291",
-                       logfile_dir = rv$log$logfile_dir,
-                       headless = rv$headless)
+    DIZutils::feedback(
+      print_this = msg,
+      logjs = isFALSE(headless),
+      findme = "7a3e28f291",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless
+    )
 
     # get column names
     col_names <- colnames(outlist[[i]])
 
     # check, if column name in variables of interest
     for (j in col_names) {
-
       var_type <- rv$mdr[get("source_system_name") == db_name &
                            get("key") == i &
                            get("variable_name") == j, get("variable_type")]
-
 
       if (var_type %in% c("permittedValues", "string", "catalog")) {
         # transform to factor
@@ -315,9 +390,13 @@ load_database <- function(rv,
             get("variable_name") == j,
           unique(get("constraints"))
         ]
-        if (is.na(date_format) || grepl("^\\s*$", date_format)) {
+        if (is.na(date_format) ||
+            grepl("^\\s*$", date_format) ||
+            is.null(jsonlite::fromJSON(date_format)[["datetime_format"]])) {
           # set date format to default value
-          date_format <- "%Y%m%d"
+          date_format <- "%Y-%m-%d"
+        } else{
+          date_format <- jsonlite::fromJSON(date_format)[["datetime_format"]]
         }
         outlist[[i]][, (j) := as.Date(
           as.character(get(j)),
@@ -405,7 +484,7 @@ data_loading <- function(rv, system, keys_to_test) {
       ## Use environment-settings:
       db_con <-
         DIZutils::db_connection(
-          db_name = system$system_name,
+          system_name = system$system_name,
           db_type = system$system_type,
           headless = rv$headless,
           logfile_dir = rv$log$logfile_dir
@@ -414,7 +493,7 @@ data_loading <- function(rv, system, keys_to_test) {
       ## Use included settings:
       db_con <-
         DIZutils::db_connection(
-          db_name = system$system_name,
+          system_name = system$system_name,
           db_type = system$system_type,
           headless = rv$headless,
           logfile_dir = rv$log$logfile_dir,
@@ -432,7 +511,8 @@ data_loading <- function(rv, system, keys_to_test) {
       db_con = db_con,
       keys_to_test = keys_to_test,
       headless = rv$headless,
-      db_name = system$system_name
+      db_name = system$system_name,
+      db_type = system$system_type
     )
     rm(db_con)
 

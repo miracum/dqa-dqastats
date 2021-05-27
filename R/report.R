@@ -40,11 +40,7 @@ render_results <- function(descriptive_results,
 
     # overview
     cat("\n **Overview:**  \n")
-    render_counts(count_out, "source_data")
-
-    # statistics
-    cat("\n **Results:**  \n")
-    print(kable_table(stat_out$source_data))
+    render_counts(count_out, stat_out, "source_data")
 
     # conformance checks
     if (i %in% names(valueconformance_results)) {
@@ -63,11 +59,7 @@ render_results <- function(descriptive_results,
 
     # overview
     cat("\n **Overview:**  \n")
-    render_counts(count_out, "target_data")
-
-    # statistics
-    cat("\n **Results:**  \n")
-    print(kable_table(stat_out$target_data))
+    render_counts(count_out, stat_out, "target_data")
 
     # conformance checks
     if (i %in% names(valueconformance_results)) {
@@ -88,29 +80,38 @@ render_representation <- function(desc_out, source) {
 }
 
 render_counts <- function(count_out,
+                          stat_out,
                           source) {
 
   # source either "source_data" or "target_data"
   # n = sample size
   # N = population size
-  cat(paste0("\n- Variable name: ",
-             count_out[[source]]$cnt$variable,
-             "\n"))
-  cat(paste0("- Variable type: ",
-             count_out[[source]]$type,
-             "  \n"))
-  cat(paste0("    + n: ",
-             count_out[[source]]$cnt$n,
-             "\n"))
-  cat(paste0("    + Valid values: ",
-             count_out[[source]]$cnt$valids,
-             "\n"))
-  cat(paste0("    + Missing values: ",
-             count_out[[source]]$cnt$missings,
-             "\n"))
-  cat(paste0("    + Distinct values: ",
-             count_out[[source]]$cnt$distinct,
-             "  \n  \n"))
+  if (!is.null(count_out[[source]]$cnt)) {
+    cat(paste0("\n- Variable name: ",
+               count_out[[source]]$cnt$variable,
+               "\n"))
+    cat(paste0("- Variable type: ",
+               count_out[[source]]$type,
+               "  \n"))
+    cat(paste0("    + n: ",
+               count_out[[source]]$cnt$n,
+               "\n"))
+    cat(paste0("    + Valid values: ",
+               count_out[[source]]$cnt$valids,
+               "\n"))
+    cat(paste0("    + Missing values: ",
+               count_out[[source]]$cnt$missings,
+               "\n"))
+    cat(paste0("    + Distinct values: ",
+               count_out[[source]]$cnt$distinct,
+               "  \n  \n"))
+
+    cat("\n **Results:**  \n")
+    print(kable_table(stat_out[[source]]))
+
+  } else {
+    cat("\nNo data available for reporting  \n  \n")
+  }
 }
 
 render_value_conformance <- function(results,

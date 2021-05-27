@@ -32,9 +32,8 @@ Currently supported input data formats / databases:
 You can install the development version of `DQAstats` with:
 
 ``` r
-install.packages("devtools")
-options('repos' = 'https://ftp.fau.de/cran/')
-devtools::install_github("miracum/dqa-dqastats")
+install.packages("remotes")
+remotes::install_github("miracum/dqa-dqastats")
 ```
 
 Note: A working LaTeX installation is a prerequisite for using this software (e.g. using the R package [`tinytex`](https://yihui.org/tinytex/))!
@@ -47,12 +46,10 @@ A detailed description, which environment variables need to be set for the speci
 
 ## Example
 
-The following code example is intended to provide a minimal working example on how to apply the DQA tool to data. Example data and a corresponding MDR are provided with the R package *DQAstats* (a working LaTeX installation is a prerequisite for using this software, e.g. using the R package [`tinytex`](https://yihui.org/tinytex/)).  
-
+The following code example is intended to provide a minimal working example on how to apply the DQA tool to data. Example data and a corresponding MDR are provided with the R package *DQAstats* (a working LaTeX installation is a prerequisite for using this software, e.g. by using the R package [`tinytex`](https://yihui.org/tinytex/); please refer to the [DQAstats wiki](https://github.com/miracum/dqa-dqastats/wiki/Installation) for further installation instructions).  
 
 * Example data: [https://github.com/miracum/dqa-dqastats/tree/master/inst/demo_data](https://github.com/miracum/dqa-dqastats/tree/master/inst/demo_data)  
 * Example MDR: [https://github.com/miracum/dqa-dqastats/blob/master/inst/demo_data/utilities/MDR/mdr_example_data.csv](https://github.com/miracum/dqa-dqastats/blob/master/inst/demo_data/utilities/MDR/mdr_example_data.csv)  
-
 
 ```r
 # load library DQAstats

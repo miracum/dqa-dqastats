@@ -12,7 +12,10 @@ dqa(
   output_dir = "./output/",
   logfile_dir = tempdir(),
   parallel = TRUE,
-  ncores = 4
+  ncores = 4,
+  restricting_date_start = NULL,
+  restricting_date_end = NULL,
+  restricting_date_format = NULL
 )
 }
 \arguments{
@@ -45,6 +48,26 @@ will be stored.}
 \item{ncores}{A integer. The number of cores to use. Caution: you would
 probably like to choose a low number when operating on large datasets.
 Default: 2.}
+
+\item{restricting_date_start}{The date as the lower limit against which
+the data to be analyzed will be filtered. Your input must be able to be
+recognized as a date by `parsedate::parse_date("2021-02-25")`.
+Keep in mind: If you supply a date without a time here,
+the time will automatically be set to 00:00.}
+
+\item{restricting_date_end}{The date as the lower limit against which
+the data to be analyzed will be filtered. Your input must be able to be
+recognized as a date by `parsedate::parse_date("2021-02-25")`
+Keep in mind: If you supply a date without a time here,
+the time will automatically be set to 00:00. This means, the end DAY
+you provide here won't be included: '2021-12-31' will become
+'2021-12-31 00:00:00'. If you want to include this day, you need to
+supply also a time '2021-12-31 23:59:59' or just use the next day
+without a time: '2022-01-01'.}
+
+\item{restricting_date_format}{The format in which the input data is stored.
+See `?strptime` for possible parameters.
+Currently not implemented! So there is no effect if you pass a format here.}
 }
 \description{
 This function performs a data quality assessment (DQA)
