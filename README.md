@@ -9,7 +9,7 @@
 [![coverage report](https://gitlab.miracum.org/miracum/dqa/dqastats/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/dqastats/commits/master)
 <!-- badges: end -->
 
-The R package 'DQAstats' provides core functionalities to perfrom data quality assessment (DQA) of electronic health record data (EHR).  
+The R package 'DQAstats' provides core functionalities to perform data quality assessment (DQA) of electronic health record data (EHR).  
 
 Currently implemented features are:  
 
