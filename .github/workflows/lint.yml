@@ -64,6 +64,7 @@ jobs:
       - uses: actions/setup-java@main
         if: matrix.config.java == 'true'
         with:
+          distribution: 'zulu'
           java-version: '8'
 
       # set date/week for use in cache creation
@@ -76,7 +77,7 @@ jobs:
 
       - name: "[Cache] Cache R packages"
         if: runner.os != 'Windows'
-        uses: pat-s/always-upload-cache@master
+        uses: pat-s/always-upload-cache@main
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{steps.date.outputs.date}}

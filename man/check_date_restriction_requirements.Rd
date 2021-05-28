@@ -7,7 +7,6 @@
 check_date_restriction_requirements(
   mdr,
   system_names,
-  restricting_date,
   logfile_dir,
   headless = TRUE,
   enable_stop = TRUE
@@ -16,17 +15,23 @@ check_date_restriction_requirements(
 \arguments{
 \item{mdr}{The mdr as data.table}
 
+\item{system_names}{(String) The name of the systems (source and target)
+to check for possible date restriction in the mdr.}
+
 \item{logfile_dir}{The absolute path to folder where the logfile
 will be stored.}
 
-\item{enable_stop}{(boolean, default = TRUE) If true (default) this function
+\item{headless}{(Boolean) Is this a console application? Otherwise
+(if `headless = FALSE`) there is a GUI and there will be GUI-feedback.}
+
+\item{enable_stop}{(Boolean, default = TRUE) If true (default) this function
 will call `stop()` in case of the check fails. If `enable_stop = FALSE`
-it will return `TRUE` if the check was successfull and `FALSE` if the
+it will return `TRUE` if the check was successful and `FALSE` if the
 check failed. Use `enable_stop = FALSE` to avoid the need of a try/catch
 block around this function.}
 }
 \value{
-TRUE/FALSE: TRUE if the check was successfull and the given
+TRUE/FALSE: TRUE if the check was successful and the given
   systems can be time filtered, FALSE if something went wrong and no time
   filtering is possible.
 }
