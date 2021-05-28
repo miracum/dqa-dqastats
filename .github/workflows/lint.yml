@@ -61,10 +61,9 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@master
         if: matrix.config.latex == 'true'
 
-      - uses: actions/setup-java@main
+      - uses: actions/setup-java@v1
         if: matrix.config.java == 'true'
         with:
-          distribution: 'zulu'
           java-version: '8'
 
       # set date/week for use in cache creation
