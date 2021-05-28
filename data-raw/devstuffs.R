@@ -79,6 +79,7 @@ usethis::use_package("RPostgres", type = "Imports")
 usethis::use_package("stats", type = "Imports")
 usethis::use_package("tinytex", type = "Imports")
 usethis::use_package("utils", type = "Imports")
+usethis::use_package("DIZutils", type = "Imports")
 
 
 # Suggests
@@ -88,7 +89,6 @@ usethis::use_package("lintr", type = "Suggests")
 # Development package
 utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
-  usethis::use_package("DIZutils", type = "Imports")
   install.packages("DIZutils")
 } else{
   devtools::install_github("miracum/misc-dizutils", ref = utils_tag)

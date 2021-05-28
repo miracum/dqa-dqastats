@@ -23,6 +23,7 @@ URL: https://github.com/miracum/dqa-dqastats
 BugReports: https://github.com/miracum/dqa-dqastats/issues
 Imports: 
     data.table,
+    DIZutils,
     e1071,
     future,
     future.apply,
@@ -43,4 +44,3 @@ Remotes:
     github::miracum/misc-dizutils@development
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
