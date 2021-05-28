@@ -1,7 +1,7 @@
 Package: DQAstats
 Title: DQAstats - Core Functions for Data Quality Assessment
-Version: 0.1.6.9014
-Date: 2021-05-26
+Version: 0.1.6.9016
+Date: 2021-05-28
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -30,6 +30,7 @@ Imports:
     kableExtra,
     knitr,
     magrittr,
+    parsedate,
     rmarkdown,
     RPostgres,
     stats,
@@ -42,4 +43,3 @@ Remotes:
     github::miracum/misc-dizutils@development
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1

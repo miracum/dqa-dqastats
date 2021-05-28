@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.6.9014")
+my_desc$set_version("0.1.6.9016")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
@@ -66,18 +66,20 @@ my_desc$write(file = "DESCRIPTION")
 
 # Imports
 usethis::use_package("data.table", type = "Imports")
-usethis::use_package("magrittr", type = "Imports")
-usethis::use_package("stats", type = "Imports")
-usethis::use_package("jsonlite", type = "Imports")
-usethis::use_package("RPostgres", type = "Imports")
 usethis::use_package("e1071", type = "Imports")
-usethis::use_package("knitr", type = "Imports")
-usethis::use_package("rmarkdown", type = "Imports")
-usethis::use_package("tinytex", type = "Imports")
-usethis::use_package("kableExtra", type = "Imports")
-usethis::use_package("utils", type = "Imports")
-usethis::use_package("future.apply", type = "Imports")
 usethis::use_package("future", type = "Imports")
+usethis::use_package("future.apply", type = "Imports")
+usethis::use_package("jsonlite", type = "Imports")
+usethis::use_package("kableExtra", type = "Imports")
+usethis::use_package("knitr", type = "Imports")
+usethis::use_package("magrittr", type = "Imports")
+usethis::use_package("parsedate", type = "Imports")
+usethis::use_package("rmarkdown", type = "Imports")
+usethis::use_package("RPostgres", type = "Imports")
+usethis::use_package("stats", type = "Imports")
+usethis::use_package("tinytex", type = "Imports")
+usethis::use_package("utils", type = "Imports")
+
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")

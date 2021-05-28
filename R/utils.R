@@ -115,12 +115,16 @@ parallel <- function(parallel, logfile_dir, ncores) {
 #'   data is invalid, the function will call `stop()`.
 #'
 #' @param mdr The mdr as data.table
-#' @param enable_stop (boolean, default = TRUE) If true (default) this function
+#' @param enable_stop (Boolean, default = TRUE) If true (default) this function
 #'   will call `stop()` in case of the check fails. If `enable_stop = FALSE`
-#'   it will return `TRUE` if the check was successfull and `FALSE` if the
+#'   it will return `TRUE` if the check was successful and `FALSE` if the
 #'   check failed. Use `enable_stop = FALSE` to avoid the need of a try/catch
 #'   block around this function.
-#' @return TRUE/FALSE: TRUE if the check was successfull and the given
+#' @param system_names (String) The name of the systems (source and target)
+#'   to check for possible date restriction in the mdr.
+#' @param headless (Boolean) Is this a console application? Otherwise
+#'   (if `headless = FALSE`) there is a GUI and there will be GUI-feedback.
+#' @return TRUE/FALSE: TRUE if the check was successful and the given
 #'   systems can be time filtered, FALSE if something went wrong and no time
 #'   filtering is possible.
 #'
@@ -130,7 +134,7 @@ parallel <- function(parallel, logfile_dir, ncores) {
 check_date_restriction_requirements <-
   function(mdr,
            system_names,
-           restricting_date,
+           # restricting_date,
            logfile_dir,
            headless = TRUE,
            enable_stop = TRUE) {
@@ -159,7 +163,8 @@ check_date_restriction_requirements <-
           restricting_date_cols <-
             unique(mdr[get("source_table_name") == table, get(colname_restricting_date_var)])
           different_restricting_date_cols <-
-            c(different_restricting_date_cols, restricting_date_cols)
+            c(different_restricting_date_cols,
+              restricting_date_cols)
           if (length(restricting_date_cols) != 1) {
             DIZutils::feedback(
               print_this = paste0(
@@ -203,7 +208,7 @@ check_date_restriction_requirements <-
                          findme = "47da559fd2")
       return(TRUE)
     } else {
-      if(enable_stop){
+      if (enable_stop) {
         stop("See above.")
       } else {
         return(FALSE)
@@ -569,7 +574,11 @@ get_restricting_date_info <-
   } else {
     if (lang == "de") {
       res <-
-        "Keine zeitliche Einschränkung. Alle vorliegenden Daten wurden analysiert"
+        paste0(
+          "Keine zeitliche Einschr",
+          intToUtf8("228"),
+          "nkung. Alle vorliegenden Daten wurden analysiert"
+        )
     } else {
       res <- "No time restriction. All available data were analysed"
     }
