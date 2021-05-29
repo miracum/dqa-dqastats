@@ -111,7 +111,7 @@ test_that("correct functioning of helper vars", {
   expect_type(reactive_to_append$variable_list, "list")
   expect_length(reactive_to_append$variable_list, 12)
   expect_type(reactive_to_append$pl, "list")
-  expect_length(reactive_to_append$pl, 4)
+  expect_length(reactive_to_append$pl, 6)
   expect_s3_class(reactive_to_append$pl$atemp_vars, "data.table")
   expect_s3_class(reactive_to_append$pl$uniq_vars, "data.table")
 
@@ -137,7 +137,7 @@ test_that("correct functioning of helper vars", {
   expect_type(rv$variable_list, "list")
   expect_length(rv$variable_list, 12)
   expect_type(rv$pl, "list")
-  expect_length(rv$pl, 4)
+  expect_length(rv$pl, 6)
   expect_s3_class(rv$pl$atemp_vars, "data.table")
   expect_s3_class(rv$pl$uniq_vars, "data.table")
 

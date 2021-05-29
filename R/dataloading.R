@@ -302,8 +302,8 @@ load_database <- function(rv,
       sql <- apply_time_restriciton(
         data = sql_statements[[i]],
         # filter_colname = unique(rv$mdr[get("key") == i &
-        #                                  get("source_system_name") == db_name &
-        #                                  get("dqa_assessment") == 1, get("restricting_date_var")]),
+        # get("source_system_name") == db_name &
+        # get("dqa_assessment") == 1, get("restricting_date_var")]),
         lower_limit = rv$restricting_date$start,
         upper_limit = rv$restricting_date$end,
         system_name = db_name,
@@ -476,7 +476,9 @@ data_loading <- function(rv, system, keys_to_test) {
   outlist <- list()
 
   if (system$system_type == "csv") {
-    system$settings$path <- Sys.getenv(paste0(toupper(system$system_name), "_PATH"))
+    system$settings$path <- Sys.getenv(
+      paste0(toupper(system$system_name), "_PATH")
+    )
     stopifnot(nchar(system$settings$path) > 0)
 
     test_csv_result <- test_csv(

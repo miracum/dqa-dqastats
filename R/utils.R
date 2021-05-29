@@ -131,7 +131,7 @@ parallel <- function(parallel, logfile_dir, ncores) {
 #' @inheritParams dqa
 #' @export
 #'
-check_date_restriction_requirements <-
+check_date_restriction_requirements <- # nolint
   function(mdr,
            system_names,
            # restricting_date,
@@ -157,12 +157,17 @@ check_date_restriction_requirements <-
     } else {
       for (system_name in system_names) {
         different_tables <-
-          unique(mdr[get("source_system_name") == system_name][["source_table_name"]])
-        different_restricting_date_cols <- c()
+          unique(
+            mdr[get("source_system_name") == system_name]
+          )
+        different_restricting_date_cols <- c() # nolint
         for (table in different_tables) {
           restricting_date_cols <-
-            unique(mdr[get("source_table_name") == table, get(colname_restricting_date_var)])
-          different_restricting_date_cols <-
+            unique(
+              mdr[get("source_table_name") == table,
+                  get(colname_restricting_date_var)]
+            )
+          different_restricting_date_cols <- # nolint
             c(different_restricting_date_cols,
               restricting_date_cols)
           if (length(restricting_date_cols) != 1) {
@@ -203,9 +208,14 @@ check_date_restriction_requirements <-
 
 
     if (!error) {
-      DIZutils::feedback(print_this = "\U2714 Date restriction parameters are valid in the MDR.",
-                         logfile = logfile_dir,
-                         findme = "47da559fd2")
+      DIZutils::feedback(
+        print_this = paste0(
+          "\U2714 Date restriction parameters ",
+          "are valid in the MDR."
+        ),
+        logfile = logfile_dir,
+        findme = "47da559fd2"
+      )
       return(TRUE)
     } else {
       if (enable_stop) {
@@ -253,8 +263,10 @@ apply_time_restriciton <-
 
 
     if (system_type == "csv") {
-      filter_colname <- unique(mdr[get("source_table_name") == system_name &
-                                     get("dqa_assessment") == 1, get("restricting_date_var")])
+      filter_colname <- unique(
+        mdr[get("source_table_name") == system_name &
+              get("dqa_assessment") == 1, get("restricting_date_var")]
+      )
 
       if (is.na(filter_colname)) {
         DIZutils::feedback(
@@ -270,9 +282,11 @@ apply_time_restriciton <-
       format_params <- tryCatch({
         unique(mdr[get("source_table_name") == system_name,
                    .SD,
-                   .SDcols = c("source_table_name",
-                               "restricting_date_var",
-                               "restricting_date_format")])[["restricting_date_format"]]
+                   .SDcols = c(
+                     "source_table_name",
+                     "restricting_date_var",
+                     "restricting_date_format"
+                   )])[["restricting_date_format"]]
       },
       error = function(cond) {
         DIZutils::feedback(
@@ -291,10 +305,16 @@ apply_time_restriciton <-
 
       if (is.na(format_params)) {
         ## We need to guess the format:
-        data[, (colname_tmp) := parsedate::parse_date(dates = data[, get(filter_colname)], approx = FALSE)]
+        data[, (colname_tmp) := parsedate::parse_date(
+          dates = data[, get(filter_colname)],
+          approx = FALSE
+        )]
       } else {
         ## Puuh - we can use the user-provided timestamp-parameters:
-        data[, (colname_tmp) := as.POSIXct(x = get(filter_colname), format = format_params)]
+        data[, (colname_tmp) := as.POSIXct(
+          x = get(filter_colname),
+          format = format_params
+        )]
       }
 
       ## Apply the filter:
@@ -307,7 +327,9 @@ apply_time_restriciton <-
     } else if (system_type %in% c("postgres", "oracle")) {
       if (is.null(system_name) || is.null(mdr) || is.null(db_con)) {
         DIZutils::feedback(
-          print_this = paste0("At least one of the necessary input parameters was missing."),
+          print_this = paste0(
+            "At least one of the necessary input parameters was missing."
+          ),
           type = "Error",
           findme = "60a301773a",
           logfile_dir = logfile_dir
@@ -342,6 +364,7 @@ apply_time_restriciton <-
         ignore.case = TRUE
       )
 
+      # nolint start
       ## Add db-specific time filtering:
       ## (Switched to VIEWs, so we don't use this anymore)
       # if (system_type == "postgres") {
@@ -374,12 +397,18 @@ apply_time_restriciton <-
       #       "', 'dd-mm-yyyy hh24:mi:ss')"
       #     )
       # }
+      # nolint end
 
       ## Get all tables needed for this SQL:
       tables <-
-        unique(mdr[get("source_system_name") == system_name, .SD, .SDcols = c("source_table_name",
-                                                                              "restricting_date_var",
-                                                                              "restricting_date_format")])
+        unique(
+          mdr[get("source_system_name") == system_name,
+              .SD,
+              .SDcols = c("source_table_name",
+                          "restricting_date_var",
+                          "restricting_date_format")
+          ]
+        )
       if (nrow(tables) != length(unique(tables[["source_table_name"]]))) {
         DIZutils::feedback(
           print_this = paste0(
@@ -396,7 +425,9 @@ apply_time_restriciton <-
         stop("See error above")
       } else {
         for (table in tables$source_table_name) {
-          if (is.na(tables[get("source_table_name") == table][["restricting_date_var"]])) {
+          if (is.na(tables[
+            get("source_table_name") == table,
+          ][["restricting_date_var"]])) {
             ## No time-restriction needed. Skip this and don't change the SQL.
             DIZutils::feedback(
               print_this = paste0("No filter-column specified for table '",
@@ -415,21 +446,30 @@ apply_time_restriciton <-
               ),
               "__dqa_tmp")
             format_tmp <-
-              tables[get("source_table_name") == table][["restricting_date_format"]]
+              tables[
+                get("source_table_name") == table,
+              ][["restricting_date_format"]]
             if (is.na(format_tmp)) {
               ## We assume that the column is formatted as timestamp,
               ## so we don't need to cast anything:
               timestamp_col_sql <-
-                tables[get("source_table_name") == table, get("restricting_date_var")]
+                tables[
+                  get("source_table_name") == table,
+                  get("restricting_date_var")
+                ]
             } else {
               ## We assume that the column is formatted as string and needs
               ## to be casted/formatted with the given format-string
               ## `format_tmp`:
-              timestamp_col_sql <- paste0("TO_TIMESTAMP(\"",
-                                          tables[get("source_table_name") == table, get("restricting_date_var")],
-                                          "\", '",
-                                          tables[get("source_table_name") == table, get("restricting_date_format")],
-                                          "')")
+              timestamp_col_sql <- paste0(
+                "TO_TIMESTAMP(\"",
+                tables[get("source_table_name") == table,
+                       get("restricting_date_var")],
+                "\", '",
+                tables[get("source_table_name") == table,
+                       get("restricting_date_format")],
+                "')"
+              )
             }
             sql_create_view <- paste0(
               "CREATE TEMPORARY VIEW ",
@@ -460,7 +500,11 @@ apply_time_restriciton <-
               stop("See error above.")
             }
             ## Create VIEW if it is not already created:
-            if (DIZutils::check_if_table_exists(db_con = db_con, table_name = view_name)) {
+            if (DIZutils::check_if_table_exists(
+              db_con = db_con,
+              table_name = view_name
+            )) {
+              # nolint start
               # DIZutils::feedback(
               #   print_this = paste0(
               #     "Found a temporary VIEW for table '",
@@ -480,6 +524,7 @@ apply_time_restriciton <-
               # DIZutils::query_database(db_con = db_con, sql_statement = sql_drop_view)
               # ## Re-create it:
               # DIZutils::query_database(db_con = db_con, sql_statement = sql_create_view)
+              # nolint end
             } else {
               DIZutils::feedback(
                 print_this = paste0(
@@ -503,7 +548,7 @@ apply_time_restriciton <-
                 replacement = paste0(" FROM ", view_name),
                 x = sql_tmp,
                 ignore.case = TRUE
-                # fixed = TRUE
+                # fixed = TRUE # nolint
                 ## Caution: If you enable 'fixed' here, 'ignore_case' will
                 ## not be applied which leads to false results due to case
                 ## sensitive column names!
@@ -511,10 +556,12 @@ apply_time_restriciton <-
           }
         }
       }
+      # nolint start
       # print("Old SQL:")
       # print(data)
       # print("New SQL:")
       # print(sql_tmp)
+      # nolint end
       return(sql_tmp)
     } else {
       return(NULL)
@@ -541,47 +588,47 @@ get_restricting_date_info <-
            date = TRUE,
            time = TRUE) {
 
-  lang <- tolower(lang)
-  res <- ""
-  if (!is.null(restricting_date) &&
-      !is.null(restricting_date$use_it) &&
-      restricting_date$use_it == TRUE) {
-    if (lang == "de") {
-      prefix <- "Betrachteter Zeitraum: "
-      separator <- " bis "
-    } else {
-      ## Default: lang = "en" (or not yet implemented):
-      prefix <- "Period considered: "
-      separator <- " to "
-    }
-    res <-
-      paste0(
-        prefix,
-        DIZutils::format_POSIXct(
-          x = restricting_date$start,
-          lang = lang,
-          date = date,
-          time = time
-        ),
-        separator,
-        DIZutils::format_POSIXct(
-          x = restricting_date$end,
-          lang = lang,
-          date = date,
-          time = time
-        )
-      )
-  } else {
-    if (lang == "de") {
+    lang <- tolower(lang)
+    res <- ""
+    if (!is.null(restricting_date) &&
+        !is.null(restricting_date$use_it) &&
+        restricting_date$use_it == TRUE) {
+      if (lang == "de") {
+        prefix <- "Betrachteter Zeitraum: "
+        separator <- " bis "
+      } else {
+        ## Default: lang = "en" (or not yet implemented):
+        prefix <- "Period considered: "
+        separator <- " to "
+      }
       res <-
         paste0(
-          "Keine zeitliche Einschr",
-          intToUtf8("228"),
-          "nkung. Alle vorliegenden Daten wurden analysiert"
+          prefix,
+          DIZutils::format_POSIXct(
+            x = restricting_date$start,
+            lang = lang,
+            date = date,
+            time = time
+          ),
+          separator,
+          DIZutils::format_POSIXct(
+            x = restricting_date$end,
+            lang = lang,
+            date = date,
+            time = time
+          )
         )
     } else {
-      res <- "No time restriction. All available data were analysed"
+      if (lang == "de") {
+        res <-
+          paste0(
+            "Keine zeitliche Einschr",
+            intToUtf8("228"),
+            "nkung. Alle vorliegenden Daten wurden analysiert"
+          )
+      } else {
+        res <- "No time restriction. All available data were analysed"
+      }
     }
+    return(res)
   }
-  return(res)
-}

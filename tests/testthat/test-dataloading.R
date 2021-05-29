@@ -110,7 +110,8 @@ test_that("correct functioning of dataloading", {
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
   rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
-
+  # define restricting date
+  rv$restricting_date$use_it <- FALSE
 
   # load source data:
   temp_dat <- data_loading(

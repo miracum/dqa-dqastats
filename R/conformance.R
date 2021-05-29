@@ -435,9 +435,14 @@ value_conformance <- function(
                       print_this = paste0(
                         "Cannot perform value conformance check for variable '",
                         i,
-                        "' because there is no logic implemented for constrains '",
-                        paste(constraints_names[constraints_names != "datetime_format"], collapse = "', '"),
-                        "'. Search for this value in the brackets in the code to implement:"
+                        "' because there is no logic implemented ",
+                        "for constrains '",
+                        paste(
+                          constraints_names[
+                            constraints_names != "datetime_format"
+                          ], collapse = "', '"),
+                        "'. Search for this value in the ",
+                        "brackets in the code to implement:"
                       ),
                       type = "Warning",
                       findme = "4c83f9bb78",

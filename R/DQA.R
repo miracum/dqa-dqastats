@@ -156,7 +156,10 @@ dqa <- function(source_system_name,
     ## Check the start date:
     if (is.na(restricting_date_start_posixct)) {
       DIZutils::feedback(
-        print_this = "Couldn't identify input date format for `restricting_date_start`.",
+        print_this = paste0(
+          "Couldn't identify input date format",
+          " for `restricting_date_start`."
+        ),
         logfile = rv$log$logfile_dir,
         type = "Error",
         findme = "bcbb8d759e"
