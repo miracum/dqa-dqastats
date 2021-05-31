@@ -20,6 +20,8 @@ apply_time_restriciton(
 \item{data}{If system_type is a database, the sql-string goes here.
 If system_type is 'csv', the data.table of this csv goes here.}
 
+\item{key}{The key from the mdr.}
+
 \item{lower_limit}{The posixct timestamp of the lower filtering boundary.}
 
 \item{upper_limit}{The posixct timestamp of the upper filtering boundary.}
