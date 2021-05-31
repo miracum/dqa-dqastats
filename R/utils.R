@@ -233,6 +233,11 @@ check_date_restriction_requirements <- # nolint
 #'
 #' @param data If system_type is a database, the sql-string goes here.
 #'   If system_type is 'csv', the data.table of this csv goes here.
+anformation. Sensitive to SQL dialects.
+#'
+#' @param data If system_type is a database, the sql-string goes here.
+#'   If system_type is 'csv', the data.table of this csv goes here.
+#' @param key TODO Jonathan: define key here
 #' @param lower_limit The posixct timestamp of the lower filtering boundary.
 #' @param upper_limit The posixct timestamp of the upper filtering boundary.
 #' @param system_name (Optional for non-database-changes)
