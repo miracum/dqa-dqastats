@@ -158,7 +158,8 @@ check_date_restriction_requirements <- # nolint
       for (system_name in system_names) {
         different_tables <-
           unique(
-            mdr[get("source_system_name") == system_name]
+            mdr[get("source_system_name") == system_name,
+                get("source_table_name")]
           )
         different_restricting_date_cols <- c() # nolint
         for (table in different_tables) {
@@ -233,7 +234,7 @@ check_date_restriction_requirements <- # nolint
 #'
 #' @param data If system_type is a database, the sql-string goes here.
 #'   If system_type is 'csv', the data.table of this csv goes here.
-anformation. Sensitive to SQL dialects.
+#'   Sensitive to SQL dialects.
 #'
 #' @param data If system_type is a database, the sql-string goes here.
 #'   If system_type is 'csv', the data.table of this csv goes here.

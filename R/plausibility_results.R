@@ -337,6 +337,9 @@ uniq_plausi_results <- function(rv,
                   ]
               }
 
+              # print(paste0("src_flag = ", src_flag))
+              # print(paste0("u_key = ", u_key))
+
               if (!is.null(u$filter[[src_flag]])) {
                 m_x <-
                   rv[[raw_data]][[u_key]][
@@ -399,6 +402,14 @@ uniq_plausi_results <- function(rv,
                   allow.cartesian = T
                 )
               }
+
+              # print(paste0("u$variable_name = ", u$variable_name))
+              # print(paste0("colnames(m_y)[grepl(u$variable_name, colnames(m_y))] = ", colnames(m_y)[grepl(u$variable_name, colnames(m_y))]))
+              # print(paste0("colnames(m_y) = ", colnames(m_y)))
+              # print("m_x:")
+              # print(m_x)
+              # print("m_y:")
+              # print(m_y)
 
               merge_data <- data.table::merge.data.table(
                 x = m_x,
