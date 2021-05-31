@@ -97,7 +97,7 @@ jobs:
 
       - name: "[Stage] Configure R Java"
         if: runner.os != 'Windows' && matrix.config.java == 'true'
-        run: sudo R CMD javareconf
+        run: sudo $(which R) CMD javareconf
 
       - name: "[Stage] Install"
         if: matrix.config.os != 'macOS-latest' || matrix.config.r != 'devel'
