@@ -21,7 +21,7 @@ jobs:
           # use a different tic template type if you do not want to build on all listed platforms
           #- { os: windows-latest, r: "release", java: "true" }
           #- { os: macOS-latest, r: "release", java: "true" }
-          - { os: ubuntu-latest, r: "release", java: "true" }
+          - { os: ubuntu-latest, r: "release", latex: "true", java: "true" }
 
     env:
       # otherwise remotes::fun() errors cause the build to fail. Example: Unavailability of binaries
