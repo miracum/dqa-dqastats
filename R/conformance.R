@@ -127,7 +127,7 @@ value_conformance <- function(
                   ")..."
                 ),
                 findme = "d9f44d5c97",
-                logfile = logfile,
+                logfile_dir = logfile_dir,
                 headless = headless
               )
 
