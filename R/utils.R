@@ -610,14 +610,14 @@ get_restricting_date_info <-
       res <-
         paste0(
           prefix,
-          DIZutils::format_POSIXct(
+          DIZutils::format_posixct(
             x = restricting_date$start,
             lang = lang,
             date = date,
             time = time
           ),
           separator,
-          DIZutils::format_POSIXct(
+          DIZutils::format_posixct(
             x = restricting_date$end,
             lang = lang,
             date = date,
