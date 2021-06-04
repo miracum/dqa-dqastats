@@ -49,7 +49,8 @@ test_that("correct functioning of DQA", {
     utils_path = utils_path,
     mdr_filename = mdr_filename,
     output_dir = output_dir,
-    logfile_dir = paste0(prefix, "tests/testthat/")
+    logfile_dir = paste0(prefix, "tests/testthat/"),
+    parallel = FALSE
   )
 
   expect_type(all_results, "list")

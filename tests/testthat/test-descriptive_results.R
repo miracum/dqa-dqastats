@@ -53,6 +53,9 @@ test_that("correct functioning of descriptive results", {
   # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
 
+  # test sequentially
+  rv$parallel <- FALSE
+
   # get configs
   rv$source$settings <- DIZutils::get_config_env(
     system_name = rv$source$system_name,
@@ -194,6 +197,9 @@ test_that("correct functioning of descriptive results - single source", {
 
   # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
+
+  # test sequentially
+  rv$parallel <- FALSE
 
   # get configs
   rv$source$settings <- DIZutils::get_config_env(
