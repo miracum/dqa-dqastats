@@ -97,7 +97,7 @@ create_helper_vars <- function(mdr,
             unique(get("source_system_type"))] == "csv") {
       # if we have csv as input format, find the "keys" in "source_table_name"
       outlist[[paste0("keys_", f)]] <-
-        mdr[get("variable_name") != "undefined", ][
+        mdr[get("variable_name") != "undefined" & get("key") != "undefined", ][
           get("source_system_name") == eval(parse(text = paste0(f, "_db"))),
           unique(get("source_table_name"))
           ]
@@ -106,7 +106,7 @@ create_helper_vars <- function(mdr,
                    unique(get("source_system_type"))] %in%
                c("postgres", "oracle")) {
       outlist[[paste0("keys_", f)]] <-
-        mdr[get("variable_name") != "undefined", ][
+        mdr[get("variable_name") != "undefined" & get("key") != "undefined", ][
           get("source_system_name") == eval(parse(text = paste0(f, "_db"))),
           unique(get("key"))]
     }
