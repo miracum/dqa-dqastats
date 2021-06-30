@@ -58,7 +58,7 @@ value_conformance <- function(
         # initialize inner outlist
         outlist <- list()
 
-        msg <- paste("Performing value conformance check for '", i, "'")
+        msg <- paste0("Performing value conformance check for '", i, "'")
         DIZutils::feedback(
           print_this = msg,
           findme = "5d061425eb",
@@ -88,13 +88,22 @@ value_conformance <- function(
           # parse constraints
           constraints <- tryCatch(
             expr = {
-              c <- jsonlite::fromJSON(d_out$checks$constraints)
+              if (is.na(d_out$checks$constraints)) {
+                c <- NA
+              } else {
+                c <- jsonlite::fromJSON(d_out$checks$constraints)
+              }
+              c
             }, error = function(e) {
-              print(e)
+              DIZutils::feedback(
+                print_this = paste0("Error in fromJSON in function",
+                                    " `value_conformance()`: ", e),
+                findme = "f269cc7211",
+                type = "Error",
+                logfile_dir = logfile_dir
+              )
               c <- NA
               c
-            }, finally = function(f) {
-              return(c)
             }
           )
 
@@ -472,6 +481,20 @@ value_conformance <- function(
                 }
               outlist[[j]] <- outlist2
             }
+          } else {
+            DIZutils::feedback(
+              print_this = paste0(
+                "Couldn't perform value conformance checks, because there",
+                " are no constraints in the MDR for designation '",
+                i,
+                "' (key = '",
+                tab,
+                "')."
+              ),
+              type = "Warning",
+              findme = "4b27c49aa9",
+              logfile_dir = logfile_dir
+            )
           }
         }
         if (length(outlist) > 0) {

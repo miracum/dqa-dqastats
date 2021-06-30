@@ -45,9 +45,10 @@ calc_counts <- function(cnt_dat,
       }
       if (isTRUE(datamap)) {
         cnt <- count_uniques(
-          data = rv$data_source[[cnt_dat[get("source_system_name") ==
-                                           rv$source$system_name,
-                                         get(key_col_name_src)]]],
+          data = rv$data_source[[
+            cnt_dat[get("source_system_name") == rv$source$system_name,
+                    get(key_col_name_src)]
+            ]],
           var = count_key,
           sourcesystem = rv$source$system_name,
           datamap = datamap,
@@ -78,15 +79,13 @@ calc_counts <- function(cnt_dat,
       cnt
     }, error = function(e) {
       DIZutils::feedback(
-        "Error occured when counting source_data",
+        print_this = paste0("Error occured when counting source_data: ", e),
         findme = "0adf10abcc",
+        type = "Error",
         logfile_dir = rv$log$logfile_dir
       )
-      print(e)
       cnt <- NULL
       cnt
-    }, finally = function(f) {
-      return(cnt)
     })
 
   counts$source_data$type <-
@@ -142,15 +141,13 @@ calc_counts <- function(cnt_dat,
 
     }, error = function(e) {
       DIZutils::feedback(
-        "Error occured when counting target_data\n",
+        paste0("Error occured when counting target_data: ", e),
         findme = "486bd17564",
+        type = "Error",
         logfile_dir = rv$log$logfile_dir
       )
-      print(e)
       cnt <- NULL
       cnt
-    }, finally = function(f) {
-      return(cnt)
     })
 
   counts$target_data$type <-

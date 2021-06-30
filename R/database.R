@@ -101,8 +101,6 @@ test_csv <- function(settings,
     )
     outflag <- NULL
     outflag
-  }, finally = function(f) {
-    return(outflag)
   })
   return(outflag)
 }

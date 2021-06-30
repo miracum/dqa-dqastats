@@ -54,6 +54,10 @@ read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
     mdr[get(i) == "", (i) := NA]
   }
 
+  ## Remove rows with "undefined" key or variablename:
+  mdr <- mdr[!(get("key") == "undefined" |
+                 get("variable_name") == "undefined"), ]
+
   return(mdr)
 }
 
@@ -189,7 +193,7 @@ create_helper_vars <- function(mdr,
 
   # get available variable names
   available_variables <-
-    mdr[get("variable_name") != "undefined", ][
+    mdr[get("variable_name") != "undefined" & get("key") != "undefined", ][
       get("source_system_name") == source_db &
         get("key") %in% dqa_assessment_intersect,
       unique(get("variable_name"))

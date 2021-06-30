@@ -63,15 +63,13 @@ calc_cat_stats <- function(stat_dat,
       source_data
     }, error = function(e) {
       DIZutils::feedback(
-        "Error occured when calculating source catStats\n",
+        paste0("Error occured when calculating source catStats: ", e),
         findme = "b8e039a302",
+        type = "Error",
         logfile_dir = rv$log$logfile_dir
       )
-      print(e)
       source_data <- NULL
       source_data
-    }, finally = function(f) {
-      return(source_data)
     })
 
   statistics$target_data <- tryCatch(
@@ -106,15 +104,13 @@ calc_cat_stats <- function(stat_dat,
 
     }, error = function(e) {
       DIZutils::feedback(
-        "Error occured when calculating target catStats\n",
+        paste0("Error occured when calculating target catStats: ", e),
         findme = "5b1a5937e5",
+        type = "Error",
         logfile_dir = rv$log$logfile_dir
       )
-      print(e)
       target_data <- NULL
       target_data
-    }, finally = function(f) {
-      return(target_data)
     })
 
   return(statistics)
