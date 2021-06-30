@@ -162,13 +162,17 @@ render_value_conformance <- function(results,
 }
 
 render_data_map <- function(datamap) {
-  colnames(datamap) <-
-    c("Variable",
-      "# n",
-      "# Valid",
-      "# Missing",
-      "# Distinct")
-  print(kable_table(datamap))
+  if (nrow(datamap) > 0) {
+    colnames(datamap) <-
+      c("Variable",
+        "# n",
+        "# Valid",
+        "# Missing",
+        "# Distinct")
+    print(kable_table(datamap))
+  } else {
+    print("No dataelements from the datamap where analysed.")
+  }
 }
 
 render_uniq_plausis <- function(plausiresults) {
