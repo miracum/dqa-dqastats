@@ -162,7 +162,7 @@ render_value_conformance <- function(results,
 }
 
 render_data_map <- function(datamap) {
-  if (nrow(datamap) > 0) {
+  if (!is.null(datamap) && nrow(datamap) > 0) {
     colnames(datamap) <-
       c("Variable",
         "# n",
@@ -171,7 +171,7 @@ render_data_map <- function(datamap) {
         "# Distinct")
     print(kable_table(datamap))
   } else {
-    print("No dataelements from the datamap where analysed.")
+    cat("No dataelements from the datamap where analysed.")
   }
 }
 
