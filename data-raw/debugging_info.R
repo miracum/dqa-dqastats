@@ -60,7 +60,8 @@ all_results <- DQAstats::dqa(
   mdr_filename = mdr_filename,
   output_dir = output_dir,
   logfile_dir = logfile_dir,
-  parallel = parallel
+  parallel = parallel,
+  ncores = ncores
   # , restricting_date_start = restricting_date_start
   # , restricting_date_end = restricting_date_end
 )
