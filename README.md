@@ -13,7 +13,7 @@ The R package 'DQAstats' provides core functionalities to perform data quality a
 
 Currently implemented features are:  
 
-* descriptive (univariate) analysis of categorical and continuous variables of a source data system and a target data system 
+* descriptive (univariate) analysis of categorical and continuous variables of a source data system and a target data system
 * checks of the extract-transform-load (ETL) pipeline (by comparing distinct values and valid values between the source data system and the target data system)  
 * value conformance checks by comparing the resulting statistics to value constraints (given in a meta data repository (MDR))  
 * 'atemporal plausibility' checks (multivariate)  
@@ -38,14 +38,34 @@ remotes::install_github("miracum/dqa-dqastats")
 
 Note: A working LaTeX installation is a prerequisite for using this software (e.g. using the R package [`tinytex`](https://yihui.org/tinytex/))!
 
-## Configuration 
+## Demo Usage
+
+You can test the package without needing to install anything execpt docker. To try out the package follow these instructions:
+
+1. Make sure you have [docker](https://docs.docker.com/get-docker/) installed
+2. Clone this repo
+
+  ```bash
+  git clone https://gitlab.miracum.org/miracum/dqa/dqastats.git dqastats
+  cd dqastats
+  ```
+
+3. Run the containerized setup using
+
+  ```bash
+  docker-compose up
+  ```
+
+4. Go to `./output/` and see the created report.
+
+## Configuration
 
 The configuration of data systems, be it CSV files or SQL-based databases, is done with environment variables, which can be set using the base R command `Sys.setenv()`.
 
 A detailed description, which environment variables need to be set for the specific databases can be found [here](https://github.com/miracum/misc-dizutils/blob/master/README.md).
 
 ## Example
-## 
+
 The following code example is intended to provide a minimal working example on how to apply the DQA tool to data. Example data and a corresponding MDR are provided with the R package *DQAstats* (a working LaTeX installation is a prerequisite for using this software, e.g. by using the R package [`tinytex`](https://yihui.org/tinytex/); please refer to the [DQAstats wiki](https://github.com/miracum/dqa-dqastats/wiki/Installation) for further installation instructions).  
 
 * Example data: [https://github.com/miracum/dqa-dqastats/tree/master/inst/demo_data](https://github.com/miracum/dqa-dqastats/tree/master/inst/demo_data)  
