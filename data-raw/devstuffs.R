@@ -122,6 +122,9 @@ usethis::use_build_ignore("output")
 usethis::use_build_ignore(".log")
 usethis::use_build_ignore(".vscode")
 usethis::use_build_ignore(".lintr")
+usethis::use_build_ignore(".env")
+usethis::use_build_ignore("Dockerfile")
+usethis::use_build_ignore("docker-compose.yml")
 
 ## .gitignore:
 usethis::use_git_ignore("/*")

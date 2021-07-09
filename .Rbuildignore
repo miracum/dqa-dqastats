@@ -21,3 +21,6 @@
 ^\.ccache$
 ^\.github$
 ^tic\.R$
+^\.env$
+^Dockerfile$
+^docker-compose\.yml$

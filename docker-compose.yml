@@ -1,0 +1,30 @@
+version: "3.9" # optional since v1.27.0
+services:
+  dqastats:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        buildno: 1
+    restart: "no"
+    env_file: 
+        - ./.env
+        - ../dqastats.env
+    volumes:
+    - ./output:/data/output
+    command: >
+        R -e 'DQAstats::dqa(
+            source_system_name = "exampleCSV_source",
+            target_system_name = "exampleCSV_target",
+            utils_path <- system.file("demo_data/utilities",
+                                      package = "DQAstats"),
+            Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file("demo_data",
+                                                              package = "DQAstats")),
+            Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file("demo_data",
+                                                              package = "DQAstats")),
+            mdr_filename = "mdr_example_data.csv",
+            output_dir = "/data/output",
+            logfile_dir = "/data/logs",
+            ncores = 4
+            )'
+    hostname: docker-dqastats

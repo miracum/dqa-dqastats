@@ -26,3 +26,6 @@
 docs/
 !/tic.R
 !/.github/
+!Dockerfile
+!docker-compose.yml
+!.env
