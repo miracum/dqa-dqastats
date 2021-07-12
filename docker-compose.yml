@@ -18,9 +18,8 @@ services:
               tmp <- DQAstats::dqa(
                        source_system_name = "${SOURCE_SYSTEM_NAME}",
                        target_system_name = "${TARGET_SYSTEM_NAME}",
-                       utils_path = system.file("demo_data/utilities",
-                                               package = "DQAstats"),
-                       mdr_filename = "mdr_example_data.csv",
+                       utils_path = "${UTILS_PATH}",
+                       mdr_filename = "${MDR_FILENAME}",
                        output_dir = "/data/output",
                        logfile_dir = "/data/logs"
                        )'
