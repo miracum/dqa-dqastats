@@ -38,6 +38,8 @@ remotes::install_github("miracum/dqa-dqastats")
 
 Note: A working LaTeX installation is a prerequisite for using this software (e.g. using the R package [`tinytex`](https://yihui.org/tinytex/))!
 
+:bulb: If you want to run this in a dockerized environment you can use the [`rocker/verse`](https://hub.docker.com/r/rocker/verse/) image which has TeX already installed.
+
 ## Demo Usage
 
 You can test the package without needing to install anything execpt docker. To try out the package follow these instructions:
