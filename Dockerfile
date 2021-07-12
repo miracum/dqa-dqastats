@@ -50,6 +50,27 @@ RUN for package in $packages; do \
     done && \
     rm -rf /tmp/*
 
+## Dependencies for latex (to speedup re-build process, keep them cached here):
+ARG texpackages="amsmath \
+    latex-amsmath-dev \
+    iftex \
+    geometry \
+    hyperref \
+    pdftexcmds \
+    infwarerr \
+    kvoptions \
+    etoolbox \
+    titling \
+    caption \
+    babel-german \
+    float \
+    pdflscape \
+    epstopdf-pkg"
+
+RUN for package in $texpackages; do \
+    R -q -e "p <- \"$package\"; tinytex::tlmgr_install(pkgs = p)"; \
+    done
+
 ## Copy code of this package:
 COPY ./data-raw /home/${RSESSION_USER}/dqastats/data-raw
 COPY ./inst /home/${RSESSION_USER}/dqastats/inst
