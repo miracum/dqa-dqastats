@@ -88,7 +88,8 @@ value_conformance <- function(
           # parse constraints
           constraints <- tryCatch(
             expr = {
-              if (is.na(d_out$checks$constraints)) {
+              if (is.null(d_out$checks$constraints) ||
+                  is.na(d_out$checks$constraints)) {
                 c <- NA
               } else {
                 c <- jsonlite::fromJSON(d_out$checks$constraints)

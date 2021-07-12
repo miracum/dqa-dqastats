@@ -13,18 +13,15 @@ services:
     volumes:
     - ./output:/data/output
     command: >
-        R -e 'tmp <- DQAstats::dqa(
-            source_system_name = "${SOURCE_SYSTEM_NAME}",
-            target_system_name = "${TARGET_SYSTEM_NAME}",
-            utils_path <- system.file("demo_data/utilities",
-                                      package = "DQAstats"),
-            Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file("demo_data",
-                                                              package = "DQAstats")),
-            Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file("demo_data",
-                                                              package = "DQAstats")),
-            mdr_filename = "mdr_example_data.csv",
-            output_dir = "/data/output",
-            logfile_dir = "/data/logs",
-            ncores = 4
-            )'
+        R -e 'Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file("demo_data", package = "DQAstats"));
+              Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file("demo_data", package = "DQAstats"));
+              tmp <- DQAstats::dqa(
+                       source_system_name = "${SOURCE_SYSTEM_NAME}",
+                       target_system_name = "${TARGET_SYSTEM_NAME}",
+                       utils_path = system.file("demo_data/utilities",
+                                               package = "DQAstats"),
+                       mdr_filename = "mdr_example_data.csv",
+                       output_dir = "/data/output",
+                       logfile_dir = "/data/logs"
+                       )'
     hostname: docker-dqastats

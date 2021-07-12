@@ -3,7 +3,7 @@ FROM rocker/shiny-verse:4.1.0
 ENV DEBIAN_FRONTEND=noninteractive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
-# install necessary system dependencies for r packages (e.g. devtools, RPostgres)
+## Install necessary system dependencies for R packages (e.g. devtools, RPostgres)
 RUN apt-get update -qq && apt-get install -y -q --no-install-recommends \
     apt-utils \
     git \
@@ -15,7 +15,7 @@ RUN apt-get update -qq && apt-get install -y -q --no-install-recommends \
     r-cran-rjava \
     && rm -rf /tmp/downloaded_packages
 
-# Update where R expects to find various Java files:
+## Update where R expects to find various Java files:
 RUN R CMD javareconf
 
 RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
@@ -26,6 +26,7 @@ RUN echo "options('repos' = 'https://cloud.r-project.org/')" >> /usr/local/lib/R
 RUN R -e "install.packages(c('devtools', 'DIZutils'))"
 RUN R -e "install.packages('remotes')"
 
+## Dependencies for dqastats (to speedup re-build process, keep them cached here):
 ARG packages="Rcpp \
     cli \
     cpp11 \
@@ -41,13 +42,17 @@ ARG packages="Rcpp \
     RPostgres \
     kableExtra \
     future.apply \
-    e1071"
+    e1071 \
+    tinytex"
 
 ## Install and cleanup:
 RUN for package in $packages; do \
     R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
     done && \
     rm -rf /tmp/*
+
+## Install tinytex:
+RUN R -e 'tinytex::install_tinytex()'
 
 ## Copy code if this package:
 COPY . /home/${RSESSION_USER}/dqastats/
