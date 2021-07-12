@@ -71,6 +71,8 @@ RUN for package in $texpackages; do \
     R -q -e "p <- \"$package\"; tinytex::tlmgr_install(pkgs = p)"; \
     done
 
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master')"
+
 ## Copy code of this package:
 COPY ./data-raw /home/${RSESSION_USER}/dqastats/data-raw
 COPY ./inst /home/${RSESSION_USER}/dqastats/inst

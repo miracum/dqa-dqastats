@@ -58,6 +58,17 @@ You can test the package without needing to install anything execpt docker. To t
 
 4. Go to `./output/` and see the created report.
 
+### Advanced dockerized usage
+
+If you want to use your own docker-compose and .env file(s) you can do this simply by using them in this command:
+
+```bash
+docker-compose \
+  -f docker-compose_miracum.yml \
+  --env-file ../dqastats.env \
+  up --build
+```
+
 ## Configuration
 
 The configuration of data systems, be it CSV files or SQL-based databases, is done with environment variables, which can be set using the base R command `Sys.setenv()`.
