@@ -13,9 +13,9 @@ services:
     volumes:
     - ./output:/data/output
     command: >
-        R -e 'DQAstats::dqa(
-            source_system_name = "exampleCSV_source",
-            target_system_name = "exampleCSV_target",
+        R -e 'tmp <- DQAstats::dqa(
+            source_system_name = "${SOURCE_SYSTEM_NAME}",
+            target_system_name = "${TARGET_SYSTEM_NAME}",
             utils_path <- system.file("demo_data/utilities",
                                       package = "DQAstats"),
             Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file("demo_data",

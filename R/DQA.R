@@ -267,7 +267,21 @@ dqa <- function(source_system_name,
 
   # We only allow one (system) type per system name. There can't e.g. be
   # system types "csv" and "postgres" both with the system_name "data":
-  stopifnot(length(rv$source$system_type) == 1)
+  if (length(rv$source$system_type) != 1) {
+    DIZutils::feedback(
+      print_this = paste(
+        "Need exactly one source system type but found",
+        length(rv$source$system_type),
+        ". If there are 0 system types: The system name you",
+        "provided was not found in the mdr. Maybe there is",
+        "a typo?"
+      ),
+      type = "Error",
+      findme = "c96bf620ca",
+      logfile_dir = logfile_dir
+    )
+    stop("See error above")
+  }
 
 
   reactive_to_append <- create_helper_vars(

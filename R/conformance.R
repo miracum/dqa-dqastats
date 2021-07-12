@@ -120,7 +120,7 @@ value_conformance <- function(
           # and only stored with source description
           ih <- desc_out$source_data$internal_variable_name
 
-          if (!is.na(constraints)) {
+          if (any(!is.na(constraints))) {
             if (length(constraints[[1]]) > 0) {
               # initialize outlist
               outlist2 <- list()
@@ -195,9 +195,10 @@ value_conformance <- function(
 
                     if (length(vec) != 1) {
                       msg <- paste("Error occured when trying to get",
-                                   "errorneous IDs of", i)
+                                   "errorneous IDs of", i, "from", j)
                       DIZutils::feedback(
-                        paste0("", msg),
+                        print_this = msg,
+                        type = "Warning",
                         findme = "5d05678955eb",
                         logfile_dir = logfile_dir
                       )
@@ -253,7 +254,7 @@ value_conformance <- function(
                   #% (TRUE = constraint_error)
                   if (result_min < constraints$range$min) {
                     DIZutils::feedback(
-                      paste0(i, "/ ", j, ": result_min < range$min"),
+                      paste(i, "from", j, ": result_min < range$min"),
                       findme = "21abaa37e2",
                       logfile_dir = logfile_dir
                     )
@@ -262,7 +263,7 @@ value_conformance <- function(
 
                   if (result_max > constraints$range$max) {
                     DIZutils::feedback(
-                      paste0(i, "/ ", j, ": result_max > range$max"),
+                      paste(i, "from", j, ": result_max > range$max"),
                       findme = "44264e3a64",
                       logfile_dir = logfile_dir
                     )
@@ -294,14 +295,14 @@ value_conformance <- function(
 
                     if (length(vec) != 1) {
                       msg <- paste("Error occured when trying to get",
-                                   "errorneous IDs of of", i)
+                                   "errorneous IDs of", i, "from", j)
                       DIZutils::feedback(
-                        paste0("", msg),
+                        print_this = msg,
+                        type = "Warning",
                         findme = "5d05698563eb",
                         logfile_dir = logfile_dir
                       )
                     } else {
-
                       if (scope == "plausibility") {
                         outlist2$affected_ids <- unique(
                           rv[[raw_data]][[i]][
@@ -379,9 +380,10 @@ value_conformance <- function(
 
                     if (length(vec) != 1) {
                       msg <- paste("Error occured when trying to get",
-                                   "errorneous IDs of", i)
+                                   "errorneous IDs of", i, "from", j)
                       DIZutils::feedback(
-                        paste0("", msg),
+                        print_this = msg,
+                        type = "Warning",
                         findme = "5d01111111eb",
                         logfile_dir = logfile_dir
                       )
@@ -484,14 +486,13 @@ value_conformance <- function(
           } else {
             DIZutils::feedback(
               print_this = paste0(
-                "Couldn't perform value conformance checks, because there",
+                "Didn't perform value conformance checks, because there",
                 " are no constraints in the MDR for designation '",
                 i,
                 "' (key = '",
                 tab,
                 "')."
               ),
-              type = "Warning",
               findme = "4b27c49aa9",
               logfile_dir = logfile_dir
             )
