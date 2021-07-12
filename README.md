@@ -47,16 +47,16 @@ You can test the package without needing to install anything execpt docker. To t
 1. Make sure you have [docker](https://docs.docker.com/get-docker/) installed
 2. Clone this repo
 
-  ```bash
-  git clone https://gitlab.miracum.org/miracum/dqa/dqastats.git dqastats
-  cd dqastats
-  ```
+    ```bash
+    git clone https://gitlab.miracum.org/miracum/dqa/dqastats.git dqastats
+    cd dqastats
+    ```
 
 3. Run the containerized setup using
 
-  ```bash
-  docker-compose up
-  ```
+    ```bash
+    docker-compose up
+    ```
 
 4. Go to `./output/` and see the created report.
 
