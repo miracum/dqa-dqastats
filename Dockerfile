@@ -1,4 +1,4 @@
-FROM rocker/shiny-verse:4.1.0
+FROM rocker/verse:4.1.0
 
 ENV DEBIAN_FRONTEND=noninteractive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
@@ -42,8 +42,7 @@ ARG packages="Rcpp \
     RPostgres \
     kableExtra \
     future.apply \
-    e1071 \
-    tinytex"
+    e1071"
 
 ## Install and cleanup:
 RUN for package in $packages; do \
@@ -51,15 +50,15 @@ RUN for package in $packages; do \
     done && \
     rm -rf /tmp/*
 
-## Install tinytex:
-RUN R -e 'tinytex::install_tinytex()'
-
-## Copy code if this package:
-COPY . /home/${RSESSION_USER}/dqastats/
+## Copy code of this package:
+COPY ./data-raw /home/${RSESSION_USER}/dqastats/data-raw
+COPY ./inst /home/${RSESSION_USER}/dqastats/inst
+COPY ./man /home/${RSESSION_USER}/dqastats/man
+COPY ./R /home/${RSESSION_USER}/dqastats/R
+COPY ./tests /home/${RSESSION_USER}/dqastats/tests
+COPY ./DESCRIPTION /home/${RSESSION_USER}/dqastats/DESCRIPTION
+COPY ./NAMESPACE /home/${RSESSION_USER}/dqastats/NAMESPACE
 
 ## Install our R-Package(s):
 RUN cd /home/${RSESSION_USER}/dqastats/ && \
     R -q -e "devtools::install('.', upgrade = 'always', quick = TRUE, quiet = TRUE)"
-
-## Update all existing packages:
-RUN R -e "devtools::update_packages(packages = TRUE, quiet = TRUE)"
