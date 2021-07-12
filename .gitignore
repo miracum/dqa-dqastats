@@ -29,3 +29,4 @@ docs/
 !Dockerfile
 !docker-compose.yml
 !.env
+!build_image.sh

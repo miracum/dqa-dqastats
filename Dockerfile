@@ -50,30 +50,59 @@ RUN for package in $packages; do \
     done && \
     rm -rf /tmp/*
 
-## Dependencies for latex (to speedup re-build process, keep them cached here):
-ARG texpackages="amsmath \
-    latex-amsmath-dev \
-    iftex \
-    geometry \
-    hyperref \
-    pdftexcmds \
-    infwarerr \
-    kvoptions \
-    etoolbox \
-    titling \
-    caption \
+## Dependencies for LaTeX (to speed up the re-build process, keep them cached here):
+ARG texpackages="amsfonts \
+    amsmath \
+    atveryend \
+    babel \
     babel-german \
+    caption \
+    colortbl \
+    dehyph-exptl \
+    ec \
+    environ \
+    epstopdf-pkg \
     float \
+    geometry \
+    graphics \
+    graphics-def \
+    hycolor \
+    hyperref \
+    hyphen-german \
+    iftex \
+    koma-script \
+    latex-graphics-dev \
+    latexconfig \
+    lm \
+    makecell \
+    multirow \
+    oberdiek \
+    pdfcro \
     pdflscape \
-    epstopdf-pkg"
+    tabu \
+    tex-gyre-math \
+    texlive-scripts \
+    threeparttable \
+    threeparttablex \
+    titling \
+    tools \
+    trimspaces \
+    ulem \
+    varwidth \
+    wrapfig \
+    ulem \
+    url \
+    xco"
 
 RUN for package in $texpackages; do \
     R -q -e "p <- \"$package\"; tinytex::tlmgr_install(pkgs = p)"; \
     done
+RUN R -q -e "tinytex::tlmgr_update()"
 
+## Install miracumdqa:
 RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master')"
 
-## Copy code of this package:
+## Copy the code of this package:
 COPY ./data-raw /home/${RSESSION_USER}/dqastats/data-raw
 COPY ./inst /home/${RSESSION_USER}/dqastats/inst
 COPY ./man /home/${RSESSION_USER}/dqastats/man

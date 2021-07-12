@@ -1,0 +1,41 @@
+#!/bin/bash
+
+## Get version tag and registry-prefix from .env:
+source ./.env
+
+printf "\n\n##################################\n"
+printf "Building images with version tag $IMAGE_TAG"
+printf "\n##################################\n"
+
+printf "\n\nPlease insert your login credentials to registry: $REGISTRY_PREFIX ...\n"
+docker login
+
+## Base image:
+printf "\n\n##################################\n"
+printf "$REGISTRY_PREFIX/$IMAGE_NAME:$IMAGE_TAG"
+printf "\n##################################\n"
+printf "\nPulling cached $IMAGE_NAME image\n"
+# pull latest image for caching:
+docker pull $REGISTRY_PREFIX/$IMAGE_NAME
+# build new image (latest):
+printf "\n\nBuilding $IMAGE_NAME image\n"
+docker build -f Dockerfile -t $REGISTRY_PREFIX/$IMAGE_NAME .
+printf "\n\nPushing $IMAGE_NAME image (latest)\n"
+# push new image as new 'latest':
+docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
+# also tag it with the new tag:
+docker tag $REGISTRY_PREFIX/$IMAGE_NAME $REGISTRY_PREFIX/$IMAGE_NAME:$IMAGE_TAG
+# and also push this (tagged) image:
+printf "\n\nPushing $IMAGE_NAME image ($IMAGE_TAG)\n"
+docker push "$REGISTRY_PREFIX/$IMAGE_NAME:$IMAGE_TAG"
+
+## Push image to second registry:
+docker tag $REGISTRY_PREFIX/$IMAGE_NAME$IMAGE_TAG $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG
+printf "\n\nPlease insert your login credentials to registry: $REGISTRY_PREFIX ...\n"
+docker login "https://$REGISTRY_PREFIX2"
+printf "\n## Pushing image $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG...\n"
+docker push $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG
+## Also tag and push the latest image with a concrete version number from the .env file:
+printf "\n## Pushing image $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG_FROM_ENV...\n"
+docker tag $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG_FROM_ENV
+docker push $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG_FROM_ENV
