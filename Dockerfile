@@ -60,6 +60,7 @@ ARG texpackages="amsfonts \
     ec \
     environ \
     epstopdf-pkg \
+    etoolbox \
     float \
     geometry \
     graphics \
