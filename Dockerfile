@@ -20,8 +20,6 @@ RUN R CMD javareconf
 
 RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
 
-ENV RSESSION_USER=shiny
-
 RUN echo "options('repos' = 'https://cloud.r-project.org/')" >> /usr/local/lib/R/etc/Rprofile.site
 RUN R -e "install.packages(c('devtools', 'DIZutils'))"
 RUN R -e "install.packages('remotes')"
@@ -100,7 +98,16 @@ RUN for package in $texpackages; do \
 RUN R -q -e "tinytex::tlmgr_update()"
 
 ## Install miracumdqa:
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'master')"
+RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'development')"
+
+ENV RSESSION_USER=ruser
+ENV USER_UID=1111
+
+RUN mkdir -p /data/output/logs && \
+    chown -R ${USER_UID}:${USER_UID} /data
+
+RUN mkdir -p /var/run/s6 && \
+    chown -R ${USER_UID}:${USER_UID} /var/run/s6
 
 ## Copy the code of this package:
 COPY ./data-raw /home/${RSESSION_USER}/dqastats/data-raw
@@ -114,3 +121,7 @@ COPY ./NAMESPACE /home/${RSESSION_USER}/dqastats/NAMESPACE
 ## Install our R-Package(s):
 RUN cd /home/${RSESSION_USER}/dqastats/ && \
     R -q -e "devtools::install('.', upgrade = 'always', quick = TRUE, quiet = TRUE)"
+
+## Switch to non-root user:
+# USER docker
+USER ${USER_UID}:${USER_UID}

@@ -87,7 +87,7 @@ dqa <- function(source_system_name,
     target_system_name <- source_system_name
   }
 
-  dir.create(file.path(logfile_dir), showWarnings = FALSE)
+  dir.create(file.path(logfile_dir))
 
   stopifnot(
     is.character(source_system_name),
