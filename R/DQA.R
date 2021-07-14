@@ -83,6 +83,12 @@ dqa <- function(source_system_name,
                 restricting_date_end = NULL,
                 restricting_date_format = NULL) {
 
+  ## Print versions of packages:
+  for (p in intersect(rownames(installed.packages()),
+                      c("DIZutils", "DQAstats", "DQAgui", "miRacumDQA"))) {
+    print(paste0("Version of '", p, "': ", utils::packageVersion(p)))
+  }
+
   if (missing(target_system_name)) {
     target_system_name <- source_system_name
   }
