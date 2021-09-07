@@ -24,14 +24,15 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.7.9006")
+my_desc$set_version("0.1.7.9007")
 # The title of your package
 my_desc$set(Title = "DQAstats - Core Functions for Data Quality Assessment")
 # The description of your package
 my_desc$set(
   Description = paste0(
     "Perform data quality assessment (DQA)",
-    " of electronic health records (EHR)."
+    " of electronic health records (EHR). Publication: ",
+    "Kapsner et al. (2021) <doi:10.1055/s-0041-1733847>."
   )
 )
 # The description of your package
@@ -125,6 +126,7 @@ usethis::use_build_ignore(".lintr")
 usethis::use_build_ignore(".env")
 usethis::use_build_ignore("Dockerfile")
 usethis::use_build_ignore("docker-compose.yml")
+usethis::use_build_ignore("build_image.sh")
 
 ## .gitignore:
 usethis::use_git_ignore("/*")

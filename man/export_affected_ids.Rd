@@ -10,7 +10,7 @@ export_affected_ids(object, output_dir, rv)
 \item{object}{The object to analyse.}
 
 \item{output_dir}{The path to the output folder where all the results will
-be stored.}
+be stored (default: `paste0(tempdir(), "/output/")`).}
 
 \item{rv}{A list object. Internal list simulating Shiny's
 'reactive values'.}

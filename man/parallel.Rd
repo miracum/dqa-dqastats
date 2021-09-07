@@ -11,7 +11,7 @@ parallel(parallel, logfile_dir, ncores)
 `future::plan("multiprocess")` before running the code.}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
-will be stored.}
+will be stored default(`tempdir()`).}
 
 \item{ncores}{A integer. The number of cores to use. Caution: you would
 probably like to choose a low number when operating on large datasets.

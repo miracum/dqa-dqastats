@@ -19,7 +19,7 @@ check_date_restriction_requirements(
 to check for possible date restriction in the mdr.}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
-will be stored.}
+will be stored default(`tempdir()`).}
 
 \item{headless}{(Boolean) Is this a console application? Otherwise
 (if `headless = FALSE`) there is a GUI and there will be GUI-feedback.}

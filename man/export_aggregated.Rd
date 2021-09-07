@@ -8,7 +8,7 @@ export_aggregated(output_dir, rv)
 }
 \arguments{
 \item{output_dir}{The path to the output folder where all the results will
-be stored.}
+be stored (default: `paste0(tempdir(), "/output/")`).}
 
 \item{rv}{A list object. Internal list simulating Shiny's
 'reactive values'.}

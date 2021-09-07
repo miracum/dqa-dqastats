@@ -14,6 +14,7 @@
 !/tests/
 /tests/testthat/test_settings_use.yml
 /tests/testthat/testdata/
+/tests/testthat/output/
 /.Rhistory
 /.Rproj*
 /.RData

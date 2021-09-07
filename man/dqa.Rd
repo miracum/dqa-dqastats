@@ -9,7 +9,7 @@ dqa(
   target_system_name,
   utils_path,
   mdr_filename = "mdr.csv",
-  output_dir = "./output/",
+  output_dir = paste0(tempdir(), "/output/"),
   logfile_dir = tempdir(),
   parallel = TRUE,
   ncores = 4,
@@ -37,10 +37,10 @@ The filename of the MDR e.g. "mdr_example_data.csv"
 For a detailed description please visit \url{#TODO}.}
 
 \item{output_dir}{The path to the output folder where all the results will
-be stored.}
+be stored (default: `paste0(tempdir(), "/output/")`).}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
-will be stored.}
+will be stored default(`tempdir()`).}
 
 \item{parallel}{A boolean. If TRUE (the default value), initializing
 `future::plan("multiprocess")` before running the code.}

@@ -109,6 +109,26 @@ results <- DQAstats::dqa(
 # The PDF report is stored at "./output/"
 ```
 
+## Citation
+
+L.A. Kapsner, J.M. Mang, S. Mate, S.A. Seuchter, A. Vengadeswaran, F. Bathelt, N. Deppenwiese, D. Kadioglu, D. Kraska, and H.-U. Prokosch, Linking a Consortium-Wide Data Quality Assessment Tool with the MIRACUM Metadata Repository, Appl Clin Inform. 12 (2021) 826–835. doi:10.1055/s-0041-1733847.
+
+```
+@article{kapsner2021,
+  title = {Linking a {{Consortium}}-{{Wide Data Quality Assessment Tool}} with the {{MIRACUM Metadata Repository}}},
+  author = {Kapsner, Lorenz A. and Mang, Jonathan M. and Mate, Sebastian and Seuchter, Susanne A. and Vengadeswaran, Abishaa and Bathelt, Franziska and Deppenwiese, Noemi and Kadioglu, Dennis and Kraska, Detlef and Prokosch, Hans-Ulrich},
+  year = {2021},
+  month = aug,
+  journal = {Applied Clinical Informatics},
+  volume = {12},
+  number = {04},
+  pages = {826--835},
+  issn = {1869-0327},
+  doi = {10.1055/s-0041-1733847},
+  language = {en}
+}
+```
+
 ## More Infos
 
 * about MIRACUM: [https://www.miracum.org/](https://www.miracum.org/)

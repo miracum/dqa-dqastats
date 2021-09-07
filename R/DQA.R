@@ -35,9 +35,9 @@
 #'   The filename of the MDR e.g. "mdr_example_data.csv"
 #'   For a detailed description please visit \url{#TODO}.
 #' @param output_dir The path to the output folder where all the results will
-#'   be stored.
+#'   be stored (default: `paste0(tempdir(), "/output/")`).
 #' @param logfile_dir The absolute path to folder where the logfile
-#'   will be stored.
+#'   will be stored default(`tempdir()`).
 #' @param parallel A boolean. If TRUE (the default value), initializing
 #'   `future::plan("multiprocess")` before running the code.
 #' @param ncores A integer. The number of cores to use. Caution: you would
@@ -75,7 +75,7 @@ dqa <- function(source_system_name,
                 target_system_name,
                 utils_path,
                 mdr_filename = "mdr.csv",
-                output_dir = "./output/",
+                output_dir = paste0(tempdir(), "/output/"),
                 logfile_dir = tempdir(),
                 parallel = TRUE,
                 ncores = 4,
@@ -84,7 +84,7 @@ dqa <- function(source_system_name,
                 restricting_date_format = NULL) {
 
   ## Print versions of packages:
-  for (p in intersect(rownames(installed.packages()),
+  for (p in intersect(rownames(utils::installed.packages()),
                       c("DIZutils", "DQAstats", "DQAgui", "miRacumDQA"))) {
     print(paste0("Version of '", p, "': ", utils::packageVersion(p)))
   }

@@ -20,7 +20,7 @@ run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
-will be stored.}
+will be stored default(`tempdir()`).}
 }
 \description{
 Internal function to perform value conformance checks.
