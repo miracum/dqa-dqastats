@@ -71,7 +71,7 @@ docker-compose \
   up --build
 ```
 
-## Configuration
+## Configuration of the tool
 
 The configuration of data systems, be it CSV files or SQL-based databases, is done with environment variables, which can be set using the base R command `Sys.setenv()`.
 
@@ -111,7 +111,7 @@ results <- DQAstats::dqa(
 
 ## Citation
 
-L.A. Kapsner, J.M. Mang, S. Mate, S.A. Seuchter, A. Vengadeswaran, F. Bathelt, N. Deppenwiese, D. Kadioglu, D. Kraska, and H.-U. Prokosch, Linking a Consortium-Wide Data Quality Assessment Tool with the MIRACUM Metadata Repository, Appl Clin Inform. 12 (2021) 826–835. doi:10.1055/s-0041-1733847.
+L.A. Kapsner, J.M. Mang, S. Mate, S.A. Seuchter, A. Vengadeswaran, F. Bathelt, N. Deppenwiese, D. Kadioglu, D. Kraska, and H.-U. Prokosch, Linking a Consortium-Wide Data Quality Assessment Tool with the MIRACUM Metadata Repository, Appl Clin Inform. 12 (2021) 826–835. doi:[10.1055/s-0041-1733847](https://www.thieme-connect.com/products/ejournals/abstract/10.1055/s-0041-1733847).
 
 ```
 @article{kapsner2021,
