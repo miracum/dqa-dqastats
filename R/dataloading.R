@@ -395,7 +395,7 @@ load_database <- function(rv,
     # check, if column name in variables of interest
     for (j in col_names) {
       var_type <- rv$mdr[get("source_system_name") == db_name &
-                           get("key") == i &
+                           #get("key") == i &
                            get("variable_name") == j, get("variable_type")]
 
       if (var_type %in% c("permittedValues", "string", "catalog")) {
