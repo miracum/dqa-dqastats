@@ -32,19 +32,19 @@ calc_description <- function(desc_dat,
                             rv$source$system_name, get("source_variable_name")],
       table_name = desc_dat[get("source_system_name") ==
                               rv$source$system_name, get("source_table_name")],
-      fhir_name = desc_dat[get("source_system_name") ==
-                             rv$source$system_name, get("fhir")],
+      # fhir_name = desc_dat[get("source_system_name") ==
+      #                        rv$source$system_name, get("fhir")],
       checks = list(
         var_type = desc_dat[get("source_system_name") ==
                               rv$source$system_name, get("variable_type")],
         constraints = desc_dat[get("source_system_name") ==
-                                 rv$source$system_name, get("constraints")],
-        value_threshold = desc_dat[get("source_system_name") ==
-                                     rv$source$system_name,
-                                   get("value_threshold")],
-        missing_threshold = desc_dat[get("source_system_name") ==
-                                       rv$source$system_name,
-                                     get("missing_threshold")]
+                                 rv$source$system_name, get("constraints")]
+        # value_threshold = desc_dat[get("source_system_name") ==
+        #                              rv$source$system_name,
+        #                            get("value_threshold")],
+        # missing_threshold = desc_dat[get("source_system_name") ==
+        #                                rv$source$system_name,
+        #                              get("missing_threshold")]
       )
     )
 
@@ -56,22 +56,22 @@ calc_description <- function(desc_dat,
         table_name = desc_dat[get("source_system_name") ==
                                 rv$target$system_name,
                               get("source_table_name")],
-        fhir_name = desc_dat[get("source_system_name") ==
-                               rv$target$system_name,
-                             get("fhir")],
+        # fhir_name = desc_dat[get("source_system_name") ==
+        #                        rv$target$system_name,
+        #                      get("fhir")],
         checks = list(
           var_type = desc_dat[get("source_system_name") ==
                                 rv$target$system_name,
                               get("variable_type")],
           constraints = desc_dat[get("source_system_name") ==
                                    rv$target$system_name,
-                                 get("constraints")],
-          value_threshold = desc_dat[get("source_system_name") ==
-                                       rv$target$system_name,
-                                     get("value_threshold")],
-          missing_threshold = desc_dat[get("source_system_name") ==
-                                         rv$target$system_name,
-                                       get("missing_threshold")]
+                                 get("constraints")]
+          # value_threshold = desc_dat[get("source_system_name") ==
+          #                              rv$target$system_name,
+          #                            get("value_threshold")],
+          # missing_threshold = desc_dat[get("source_system_name") ==
+          #                                rv$target$system_name,
+          #                              get("missing_threshold")]
         )
       )
     return(description)

@@ -57,12 +57,12 @@ descriptive_results <- function(rv,
             "source_variable_name",
             "source_table_name",
             "variable_name",
-            "fhir",
+            #"fhir",
             "definition",
             "variable_type",
             "constraints",
-            "value_threshold",
-            "missing_threshold",
+            #"value_threshold",
+            #"missing_threshold",
             "filter"
           ), with = F
         ]
