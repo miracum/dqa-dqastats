@@ -550,8 +550,8 @@ apply_time_restriciton <-
             ## SQL with the new time-filtered tables:
             sql_tmp <-
               gsub(
-                pattern = paste0(" FROM ", table),
-                replacement = paste0(" FROM ", view_name),
+                pattern = paste0("FROM ", table),
+                replacement = paste0("FROM ", view_name),
                 x = sql_tmp,
                 ignore.case = TRUE
                 # fixed = TRUE # nolint

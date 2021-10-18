@@ -45,8 +45,8 @@ DIZutils::set_env_vars(
 )
 parallel = TRUE
 ncores = 4
-restricting_date_start = "2021-01-01"
-restricting_date_end = "2021-12-01"
+restricting_date_start = "1970-01-01"
+restricting_date_end = "1990-01-01"
 
 # Sys.setenv("P21CSV_PATH" = "~/development/_p21/data/2018_merged/")
 
@@ -61,8 +61,8 @@ all_results <- DQAstats::dqa(
   output_dir = output_dir,
   logfile_dir = logfile_dir,
   parallel = parallel
-  # , restricting_date_start = restricting_date_start
-  # , restricting_date_end = restricting_date_end
+  , restricting_date_start = restricting_date_start
+  , restricting_date_end = restricting_date_end
 )
 
 
