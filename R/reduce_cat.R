@@ -39,7 +39,7 @@ reduce_cat <- function(data, levellimit = 25) {
 
     # only if variable type of interest
     if (data[[i]]$description$source_data$checks$var_type %in%
-        c("permittedValues", "string")) {
+        c("enumerated", "string")) {
 
       # loop over source and target data
       for (j in c("source_data", "target_data")) {

@@ -123,7 +123,7 @@ get_atemp_plausis <- function(rv,
             # prepare specific valueset for conformance checks:
             # if factor
             if (atemp_vars[get("variable_name") == i, get("variable_type")] ==
-                "permittedValues") {
+                "enumerated") {
 
               constr <- u$constraints$value_set[[src_flag]]
 

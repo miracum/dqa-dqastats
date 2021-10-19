@@ -146,13 +146,13 @@ map_var_types <- function(string) {
     length(string) == 1
   )
 
-  if (string == "permittedValues") {
+  if (string == "enumerated") {
     outdat <- "factor"
   } else if (string == "integer") {
     outdat <- "numeric"
   } else if (string == "string") {
     outdat <- "character"
-  } else if (string == "calendar") {
+  } else if (string == "datetime") {
     outdat <- "character"
   } else if (string == "float") {
     outdat <- "numeric"
@@ -231,10 +231,10 @@ load_csv <- function(rv,
             j, unique(get("variable_name"))]
         colnames(outlist[[i]])[which(col_names == j)] <- vn
 
-        if (var_type %in% c("permittedValues", "string", "catalog")) {
+        if (var_type %in% c("enumerated", "string", "catalog")) {
           # transform to factor
           outlist[[i]][, (vn) := factor(get(vn))]
-        } else if (var_type == "calendar") {
+        } else if (var_type == "datetime") {
           # transform date variables
           date_format <- rv$mdr[
             get("source_system_name") == system$system_name &
@@ -398,10 +398,10 @@ load_database <- function(rv,
                            #get("key") == i &
                            get("variable_name") == j, get("variable_type")]
 
-      if (var_type %in% c("permittedValues", "string", "catalog")) {
+      if (var_type %in% c("enumerated", "string", "catalog")) {
         # transform to factor
         outlist[[i]][, (j) := factor(get(j))]
-      } else if (var_type == "calendar") {
+      } else if (var_type == "datetime") {
         # transform date variables
         # transform date variables
         date_format <- rv$mdr[

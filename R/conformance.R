@@ -121,6 +121,14 @@ value_conformance <- function(
           # and only stored with source description
           ih <- desc_out$source_data$internal_variable_name
 
+          # add logic to test for future dates by default, if no datetime
+          # constraint is set
+          if (d_out$checks$var_type == "datetime" &&
+              is.na(constraints) &&
+              scope == "descriptive") {
+            constraints <- "future_dates"
+          }
+
           if (any(!is.na(constraints))) {
             if (length(constraints[[1]]) > 0) {
               # initialize outlist
@@ -142,7 +150,7 @@ value_conformance <- function(
               )
 
               # categorical treatment (value_set)
-              if (d_out$checks$var_type == "permittedValues") {
+              if (d_out$checks$var_type == "enumerated") {
 
                 if (((nrow(s_out) == 1) && is.na(s_out[[1, 1]])) ||
                     (nrow(s_out) == 0)) {
@@ -416,7 +424,7 @@ value_conformance <- function(
                     }
                   }
                 }
-              } else if (d_out$checks$var_type == "calendar") {
+              } else if (d_out$checks$var_type == "datetime") {
                 if (((nrow(s_out) == 1) && is.na(s_out[[1, 1]])) ||
                     (nrow(s_out) == 0)) {
                   outlist2$conformance_error <- TRUE
@@ -442,6 +450,46 @@ value_conformance <- function(
                       logfile_dir = logfile_dir,
                       headless = headless
                     )
+                  } else if (constraints == "future_dates" &&
+                             scope == "descriptive") {
+                    # check for future dates
+                    fut_dat <- rv[[raw_data]][[tab]][
+                      get(ih) > Sys.Date(),
+                    ]
+
+                    error_flag <- ifelse(nrow(fut_dat) > 0, TRUE, FALSE)
+
+                    outlist2$conformance_error <- error_flag
+                    outlist2$conformance_results <-
+                      ifelse(
+                        isTRUE(error_flag),
+                        paste0(
+                          "Values that are not conform with ",
+                          "rule 'no future dates':  \n",
+                          paste(
+                            as.character(
+                              unique(
+                                fut_dat[, get(ih)]
+                              )
+                            ),
+                            collapse = "  \n")
+                        ),
+                        "No 'value conformance' issues found."
+                      )
+
+                    vec <- setdiff(
+                      colnames(rv[[raw_data]][[tab]]),
+                      ih
+                    )
+
+                    outlist2$affected_ids <- unique(
+                      fut_dat[
+                        ,
+                        vec,
+                        with = F
+                      ]
+                    )
+
                   } else {
                     DIZutils::feedback(
                       print_this = paste0(

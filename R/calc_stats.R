@@ -76,7 +76,7 @@ calc_num_stats <- function(stat_dat,
 
   if (stat_dat[get("source_system_name") ==
                rv$source$system_name,
-               get("variable_type")] != "calendar") {
+               get("variable_type")] != "datetime") {
     statistics$source_data <- tryCatch(
       expr = {
         f <- stat_dat[get("source_system_name") ==

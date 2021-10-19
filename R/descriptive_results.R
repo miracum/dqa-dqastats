@@ -146,7 +146,7 @@ descriptive_results <- function(rv,
         ]
 
         if (stat_dat[, unique(get("variable_type"))] %in%
-            c("permittedValues", "string")) {
+            c("enumerated", "string")) {
           outlist$statistics <- calc_cat_stats(
               stat_dat = stat_dat,
               stat_key = rv$variable_list[[i]],
