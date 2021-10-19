@@ -45,8 +45,8 @@ DIZutils::set_env_vars(
 )
 parallel = TRUE
 ncores = 4
-restricting_date_start = "1970-01-01"
-restricting_date_end = "1990-01-01"
+restricting_date_start = "2019-01-01"
+restricting_date_end = "2020-01-01"
 
 # Sys.setenv("P21CSV_PATH" = "~/development/_p21/data/2018_merged/")
 
