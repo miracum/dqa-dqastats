@@ -208,9 +208,9 @@ create_helper_vars <- function(mdr,
       )
       js_names <- names(js$atemporal)
       js_names <- sapply(
-        X = strsplit(js_names, ".", fixed = T),
+        X = js_names,
         FUN = function(x) {
-          x[1]
+          gsub("(\\.\\d+)?$", "", x)
         },
         USE.NAMES = FALSE,
         simplify = TRUE
@@ -248,9 +248,9 @@ create_helper_vars <- function(mdr,
       )
       js_names <- names(js$uniqueness)
       js_names <- sapply(
-        X = strsplit(js_names, ".", fixed = TRUE),
+        X = js_names,
         FUN = function(x) {
-          x[1]
+          gsub("(\\.\\d+)?$", "", x)
         },
         USE.NAMES = FALSE,
         simplify = TRUE

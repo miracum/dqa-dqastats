@@ -61,8 +61,8 @@ all_results <- DQAstats::dqa(
   output_dir = output_dir,
   logfile_dir = logfile_dir,
   parallel = parallel
-  #, restricting_date_start = restricting_date_start
-  #, restricting_date_end = restricting_date_end
+  , restricting_date_start = restricting_date_start
+  , restricting_date_end = restricting_date_end
 )
 
 
