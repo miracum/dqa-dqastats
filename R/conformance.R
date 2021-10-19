@@ -440,13 +440,13 @@ value_conformance <- function(
                   error_flag <- ifelse(nrow(fut_dat) > 0, TRUE, FALSE)
 
                   outlist2$conformance_error <- error_flag
-                  outlist2$rule <- "No future dates."
+                  outlist2$rule <- "No future dates allowed."
                   outlist2$conformance_results <-
                     ifelse(
                       isTRUE(error_flag),
                       paste0(
                         "Values that are not conform with ",
-                        "rule 'no future dates':  \n",
+                        "rule 'No future dates allowed.':  \n",
                         paste(
                           as.character(
                             unique(
