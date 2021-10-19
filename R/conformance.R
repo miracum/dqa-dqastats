@@ -430,6 +430,50 @@ value_conformance <- function(
                   outlist2$conformance_error <- TRUE
                   outlist2$conformance_results <-
                     "No data available to perform conformance checks."
+                } else if (constraints == "future_dates" &&
+                           scope == "descriptive") {
+                  # check for future dates
+                  fut_dat <- rv[[raw_data]][[tab]][
+                    get(ih) > Sys.Date(),
+                  ]
+
+                  error_flag <- ifelse(nrow(fut_dat) > 0, TRUE, FALSE)
+
+                  outlist2$conformance_error <- error_flag
+                  outlist2$rule <- "No future dates."
+                  outlist2$conformance_results <-
+                    ifelse(
+                      isTRUE(error_flag),
+                      paste0(
+                        "Values that are not conform with ",
+                        "rule 'no future dates':  \n",
+                        paste(
+                          as.character(
+                            unique(
+                              fut_dat[, get(ih)]
+                            )
+                          ),
+                          collapse = "  \n")
+                      ),
+                      "No 'value conformance' issues found."
+                    )
+
+                  if (isTRUE(outlist2$conformance_error)) {
+
+                    vec <- setdiff(
+                      colnames(rv[[raw_data]][[tab]]),
+                      ih
+                    )
+
+                    outlist2$affected_ids <- unique(
+                      fut_dat[
+                        ,
+                        vec,
+                        with = F
+                      ]
+                    )
+                  }
+
                 } else {
                   ## Check if there only is a datetime_format in the
                   ## constraints (this is implicitly already checked
@@ -450,46 +494,6 @@ value_conformance <- function(
                       logfile_dir = logfile_dir,
                       headless = headless
                     )
-                  } else if (constraints == "future_dates" &&
-                             scope == "descriptive") {
-                    # check for future dates
-                    fut_dat <- rv[[raw_data]][[tab]][
-                      get(ih) > Sys.Date(),
-                    ]
-
-                    error_flag <- ifelse(nrow(fut_dat) > 0, TRUE, FALSE)
-
-                    outlist2$conformance_error <- error_flag
-                    outlist2$conformance_results <-
-                      ifelse(
-                        isTRUE(error_flag),
-                        paste0(
-                          "Values that are not conform with ",
-                          "rule 'no future dates':  \n",
-                          paste(
-                            as.character(
-                              unique(
-                                fut_dat[, get(ih)]
-                              )
-                            ),
-                            collapse = "  \n")
-                        ),
-                        "No 'value conformance' issues found."
-                      )
-
-                    vec <- setdiff(
-                      colnames(rv[[raw_data]][[tab]]),
-                      ih
-                    )
-
-                    outlist2$affected_ids <- unique(
-                      fut_dat[
-                        ,
-                        vec,
-                        with = F
-                      ]
-                    )
-
                   } else {
                     DIZutils::feedback(
                       print_this = paste0(
@@ -529,7 +533,7 @@ value_conformance <- function(
                   findme = "4817d8aec4",
                   logfile_dir = logfile_dir
                 )
-                }
+              }
               outlist[[j]] <- outlist2
             }
           } else {

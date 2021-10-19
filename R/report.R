@@ -135,9 +135,11 @@ render_value_conformance <- function(results,
   ))
 
   # get value set
-  json_obj <- jsonlite::fromJSON(
-    desc_out[[source]]$checks$constraints
-  )
+  if (desc_out[[source]]$checks$var_type != "datetime") {
+    json_obj <- jsonlite::fromJSON(
+      desc_out[[source]]$checks$constraints
+    )
+  }
 
   if (desc_out[[source]]$checks$var_type ==
       "enumerated") {
@@ -151,6 +153,9 @@ render_value_conformance <- function(results,
              c("integer", "float")) {
     cat(paste0("- Constraining values/rules:"))
     print(kable_table(as.data.table(json_obj$range)))
+  } else if (desc_out[[source]]$checks$var_type ==
+            "datetime") {
+    cat(paste0("- Constraining values/rules: '", results[[source]]$rule, "'"))
   }
 
   if (isTRUE(results[[source]]$conformance_error)) {
