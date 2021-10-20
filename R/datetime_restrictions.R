@@ -402,6 +402,15 @@ apply_time_restriciton <- function(data,
             "')"
           )
 
+          DIZutils::feedback(
+            print_this = paste0(
+              "SQL create view:\n", sql_create_view
+            ),
+            type = "Info",
+            findme = "ce1ihs8f3f",
+            logfile_dir = logfile_dir
+          )
+
           if (system_type == "oracle") {
             DIZutils::feedback(
               print_this = paste0(
@@ -474,6 +483,15 @@ apply_time_restriciton <- function(data,
               ## not be applied which leads to false results due to case
               ## sensitive column names!
             )
+
+          DIZutils::feedback(
+            print_this = paste0(
+              "SQL modified using view:\n", sql_tmp
+            ),
+            type = "Info",
+            findme = "789ass8f3f",
+            logfile_dir = logfile_dir
+          )
         }
       }
     }
