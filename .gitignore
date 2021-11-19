@@ -31,3 +31,4 @@ docs/
 !docker-compose.yml
 !.env
 !build_image.sh
+!/renovate.json

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "assignees": ["mangjn", "kapsnelz"],
+  "extends": [":preserveSemverRanges", "group:all", "config:base"],
+  "groupName": "all dependencies",
+  "separateMajorMinor": true,
+  "groupSlug": "all",
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["*"],
+      "groupName": "all dependencies",
+      "groupSlug": "all"
+    }
+  ]
+}
