@@ -91,7 +91,8 @@ ARG texpackages="amsfonts \
     wrapfig \
     ulem \
     url \
-    xco"
+    xco \
+    xcolor"
 
 RUN for package in $texpackages; do \
     R -q -e "p <- \"$package\"; tinytex::tlmgr_install(pkgs = p)"; \
