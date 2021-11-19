@@ -30,12 +30,12 @@ printf "\n\nPushing $IMAGE_NAME image ($IMAGE_TAG)\n"
 docker push "$REGISTRY_PREFIX/$IMAGE_NAME:$IMAGE_TAG"
 
 ## Push image to second registry:
-docker tag $REGISTRY_PREFIX/$IMAGE_NAME$IMAGE_TAG $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG
-printf "\n\nPlease insert your login credentials to registry: $REGISTRY_PREFIX ...\n"
+docker tag $REGISTRY_PREFIX/$IMAGE_NAME:$IMAGE_TAG $REGISTRY_PREFIX2/$IMAGE_NAME:$IMAGE_TAG
+printf "\n\nPlease insert your login credentials to registry: $REGISTRY_PREFIX2 ...\n"
 docker login "https://$REGISTRY_PREFIX2"
-printf "\n## Pushing image $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG...\n"
-docker push $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG
-## Also tag and push the latest image with a concrete version number from the .env file:
-printf "\n## Pushing image $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG_FROM_ENV...\n"
-docker tag $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG_FROM_ENV
-docker push $REGISTRY_PREFIX2/$IMAGE_NAME$IMAGE_TAG_FROM_ENV
+printf "\n## Pushing image $REGISTRY_PREFIX2/$IMAGE_NAME:$IMAGE_TAG...\n"
+docker push $REGISTRY_PREFIX2/$IMAGE_NAME:$IMAGE_TAG
+## Also tag and push the latest image:
+printf "\n## Pushing image $REGISTRY_PREFIX2/$IMAGE_NAME...\n"
+docker tag $REGISTRY_PREFIX2/$IMAGE_NAME:$IMAGE_TAG $REGISTRY_PREFIX2/$IMAGE_NAME
+docker push $REGISTRY_PREFIX2/$IMAGE_NAME
