@@ -13,8 +13,8 @@ The R package 'DQAstats' provides core functionalities to perform data quality a
 
 Currently implemented features are:  
 
-* descriptive (univariate) analysis of categorical and continuous variables of a source data system and a target data system
-* checks of the extract-transform-load (ETL) pipeline (by comparing distinct values and valid values between the source data system and the target data system)  
+* descriptive (univariate) analysis of categorical and continuous variables of a source database and a target database
+* checks of the extract-transform-load (ETL) pipeline (by comparing distinct values and valid values between the source database and the target database)  
 * value conformance checks by comparing the resulting statistics to value constraints (given in a meta data repository (MDR))  
 * 'atemporal plausibility' checks (multivariate)  
 * 'uniqueness plausibility' checks (multivariate)  
@@ -73,7 +73,7 @@ docker-compose \
 
 ## Configuration of the tool
 
-The configuration of data systems, be it CSV files or SQL-based databases, is done with environment variables, which can be set using the base R command `Sys.setenv()`.
+The configuration of databases, be it CSV files or SQL-based databases, is done with environment variables, which can be set using the base R command `Sys.setenv()`.
 
 A detailed description, which environment variables need to be set for the specific databases can be found [here](https://github.com/miracum/misc-dizutils/blob/master/README.md).
 

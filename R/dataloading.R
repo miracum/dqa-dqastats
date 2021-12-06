@@ -298,26 +298,51 @@ load_database <- function(rv,
 
     ## Apply time filtering (if needed):
     if (rv$restricting_date$use_it) {
-      ## Filter SQL
-      sql <- apply_time_restriciton(
-        data = sql_statements[[i]],
-        # filter_colname = unique(rv$mdr[get("key") == i &
-        # get("source_system_name") == db_name &
-        # get("dqa_assessment") == 1, get("restricting_date_var")]),
-        lower_limit = rv$restricting_date$start,
-        upper_limit = rv$restricting_date$end,
-        system_name = db_name,
-        system_type = db_type,
-        key = i,
-        mdr = rv$mdr,
-        db_con = db_con,
-        logfile_dir = rv$log$logfile_dir
-      )
-      msg <- paste0(msg, " (using a TEMPORAL VIEW)")
+      if (Sys.getenv(paste0(toupper(db_name), "_SQLMODIFY")) == "TRUE") {
+        restricting_date_var <- rv$mdr[
+          get("key") == i &
+            get("source_system_name") == db_name,
+          get("restricting_date_var")
+        ]
+        replace_string <- paste0(
+          "AS r_intermediate WHERE r_intermediate.",
+          restricting_date_var, " >= '",
+          rv$restricting_date$start,
+          "' AND r_intermediate.",
+          restricting_date_var, " <= '",
+          rv$restricting_date$end,
+          "' "
+        )
+        sql <- gsub("AS r_intermediate", replace_string, sql_statements[[i]])
+        msg <- paste0(msg, " (using a MODIFIED SUBSELECT)")
+      } else {
+        ## Filter SQL
+        sql <- apply_time_restriciton(
+          data = sql_statements[[i]],
+          # filter_colname = unique(rv$mdr[get("key") == i &
+          # get("source_system_name") == db_name &
+          # get("dqa_assessment") == 1, get("restricting_date_var")]),
+          lower_limit = rv$restricting_date$start,
+          upper_limit = rv$restricting_date$end,
+          system_name = db_name,
+          system_type = db_type,
+          key = i,
+          mdr = rv$mdr,
+          db_con = db_con,
+          logfile_dir = rv$log$logfile_dir
+        )
+        msg <- paste0(msg, " (using a TEMPORAL VIEW)")
+      }
     } else {
       ## Unfiltered:
       sql <- sql_statements[[i]]
     }
+
+    DIZutils::feedback(print_this = sql,
+                       logjs = isFALSE(headless),
+                       findme = "f45a1dc9ca",
+                       logfile_dir = rv$log$logfile_dir,
+                       headless = rv$headless)
 
 
     DIZutils::feedback(print_this = msg,
@@ -353,7 +378,7 @@ load_database <- function(rv,
 
     # check, if table has more than two columns and thus does not comply
     # with DQAstats table requirements for SQL based systems
-    if (is.null(dat) || dim(dat)[2] > 2) {
+    if (is.null(dat) || ncol(dat) > 2) {
       msg <- paste0(
         "Table of data element '",
         i,
