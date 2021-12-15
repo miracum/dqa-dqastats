@@ -318,7 +318,7 @@ value_conformance <- function(
                             get(d_out$var_dependent) < constraints$range$min |
                               get(d_out$var_dependent) > constraints$range$max,
                             vec,
-                            with = F
+                            with = FALSE
                           ]
                         )
                       } else if (scope == "descriptive") {
@@ -327,7 +327,7 @@ value_conformance <- function(
                             get(ih) < constraints$range$min |
                               get(ih) > constraints$range$max,
                             vec,
-                            with = F
+                            with = FALSE
                           ]
                         )
                       }
@@ -406,7 +406,7 @@ value_conformance <- function(
                               x = get(d_out$var_dependent)
                             ),
                             vec,
-                            with = F
+                            with = FALSE
                           ]
                         )
                       } else if (scope == "descriptive") {
@@ -417,7 +417,7 @@ value_conformance <- function(
                               x = get(ih)
                             ),
                             vec,
-                            with = F
+                            with = FALSE
                           ]
                         )
                       }
@@ -469,7 +469,7 @@ value_conformance <- function(
                       fut_dat[
                         ,
                         vec,
-                        with = F
+                        with = FALSE
                       ]
                     )
                   }

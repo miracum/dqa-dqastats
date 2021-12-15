@@ -154,11 +154,11 @@ get_atemp_plausis <- function(rv,
                   u$filter[[src_flag]],
                   get(u$variable_name),
                   perl = TRUE
-                ), c(i, u$variable_name), with = F]
+                ), c(i, u$variable_name), with = FALSE]
               } else {
                 group_data <- rv[[raw_data]][[u_key]][!is.na(
                   get(u$variable_name)
-                ), c(i, u$variable_name), with = F]
+                ), c(i, u$variable_name), with = FALSE]
               }
 
             } else {
@@ -258,9 +258,9 @@ get_atemp_plausis <- function(rv,
                   y = unique(rv[[raw_data]][[j_key]]),
                   by.x = coln_x,
                   by.y = coln_y,
-                  all.x = T,
+                  all.x = TRUE,
                   suffixes = c("", ""),
-                  allow.cartesian = T
+                  allow.cartesian = TRUE
                 )
               }
 
@@ -269,9 +269,9 @@ get_atemp_plausis <- function(rv,
                 y = m_y,
                 by.x = colnames(m_x)[grepl(u$join_crit, colnames(m_x))],
                 by.y = colnames(m_y)[grepl(u$join_crit, colnames(m_y))],
-                all.x = T,
+                all.x = TRUE,
                 suffixes = c("", ""),
-                allow.cartesian = T
+                allow.cartesian = TRUE
               )
 
               # delete not necessary colnames

@@ -19,42 +19,42 @@
 extensive_summary <- function(vector) {
   quant <- stats::quantile(vector,
                            probs = c(.25, .75),
-                           na.rm = T,
-                           names = F)
-  i_out <- stats::IQR(vector, na.rm = T) * 1.5
+                           na.rm = TRUE,
+                           names = FALSE)
+  i_out <- stats::IQR(vector, na.rm = TRUE) * 1.5
 
   ret <- data.table::data.table(rbind(
-    c("Mean", round(base::mean(vector, na.rm = T), 2)),
-    c("Minimum", round(base::min(vector, na.rm = T), 2)),
-    c("Median", round(stats::median(vector, na.rm = T), 2)),
-    c("Maximum", round(base::max(vector, na.rm = T), 2)),
-    c("SD", round(stats::sd(vector, na.rm = T), 2)),
+    c("Mean", round(base::mean(vector, na.rm = TRUE), 2)),
+    c("Minimum", round(base::min(vector, na.rm = TRUE), 2)),
+    c("Median", round(stats::median(vector, na.rm = TRUE), 2)),
+    c("Maximum", round(base::max(vector, na.rm = TRUE), 2)),
+    c("SD", round(stats::sd(vector, na.rm = TRUE), 2)),
     c("Negativ", round(as.numeric(
-      base::sum(vector < 0, na.rm = T)
+      base::sum(vector < 0, na.rm = TRUE)
     ), 2)),
     c("Zero", round(as.numeric(
-      base::sum(vector == 0, na.rm = T)
+      base::sum(vector == 0, na.rm = TRUE)
     ), 2)),
     c("Positive", round(as.numeric(
-      base::sum(vector > 0, na.rm = T)
+      base::sum(vector > 0, na.rm = TRUE)
     ), 2)),
     c("OutLo", round(as.numeric(
-      base::sum(vector < (quant[1] - i_out), na.rm = T)
+      base::sum(vector < (quant[1] - i_out), na.rm = TRUE)
     ), 2)),
     c("OutHi", round(as.numeric(
-      base::sum(vector > (quant[2] + i_out), na.rm = T)
+      base::sum(vector > (quant[2] + i_out), na.rm = TRUE)
     ), 2)),
     c("Skewness", round(as.numeric(
-      e1071::skewness(vector, na.rm = T)
+      e1071::skewness(vector, na.rm = TRUE)
     ), 2)),
     c("Kurtosis", round(as.numeric(
-      e1071::kurtosis(vector, na.rm = T)
+      e1071::kurtosis(vector, na.rm = TRUE)
     ), 2)),
     c("Variance", round(as.numeric(
-      stats::var(vector, na.rm = T)
+      stats::var(vector, na.rm = TRUE)
     ), 2)),
     c("Range", round(as.numeric(
-      base::max(vector, na.rm = T) - base::min(vector, na.rm = T)
+      base::max(vector, na.rm = TRUE) - base::min(vector, na.rm = TRUE)
     ), 2))
   ))
   colnames(ret) <- c(" ", " ")

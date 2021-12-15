@@ -42,7 +42,7 @@ read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
 
   mdr <- data.table::fread(
     paste0(utils_path, "MDR/", mdr_filename),
-    header = T
+    header = TRUE
   )
 
   # fix columns that contain json strings (due to multiple quotation marks)
@@ -159,7 +159,7 @@ create_helper_vars <- function(mdr,
                               "variable_type",
                               "key",
                               "source_table_name"
-                            ), with = F]
+                            ), with = FALSE]
 
   # get only keys with corresponding keys in target_db
   dqa_assessment_intersect <- intersect(

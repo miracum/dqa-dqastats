@@ -33,10 +33,13 @@ generate_datamap <- function(results,
                              rv,
                              headless = FALSE) {
   # get names
-  data_names <-
-    mdr[get("data_map") == 1 &
-          get("source_system_name") == db, c("variable_name",
-                                             "designation"), with = F]
+  data_names <- mdr[
+    get("data_map") == 1 &
+      get("source_system_name") == db,
+    c("variable_name",
+      "designation"),
+    with = FALSE
+  ]
 
   # not in variable list
   nivl <- setdiff(data_names$designation, names(rv$variable_list))

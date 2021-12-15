@@ -38,7 +38,7 @@ test_that("correct functioning of descriptive results", {
 
   utils_path <- system.file("demo_data/utilities", package = "DQAstats")
   mdr_filename <- "mdr_example_data.csv"
-  output_dir <- paste0(prefix,
+  output_dir <- paste0(tempdir(),
                        "output/")
 
   # initialize rv-list
@@ -48,7 +48,7 @@ test_that("correct functioning of descriptive results", {
   rv$source$system_name <- source_system_name
   rv$target$system_name <- target_system_name
 
-  rv$log$logfile_dir <- paste0(prefix, "tests/testthat/")
+  rv$log$logfile_dir <- tempdir()
 
   # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE

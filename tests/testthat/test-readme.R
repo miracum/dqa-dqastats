@@ -36,7 +36,7 @@ test_that("correct functioning of readme example", {
     target_system_name = "exampleCSV_target",
     utils_path = utils_path,
     mdr_filename = "mdr_example_data.csv",
-    output_dir = "output/",
+    output_dir = paste0(tempdir(), "/output/"),
     parallel = FALSE
   )
 

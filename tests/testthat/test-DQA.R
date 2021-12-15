@@ -38,8 +38,7 @@ test_that("correct functioning of DQA", {
 
   utils_path <- system.file("demo_data/utilities", package = "DQAstats")
   mdr_filename <- "mdr_example_data.csv"
-  output_dir <- paste0(prefix,
-                       "output/")
+  output_dir <- paste0(tempdir(), "/output/")
 
 
   ## Testfunction to test it all:
@@ -49,7 +48,7 @@ test_that("correct functioning of DQA", {
     utils_path = utils_path,
     mdr_filename = mdr_filename,
     output_dir = output_dir,
-    logfile_dir = paste0(prefix, "tests/testthat/"),
+    logfile_dir = tempdir(),
     parallel = FALSE
   )
 

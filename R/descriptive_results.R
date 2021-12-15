@@ -106,7 +106,7 @@ descriptive_results <- function(rv,
               "key",
               "variable_name",
               "filter"
-            ), with = F
+            ), with = FALSE
         ]
 
         outlist$counts <- calc_counts(
@@ -142,7 +142,7 @@ descriptive_results <- function(rv,
               "key",
               "variable_name",
               "filter"
-            ), with = F
+            ), with = FALSE
         ]
 
         if (stat_dat[, unique(get("variable_type"))] %in%
