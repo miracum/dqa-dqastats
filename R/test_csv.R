@@ -28,6 +28,37 @@
 #' @inheritParams create_helper_vars
 #' @inheritParams dqa
 #'
+#' @examples
+#' utils_path <- utils_path <- system.file(
+#'   "demo_data/utilities",
+#'   package = "DQAstats"
+#' )
+#' mdr_filename <- "mdr_example_data.csv"
+#' mdr <- read_mdr(
+#'   utils_path = utils_path,
+#'   mdr_filename <- mdr_filename
+#' )
+#'
+#' source_system_name <- "exampleCSV_source"
+#' target_system_name <- "exampleCSV_target"
+#'
+#' DIZutils::cleanup_old_logfile(logfile_dir = tempdir())
+#'
+#' settings <- DIZutils::get_config_env(
+#'   system_name = source_system_name,
+#'   logfile_dir = tempdir(),
+#'   headless = TRUE
+#' )
+#'
+#' test_csv(
+#'   settings = settings,
+#'   source_db = source_system_name,
+#'   mdr = mdr,
+#'   headless = TRUE,
+#'   logfile_dir = tempdir()
+#' )
+#'
+#'
 #' @export
 #'
 test_csv <- function(settings,

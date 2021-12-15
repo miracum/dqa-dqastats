@@ -70,7 +70,7 @@ atemp_pausi_results <- function(rv,
               "key",
               "variable_name",
               "filter"
-            ), with = F
+            ), with = FALSE
           ]
 
         outlist$description <- calc_atemp_plausi_description(
@@ -394,9 +394,9 @@ uniq_plausi_results <- function(rv,
                   y = rv[[raw_data]][[j_key]],
                   by.x = coln_x,
                   by.y = coln_y,
-                  all = T,
+                  all = TRUE,
                   suffixes = c("", ""),
-                  allow.cartesian = T
+                  allow.cartesian = TRUE
                 )
               }
 
@@ -405,9 +405,9 @@ uniq_plausi_results <- function(rv,
                 y = m_y,
                 by.x = u$variable_name,
                 by.y = colnames(m_y)[grepl(u$variable_name, colnames(m_y))],
-                all.x = T,
+                all.x = TRUE,
                 suffixes = c("", ""),
-                allow.cartesian = T
+                allow.cartesian = TRUE
               )
 
               if (is.null(u$all_observations) || u$all_observations == "0") {
@@ -433,7 +433,7 @@ uniq_plausi_results <- function(rv,
             }
 
             colnames(group_data) <- c(i, u$variable_name)
-            get_dupl <- unique(group_data[duplicated(get(i)), i, with = F])
+            get_dupl <- unique(group_data[duplicated(get(i)), i, with = FALSE])
 
             rm(group_data)
             gc()

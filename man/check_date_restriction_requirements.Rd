@@ -41,3 +41,28 @@ Internal function to check if for every input table there is
   If the input is valid, it will just print a success-message, if the
   data is invalid, the function will call `stop()`.
 }
+\examples{
+utils_path <- utils_path <- system.file(
+  "demo_data/utilities",
+  package = "DQAstats"
+)
+mdr_filename <- "mdr_example_data.csv"
+mdr <- read_mdr(
+  utils_path = utils_path,
+  mdr_filename <- mdr_filename
+)
+
+source_system_name <- "exampleCSV_source"
+target_system_name <- "exampleCSV_target"
+
+DIZutils::cleanup_old_logfile(logfile_dir = tempdir())
+
+check_date_restriction_requirements(
+  mdr = mdr,
+  system_names = c(source_system_name, target_system_name),
+  logfile_dir = tempdir(),
+  headless = TRUE,
+  enable_stop = TRUE
+)
+
+}

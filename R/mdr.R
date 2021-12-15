@@ -25,6 +25,17 @@
 #'
 #' @inheritParams dqa
 #'
+#' @examples
+#' utils_path <- utils_path <- system.file(
+#'   "demo_data/utilities",
+#'   package = "DQAstats"
+#' )
+#' mdr_filename <- "mdr_example_data.csv"
+#' mdr <- read_mdr(
+#'   utils_path = utils_path,
+#'   mdr_filename <- mdr_filename
+#' )
+#'
 #' @export
 #'
 read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
@@ -69,20 +80,40 @@ read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
 #'
 #' @param mdr A data.table object containing the MDR.
 #'
+#' @param source_db A character string. The name of the source database.
+#' This string must be conform with the corresponding config section
+#' in the config.yml-file.
+#'
 #' @param target_db A character string. The name of the target database.
 #' This string must be conform with the corresponding config section
 #' in the config.yml-file.
 #'
-#' @param source_db A character string. The name of the source database.
-#' This string must be conform with the corresponding config section
-#' in the config.yml-file.
+#' @examples
+#' utils_path <- utils_path <- system.file(
+#'   "demo_data/utilities",
+#'   package = "DQAstats"
+#' )
+#' mdr_filename <- "mdr_example_data.csv"
+#' mdr <- read_mdr(
+#'   utils_path = utils_path,
+#'   mdr_filename <- mdr_filename
+#' )
+#'
+#' source_system_name <- "exampleCSV_source"
+#' target_system_name <- "exampleCSV_target"
+#'
+#' create_helper_vars(
+#'   mdr = mdr,
+#'   source_db = source_system_name,
+#'   target_db = target_system_name
+#' )
 #'
 #' @export
 #'
 # create variables from mdr
 create_helper_vars <- function(mdr,
-                               target_db,
-                               source_db) {
+                               source_db,
+                               target_db) {
 
   # We only allow one (system) type per system name. There can't e.g. be
   # system types "csv" and "postgres" both with the system_name "data":

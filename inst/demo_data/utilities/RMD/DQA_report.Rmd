@@ -138,8 +138,8 @@ if (!is.null(rv$results_plausibility_atemporal) &&
 
 ```{r results='asis'}
 # plausi results
-if (!is.null(rv$results_plausibility_uniqueness)) {
-  render_uniq_plausis(rv$results_plausibility_uniqueness)
+if (!is.null(rv$results_plausibility_unique)) {
+  render_uniq_plausis(rv$results_plausibility_unique)
 } else {
   cat(no_data_to_display_msg)
 }

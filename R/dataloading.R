@@ -175,7 +175,6 @@ map_var_types <- function(string) {
 #' @param system The system object rv$system
 #' @inheritParams test_csv
 #'
-#' @export
 load_csv <- function(rv,
                      keys_to_test,
                      headless = FALSE,
@@ -278,7 +277,6 @@ load_csv <- function(rv,
 #'
 #' @inheritParams load_csv
 #'
-#' @export
 load_database <- function(rv,
                           sql_statements,
                           db_con,
@@ -578,7 +576,7 @@ data_loading <- function(rv, system, keys_to_test) {
       ## Use environment-settings:
       db_con <-
         DIZutils::db_connection(
-          db_name = system$system_name,
+          system_name = system$system_name,
           db_type = system$system_type,
           headless = rv$headless,
           logfile_dir = rv$log$logfile_dir,
@@ -590,7 +588,7 @@ data_loading <- function(rv, system, keys_to_test) {
       ## Use included settings:
       db_con <-
         DIZutils::db_connection(
-          db_name = system$system_name,
+          system_name = system$system_name,
           db_type = system$system_type,
           headless = rv$headless,
           logfile_dir = rv$log$logfile_dir,

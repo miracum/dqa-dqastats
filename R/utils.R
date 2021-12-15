@@ -50,8 +50,6 @@ kable_table <- function(data) {
 #' @inheritParams dqa
 #' @param db A character string. The name of the corresponding database.
 #'
-#' @export
-#'
 load_sqls <- function(utils_path, db) {
   return(jsonlite::fromJSON(paste0(utils_path, "SQL/SQL_", db, ".JSON")))
 }

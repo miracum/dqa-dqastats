@@ -39,12 +39,36 @@
 #'   filtering is possible.
 #'
 #' @inheritParams dqa
+#'
+#' @examples
+#' utils_path <- utils_path <- system.file(
+#'   "demo_data/utilities",
+#'   package = "DQAstats"
+#' )
+#' mdr_filename <- "mdr_example_data.csv"
+#' mdr <- read_mdr(
+#'   utils_path = utils_path,
+#'   mdr_filename <- mdr_filename
+#' )
+#'
+#' source_system_name <- "exampleCSV_source"
+#' target_system_name <- "exampleCSV_target"
+#'
+#' DIZutils::cleanup_old_logfile(logfile_dir = tempdir())
+#'
+#' check_date_restriction_requirements(
+#'   mdr = mdr,
+#'   system_names = c(source_system_name, target_system_name),
+#'   logfile_dir = tempdir(),
+#'   headless = TRUE,
+#'   enable_stop = TRUE
+#' )
+#'
 #' @export
 #'
 check_date_restriction_requirements <- # nolint
   function(mdr,
            system_names,
-           # restricting_date,
            logfile_dir,
            headless = TRUE,
            enable_stop = TRUE) {
