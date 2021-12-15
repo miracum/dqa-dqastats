@@ -42,8 +42,8 @@ Internal function to check if for every input table there is
   data is invalid, the function will call `stop()`.
 }
 \examples{
-utils_path <- utils_path <- system.file(
-  "demo_data/utilities",
+utils_path <- system.file(
+  "demo_data/utilities/",
   package = "DQAstats"
 )
 mdr_filename <- "mdr_example_data.csv"

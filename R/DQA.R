@@ -65,6 +65,7 @@
 #' @importFrom magrittr "%>%"
 #'
 #' @examples
+#' \donttest{# runtime > 5 sec.
 #' Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file(
 #'   "demo_data",
 #'   package = "DQAstats")
@@ -88,6 +89,7 @@
 #'   mdr_filename = "mdr_example_data.csv",
 #'   output_dir = paste0(tempdir(), "/output/")
 #' )
+#' }
 #' @export
 #'
 dqa <- function(source_system_name,

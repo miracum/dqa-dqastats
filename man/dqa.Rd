@@ -74,6 +74,7 @@ This function performs a data quality assessment (DQA)
   of electronic health records (EHR).#'
 }
 \examples{
+\donttest{# runtime > 5 sec.
 Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file(
   "demo_data",
   package = "DQAstats")
@@ -97,4 +98,5 @@ results <- DQAstats::dqa(
   mdr_filename = "mdr_example_data.csv",
   output_dir = paste0(tempdir(), "/output/")
 )
+}
 }

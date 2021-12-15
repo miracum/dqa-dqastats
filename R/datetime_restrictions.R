@@ -42,7 +42,7 @@
 #'
 #' @examples
 #' utils_path <- system.file(
-#'   "demo_data/utilities",
+#'   "demo_data/utilities/",
 #'   package = "DQAstats"
 #' )
 #' mdr_filename <- "mdr_example_data.csv"

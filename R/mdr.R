@@ -26,8 +26,8 @@
 #' @inheritParams dqa
 #'
 #' @examples
-#' utils_path <- utils_path <- system.file(
-#'   "demo_data/utilities",
+#' utils_path <- system.file(
+#'   "demo_data/utilities/",
 #'   package = "DQAstats"
 #' )
 #' mdr_filename <- "mdr_example_data.csv"
@@ -89,8 +89,8 @@ read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
 #' in the config.yml-file.
 #'
 #' @examples
-#' utils_path <- utils_path <- system.file(
-#'   "demo_data/utilities",
+#' utils_path <- system.file(
+#'   "demo_data/utilities/",
 #'   package = "DQAstats"
 #' )
 #' mdr_filename <- "mdr_example_data.csv"

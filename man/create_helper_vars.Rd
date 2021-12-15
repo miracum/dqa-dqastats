@@ -22,8 +22,8 @@ Internal function to create necessary variables from the
   meta data repository (MDR).
 }
 \examples{
-utils_path <- utils_path <- system.file(
-  "demo_data/utilities",
+utils_path <- system.file(
+  "demo_data/utilities/",
   package = "DQAstats"
 )
 mdr_filename <- "mdr_example_data.csv"

@@ -27,8 +27,8 @@ Internal function to test and get the database connection
   of the source data system.
 }
 \examples{
-utils_path <- utils_path <- system.file(
-  "demo_data/utilities",
+utils_path <- system.file(
+  "demo_data/utilities/",
   package = "DQAstats"
 )
 mdr_filename <- "mdr_example_data.csv"
