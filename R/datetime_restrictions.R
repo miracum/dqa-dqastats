@@ -41,7 +41,7 @@
 #' @inheritParams dqa
 #'
 #' @examples
-#' utils_path <- utils_path <- system.file(
+#' utils_path <- system.file(
 #'   "demo_data/utilities",
 #'   package = "DQAstats"
 #' )
