@@ -87,7 +87,8 @@
 #'   target_system_name = "exampleCSV_target",
 #'   utils_path = utils_path,
 #'   mdr_filename = "mdr_example_data.csv",
-#'   output_dir = paste0(tempdir(), "/output/")
+#'   output_dir = paste0(tempdir(), "/output/"),
+#'   parallel = FALSE
 #' )
 #' }
 #' @export
