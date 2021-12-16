@@ -24,6 +24,7 @@ run only in the console (headless = TRUE) or on a GUI frontend
 Internal function to generate the final PDF report.
 }
 \examples{
+\donttest{# runtime > 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -132,5 +133,5 @@ create_markdown(
   outdir = output_dir,
   headless = rv$headless
 )
-
+}
 }

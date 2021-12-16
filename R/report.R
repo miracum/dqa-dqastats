@@ -303,6 +303,7 @@ render_atemp_pl_representation <- function(desc_out, source) {
 #' @inheritParams dqa
 #'
 #' @examples
+#' \donttest{# runtime > 5 sec.
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
 #'   package = "DQAstats"
@@ -411,7 +412,7 @@ render_atemp_pl_representation <- function(desc_out, source) {
 #'   outdir = output_dir,
 #'   headless = rv$headless
 #' )
-#'
+#' }
 #' @export
 #'
 create_markdown <- function(rv = rv,

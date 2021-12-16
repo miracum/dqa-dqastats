@@ -27,3 +27,4 @@
 ^build_image\.sh$
 ^ci/*$
 ^renovate\.json$
+^CRAN-RELEASE$
