@@ -111,7 +111,7 @@ test_that("correct functioning of descriptive results", {
   invisible(gc())
 
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-  rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+  rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
 
   # define restricting date
   rv$restricting_date$use_it <- FALSE
@@ -256,7 +256,7 @@ test_that("correct functioning of descriptive results - single source", {
   invisible(gc())
 
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-  rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+  rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
 
 
   # define restricting date

@@ -70,7 +70,7 @@ test_that("correct functioning of export_aggregated", {
   )
 
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-  rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+  rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
 
   # define restricting date
   rv$restricting_date$use_it <- FALSE
@@ -138,13 +138,11 @@ test_that("correct functioning of export_aggregated", {
 
   output_dir <- tempdir()
 
-  expect_silent(
-    {
-      export_aggregated(
-        output_dir = output_dir,
-        rv = rv
-      )
-    }
+  expect_null(
+    export_aggregated(
+      output_dir = output_dir,
+      rv = rv
+    )
   )
 
 })
@@ -154,7 +152,7 @@ test_that("correct functioning of export_aggregated", {
 
 
 
-test_that("correct functioning of export_aggregated", {
+test_that("correct functioning of export_affected_ids", {
 
 
   utils_path <- system.file(
@@ -205,7 +203,7 @@ test_that("correct functioning of export_aggregated", {
   )
 
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-  rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+  rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
 
   # define restricting date
   rv$restricting_date$use_it <- FALSE
@@ -260,9 +258,11 @@ test_that("correct functioning of export_aggregated", {
   )
 
   output_dir <- tempdir()
-  export_affected_ids(
-   rv = rv,
-   output_dir = output_dir,
-   object = rv$results_plausibility_unique
+  expect_null(
+    export_affected_ids(
+     rv = rv,
+     output_dir = output_dir,
+     object = rv$results_plausibility_unique
+    )
   )
 })

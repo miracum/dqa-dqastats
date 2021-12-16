@@ -75,7 +75,7 @@
 #' )
 #'
 #' # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-#' rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+#' rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
 #'
 #' # define restricting date
 #' rv$restricting_date$use_it <- FALSE
@@ -748,7 +748,7 @@ value_conformance <- function(
 #' )
 #'
 #' # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-#' rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+#' rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
 #'
 #' # define restricting date
 #' rv$restricting_date$use_it <- FALSE

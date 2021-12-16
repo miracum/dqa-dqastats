@@ -125,7 +125,7 @@ test_that("correct functioning of helper vars", {
   invisible(gc())
 
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-  rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+  rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
 
   expect_type(rv, "list")
   expect_length(rv, 14)
