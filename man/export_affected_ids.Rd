@@ -7,7 +7,7 @@
 export_affected_ids(object, output_dir, rv)
 }
 \arguments{
-\item{object}{The object to analyse.}
+\item{object}{The object to analyze.}
 
 \item{output_dir}{The path to the output folder where all the results will
 be stored (default: `paste0(tempdir(), "/output/")`).}

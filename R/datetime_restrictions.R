@@ -534,7 +534,7 @@ apply_time_restriciton <- function(data,
 
 
 #' @title Get a formatted string containing start and end time of the
-#'   date restriction aplpied to the data.
+#'   date restriction applied to the data.
 #'
 #' @description See title.
 #'
@@ -544,7 +544,7 @@ apply_time_restriciton <- function(data,
 #' @param date Should the date be included in the result string?
 #' @param time Should the time be included in the result string?
 #'
-#' @return String conatining start and end date obtaind from the list of
+#' @return String containing start and end date obtained from the list of
 #'   `restricting_date`.
 #'
 get_restricting_date_info <- function(restricting_date,

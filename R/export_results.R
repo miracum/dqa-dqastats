@@ -284,7 +284,7 @@ all_results_overview <- function(rv) {
 #' @description This function exports export_affected_ids in csv files that
 #'   are added to a zip archive.
 #'
-#' @param object The object to analyse.
+#' @param object The object to analyze.
 #' @inheritParams dqa
 #' @inheritParams load_csv
 #'

@@ -23,7 +23,7 @@
 #' @inheritParams create_helper_vars
 #' @inheritParams test_csv
 #' @inheritParams load_sqls
-#' @inheritParams atemp_pausi_results
+#' @inheritParams atemp_plausi_results
 #'
 #' @examples
 #' utils_path <- system.file(

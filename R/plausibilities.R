@@ -38,7 +38,7 @@ get_plausis_from_mdr <- function(atemp_vars) {
 #'   by \code{create_helper_vars} from the data represented in the
 #'   metadata repository.
 #'
-#' @inheritParams atemp_pausi_results
+#' @inheritParams atemp_plausi_results
 #' @inheritParams create_helper_vars
 #'
 #' @examples

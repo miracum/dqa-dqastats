@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' @title atemp_pausi_results helper function
+#' @title atemp_plausi_results helper function
 #'
 #' @description Internal function to generate the results of the
 #'   'Atemporal Plausibility' checks.
@@ -123,7 +123,7 @@
 #' )
 #'
 #' # calculate atemporal plausibilites
-#' atemp_pausi_results(
+#' atemp_plausi_results(
 #'   rv = rv,
 #'   atemp_vars = rv$data_plausibility$atemporal,
 #'   mdr = rv$mdr,
@@ -132,7 +132,7 @@
 #'
 #' @export
 #'
-atemp_pausi_results <- function(rv,
+atemp_plausi_results <- function(rv,
                                 atemp_vars,
                                 mdr,
                                 headless = FALSE) {
@@ -266,7 +266,7 @@ atemp_pausi_results <- function(rv,
 #'   by \code{create_helper_vars} from the data represented in
 #'   the metadata repository.
 #'
-#' @inheritParams atemp_pausi_results
+#' @inheritParams atemp_plausi_results
 #' @inheritParams create_helper_vars
 #'
 #' @examples

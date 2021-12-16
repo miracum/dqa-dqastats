@@ -386,7 +386,7 @@ dqa <- function(source_system_name,
 
   if (!is.null(rv$data_plausibility$atemporal)) {
     # calculate plausibilites
-    rv$results_plausibility_atemporal <- atemp_pausi_results(
+    rv$results_plausibility_atemporal <- atemp_plausi_results(
       rv = rv,
       atemp_vars = rv$data_plausibility$atemporal,
       mdr = rv$mdr,

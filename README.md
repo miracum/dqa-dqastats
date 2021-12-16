@@ -42,7 +42,7 @@ Note: A working LaTeX installation is a prerequisite for using this software (e.
 
 ## Demo Usage
 
-You can test the package without needing to install anything execpt docker. To try out the package follow these instructions:
+You can test the package without needing to install anything except docker. To try out the package follow these instructions:
 
 1. Make sure you have [docker](https://docs.docker.com/get-docker/) installed
 2. Clone this repo

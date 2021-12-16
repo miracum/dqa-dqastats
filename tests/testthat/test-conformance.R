@@ -117,7 +117,7 @@ test_that("correct functioning of conformance", {
   )
 
   # calculate atemporal plausibilites
-  rv$results_plausibility_atemporal <- atemp_pausi_results(
+  rv$results_plausibility_atemporal <- atemp_plausi_results(
     rv = rv,
     atemp_vars = rv$data_plausibility$atemporal,
     mdr = rv$mdr,
