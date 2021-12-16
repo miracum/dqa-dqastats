@@ -65,12 +65,33 @@
 #' @importFrom magrittr "%>%"
 #'
 #' @examples
-#' \dontrun{
-#' DQA("type1_experimentaldata.csv", "type1_calibrationdata.csv",
-#' samplelocusname = "BRAF")
-#' }
+#' \donttest{# runtime > 5 sec.
+#' Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file(
+#'   "demo_data",
+#'   package = "DQAstats")
+#' )
+#' Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file(
+#'   "demo_data",
+#'   package = "DQAstats")
+#' )
 #'
+#' # Set path to utilities folder where to find the mdr and template files:
+#' utils_path <- system.file(
+#'   "demo_data/utilities",
+#'   package = "DQAstats"
+#' )
+#'
+#' # Execute the DQA and generate a PDF report:
+#' results <- DQAstats::dqa(
+#'   source_system_name = "exampleCSV_source",
+#'   target_system_name = "exampleCSV_target",
+#'   utils_path = utils_path,
+#'   mdr_filename = "mdr_example_data.csv",
+#'   output_dir = paste0(tempdir(), "/output/")
+#' )
+#' }
 #' @export
+#'
 dqa <- function(source_system_name,
                 target_system_name,
                 utils_path,
@@ -305,7 +326,7 @@ dqa <- function(source_system_name,
   invisible(gc())
 
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-  rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+  rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
 
   # load source data:
   temp_dat <- data_loading(
@@ -481,7 +502,7 @@ dqa <- function(source_system_name,
   )
 
   # set end_time
-  rv$end_time <- format(Sys.time(), usetz = T, tz = "CET")
+  rv$end_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
   # calc time-diff
   rv$duration <- difftime(rv$end_time,
                           rv$start_time,

@@ -38,7 +38,7 @@ test_that("correct functioning of descriptive results", {
 
   utils_path <- system.file("demo_data/utilities", package = "DQAstats")
   mdr_filename <- "mdr_example_data.csv"
-  output_dir <- paste0(prefix,
+  output_dir <- paste0(tempdir(),
                        "output/")
 
   # initialize rv-list
@@ -48,7 +48,7 @@ test_that("correct functioning of descriptive results", {
   rv$source$system_name <- source_system_name
   rv$target$system_name <- target_system_name
 
-  rv$log$logfile_dir <- paste0(prefix, "tests/testthat/")
+  rv$log$logfile_dir <- tempdir()
 
   # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
@@ -111,7 +111,7 @@ test_that("correct functioning of descriptive results", {
   invisible(gc())
 
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-  rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+  rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
 
   # define restricting date
   rv$restricting_date$use_it <- FALSE
@@ -256,7 +256,7 @@ test_that("correct functioning of descriptive results - single source", {
   invisible(gc())
 
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-  rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+  rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
 
 
   # define restricting date

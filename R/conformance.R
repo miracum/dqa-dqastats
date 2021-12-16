@@ -26,6 +26,124 @@
 #' @param scope A character. Either "plausibility" or "descriptive".
 #' @inheritParams dqa
 #'
+#' @examples
+#' utils_path <- system.file(
+#'   "demo_data/utilities/",
+#'   package = "DQAstats"
+#' )
+#' mdr_filename <- "mdr_example_data.csv"
+#' rv <- list()
+#' rv$mdr <- read_mdr(
+#'   utils_path = utils_path,
+#'   mdr_filename <- mdr_filename
+#' )
+#'
+#' source_system_name <- "exampleCSV_source"
+#' target_system_name <- "exampleCSV_target"
+#'
+#' rv <- c(rv, create_helper_vars(
+#'   mdr = rv$mdr,
+#'   source_db = source_system_name,
+#'   target_db = target_system_name
+#' ))
+#' # save source/target vars
+#' rv$source$system_name <- source_system_name
+#' rv$target$system_name <- target_system_name
+#' rv$source$system_type <- "csv"
+#' rv$target$system_type <- "csv"
+#'
+#' rv$log$logfile_dir <- tempdir()
+#'
+#' # set headless (without GUI, progressbars, etc.)
+#' rv$headless <- TRUE
+#'
+#' # set configs
+#' demo_files <- system.file("demo_data", package = "DQAstats")
+#' Sys.setenv("EXAMPLECSV_SOURCE_PATH" = demo_files)
+#' Sys.setenv("EXAMPLECSV_TARGET_PATH" = demo_files)
+#'
+#' # get configs
+#' rv$source$settings <- DIZutils::get_config_env(
+#'   system_name = rv$source$system_name,
+#'   logfile_dir = rv$log$logfile_dir,
+#'   headless = rv$headless
+#' )
+#' rv$target$settings <- DIZutils::get_config_env(
+#'   system_name = tolower(rv$target$system_name),
+#'   logfile_dir = rv$log$logfile_dir,
+#'   headless = rv$headless
+#' )
+#'
+#' # set start_time (e.g. when clicking the 'Load Data'-button in shiny
+#' rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
+#'
+#' # define restricting date
+#' rv$restricting_date$use_it <- FALSE
+#'
+#' # load source data
+#' tempdat <- data_loading(
+#'   rv = rv,
+#'   system = rv$source,
+#'   keys_to_test = rv$keys_source
+#' )
+#' rv$data_source <- tempdat$outdata
+#'
+#' # load target data
+#' tempdat <- data_loading(
+#'   rv = rv,
+#'   system = rv$target,
+#'   keys_to_test = rv$keys_target
+#' )
+#' rv$data_target <- tempdat$outdata
+#'
+#' rv$data_plausibility$atemporal <- get_atemp_plausis(
+#'   rv = rv,
+#'   atemp_vars = rv$pl$atemp_vars,
+#'   mdr = rv$mdr,
+#'   headless = rv$headless
+#' )
+#'
+#' # add the plausibility raw data to data_target and data_source
+#' for (i in names(rv$data_plausibility$atemporal)) {
+#'   for (k in c("source_data", "target_data")) {
+#'     w <- gsub("_data", "", k)
+#'     raw_data <- paste0("data_", w)
+#'     rv[[raw_data]][[i]] <-
+#'       rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
+#'     rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
+#'   }
+#'   gc()
+#' }
+#'
+#' # calculate descriptive results
+#' rv$results_descriptive <- descriptive_results(
+#'   rv = rv,
+#'   headless = rv$headless
+#' )
+#'
+#' # calculate atemporal plausibilites
+#' rv$results_plausibility_atemporal <- atemp_pausi_results(
+#'   rv = rv,
+#'   atemp_vars = rv$data_plausibility$atemporal,
+#'   mdr = rv$mdr,
+#'   headless = rv$headless
+#' )
+#'
+#' # calculate unique plausibilites
+#' rv$results_plausibility_unique <- uniq_plausi_results(
+#'   rv = rv,
+#'   uniq_vars = rv$pl$uniq_vars,
+#'   mdr = rv$mdr,
+#'   headless = rv$headless
+#' )
+#'
+#' value_conformance(
+#'   rv = rv,
+#'   scope = "descriptive",
+#'   results = rv$results_descriptive,
+#'   headless = rv$headless,
+#'   logfile_dir = rv$log$logfile_dir
+#' )
 #'
 #' @export
 #'
@@ -121,6 +239,14 @@ value_conformance <- function(
           # and only stored with source description
           ih <- desc_out$source_data$internal_variable_name
 
+          # add logic to test for future dates by default, if no datetime
+          # constraint is set
+          if (d_out$checks$var_type == "datetime" &&
+              is.na(constraints) &&
+              scope == "descriptive") {
+            constraints <- "future_dates"
+          }
+
           if (any(!is.na(constraints))) {
             if (length(constraints[[1]]) > 0) {
               # initialize outlist
@@ -142,7 +268,7 @@ value_conformance <- function(
               )
 
               # categorical treatment (value_set)
-              if (d_out$checks$var_type == "permittedValues") {
+              if (d_out$checks$var_type == "enumerated") {
 
                 if (((nrow(s_out) == 1) && is.na(s_out[[1, 1]])) ||
                     (nrow(s_out) == 0)) {
@@ -310,7 +436,7 @@ value_conformance <- function(
                             get(d_out$var_dependent) < constraints$range$min |
                               get(d_out$var_dependent) > constraints$range$max,
                             vec,
-                            with = F
+                            with = FALSE
                           ]
                         )
                       } else if (scope == "descriptive") {
@@ -319,7 +445,7 @@ value_conformance <- function(
                             get(ih) < constraints$range$min |
                               get(ih) > constraints$range$max,
                             vec,
-                            with = F
+                            with = FALSE
                           ]
                         )
                       }
@@ -398,7 +524,7 @@ value_conformance <- function(
                               x = get(d_out$var_dependent)
                             ),
                             vec,
-                            with = F
+                            with = FALSE
                           ]
                         )
                       } else if (scope == "descriptive") {
@@ -409,19 +535,63 @@ value_conformance <- function(
                               x = get(ih)
                             ),
                             vec,
-                            with = F
+                            with = FALSE
                           ]
                         )
                       }
                     }
                   }
                 }
-              } else if (d_out$checks$var_type == "calendar") {
+              } else if (d_out$checks$var_type == "datetime") {
                 if (((nrow(s_out) == 1) && is.na(s_out[[1, 1]])) ||
                     (nrow(s_out) == 0)) {
                   outlist2$conformance_error <- TRUE
                   outlist2$conformance_results <-
                     "No data available to perform conformance checks."
+                } else if (constraints == "future_dates" &&
+                           scope == "descriptive") {
+                  # check for future dates
+                  fut_dat <- rv[[raw_data]][[tab]][
+                    get(ih) > Sys.Date(),
+                  ]
+
+                  error_flag <- ifelse(nrow(fut_dat) > 0, TRUE, FALSE)
+
+                  outlist2$conformance_error <- error_flag
+                  outlist2$rule <- "No future dates allowed."
+                  outlist2$conformance_results <-
+                    ifelse(
+                      isTRUE(error_flag),
+                      paste0(
+                        "Values that are not conform with ",
+                        "rule 'No future dates allowed.':  \n",
+                        paste(
+                          as.character(
+                            unique(
+                              fut_dat[, get(ih)]
+                            )
+                          ),
+                          collapse = "  \n")
+                      ),
+                      "No 'value conformance' issues found."
+                    )
+
+                  if (isTRUE(outlist2$conformance_error)) {
+
+                    vec <- setdiff(
+                      colnames(rv[[raw_data]][[tab]]),
+                      ih
+                    )
+
+                    outlist2$affected_ids <- unique(
+                      fut_dat[
+                        ,
+                        vec,
+                        with = FALSE
+                      ]
+                    )
+                  }
+
                 } else {
                   ## Check if there only is a datetime_format in the
                   ## constraints (this is implicitly already checked
@@ -481,7 +651,7 @@ value_conformance <- function(
                   findme = "4817d8aec4",
                   logfile_dir = logfile_dir
                 )
-                }
+              }
               outlist[[j]] <- outlist2
             }
           } else {
@@ -528,6 +698,127 @@ value_conformance <- function(
 #'
 #' @param results A list object. The list should contain the results of
 #'   the function \code{value_conformance}.
+#'
+#' @examples
+#' utils_path <- system.file(
+#'   "demo_data/utilities/",
+#'   package = "DQAstats"
+#' )
+#' mdr_filename <- "mdr_example_data.csv"
+#' rv <- list()
+#' rv$mdr <- read_mdr(
+#'   utils_path = utils_path,
+#'   mdr_filename <- mdr_filename
+#' )
+#'
+#' source_system_name <- "exampleCSV_source"
+#' target_system_name <- "exampleCSV_target"
+#'
+#' rv <- c(rv, create_helper_vars(
+#'   mdr = rv$mdr,
+#'   source_db = source_system_name,
+#'   target_db = target_system_name
+#' ))
+#' # save source/target vars
+#' rv$source$system_name <- source_system_name
+#' rv$target$system_name <- target_system_name
+#' rv$source$system_type <- "csv"
+#' rv$target$system_type <- "csv"
+#'
+#' rv$log$logfile_dir <- tempdir()
+#'
+#' # set headless (without GUI, progressbars, etc.)
+#' rv$headless <- TRUE
+#'
+#' # set configs
+#' demo_files <- system.file("demo_data", package = "DQAstats")
+#' Sys.setenv("EXAMPLECSV_SOURCE_PATH" = demo_files)
+#' Sys.setenv("EXAMPLECSV_TARGET_PATH" = demo_files)
+#'
+#' # get configs
+#' rv$source$settings <- DIZutils::get_config_env(
+#'   system_name = rv$source$system_name,
+#'   logfile_dir = rv$log$logfile_dir,
+#'   headless = rv$headless
+#' )
+#' rv$target$settings <- DIZutils::get_config_env(
+#'   system_name = tolower(rv$target$system_name),
+#'   logfile_dir = rv$log$logfile_dir,
+#'   headless = rv$headless
+#' )
+#'
+#' # set start_time (e.g. when clicking the 'Load Data'-button in shiny
+#' rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
+#'
+#' # define restricting date
+#' rv$restricting_date$use_it <- FALSE
+#'
+#' # load source data
+#' tempdat <- data_loading(
+#'   rv = rv,
+#'   system = rv$source,
+#'   keys_to_test = rv$keys_source
+#' )
+#' rv$data_source <- tempdat$outdata
+#'
+#' # load target data
+#' tempdat <- data_loading(
+#'   rv = rv,
+#'   system = rv$target,
+#'   keys_to_test = rv$keys_target
+#' )
+#' rv$data_target <- tempdat$outdata
+#'
+#' rv$data_plausibility$atemporal <- get_atemp_plausis(
+#'   rv = rv,
+#'   atemp_vars = rv$pl$atemp_vars,
+#'   mdr = rv$mdr,
+#'   headless = rv$headless
+#' )
+#'
+#' # add the plausibility raw data to data_target and data_source
+#' for (i in names(rv$data_plausibility$atemporal)) {
+#'   for (k in c("source_data", "target_data")) {
+#'     w <- gsub("_data", "", k)
+#'     raw_data <- paste0("data_", w)
+#'     rv[[raw_data]][[i]] <-
+#'       rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
+#'     rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
+#'   }
+#'   gc()
+#' }
+#'
+#' # calculate descriptive results
+#' rv$results_descriptive <- descriptive_results(
+#'   rv = rv,
+#'   headless = rv$headless
+#' )
+#'
+#' # calculate atemporal plausibilites
+#' rv$results_plausibility_atemporal <- atemp_pausi_results(
+#'   rv = rv,
+#'   atemp_vars = rv$data_plausibility$atemporal,
+#'   mdr = rv$mdr,
+#'   headless = rv$headless
+#' )
+#'
+#' # calculate unique plausibilites
+#' rv$results_plausibility_unique <- uniq_plausi_results(
+#'   rv = rv,
+#'   uniq_vars = rv$pl$uniq_vars,
+#'   mdr = rv$mdr,
+#'   headless = rv$headless
+#' )
+#'
+#' rv$conformance$value_conformance <- value_conformance(
+#'   rv = rv,
+#'   scope = "descriptive",
+#'   results = rv$results_descriptive,
+#'   headless = rv$headless,
+#'   logfile_dir = rv$log$logfile_dir
+#' )
+#'
+#' value_conformance_checks(results = rv$conformance$value_conformance)
 #'
 #' @export
 #'

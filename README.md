@@ -4,17 +4,17 @@
 [![R CMD Check via {tic}](https://github.com/miracum/dqa-dqastats/workflows/R%20CMD%20Check%20via%20{tic}/badge.svg?branch=master)](https://github.com/miracum/dqa-dqastats/actions)
 [![linting](https://github.com/miracum/dqa-dqastats/workflows/lint/badge.svg?branch=master)](https://github.com/miracum/dqa-dqastats/actions)
 [![test-coverage](https://github.com/miracum/dqa-dqastats/workflows/test-coverage/badge.svg?branch=master)](https://github.com/miracum/dqa-dqastats/actions)
-[![codecov](https://codecov.io/gh/miracum/dqa-dqastats/branch/master/graph/badge.svg)](https://codecov.io/gh/miracum/dqa-dqastats)
-[![pipeline status](https://gitlab.miracum.org/miracum/dqa/dqastats/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/dqastats/commits/master)
-[![coverage report](https://gitlab.miracum.org/miracum/dqa/dqastats/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/dqastats/commits/master)
+[![codecov](https://app.codecov.io/gh/miracum/dqa-dqastats/branch/master/graph/badge.svg)](https://app.codecov.io/gh/miracum/dqa-dqastats)
+[![pipeline status](https://gitlab.miracum.org/miracum/dqa/dqastats/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/dqastats/-/commits/master)
+[![coverage report](https://gitlab.miracum.org/miracum/dqa/dqastats/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/dqastats/-/commits/master)
 <!-- badges: end -->
 
 The R package 'DQAstats' provides core functionalities to perform data quality assessment (DQA) of electronic health record data (EHR).  
 
 Currently implemented features are:  
 
-* descriptive (univariate) analysis of categorical and continuous variables of a source data system and a target data system
-* checks of the extract-transform-load (ETL) pipeline (by comparing distinct values and valid values between the source data system and the target data system)  
+* descriptive (univariate) analysis of categorical and continuous variables of a source database and a target database
+* checks of the extract-transform-load (ETL) pipeline (by comparing distinct values and valid values between the source database and the target database)  
 * value conformance checks by comparing the resulting statistics to value constraints (given in a meta data repository (MDR))  
 * 'atemporal plausibility' checks (multivariate)  
 * 'uniqueness plausibility' checks (multivariate)  
@@ -73,7 +73,7 @@ docker-compose \
 
 ## Configuration of the tool
 
-The configuration of data systems, be it CSV files or SQL-based databases, is done with environment variables, which can be set using the base R command `Sys.setenv()`.
+The configuration of databases, be it CSV files or SQL-based databases, is done with environment variables, which can be set using the base R command `Sys.setenv()`.
 
 A detailed description, which environment variables need to be set for the specific databases can be found [here](https://github.com/miracum/misc-dizutils/blob/master/README.md).
 

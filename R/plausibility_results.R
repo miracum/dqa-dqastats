@@ -27,6 +27,109 @@
 #'
 #' @param atemp_vars These are the atemporal variables
 #'
+#' @examples
+#' utils_path <- system.file(
+#'   "demo_data/utilities/",
+#'   package = "DQAstats"
+#' )
+#' mdr_filename <- "mdr_example_data.csv"
+#' rv <- list()
+#' rv$mdr <- read_mdr(
+#'   utils_path = utils_path,
+#'   mdr_filename <- mdr_filename
+#' )
+#'
+#' source_system_name <- "exampleCSV_source"
+#' target_system_name <- "exampleCSV_target"
+#'
+#' rv <- c(rv, create_helper_vars(
+#'   mdr = rv$mdr,
+#'   source_db = source_system_name,
+#'   target_db = target_system_name
+#' ))
+#' # save source/target vars
+#' rv$source$system_name <- source_system_name
+#' rv$target$system_name <- target_system_name
+#' rv$source$system_type <- "csv"
+#' rv$target$system_type <- "csv"
+#'
+#' rv$log$logfile_dir <- tempdir()
+#'
+#' # set headless (without GUI, progressbars, etc.)
+#' rv$headless <- TRUE
+#'
+#' # set configs
+#' demo_files <- system.file("demo_data", package = "DQAstats")
+#' Sys.setenv("EXAMPLECSV_SOURCE_PATH" = demo_files)
+#' Sys.setenv("EXAMPLECSV_TARGET_PATH" = demo_files)
+#'
+#' # get configs
+#' rv$source$settings <- DIZutils::get_config_env(
+#'   system_name = rv$source$system_name,
+#'   logfile_dir = rv$log$logfile_dir,
+#'   headless = rv$headless
+#' )
+#' rv$target$settings <- DIZutils::get_config_env(
+#'   system_name = tolower(rv$target$system_name),
+#'   logfile_dir = rv$log$logfile_dir,
+#'   headless = rv$headless
+#' )
+#'
+#' # set start_time (e.g. when clicking the 'Load Data'-button in shiny
+#' rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
+#'
+#' # define restricting date
+#' rv$restricting_date$use_it <- FALSE
+#'
+#' # load source data
+#' tempdat <- data_loading(
+#'   rv = rv,
+#'   system = rv$source,
+#'   keys_to_test = rv$keys_source
+#' )
+#' rv$data_source <- tempdat$outdata
+#'
+#' # load target data
+#' tempdat <- data_loading(
+#'   rv = rv,
+#'   system = rv$target,
+#'   keys_to_test = rv$keys_target
+#' )
+#' rv$data_target <- tempdat$outdata
+#'
+#' rv$data_plausibility$atemporal <- get_atemp_plausis(
+#'   rv = rv,
+#'   atemp_vars = rv$pl$atemp_vars,
+#'   mdr = rv$mdr,
+#'   headless = rv$headless
+#' )
+#'
+#' # add the plausibility raw data to data_target and data_source
+#' for (i in names(rv$data_plausibility$atemporal)) {
+#'   for (k in c("source_data", "target_data")) {
+#'     w <- gsub("_data", "", k)
+#'     raw_data <- paste0("data_", w)
+#'     rv[[raw_data]][[i]] <-
+#'       rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
+#'     rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
+#'   }
+#'   gc()
+#' }
+#'
+#' # calculate descriptive results
+#' rv$results_descriptive <- descriptive_results(
+#'   rv = rv,
+#'   headless = rv$headless
+#' )
+#'
+#' # calculate atemporal plausibilites
+#' atemp_pausi_results(
+#'   rv = rv,
+#'   atemp_vars = rv$data_plausibility$atemporal,
+#'   mdr = rv$mdr,
+#'   headless = rv$headless
+#' )
+#'
 #' @export
 #'
 atemp_pausi_results <- function(rv,
@@ -70,7 +173,7 @@ atemp_pausi_results <- function(rv,
               "key",
               "variable_name",
               "filter"
-            ), with = F
+            ), with = FALSE
           ]
 
         outlist$description <- calc_atemp_plausi_description(
@@ -124,7 +227,7 @@ atemp_pausi_results <- function(rv,
         stat_dat <- cnt_dat
 
         if (stat_dat[, unique(get("variable_type"))] %in%
-            c("permittedValues", "string")) {
+            c("enumerated", "string")) {
           outlist$statistics <- calc_cat_stats(
             stat_dat = stat_dat,
             stat_key = stat_dat[, unique(get("variable_name"))],
@@ -165,6 +268,109 @@ atemp_pausi_results <- function(rv,
 #'
 #' @inheritParams atemp_pausi_results
 #' @inheritParams create_helper_vars
+#'
+#' @examples
+#' utils_path <- system.file(
+#'   "demo_data/utilities/",
+#'   package = "DQAstats"
+#' )
+#' mdr_filename <- "mdr_example_data.csv"
+#' rv <- list()
+#' rv$mdr <- read_mdr(
+#'   utils_path = utils_path,
+#'   mdr_filename <- mdr_filename
+#' )
+#'
+#' source_system_name <- "exampleCSV_source"
+#' target_system_name <- "exampleCSV_target"
+#'
+#' rv <- c(rv, create_helper_vars(
+#'   mdr = rv$mdr,
+#'   source_db = source_system_name,
+#'   target_db = target_system_name
+#' ))
+#' # save source/target vars
+#' rv$source$system_name <- source_system_name
+#' rv$target$system_name <- target_system_name
+#' rv$source$system_type <- "csv"
+#' rv$target$system_type <- "csv"
+#'
+#' rv$log$logfile_dir <- tempdir()
+#'
+#' # set headless (without GUI, progressbars, etc.)
+#' rv$headless <- TRUE
+#'
+#' # set configs
+#' demo_files <- system.file("demo_data", package = "DQAstats")
+#' Sys.setenv("EXAMPLECSV_SOURCE_PATH" = demo_files)
+#' Sys.setenv("EXAMPLECSV_TARGET_PATH" = demo_files)
+#'
+#' # get configs
+#' rv$source$settings <- DIZutils::get_config_env(
+#'   system_name = rv$source$system_name,
+#'   logfile_dir = rv$log$logfile_dir,
+#'   headless = rv$headless
+#' )
+#' rv$target$settings <- DIZutils::get_config_env(
+#'   system_name = tolower(rv$target$system_name),
+#'   logfile_dir = rv$log$logfile_dir,
+#'   headless = rv$headless
+#' )
+#'
+#' # set start_time (e.g. when clicking the 'Load Data'-button in shiny
+#' rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
+#'
+#' # define restricting date
+#' rv$restricting_date$use_it <- FALSE
+#'
+#' # load source data
+#' tempdat <- data_loading(
+#'   rv = rv,
+#'   system = rv$source,
+#'   keys_to_test = rv$keys_source
+#' )
+#' rv$data_source <- tempdat$outdata
+#'
+#' # load target data
+#' tempdat <- data_loading(
+#'   rv = rv,
+#'   system = rv$target,
+#'   keys_to_test = rv$keys_target
+#' )
+#' rv$data_target <- tempdat$outdata
+#'
+#' rv$data_plausibility$atemporal <- get_atemp_plausis(
+#'   rv = rv,
+#'   atemp_vars = rv$pl$atemp_vars,
+#'   mdr = rv$mdr,
+#'   headless = rv$headless
+#' )
+#'
+#' # add the plausibility raw data to data_target and data_source
+#' for (i in names(rv$data_plausibility$atemporal)) {
+#'   for (k in c("source_data", "target_data")) {
+#'     w <- gsub("_data", "", k)
+#'     raw_data <- paste0("data_", w)
+#'     rv[[raw_data]][[i]] <-
+#'       rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
+#'     rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
+#'   }
+#'   gc()
+#' }
+#'
+#' # calculate descriptive results
+#' rv$results_descriptive <- descriptive_results(
+#'   rv = rv,
+#'   headless = rv$headless
+#' )
+#'
+#' # calculate unique plausibilites
+#' uniq_plausi_results(
+#'   rv = rv,
+#'   uniq_vars = rv$pl$uniq_vars,
+#'   mdr = rv$mdr,
+#'   headless = rv$headless
+#' )
 #'
 #' @export
 #'
@@ -394,9 +600,9 @@ uniq_plausi_results <- function(rv,
                   y = rv[[raw_data]][[j_key]],
                   by.x = coln_x,
                   by.y = coln_y,
-                  all = T,
+                  all = TRUE,
                   suffixes = c("", ""),
-                  allow.cartesian = T
+                  allow.cartesian = TRUE
                 )
               }
 
@@ -405,9 +611,9 @@ uniq_plausi_results <- function(rv,
                 y = m_y,
                 by.x = u$variable_name,
                 by.y = colnames(m_y)[grepl(u$variable_name, colnames(m_y))],
-                all.x = T,
+                all.x = TRUE,
                 suffixes = c("", ""),
-                allow.cartesian = T
+                allow.cartesian = TRUE
               )
 
               if (is.null(u$all_observations) || u$all_observations == "0") {
@@ -433,7 +639,7 @@ uniq_plausi_results <- function(rv,
             }
 
             colnames(group_data) <- c(i, u$variable_name)
-            get_dupl <- unique(group_data[duplicated(get(i)), i, with = F])
+            get_dupl <- unique(group_data[duplicated(get(i)), i, with = FALSE])
 
             rm(group_data)
             gc()

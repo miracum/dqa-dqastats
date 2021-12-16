@@ -25,13 +25,30 @@
 #'
 #' @inheritParams dqa
 #'
+#' @examples
+#' utils_path <- system.file(
+#'   "demo_data/utilities/",
+#'   package = "DQAstats"
+#' )
+#' mdr_filename <- "mdr_example_data.csv"
+#' mdr <- read_mdr(
+#'   utils_path = utils_path,
+#'   mdr_filename = mdr_filename
+#' )
+#'
 #' @export
 #'
 read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
 
   mdr <- data.table::fread(
-    paste0(utils_path, "MDR/", mdr_filename),
-    header = T
+    file.path(
+      file.path(
+        DIZutils::clean_path_name(utils_path, remove.slash = TRUE),
+        "MDR"
+      ),
+      mdr_filename
+    ),
+    header = TRUE
   )
 
   # fix columns that contain json strings (due to multiple quotation marks)
@@ -69,20 +86,40 @@ read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
 #'
 #' @param mdr A data.table object containing the MDR.
 #'
+#' @param source_db A character string. The name of the source database.
+#' This string must be conform with the corresponding config section
+#' in the config.yml-file.
+#'
 #' @param target_db A character string. The name of the target database.
 #' This string must be conform with the corresponding config section
 #' in the config.yml-file.
 #'
-#' @param source_db A character string. The name of the source database.
-#' This string must be conform with the corresponding config section
-#' in the config.yml-file.
+#' @examples
+#' utils_path <- system.file(
+#'   "demo_data/utilities/",
+#'   package = "DQAstats"
+#' )
+#' mdr_filename <- "mdr_example_data.csv"
+#' mdr <- read_mdr(
+#'   utils_path = utils_path,
+#'   mdr_filename = mdr_filename
+#' )
+#'
+#' source_system_name <- "exampleCSV_source"
+#' target_system_name <- "exampleCSV_target"
+#'
+#' create_helper_vars(
+#'   mdr = mdr,
+#'   source_db = source_system_name,
+#'   target_db = target_system_name
+#' )
 #'
 #' @export
 #'
 # create variables from mdr
 create_helper_vars <- function(mdr,
-                               target_db,
-                               source_db) {
+                               source_db,
+                               target_db) {
 
   # We only allow one (system) type per system name. There can't e.g. be
   # system types "csv" and "postgres" both with the system_name "data":
@@ -128,7 +165,7 @@ create_helper_vars <- function(mdr,
                               "variable_type",
                               "key",
                               "source_table_name"
-                            ), with = F]
+                            ), with = FALSE]
 
   # get only keys with corresponding keys in target_db
   dqa_assessment_intersect <- intersect(
@@ -208,9 +245,9 @@ create_helper_vars <- function(mdr,
       )
       js_names <- names(js$atemporal)
       js_names <- sapply(
-        X = strsplit(js_names, ".", fixed = T),
+        X = js_names,
         FUN = function(x) {
-          x[1]
+          gsub("(\\.\\d+)?$", "", x)
         },
         USE.NAMES = FALSE,
         simplify = TRUE
@@ -248,9 +285,9 @@ create_helper_vars <- function(mdr,
       )
       js_names <- names(js$uniqueness)
       js_names <- sapply(
-        X = strsplit(js_names, ".", fixed = TRUE),
+        X = js_names,
         FUN = function(x) {
-          x[1]
+          gsub("(\\.\\d+)?$", "", x)
         },
         USE.NAMES = FALSE,
         simplify = TRUE

@@ -74,9 +74,29 @@ This function performs a data quality assessment (DQA)
   of electronic health records (EHR).#'
 }
 \examples{
-\dontrun{
-DQA("type1_experimentaldata.csv", "type1_calibrationdata.csv",
-samplelocusname = "BRAF")
-}
+\donttest{# runtime > 5 sec.
+Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file(
+  "demo_data",
+  package = "DQAstats")
+)
+Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file(
+  "demo_data",
+  package = "DQAstats")
+)
 
+# Set path to utilities folder where to find the mdr and template files:
+utils_path <- system.file(
+  "demo_data/utilities",
+  package = "DQAstats"
+)
+
+# Execute the DQA and generate a PDF report:
+results <- DQAstats::dqa(
+  source_system_name = "exampleCSV_source",
+  target_system_name = "exampleCSV_target",
+  utils_path = utils_path,
+  mdr_filename = "mdr_example_data.csv",
+  output_dir = paste0(tempdir(), "/output/")
+)
+}
 }

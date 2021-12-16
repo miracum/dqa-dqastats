@@ -20,3 +20,7 @@ Default: 2.}
 \description{
 Internal function to initialize the parallel backend.
 }
+\examples{
+parallel(parallel = FALSE, logfile_dir = tempdir(), ncores = 1)
+
+}

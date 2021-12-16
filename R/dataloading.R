@@ -19,7 +19,7 @@
 load_csv_files <- function(mdr,
                            inputdir,
                            sourcesystem,
-                           headless = T,
+                           headless = TRUE,
                            logfile_dir,
                            restricting_date = list(use_it = FALSE)) {
 
@@ -79,7 +79,7 @@ load_csv_files <- function(mdr,
       paste0(inputdir, inputfile),
       select = names(select_cols),
       colClasses = select_cols,
-      header = T,
+      header = TRUE,
       na.strings = "",
       stringsAsFactors = TRUE
     )
@@ -146,13 +146,13 @@ map_var_types <- function(string) {
     length(string) == 1
   )
 
-  if (string == "permittedValues") {
+  if (string == "enumerated") {
     outdat <- "factor"
   } else if (string == "integer") {
     outdat <- "numeric"
   } else if (string == "string") {
     outdat <- "character"
-  } else if (string == "calendar") {
+  } else if (string == "datetime") {
     outdat <- "character"
   } else if (string == "float") {
     outdat <- "numeric"
@@ -175,7 +175,6 @@ map_var_types <- function(string) {
 #' @param system The system object rv$system
 #' @inheritParams test_csv
 #'
-#' @export
 load_csv <- function(rv,
                      keys_to_test,
                      headless = FALSE,
@@ -231,10 +230,10 @@ load_csv <- function(rv,
             j, unique(get("variable_name"))]
         colnames(outlist[[i]])[which(col_names == j)] <- vn
 
-        if (var_type %in% c("permittedValues", "string", "catalog")) {
+        if (var_type %in% c("enumerated", "string", "catalog")) {
           # transform to factor
           outlist[[i]][, (vn) := factor(get(vn))]
-        } else if (var_type == "calendar") {
+        } else if (var_type == "datetime") {
           # transform date variables
           date_format <- rv$mdr[
             get("source_system_name") == system$system_name &
@@ -278,7 +277,6 @@ load_csv <- function(rv,
 #'
 #' @inheritParams load_csv
 #'
-#' @export
 load_database <- function(rv,
                           sql_statements,
                           db_con,
@@ -291,90 +289,120 @@ load_database <- function(rv,
   outlist <- list()
 
   # read target data
-  outlist <- sapply(keys_to_test, function(i) {
-    stopifnot(!is.null(sql_statements[[i]]))
+  outlist <- sapply(
+    X = keys_to_test,
+    FUN = function(i) {
+      stopifnot(!is.null(sql_statements[[i]]))
 
-    msg <- paste("Getting", i, "from database", db_name)
+      msg <- paste("Getting", i, "from database", db_name)
 
-    ## Apply time filtering (if needed):
-    if (rv$restricting_date$use_it) {
-      ## Filter SQL
-      sql <- apply_time_restriciton(
-        data = sql_statements[[i]],
-        # filter_colname = unique(rv$mdr[get("key") == i &
-        # get("source_system_name") == db_name &
-        # get("dqa_assessment") == 1, get("restricting_date_var")]),
-        lower_limit = rv$restricting_date$start,
-        upper_limit = rv$restricting_date$end,
-        system_name = db_name,
-        system_type = db_type,
-        key = i,
-        mdr = rv$mdr,
-        db_con = db_con,
-        logfile_dir = rv$log$logfile_dir
-      )
-      msg <- paste0(msg, " (using a TEMPORAL VIEW)")
-    } else {
-      ## Unfiltered:
-      sql <- sql_statements[[i]]
-    }
+      ## Apply time filtering (if needed):
+      if (rv$restricting_date$use_it) {
+        if (Sys.getenv(paste0(toupper(db_name), "_SQLMODIFY")) == "TRUE") {
+          restricting_date_var <- rv$mdr[
+            get("key") == i &
+              get("source_system_name") == db_name,
+            get("restricting_date_var")
+          ]
+          replace_string <- paste0(
+            "AS r_intermediate WHERE r_intermediate.",
+            restricting_date_var, " >= '",
+            rv$restricting_date$start,
+            "' AND r_intermediate.",
+            restricting_date_var, " <= '",
+            rv$restricting_date$end,
+            "' "
+          )
+          sql <- gsub("AS r_intermediate", replace_string, sql_statements[[i]])
+          msg <- paste0(msg, " (using a MODIFIED SUBSELECT)")
+        } else {
+          ## Filter SQL
+          sql <- apply_time_restriciton(
+            data = sql_statements[[i]],
+            # filter_colname = unique(rv$mdr[get("key") == i &
+            # get("source_system_name") == db_name &
+            # get("dqa_assessment") == 1, get("restricting_date_var")]),
+            lower_limit = rv$restricting_date$start,
+            upper_limit = rv$restricting_date$end,
+            system_name = db_name,
+            system_type = db_type,
+            key = i,
+            mdr = rv$mdr,
+            db_con = db_con,
+            logfile_dir = rv$log$logfile_dir
+          )
+          msg <- paste0(msg, " (using a TEMPORAL VIEW)")
+        }
+      } else {
+        ## Unfiltered:
+        sql <- sql_statements[[i]]
+      }
+
+      DIZutils::feedback(print_this = sql,
+                         logjs = isFALSE(headless),
+                         findme = "f45a1dc9ca",
+                         logfile_dir = rv$log$logfile_dir,
+                         headless = rv$headless)
 
 
-    DIZutils::feedback(print_this = msg,
-                       logjs = isFALSE(headless),
-                       findme = "c12a1dd9ce",
-                       logfile_dir = rv$log$logfile_dir,
-                       headless = rv$headless)
+      DIZutils::feedback(print_this = msg,
+                         logjs = isFALSE(headless),
+                         findme = "c12a1dd9ce",
+                         logfile_dir = rv$log$logfile_dir,
+                         headless = rv$headless)
 
-    dat <- tryCatch({
-      DIZutils::query_database(db_con = db_con,
-                               sql_statement = sql)
-    },
-    error = function(cond) {
-      DIZutils::feedback(
-        print_this = paste0(
-          "Error while trying to get the data for element '",
+      dat <- tryCatch({
+        DIZutils::query_database(db_con = db_con,
+                                 sql_statement = sql)
+      },
+      error = function(cond) {
+        DIZutils::feedback(
+          print_this = paste0(
+            "Error while trying to get the data for element '",
+            i,
+            "'. The sql was '",
+            sql,
+            "'. The error message is: '",
+            cond,
+            "'."
+          ),
+          type = "Error",
+          findme = "c5291c15e3",
+          logfile_dir = rv$log$logfile_dir,
+          headless = rv$headless
+        )
+        stop("See error above.")
+        return(NULL)
+      })
+
+
+      # check, if table has more than two columns and thus does not comply
+      # with DQAstats table requirements for SQL based systems
+      if (is.null(dat) || ncol(dat) > 2) {
+        msg <- paste0(
+          "Table of data element '",
           i,
-          "'. The sql was '",
-          sql,
-          "'. The error message is: '",
-          cond,
-          "'."
-        ),
-        type = "Error",
-        findme = "c5291c15e3",
-        logfile_dir = rv$log$logfile_dir,
-        headless = rv$headless
-      )
-      stop("See error above.")
-      return(NULL)
-    })
+          "' has > 2 columns. Aborting session.\n",
+          "Please adjust the SQL statement to return max. 2 columns."
+        )
+        DIZutils::feedback(
+          print_this = msg,
+          type = "Error",
+          logjs = isFALSE(headless),
+          findme = "c1902dd9cf",
+          logfile_dir = rv$log$logfile_dir,
+          headless = rv$headless
+        )
+        # raise error
+        stop(msg)
+      } else {
+        return(dat)
+      }
 
-
-    # check, if table has more than two columns and thus does not comply
-    # with DQAstats table requirements for SQL based systems
-    if (is.null(dat) || dim(dat)[2] > 2) {
-      msg <- paste0(
-        "Table of data element '",
-        i,
-        "' has > 2 columns. Aborting session.\n",
-        "Please adjust the SQL statement to return max. 2 columns."
-      )
-      DIZutils::feedback(
-        print_this = msg,
-        type = "Error",
-        logjs = isFALSE(headless),
-        findme = "c1902dd9cf",
-        logfile_dir = rv$log$logfile_dir,
-        headless = rv$headless
-      )
-      # raise error
-      stop(msg)
-    } else {
-      return(dat)
-    }
-
-  }, simplify = F, USE.NAMES = T)
+    },
+    simplify = FALSE,
+    USE.NAMES = TRUE
+  )
 
   RPostgres::dbDisconnect(db_con)
 
@@ -395,13 +423,13 @@ load_database <- function(rv,
     # check, if column name in variables of interest
     for (j in col_names) {
       var_type <- rv$mdr[get("source_system_name") == db_name &
-                           get("key") == i &
+                           #get("key") == i &
                            get("variable_name") == j, get("variable_type")]
 
-      if (var_type %in% c("permittedValues", "string", "catalog")) {
+      if (var_type %in% c("enumerated", "string", "catalog")) {
         # transform to factor
         outlist[[i]][, (j) := factor(get(j))]
-      } else if (var_type == "calendar") {
+      } else if (var_type == "datetime") {
         # transform date variables
         # transform date variables
         date_format <- rv$mdr[
@@ -443,6 +471,66 @@ load_database <- function(rv,
 #'   (e.g. rv$source or rv$target)
 #'
 #' @inheritParams load_csv
+#'
+#' @examples
+#' utils_path <- system.file(
+#'   "demo_data/utilities/",
+#'   package = "DQAstats"
+#' )
+#' mdr_filename <- "mdr_example_data.csv"
+#' rv <- list()
+#' rv$mdr <- read_mdr(
+#'   utils_path = utils_path,
+#'   mdr_filename = mdr_filename
+#' )
+#'
+#' source_system_name <- "exampleCSV_source"
+#' target_system_name <- "exampleCSV_target"
+#'
+#' rv <- c(rv, create_helper_vars(
+#'   mdr = rv$mdr,
+#'   source_db = source_system_name,
+#'   target_db = target_system_name
+#' ))
+#' # save source/target vars
+#' rv$source$system_name <- source_system_name
+#' rv$target$system_name <- target_system_name
+#' rv$source$system_type <- "csv"
+#' rv$target$system_type <- "csv"
+#'
+#' rv$log$logfile_dir <- tempdir()
+#'
+#' # set headless (without GUI, progressbars, etc.)
+#' rv$headless <- TRUE
+#'
+#' # set configs
+#' demo_files <- system.file("demo_data", package = "DQAstats")
+#' Sys.setenv("EXAMPLECSV_SOURCE_PATH" = demo_files)
+#' Sys.setenv("EXAMPLECSV_TARGET_PATH" = demo_files)
+#'
+#' # get configs
+#' rv$source$settings <- DIZutils::get_config_env(
+#'   system_name = rv$source$system_name,
+#'   logfile_dir = rv$log$logfile_dir,
+#'   headless = rv$headless
+#' )
+#' rv$target$settings <- DIZutils::get_config_env(
+#'   system_name = tolower(rv$target$system_name),
+#'   logfile_dir = rv$log$logfile_dir,
+#'   headless = rv$headless
+#' )
+#'
+#' # set start_time (e.g. when clicking the 'Load Data'-button in shiny
+#' rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
+#'
+#' # define restricting date
+#' rv$restricting_date$use_it <- FALSE
+#'
+#' data_loading(
+#'   rv = rv,
+#'   system = rv$source,
+#'   keys_to_test = rv$keys_source
+#' )
 #'
 #' @export
 data_loading <- function(rv, system, keys_to_test) {
@@ -553,7 +641,7 @@ data_loading <- function(rv, system, keys_to_test) {
       ## Use environment-settings:
       db_con <-
         DIZutils::db_connection(
-          db_name = system$system_name,
+          system_name = system$system_name,
           db_type = system$system_type,
           headless = rv$headless,
           logfile_dir = rv$log$logfile_dir,
@@ -565,7 +653,7 @@ data_loading <- function(rv, system, keys_to_test) {
       ## Use included settings:
       db_con <-
         DIZutils::db_connection(
-          db_name = system$system_name,
+          system_name = system$system_name,
           db_type = system$system_type,
           headless = rv$headless,
           logfile_dir = rv$log$logfile_dir,
@@ -586,7 +674,8 @@ data_loading <- function(rv, system, keys_to_test) {
       db_con = db_con,
       keys_to_test = keys_to_test,
       headless = rv$headless,
-      db_name = system$system_name
+      db_name = system$system_name,
+      db_type = system$system_type
     )
     rm(db_con)
 

@@ -16,3 +16,15 @@ repository (default: 'mdr.csv').}
 \description{
 Internal function to read the meta data repository (MDR).
 }
+\examples{
+utils_path <- system.file(
+  "demo_data/utilities/",
+  package = "DQAstats"
+)
+mdr_filename <- "mdr_example_data.csv"
+mdr <- read_mdr(
+  utils_path = utils_path,
+  mdr_filename = mdr_filename
+)
+
+}
