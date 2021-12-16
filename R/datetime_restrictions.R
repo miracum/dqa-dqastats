@@ -48,7 +48,7 @@
 #' mdr_filename <- "mdr_example_data.csv"
 #' mdr <- read_mdr(
 #'   utils_path = utils_path,
-#'   mdr_filename <- mdr_filename
+#'   mdr_filename = mdr_filename
 #' )
 #'
 #' source_system_name <- "exampleCSV_source"

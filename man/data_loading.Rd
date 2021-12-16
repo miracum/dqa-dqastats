@@ -18,3 +18,64 @@ the variables to test.}
 \description{
 Internal function to load the source and target data
 }
+\examples{
+utils_path <- system.file(
+  "demo_data/utilities/",
+  package = "DQAstats"
+)
+mdr_filename <- "mdr_example_data.csv"
+rv <- list()
+rv$mdr <- read_mdr(
+  utils_path = utils_path,
+  mdr_filename = mdr_filename
+)
+
+source_system_name <- "exampleCSV_source"
+target_system_name <- "exampleCSV_target"
+
+rv <- c(rv, create_helper_vars(
+  mdr = rv$mdr,
+  source_db = source_system_name,
+  target_db = target_system_name
+))
+# save source/target vars
+rv$source$system_name <- source_system_name
+rv$target$system_name <- target_system_name
+rv$source$system_type <- "csv"
+rv$target$system_type <- "csv"
+
+rv$log$logfile_dir <- tempdir()
+
+# set headless (without GUI, progressbars, etc.)
+rv$headless <- TRUE
+
+# set configs
+demo_files <- system.file("demo_data", package = "DQAstats")
+Sys.setenv("EXAMPLECSV_SOURCE_PATH" = demo_files)
+Sys.setenv("EXAMPLECSV_TARGET_PATH" = demo_files)
+
+# get configs
+rv$source$settings <- DIZutils::get_config_env(
+  system_name = rv$source$system_name,
+  logfile_dir = rv$log$logfile_dir,
+  headless = rv$headless
+)
+rv$target$settings <- DIZutils::get_config_env(
+  system_name = tolower(rv$target$system_name),
+  logfile_dir = rv$log$logfile_dir,
+  headless = rv$headless
+)
+
+# set start_time (e.g. when clicking the 'Load Data'-button in shiny
+rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+
+# define restricting date
+rv$restricting_date$use_it <- FALSE
+
+data_loading(
+  rv = rv,
+  system = rv$source,
+  keys_to_test = rv$keys_source
+)
+
+}

@@ -24,7 +24,7 @@ utils_path <- system.file(
 mdr_filename <- "mdr_example_data.csv"
 mdr <- read_mdr(
   utils_path = utils_path,
-  mdr_filename <- mdr_filename
+  mdr_filename = mdr_filename
 )
 
 }

@@ -66,6 +66,9 @@ get_where_filter <- function(filter) {
 #'
 #' @inheritParams dqa
 #'
+#' @examples
+#' parallel(parallel = FALSE, logfile_dir = tempdir(), ncores = 1)
+#'
 #' @export
 parallel <- function(parallel, logfile_dir, ncores) {
   if (isTRUE(parallel) && future::availableCores() > 1) {

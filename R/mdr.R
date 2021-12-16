@@ -33,7 +33,7 @@
 #' mdr_filename <- "mdr_example_data.csv"
 #' mdr <- read_mdr(
 #'   utils_path = utils_path,
-#'   mdr_filename <- mdr_filename
+#'   mdr_filename = mdr_filename
 #' )
 #'
 #' @export
@@ -41,7 +41,13 @@
 read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
 
   mdr <- data.table::fread(
-    paste0(utils_path, "MDR/", mdr_filename),
+    file.path(
+      file.path(
+        DIZutils::clean_path_name(utils_path, remove.slash = TRUE),
+        "MDR"
+      ),
+      mdr_filename
+    ),
     header = TRUE
   )
 
@@ -96,7 +102,7 @@ read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
 #' mdr_filename <- "mdr_example_data.csv"
 #' mdr <- read_mdr(
 #'   utils_path = utils_path,
-#'   mdr_filename <- mdr_filename
+#'   mdr_filename = mdr_filename
 #' )
 #'
 #' source_system_name <- "exampleCSV_source"

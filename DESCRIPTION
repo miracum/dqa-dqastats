@@ -1,7 +1,7 @@
 Package: DQAstats
-Title: DQAstats - Core Functions for Data Quality Assessment
-Version: 0.1.7.9017
-Date: 2021-12-15
+Title: Core Functions for Data Quality Assessment
+Version: 0.2.0
+Date: 2021-12-16
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
@@ -10,8 +10,8 @@ Authors@R: c(
     person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = "fnd"),
     person("Universitätsklinikum Erlangen", role = "cph")
   )
-Description: Perform data quality assessment (DQA) of electronic health
-    records (EHR). Publication: Kapsner et al. (2021)
+Description: Perform data quality assessment ('DQA') of electronic health
+    records ('EHR'). Publication: Kapsner et al. (2021)
     <doi:10.1055/s-0041-1733847>.
 License: GPL-3
 URL: https://github.com/miracum/dqa-dqastats
