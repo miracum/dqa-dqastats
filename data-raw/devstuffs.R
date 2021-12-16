@@ -127,6 +127,7 @@ usethis::use_build_ignore(".env")
 usethis::use_build_ignore("Dockerfile")
 usethis::use_build_ignore("docker-compose.yml")
 usethis::use_build_ignore("build_image.sh")
+usethis::use_build_ignore("renovate.json")
 
 ## .gitignore:
 usethis::use_git_ignore("/*")
