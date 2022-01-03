@@ -32,3 +32,4 @@ docs/
 !.env
 !build_image.sh
 !/renovate.json
+!/NEWS.md
