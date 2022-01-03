@@ -19,6 +19,7 @@ A data.table with the results of the automated comparison of the
 Internal function to perform value conformance checks.
 }
 \examples{
+\donttest{# runtime ~ 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -138,5 +139,5 @@ rv$conformance$value_conformance <- value_conformance(
 )
 
 value_conformance_checks(results = rv$conformance$value_conformance)
-
+}
 }

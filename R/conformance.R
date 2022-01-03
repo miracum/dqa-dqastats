@@ -714,6 +714,7 @@ value_conformance <- function(
 #'   target data system.
 #'
 #' @examples
+#' \donttest{# runtime ~ 5 sec.
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
 #'   package = "DQAstats"
@@ -833,7 +834,7 @@ value_conformance <- function(
 #' )
 #'
 #' value_conformance_checks(results = rv$conformance$value_conformance)
-#'
+#' }
 #' @export
 #'
 value_conformance_checks <- function(results) {
