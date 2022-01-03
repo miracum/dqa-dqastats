@@ -25,6 +25,8 @@
 #' @inheritParams load_sqls
 #' @inheritParams atemp_plausi_results
 #'
+#' @return A data.table with the results of the datamap.
+#'
 #' @examples
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",

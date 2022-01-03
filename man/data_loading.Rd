@@ -15,6 +15,10 @@ data_loading(rv, system, keys_to_test)
 \item{keys_to_test}{A vector containing the names (keys) of
 the variables to test.}
 }
+\value{
+A list with the fields '$outdata' and if testing an SQL-based
+  database also '$sql_statements'.
+}
 \description{
 Internal function to load the source and target data
 }

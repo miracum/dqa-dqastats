@@ -34,6 +34,9 @@ block around this function.}
 TRUE/FALSE: TRUE if the check was successful and the given
   systems can be time filtered, FALSE if something went wrong and no time
   filtering is possible.
+
+A boolean to indicate if the date restriction requirements are met
+  (TRUE) or not (FALSE).
 }
 \description{
 Internal function to check if for every input table there is

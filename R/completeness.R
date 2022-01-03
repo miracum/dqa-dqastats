@@ -22,6 +22,10 @@
 #'
 #' @inheritParams value_conformance
 #'
+#' @return A data.table with the absolute and relative counts of missing values
+#'   (results of the completeness checks) for each dataelement for the source
+#'   data system and the target data system.
+#'
 #' @examples
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",

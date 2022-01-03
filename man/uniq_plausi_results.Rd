@@ -20,6 +20,19 @@ the metadata repository.}
 run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
 }
+\value{
+A list with one entry for each uniqueness plausibility check
+  containing the results. Each entry contains the following (nested) list
+  items:
+  \describe{
+  \item{description}{A character with the description of the plausibility
+  check.}
+  \item{source_data}{A nested list with the uniqueness plausibility check
+  results for the source data system with the values 'message' and 'error'.}
+  \item{target_data}{A nested list with the uniqueness plausibility check
+  results for the target data system with the values 'message' and 'error'.}
+  }
+}
 \description{
 Internal function to generate the results of
   the 'Uniqueness Plausibility' checks.

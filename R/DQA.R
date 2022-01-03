@@ -64,6 +64,11 @@
 #' @import data.table
 #' @importFrom magrittr "%>%"
 #'
+#' @return This function is a wrapper around all helper functions in `DQAstats`
+#'   to perform the data quality assessment. The results are summarized in a
+#'   PDF report which is saved to `outdir`. The return value of this function is
+#'   a nested list that contains all results as R objects.
+#'
 #' @examples
 #' \donttest{# runtime > 5 sec.
 #' Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file(
@@ -106,9 +111,8 @@ dqa <- function(source_system_name,
                 restricting_date_format = NULL) {
 
   ## Print versions of packages:
-  for (p in intersect(rownames(utils::installed.packages()),
-                      c("DIZutils", "DQAstats", "DQAgui", "miRacumDQA"))) {
-    print(paste0("Version of '", p, "': ", utils::packageVersion(p)))
+  for (p in c("DIZutils", "DQAstats")) {
+    message(paste0("Version of '", p, "': ", utils::packageVersion(p)))
   }
 
   if (missing(target_system_name)) {

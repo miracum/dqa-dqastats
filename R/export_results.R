@@ -24,6 +24,12 @@
 #' @inheritParams dqa
 #' @inheritParams load_csv
 #'
+#' @return No return value. This function writes the aggregated results, namely
+#'   the conformace results overview table, the plausibility check results
+#'   overview, the completeness results overview and a combined version (named
+#'   'all_results.csv') to csv files. These files are saved in
+#'   `{output_dir}/export`.
+#'
 #' @examples
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
@@ -287,6 +293,11 @@ all_results_overview <- function(rv) {
 #' @param object The object to analyze.
 #' @inheritParams dqa
 #' @inheritParams load_csv
+#'
+#' @return No return value. If possible irregularities were identified during
+#'   the data quality assessment, this function writes affected identifier
+#'   values to csv files for a further detailed debugging. These files are
+#'   saved in `{output_dir}/conspicuous_ids`.
 #'
 #' @examples
 #' utils_path <- system.file(

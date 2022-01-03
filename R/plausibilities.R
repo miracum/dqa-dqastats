@@ -41,6 +41,16 @@ get_plausis_from_mdr <- function(atemp_vars) {
 #' @inheritParams atemp_plausi_results
 #' @inheritParams create_helper_vars
 #'
+#' @return A list with one entry for each atemporal plausibility check
+#'   containing the raw results. Each entry contains the following (nested) list
+#'   items:
+#'   \describe{
+#'   \item{source_data}{A nested list with the raw plausibility check results
+#'   for the source data system.}
+#'   \item{target_data}{A nested list with the raw plausibility check results
+#'   for the target data system.}
+#'   }
+#'
 #' @examples
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",

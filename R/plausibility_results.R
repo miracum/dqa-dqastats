@@ -27,6 +27,18 @@
 #'
 #' @param atemp_vars These are the atemporal variables
 #'
+#' @return A list with one entry for each atemporal plausibility check
+#'   containing the results. Each entry contains the following (nested) list
+#'   items:
+#'   \describe{
+#'   \item{description}{A nested list with the description of the plausibility
+#'   check for the source data system and the target data system.}
+#'   \item{counts}{A nested list with the frequency count results for the
+#'   source data system and the target data system.}
+#'   \item{statistics}{A nested list with the plausibility check results for the
+#'   source data system and the target data system.}
+#'   }
+#'
 #' @examples
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
@@ -268,6 +280,18 @@ atemp_plausi_results <- function(rv,
 #'
 #' @inheritParams atemp_plausi_results
 #' @inheritParams create_helper_vars
+#'
+#' @return A list with one entry for each uniqueness plausibility check
+#'   containing the results. Each entry contains the following (nested) list
+#'   items:
+#'   \describe{
+#'   \item{description}{A character with the description of the plausibility
+#'   check.}
+#'   \item{source_data}{A nested list with the uniqueness plausibility check
+#'   results for the source data system with the values 'message' and 'error'.}
+#'   \item{target_data}{A nested list with the uniqueness plausibility check
+#'   results for the target data system with the values 'message' and 'error'.}
+#'   }
 #'
 #' @examples
 #' utils_path <- system.file(

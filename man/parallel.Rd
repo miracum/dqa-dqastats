@@ -17,6 +17,10 @@ will be stored default(`tempdir()`).}
 probably like to choose a low number when operating on large datasets.
 Default: 2.}
 }
+\value{
+No return value. Depending on the specified arguments, this function
+  enables a parallel backend for faster computations.
+}
 \description{
 Internal function to initialize the parallel backend.
 }

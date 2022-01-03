@@ -28,6 +28,9 @@
 #' @inheritParams create_helper_vars
 #' @inheritParams dqa
 #'
+#' @return A boolean indicating if the CSV files specified in the metadata
+#'   repository are found in the specified locations.
+#'
 #' @examples
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",

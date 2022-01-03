@@ -12,6 +12,11 @@ reduce_cat(data, levellimit = 25)
 \item{levellimit}{An integer value. The number of maximum
 values to be displayed (default: 25).}
 }
+\value{
+A data.table with the data quality assessment results for categorical
+  dataelements that are reduced to the maximum number of levels specified
+  with `levellimit`.
+}
 \description{
 Internal function to reduce categorical variables
   to a maximum of values to be displayed.

@@ -15,6 +15,12 @@ be stored (default: `paste0(tempdir(), "/output/")`).}
 \item{rv}{A list object. Internal list simulating Shiny's
 'reactive values'.}
 }
+\value{
+No return value. If possible irregularities were identified during
+  the data quality assessment, this function writes affected identifier
+  values to csv files for a further detailed debugging. These files are
+  saved in `{output_dir}/conspicuous_ids`.
+}
 \description{
 This function exports export_affected_ids in csv files that
   are added to a zip archive.

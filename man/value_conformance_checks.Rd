@@ -10,6 +10,11 @@ value_conformance_checks(results)
 \item{results}{A list object. The list should contain the results of
 the function \code{value_conformance}.}
 }
+\value{
+A data.table with the results of the automated comparison of the
+  value conformance check results between the source data system and the
+  target data system.
+}
 \description{
 Internal function to perform value conformance checks.
 }

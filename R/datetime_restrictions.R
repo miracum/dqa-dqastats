@@ -40,6 +40,9 @@
 #'
 #' @inheritParams dqa
 #'
+#' @return A boolean to indicate if the date restriction requirements are met
+#'   (TRUE) or not (FALSE).
+#'
 #' @examples
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",

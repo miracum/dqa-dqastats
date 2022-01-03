@@ -302,6 +302,9 @@ render_atemp_pl_representation <- function(desc_out, source) {
 #' @inheritParams load_csv
 #' @inheritParams dqa
 #'
+#' @return No return value. This function renders the PDF markdown report with
+#'   the data quality assessment results and saves it to `outdir`.
+#'
 #' @examples
 #' \donttest{# runtime > 5 sec.
 #' utils_path <- system.file(
@@ -430,13 +433,8 @@ create_markdown <- function(rv = rv,
 
   catch_msg <- "Something went wrong with tinytex: "
   tryCatch({
-    list_of_packages <- c("tinytex")
-    new_packages <-
-      list_of_packages[!(list_of_packages %in%
-                           utils::installed.packages()[, "Package"])]
-    if (length(new_packages)) {
-      utils::install.packages(new_packages)
-    }
+    remotes::update_packages("tinytex", upgrade = "always")
+    tinytex::install_tinytex()
   }, error = function(e) {
     DIZutils::feedback(
       paste0(catch_msg, e),

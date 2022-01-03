@@ -20,6 +20,17 @@ metadata repository.}
 run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
 }
+\value{
+A list with one entry for each atemporal plausibility check
+  containing the raw results. Each entry contains the following (nested) list
+  items:
+  \describe{
+  \item{source_data}{A nested list with the raw plausibility check results
+  for the source data system.}
+  \item{target_data}{A nested list with the raw plausibility check results
+  for the target data system.}
+  }
+}
 \description{
 Internal function to generate raw data for the
   'Atemporal Plausibility' checks.

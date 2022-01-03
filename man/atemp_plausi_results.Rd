@@ -18,6 +18,19 @@ atemp_plausi_results(rv, atemp_vars, mdr, headless = FALSE)
 run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
 }
+\value{
+A list with one entry for each atemporal plausibility check
+  containing the results. Each entry contains the following (nested) list
+  items:
+  \describe{
+  \item{description}{A nested list with the description of the plausibility
+  check for the source data system and the target data system.}
+  \item{counts}{A nested list with the frequency count results for the
+  source data system and the target data system.}
+  \item{statistics}{A nested list with the plausibility check results for the
+  source data system and the target data system.}
+  }
+}
 \description{
 Internal function to generate the results of the
   'Atemporal Plausibility' checks.

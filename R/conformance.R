@@ -26,6 +26,16 @@
 #' @param scope A character. Either "plausibility" or "descriptive".
 #' @inheritParams dqa
 #'
+#' @return A list with one entry for each dataelement containing the raw results
+#'   of the value conformance checks. Each entry contains the following (nested)
+#'   list items:
+#'   \describe{
+#'   \item{source_data}{A nested list with the raw value conformance check
+#'   results for the source data system.}
+#'   \item{target_data}{A nested list with the raw value conformance check
+#'   results for the target data system.}
+#'   }
+#'
 #' @examples
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
@@ -698,6 +708,10 @@ value_conformance <- function(
 #'
 #' @param results A list object. The list should contain the results of
 #'   the function \code{value_conformance}.
+#'
+#' @return A data.table with the results of the automated comparison of the
+#'   value conformance check results between the source data system and the
+#'   target data system.
 #'
 #' @examples
 #' utils_path <- system.file(

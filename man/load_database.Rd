@@ -33,6 +33,10 @@ run only in the console (headless = TRUE) or on a GUI frontend
 
 \item{db_type}{The database type (postgres/oracle)}
 }
+\value{
+A list with a data.table for each data element as defined in the
+  in the MDR.
+}
 \description{
-Internal function to load the target data
+Internal function to load the data from SQL databases.
 }

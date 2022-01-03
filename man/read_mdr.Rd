@@ -13,6 +13,10 @@ containing the required app utilities like the MDR and the settings folder.}
 \item{mdr_filename}{A character string. The filename of your meta data
 repository (default: 'mdr.csv').}
 }
+\value{
+A data.table containing the metadata repository which is imported
+  from the CSV file provided with `{utils_path}/MDR/{mdr_filename}`.
+}
 \description{
 Internal function to read the meta data repository (MDR).
 }

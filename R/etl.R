@@ -23,6 +23,10 @@
 #' @param results A list object. The list should contain the results
 #'   'rv$results_descriptive'.
 #'
+#' @return A data.table with the automated comparison of the counts of valid,
+#'   missing, and distinct values between the source data system and the target
+#'   data system.
+#'
 #' @examples
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",

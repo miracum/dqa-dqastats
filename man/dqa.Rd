@@ -69,6 +69,12 @@ without a time: '2022-01-01'.}
 See `?strptime` for possible parameters.
 Currently not implemented! So there is no effect if you pass a format here.}
 }
+\value{
+This function is a wrapper around all helper functions in `DQAstats`
+  to perform the data quality assessment. The results are summarized in a
+  PDF report which is saved to `outdir`. The return value of this function is
+  a nested list that contains all results as R objects.
+}
 \description{
 This function performs a data quality assessment (DQA)
   of electronic health records (EHR).#'

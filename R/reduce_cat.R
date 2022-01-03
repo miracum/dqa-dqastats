@@ -26,6 +26,10 @@
 #' @param levellimit An integer value. The number of maximum
 #'   values to be displayed (default: 25).
 #'
+#' @return A data.table with the data quality assessment results for categorical
+#'   dataelements that are reduced to the maximum number of levels specified
+#'   with `levellimit`.
+#'
 #' @examples
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",

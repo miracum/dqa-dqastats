@@ -166,13 +166,17 @@ map_var_types <- function(string) {
 
 #' @title load_csv helper function
 #'
-#' @description Internal function to load the source data
+#' @description Internal function to load the data from CSV files.
 #'
 #' @param rv A list object. Internal list simulating Shiny's
 #'   'reactive values'.
 #' @param keys_to_test A vector containing the names (keys) of
 #'   the variables to test.
 #' @param system The system object rv$system
+#'
+#' @return A list with data.tables for each unique CSV file as defined in the
+#'   'source_system_table' field of the MDR.
+#'
 #' @inheritParams test_csv
 #'
 load_csv <- function(rv,
@@ -268,12 +272,15 @@ load_csv <- function(rv,
 
 #' @title load_database helper function
 #'
-#' @description Internal function to load the target data
+#' @description Internal function to load the data from SQL databases.
 #'
 #' @param sql_statements The SQL-Statement-object
 #' @param db_con The connection-socket
 #' @param db_name The database name
 #' @param db_type The database type (postgres/oracle)
+#'
+#' @return A list with a data.table for each data element as defined in the
+#'   in the MDR.
 #'
 #' @inheritParams load_csv
 #'
@@ -469,6 +476,9 @@ load_database <- function(rv,
 #'
 #' @param system The part of the rv-list which should be loaded
 #'   (e.g. rv$source or rv$target)
+#'
+#' @return A list with the fields '$outdata' and if testing an SQL-based
+#'   database also '$sql_statements'.
 #'
 #' @inheritParams load_csv
 #'

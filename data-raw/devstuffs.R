@@ -85,6 +85,7 @@ usethis::use_package("DIZutils", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
+usethis::use_package("remotes", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 # Development package

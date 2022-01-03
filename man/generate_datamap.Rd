@@ -21,6 +21,9 @@ generate_datamap(results, mdr, db, rv, headless = FALSE)
 run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
 }
+\value{
+A data.table with the results of the datamap.
+}
 \description{
 Internal function to generate the dashboard data maps
 }

@@ -20,6 +20,10 @@ PDF document. Default: \code{tempdir}.}
 run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
 }
+\value{
+No return value. This function renders the PDF markdown report with
+  the data quality assessment results and saves it to `outdir`.
+}
 \description{
 Internal function to generate the final PDF report.
 }

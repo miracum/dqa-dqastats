@@ -13,6 +13,13 @@ be stored (default: `paste0(tempdir(), "/output/")`).}
 \item{rv}{A list object. Internal list simulating Shiny's
 'reactive values'.}
 }
+\value{
+No return value. This function writes the aggregated results, namely
+  the conformace results overview table, the plausibility check results
+  overview, the completeness results overview and a combined version (named
+  'all_results.csv') to csv files. These files are saved in
+  `{output_dir}/export`.
+}
 \description{
 This function exports aggregated results in csv files that
   are added to a zip archive.

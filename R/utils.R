@@ -66,6 +66,9 @@ get_where_filter <- function(filter) {
 #'
 #' @inheritParams dqa
 #'
+#' @return No return value. Depending on the specified arguments, this function
+#'   enables a parallel backend for faster computations.
+#'
 #' @examples
 #' parallel(parallel = FALSE, logfile_dir = tempdir(), ncores = 1)
 #'
