@@ -157,3 +157,10 @@ usethis::use_git_ignore(".~lock.*.csv#")
 
 
 usethis::use_tidy_description()
+
+# create NEWS.md using the python-package "auto-changelog" (must be installed)
+# https://www.conventionalcommits.org/en/v1.0.0/
+# build|ci|docs|feat|fix|perf|refactor|test
+system(
+  command = 'auto-changelog -u -t "DQAstats NEWS" --tag-prefix "v" -o "NEWS.md"'
+)
