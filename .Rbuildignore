@@ -30,3 +30,4 @@
 ^CRAN-RELEASE$
 ^NEWS\.md$
 ^manifests$
+^CRAN-SUBMISSION$
