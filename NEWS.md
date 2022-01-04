@@ -1,6 +1,15 @@
 # DQAstats NEWS
 
-## Unreleased (2022-01-03)
+## Unreleased (2022-01-04)
+
+#### Others
+
+* allow news.md in .gitignore and add to .Rbuildignore
+* added creation of news.md to devstuffs.R
+
+Full set of changes: [`v0.2.0...e469966`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.0...e469966)
+
+## v0.2.0 (2022-01-03)
 
 #### New Features
 
@@ -33,7 +42,7 @@
 * added logmessages
 * removed `run_once()` function
 
-Full set of changes: [`v0.1.7...5ab498c`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.1.7...5ab498c)
+Full set of changes: [`v0.1.7...v0.2.0`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.1.7...v0.2.0)
 
 ## v0.1.7 (2021-07-01)
 

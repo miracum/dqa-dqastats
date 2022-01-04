@@ -7,6 +7,8 @@
 [![codecov](https://app.codecov.io/gh/miracum/dqa-dqastats/branch/master/graph/badge.svg)](https://app.codecov.io/gh/miracum/dqa-dqastats)
 [![pipeline status](https://gitlab.miracum.org/miracum/dqa/dqastats/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/dqastats/-/commits/master)
 [![coverage report](https://gitlab.miracum.org/miracum/dqa/dqastats/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/dqastats/-/commits/master)
+[![CRAN Status Badge](https://www.r-pkg.org/badges/version-ago/DQAstats)](https://cran.r-project.org/package=DQAstats)
+[![CRAN Checks](https://cranchecks.info/badges/worst/DQAstats)](https://cran.r-project.org/web/checks/check_results_DQAstats.html)
 <!-- badges: end -->
 
 The R package 'DQAstats' provides core functionalities to perform data quality assessment (DQA) of electronic health record data (EHR).  
@@ -29,7 +31,17 @@ Currently supported input data formats / databases:
 
 ## Installation
 
-You can install the development version of `DQAstats` with:
+### CRAN Version
+
+`DQAstats` can be installed directly from CRAN with:
+
+``` r
+install.packages("DQAstats")
+```
+
+### Development Version
+
+You can install the latest development version of `DQAstats` with:
 
 ``` r
 install.packages("remotes")
