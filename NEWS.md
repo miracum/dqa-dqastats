@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-01-04)
+## v0.2.1 (2022-01-04)
 
 #### New Features
 
@@ -8,18 +8,21 @@
 * added kubernetes manifest
 #### Fixes
 
+* will not fail when tinytex is missing
 * removed tinytex-installation from report.r due to cran policy violation
 #### Docs
 
 * cran-installation to readme
 #### Others
 
+* fixed typo in rbuildignore
+* updated `news.md`
 * detailed error message for `tinytex`
 * updated news.md
 * allow news.md in .gitignore and add to .Rbuildignore
 * added creation of news.md to devstuffs.R
 
-Full set of changes: [`v0.2.0...b956b76`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.0...b956b76)
+Full set of changes: [`v0.2.0...v0.2.1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.0...v0.2.1)
 
 ## v0.2.0 (2022-01-03)
 
