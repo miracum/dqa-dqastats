@@ -432,44 +432,16 @@ create_markdown <- function(rv = rv,
     headless = rv$headless)
 
   catch_msg <- "Something went wrong with tinytex: "
-  tryCatch({
-    remotes::update_packages("tinytex", upgrade = "always")
-    tinytex::install_tinytex()
-  }, error = function(e) {
+  if (!tinytex::is_tinytex()) {
     DIZutils::feedback(
-      paste0(catch_msg, e),
+      catch_msg,
       type = "Error",
       findme = "e50d001ed4",
       logfile_dir = rv$log$logfile_dir,
-      headless = rv$headless)
-  }, warning = function(w) {
-    DIZutils::feedback(
-      paste0(catch_msg, w),
-      type = "Warning",
-      findme = "6c366260eb",
-      logfile_dir = rv$log$logfile_dir,
-      headless = rv$headless)
-  })
-
-  tryCatch({
-    if (tinytex::tinytex_root() == "") {
-      tinytex::install_tinytex()
-    }
-  }, error = function(e) {
-    DIZutils::feedback(
-      paste0(catch_msg, e),
-      type = "Error",
-      findme = "d70293cd83",
-      logfile_dir = rv$log$logfile_dir,
-      headless = rv$headless)
-  }, warning = function(w) {
-    DIZutils::feedback(
-      paste0(catch_msg, w),
-      type = "Warning",
-      findme = "f72559b707",
-      logfile_dir = rv$log$logfile_dir,
-      headless = rv$headless)
-  })
+      headless = rv$headless
+    )
+    stop(catch_msg)
+  }
 
   catch_msg <- "Error occured when rendering the PDF document"
   tryCatch({
