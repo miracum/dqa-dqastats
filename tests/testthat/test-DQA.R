@@ -55,10 +55,14 @@ test_that("correct functioning of DQA", {
   expect_type(all_results, "list")
   expect_length(all_results, 26)
 
-  outputfiles <- list.files(output_dir)
-  expect_true("DQA_report.md" %in% outputfiles)
-  expect_true(any(grepl("^DQA_report_([[:digit:]])+.pdf$", outputfiles)))
-  expect_true(any(grepl("^DQA_report_([[:digit:]])+.tex$", outputfiles)))
+  if (tinytex::is_tinytex()) {
+
+    outputfiles <- list.files(output_dir)
+    expect_true("DQA_report.md" %in% outputfiles)
+    expect_true(any(grepl("^DQA_report_([[:digit:]])+.pdf$", outputfiles)))
+    expect_true(any(grepl("^DQA_report_([[:digit:]])+.tex$", outputfiles)))
+
+  }
 
   # Remove the settings and output-folder:
   do.call(file.remove, list(list.files(

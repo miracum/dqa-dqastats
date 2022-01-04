@@ -29,3 +29,4 @@
 ^renovate\.json$
 ^CRAN-RELEASE$
 ^NEWS\.md$
+^manifest$
