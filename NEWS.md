@@ -14,11 +14,12 @@
 * cran-installation to readme
 #### Others
 
+* detailed error message for `tinytex`
 * updated news.md
 * allow news.md in .gitignore and add to .Rbuildignore
 * added creation of news.md to devstuffs.R
 
-Full set of changes: [`v0.2.0...9a347df`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.0...9a347df)
+Full set of changes: [`v0.2.0...b956b76`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.0...b956b76)
 
 ## v0.2.0 (2022-01-03)
 
