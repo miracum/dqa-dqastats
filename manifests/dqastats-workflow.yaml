@@ -1,0 +1,118 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  #   generateName: dqastats-
+  name: dqastats
+spec:
+  ## Run once every night at 4:30 o'clock a.m.:
+  schedule: "30 4 * * *"
+  ## For debugging: Run once every 5 minutes:
+  # schedule: "0/5 * * * *"
+  timezone: "Europe/Berlin"
+  startingDeadlineSeconds: 0
+  concurrencyPolicy: "Replace"
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  suspend: false
+  workflowMetadata:
+    labels:
+      app.kubernetes.io/name: dqastats
+  workflowSpec:
+    securityContext:
+      runAsUser: 1111
+      fsGroup: 1
+    serviceAccountName: argo-workflow
+    # entrypoint: dqastats-workflow
+    ## For the error handling see:
+    ## https://github.com/argoproj/argo-workflows/tree/master/examples#exit-handlers
+    entrypoint: dqastats
+    # entrypoint: intentional-fail
+    onExit: exit-handler
+    volumeClaimTemplates: # define volume, same syntax as k8s Pod spec
+      - metadata:
+          name: data # name of volume claim
+        spec:
+          storageClassName: "vsphere-storage"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 50Mi
+    templates:
+      # - name: dqastats-workflow
+      #   steps:
+      #     - - name: dqastats
+      #         template: dqastats
+      #     - - name: report-status
+      #         template: report-status
+      - name: dqastats
+        container:
+          image: ghcr.io/miracum/dqastats:0.0.1.9006
+          volumeMounts:
+            - name: data
+              mountPath: /data/output
+          env:
+            - name: I2B2_HOST
+              value: your.db.host.org
+            - name: I2B2_PORT
+              value: "5432"
+            - name: I2B2_USER
+              value: i2b2
+            - name: I2B2_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dqastats
+                  key: i2b2-password
+          command: [R, -e]
+          args:
+            - rv <- DQAstats::dqa(
+              source_system_name = "i2b2",
+              target_system_name = "i2b2",
+              utils_path = "/usr/local/lib/R/site-library/miRacumDQA/application/_utilities",
+              mdr_filename = "mdr.csv",
+              output_dir = "/data/output",
+              logfile_dir = "/data/output/logs"
+              )
+
+      ## Exit handler templates
+      ## Source: https://github.com/argoproj/argo-workflows/tree/master/examples#exit-handlers
+      # After the completion of the entrypoint template, the status of the
+      # workflow is made available in the global variable {{workflow.status}}.
+      # {{workflow.status}} will be one of: Succeeded, Failed, Error
+      - name: intentional-fail
+        container:
+          image: alpine:latest
+          command: [sh, -c]
+          args: ["echo intentional failure; exit 1"]
+      - name: exit-handler
+        steps:
+          - - name: notify
+              template: send-email
+            - name: celebrate
+              template: celebrate
+              when: "{{workflow.status}} == Succeeded"
+            - name: cry
+              template: cry
+              when: "{{workflow.status}} != Succeeded"
+      - name: send-email
+        container:
+          image: alpine:latest
+          command: [sh, -c]
+          # Tip: {{workflow.failures}} is a JSON list. If you're using bash to read it, we recommend using jq to manipulate
+          # it. For example:
+          #
+          # echo "{{workflow.failures}}" | jq -r '.[] | "Failed Step: \(.displayName)\tMessage: \(.message)"'
+          #
+          # Will print a list of all the failed steps and their messages. For more info look up the jq docs.
+          # Note: jq is not installed by default on the "alpine:latest" image, however it can be installed with "apk add jq"
+          args: ["echo send e-mail: {{workflow.name}} {{workflow.status}} {{workflow.duration}}. Failed steps {{workflow.failures}}"]
+      - name: celebrate
+        container:
+          image: alpine:latest
+          command: [sh, -c]
+          args: ["echo hooray!"]
+      - name: cry
+        container:
+          image: alpine:latest
+          command: [sh, -c]
+          args: ["echo boohoo!"]

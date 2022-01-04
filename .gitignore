@@ -1,35 +1,72 @@
+## This is a template .gitignore file which is originally copied from here:
+## https://github.com/joundso/Snippets/blob/master/.gitignore
 
+## At first: Ignore everything:
 /*
 /*/
-*.log
+
+## Then successively add the whitlist elements you want to track:
+!/.env
 !/.gitignore
-!/data-raw/
+!/.lintr
+!/build_image.sh
+!/CHANGELOG.md
 !/DESCRIPTION
-!/inst/
+!/Dockerfile
+!/docker-compose.yml
 !/LICENSE.md
-!/man/
-!NAMESPACE
-!/R/
+!/NAMESPACE
+!/NEWS.md
 !/README.md
+!/renovate.json
+!/tic.R
+!/*.Rproj
+
+
+## ---
+## FOLDERS
+## ---
+## If we want to track a folder, whitelist it completely:
+!/R/
+!/manifests/
+
+## ... but then immedeately blacklist all its content:
+/R/*
+/manifests/*
+
+## ... and then whitelist files we want to track explicitly:
+!/R/*.R
+!/manifests/*.yaml
+!/manifests/README.md
+
+
+## Add folder completely
+## (there might be another .gitignore file inside
+## or really all its content is valid):
+!/.github/
+!/data-raw/
+!/inst/
+!/man/
 !/tests/
-/tests/testthat/test_settings_use.yml
-/tests/testthat/testdata/
-/tests/testthat/output/
+
+
+## Make again sure to ignore all log-related or other sensitive files:
+**/*[Ll]og*
+**/*.log
+
 /.Rhistory
 /.Rproj*
 /.RData
-.~lock.*.csv#
-.Rproj.user
-!/*.Rproj
 /.vscode
 /.lintr
-!/.lintr
+
+.~lock.*.csv#
+.Rproj.user
+
+/tests/testthat/test_settings_use.yml
+/tests/testthat/testdata/
+/tests/testthat/output/
+
 docs/
-!/tic.R
-!/.github/
-!Dockerfile
-!docker-compose.yml
-!.env
-!build_image.sh
-!/renovate.json
-!/NEWS.md
+*.log
+!NAMESPACE
