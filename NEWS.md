@@ -2,6 +2,13 @@
 
 ## Unreleased (2022-01-04)
 
+#### New Features
+
+* added script to run testdata
+* added kubernetes manifest
+#### Fixes
+
+* removed tinytex-installation from report.r due to cran policy violation
 #### Docs
 
 * cran-installation to readme
@@ -11,7 +18,7 @@
 * allow news.md in .gitignore and add to .Rbuildignore
 * added creation of news.md to devstuffs.R
 
-Full set of changes: [`v0.2.0...5d78080`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.0...5d78080)
+Full set of changes: [`v0.2.0...9a347df`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.0...9a347df)
 
 ## v0.2.0 (2022-01-03)
 

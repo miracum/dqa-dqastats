@@ -425,16 +425,22 @@ create_markdown <- function(rv = rv,
 
   msg <- "Creating report "
   DIZutils::feedback(
-    msg,
+    print_this = msg,
     logjs = isFALSE(headless),
     findme = "aa5c87f7da",
     logfile_dir = rv$log$logfile_dir,
     headless = rv$headless)
 
-  catch_msg <- "Something went wrong with tinytex: "
+  catch_msg <- paste0("Something went wrong with tinytex.",
+                      " Is it installed correctly?",
+                      " Try reinstalling it by running `",
+                      "remotes::update_packages('tinytex', upgrade = 'always')",
+                      "` and `",
+                      "tinytex::install_tinytex()",
+                      "`")
   if (!tinytex::is_tinytex()) {
     DIZutils::feedback(
-      catch_msg,
+      print_this = catch_msg,
       type = "Error",
       findme = "e50d001ed4",
       logfile_dir = rv$log$logfile_dir,
@@ -471,14 +477,14 @@ create_markdown <- function(rv = rv,
     )
   }, error = function(e) {
     DIZutils::feedback(
-      paste0(catch_msg, e),
+      print_this = paste0(catch_msg, e),
       type = "Error",
       findme = "d70789cd83",
       logfile_dir = rv$log$logfile_dir,
       headless = rv$headless)
   }, warning = function(w) {
     DIZutils::feedback(
-      paste0(catch_msg, w),
+      print_this = paste0(catch_msg, w),
       type = "Warning",
       findme = "d70654cd83",
       logfile_dir = rv$log$logfile_dir,
