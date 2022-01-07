@@ -50,4 +50,4 @@ The manifest [`dqastats-workflow.yaml`](./dqastats-workflow.yaml) uses [Argo Wor
 
 ## Thanks
 
-:tada: Big thanks to @christian.gulden for all Kubernetes Support! The draft of this "How to ..." section is borrowed from him, originally from here: <https://gitlab.miracum.org/miracum/charts/-/blob/master/README.md>.
+:tada: Big thanks to @christian.gulden / [@chgl](https://github.com/chgl/) for all Kubernetes Support! The draft of this "How to ..." section is borrowed from him, originally from here: <https://gitlab.miracum.org/miracum/charts/-/blob/master/README.md>.
