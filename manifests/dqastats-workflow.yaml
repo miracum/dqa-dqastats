@@ -22,22 +22,22 @@ spec:
     securityContext:
       runAsUser: 1111
       fsGroup: 1
-    serviceAccountName: argo-workflow
+    serviceAccountName: argo-wf-san
     # entrypoint: dqastats-workflow
     ## For the error handling see:
     ## https://github.com/argoproj/argo-workflows/tree/master/examples#exit-handlers
     entrypoint: dqastats
     # entrypoint: intentional-fail
     onExit: exit-handler
-    volumeClaimTemplates: # define volume, same syntax as k8s Pod spec
-      - metadata:
-          name: data # name of volume claim
-        spec:
-          storageClassName: "vsphere-storage"
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 50Mi
+    # volumeClaimTemplates: # define volume, same syntax as k8s Pod spec
+    #   - metadata:
+    #       name: data # name of volume claim
+    #     spec:
+    #       storageClassName: "vsphere-storage"
+    #       accessModes: ["ReadWriteOnce"]
+    #       resources:
+    #         requests:
+    #           storage: 50Mi
     templates:
       # - name: dqastats-workflow
       #   steps:
@@ -46,8 +46,11 @@ spec:
       #     - - name: report-status
       #         template: report-status
       - name: dqastats
+        volumes:
+        - name: data
+          emptyDir: { }
         container:
-          image: ghcr.io/miracum/dqastats:0.0.1.9006
+          image: ghcr.io/miracum/dqastats:4.1.2
           volumeMounts:
             - name: data
               mountPath: /data/output
@@ -65,14 +68,16 @@ spec:
                   key: i2b2-password
           command: [R, -e]
           args:
-            - rv <- DQAstats::dqa(
-              source_system_name = "i2b2",
-              target_system_name = "i2b2",
-              utils_path = "/usr/local/lib/R/site-library/miRacumDQA/application/_utilities",
-              mdr_filename = "mdr.csv",
-              output_dir = "/data/output",
-              logfile_dir = "/data/output/logs"
-              )
+            - Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file("demo_data", package = "DQAstats"));
+              Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file("demo_data", package = "DQAstats"));
+              tmp <- DQAstats::dqa(
+                     source_system_name = "${SOURCE_SYSTEM_NAME}",
+                     target_system_name = "${TARGET_SYSTEM_NAME}",
+                     utils_path = "${UTILS_PATH}",
+                     mdr_filename = "${MDR_FILENAME}",
+                     output_dir = "/data/output",
+                     logfile_dir = "/data/logs"
+                     )
 
       ## Exit handler templates
       ## Source: https://github.com/argoproj/argo-workflows/tree/master/examples#exit-handlers

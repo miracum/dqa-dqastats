@@ -11,13 +11,41 @@ The manifest [`dqastats-workflow.yaml`](./dqastats-workflow.yaml) uses [Argo Wor
 
 ## How to use
 
-1. Create a local cluster pre-configured with Ingress support for testing using [KinD](https://kind.sigs.k8s.io/):
+1. Install [KinD](https://kind.sigs.k8s.io/) (Kubernetes in Docker).
+1. Create a local cluster for testing:
 
    ```sh
    kind create cluster
    ```
 
-1. Make changes to the manifest [`dqastats-workflow.yaml`](./dqastats-workflow.yaml) to your needs or run the current one for demo purpose.
+1. Install [Argo Workflows](https://argoproj.github.io/argo-workflows/):
+
+   ```sh
+   ## Add the HELM repo for Argo:
+   helm repo add bitnami https://charts.bitnami.com/bitnami
+
+   ## Install Argo Workflow with own presets:
+   helm install argo-wf bitnami/argo-workflows \
+       --set server.serviceAccount.name=argo-wf-san
+   ```
+
+1. Follow the instructions to obtain the Bearer token:
+
+   ```sh
+   ## Note: If you changed the name of the deployment `arg-wf` above,
+   ## you also need to change it here:
+   SECRET=$(kubectl get sa argo-wf-san -o=jsonpath='{.secrets[0].name}')
+   ARGO_TOKEN="Bearer $(kubectl get secret $SECRET -o=jsonpath='{.data.token}' | base64 --decode)"
+   echo "$ARGO_TOKEN"
+   ```
+
+1. Change the manifest [`dqastats-workflow.yaml`](./dqastats-workflow.yaml) to your needs or keep the current one for demo purpose.
+1. Send the secret and the workflow to the cluster:
+
+   ```sh
+   kubectl apply -f ./manifests/dqastats-secret.yaml
+   kubectl apply -f ./manifests/dqastats-workflow.yaml
+   ```
 
 ## Thanks
 
