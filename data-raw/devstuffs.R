@@ -130,6 +130,7 @@ usethis::use_build_ignore("docker-compose.yml")
 usethis::use_build_ignore("build_image.sh")
 usethis::use_build_ignore("renovate.json")
 usethis::use_build_ignore("NEWS.md")
+usethis::use_build_ignore("manifests")
 
 ## .gitignore:
 usethis::use_git_ignore("/*")

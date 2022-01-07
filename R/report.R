@@ -431,13 +431,14 @@ create_markdown <- function(rv = rv,
     logfile_dir = rv$log$logfile_dir,
     headless = rv$headless)
 
-  catch_msg <- paste0("Something went wrong with tinytex.",
-                      " Is it installed correctly?",
-                      " Try reinstalling it by running `",
-                      "remotes::update_packages('tinytex', upgrade = 'always')",
-                      "` and `",
-                      "tinytex::install_tinytex()",
-                      "`")
+  catch_msg <- paste0(
+    "Something went wrong with tinytex.",
+    " Is it installed correctly?",
+    " Try reinstalling it by running ",
+    "`remotes::update_packages('tinytex', upgrade = 'always')` ",
+    "and `tinytex::install_tinytex()`\n\n",
+    "!!! DQAstats is not able to render the PDF report !!!"
+  )
   if (!tinytex::is_tinytex()) {
     DIZutils::feedback(
       print_this = catch_msg,
@@ -446,55 +447,47 @@ create_markdown <- function(rv = rv,
       logfile_dir = rv$log$logfile_dir,
       headless = rv$headless
     )
-    stop(catch_msg)
-  }
-
-  catch_msg <- "Error occured when rendering the PDF document"
-  tryCatch({
-    knitr::knit(
-      input = paste0(utils_path, "RMD/DQA_report.Rmd"),
-      output = paste0(outdir, "/DQA_report.md"),
-      encoding = "UTF-8"
-    )
-
-    # copy header-folder to tempdir to make files available for
-    # the next command
-    if (dir.exists(paste0(utils_path, "RMD/_header"))) {
-      file.copy(
-        paste0(utils_path, "RMD/_header"),
-        outdir,
-        recursive = TRUE
+  } else {
+    catch_msg <- "Error occured when rendering the PDF document"
+    tryCatch({
+      knitr::knit(
+        input = paste0(utils_path, "RMD/DQA_report.Rmd"),
+        output = paste0(outdir, "/DQA_report.md"),
+        encoding = "UTF-8"
       )
-    }
 
-    rmarkdown::render(
-      input = paste0(outdir, "/DQA_report.md"),
-      output_dir = outdir,
-      output_file = paste0("DQA_report_", gsub(
-        "\\-|\\:| ", "", substr(rv$start_time, 1, 16)
-      ), ".pdf"),
-      encoding = "UTF-8"
-    )
-  }, error = function(e) {
-    DIZutils::feedback(
-      print_this = paste0(catch_msg, e),
-      type = "Error",
-      findme = "d70789cd83",
-      logfile_dir = rv$log$logfile_dir,
-      headless = rv$headless)
-  }, warning = function(w) {
-    DIZutils::feedback(
-      print_this = paste0(catch_msg, w),
-      type = "Warning",
-      findme = "d70654cd83",
-      logfile_dir = rv$log$logfile_dir,
-      headless = rv$headless)
-  })
+      # copy header-folder to tempdir to make files available for
+      # the next command
+      if (dir.exists(paste0(utils_path, "RMD/_header"))) {
+        file.copy(
+          paste0(utils_path, "RMD/_header"),
+          outdir,
+          recursive = TRUE
+        )
+      }
 
-
-  # delete temporary files
-  #% do.call(file.remove,
-  #%         list(list.files(paste0(outdir, "_header"),
-  #%                         full.names = TRUE)))
-  #% unlink(paste0(outdir, "_header"), recursive = T)
+      rmarkdown::render(
+        input = paste0(outdir, "/DQA_report.md"),
+        output_dir = outdir,
+        output_file = paste0("DQA_report_", gsub(
+          "\\-|\\:| ", "", substr(rv$start_time, 1, 16)
+        ), ".pdf"),
+        encoding = "UTF-8"
+      )
+    }, error = function(e) {
+      DIZutils::feedback(
+        print_this = paste0(catch_msg, e),
+        type = "Error",
+        findme = "d70789cd83",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless)
+    }, warning = function(w) {
+      DIZutils::feedback(
+        print_this = paste0(catch_msg, w),
+        type = "Warning",
+        findme = "d70654cd83",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless)
+    })
+  }
 }
