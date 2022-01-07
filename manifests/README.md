@@ -29,10 +29,11 @@ The manifest [`dqastats-workflow.yaml`](./dqastats-workflow.yaml) uses [Argo Wor
        --set server.serviceAccount.name=argo-wf-san
    ```
 
-1. Follow the instructions to obtain the Bearer token:
+1. Follow the instructions in the console to obtain the Bearer token, these might be similar to the following:
 
    ```sh
-   ## Note: If you changed the name of the deployment `arg-wf` above,
+   ## Note: If you changed the name `arg-wf` of the deployment
+   ## in the `helm install ...` command above,
    ## you also need to change it here:
    SECRET=$(kubectl get sa argo-wf-san -o=jsonpath='{.secrets[0].name}')
    ARGO_TOKEN="Bearer $(kubectl get secret $SECRET -o=jsonpath='{.data.token}' | base64 --decode)"
