@@ -2,6 +2,9 @@
 
 ## Unreleased (2022-01-12)
 
+#### Fixes
+
+* merging origin/development
 #### Refactorings
 
 * updated K8s manifest and docs
@@ -12,8 +15,9 @@
 #### Others
 
 * cran-submission to rbuildignore
+* fix failing cran checks due to failing unit tests in rdevel
 
-Full set of changes: [`v0.2.1...4c1dddf`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.1...4c1dddf)
+Full set of changes: [`v0.2.1...bd79108`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.1...bd79108)
 
 ## v0.2.1 (2022-01-04)
 
