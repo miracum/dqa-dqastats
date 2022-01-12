@@ -17,14 +17,6 @@
 
 context("test descriptive results")
 
-if (dir.exists("../../00_pkg_src")) {
-  prefix <- "../../00_pkg_src/DQAstats/"
-} else if (dir.exists("../../R")) {
-  prefix <- "../../"
-} else if (dir.exists("./R")) {
-  prefix <- "./"
-}
-
 library(data.table)
 
 test_that("correct functioning of descriptive results", {
@@ -165,8 +157,6 @@ test_that("correct functioning of descriptive results", {
   expect_length(rv$conformance$value_conformance, 8)
   expect_false(!any(sapply(rv$conformance$value_conformance, length) == 2))
 
-  file.remove(paste0(prefix, "tests/testthat/logfile.log"))
-
 })
 
 
@@ -183,7 +173,7 @@ test_that("correct functioning of descriptive results - single source", {
 
   utils_path <- system.file("demo_data/utilities", package = "DQAstats")
   mdr_filename <- "mdr_example_data.csv"
-  output_dir <- paste0(prefix,
+  output_dir <- paste0(tempdir(),
                        "output/")
 
   # initialize rv-list
@@ -193,7 +183,7 @@ test_that("correct functioning of descriptive results - single source", {
   rv$source$system_name <- source_system_name
   rv$target$system_name <- target_system_name
 
-  rv$log$logfile_dir <- paste0(prefix, "tests/testthat/")
+  rv$log$logfile_dir <- tempdir()
 
   # set headless (without GUI, progressbars, etc.)
   rv$headless <- TRUE
@@ -315,7 +305,6 @@ test_that("correct functioning of descriptive results - single source", {
   do.call(file.remove, list(list.files(
     paste0(output_dir, "_header"), full.names = TRUE
   )))
-  unlink(paste0(output_dir, "_header"), recursive = T)
-  unlink(output_dir, recursive = T)
-  file.remove(paste0(prefix, "tests/testthat/logfile.log"))
+  unlink(paste0(output_dir, "_header"), recursive = TRUE)
+  unlink(output_dir, recursive = TRUE)
 })
