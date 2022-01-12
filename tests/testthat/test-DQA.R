@@ -17,14 +17,6 @@
 
 context("test DQA function")
 
-if (dir.exists("../../00_pkg_src")) {
-  prefix <- "../../00_pkg_src/DQAstats/"
-} else if (dir.exists("../../R")) {
-  prefix <- "../../"
-} else {
-  prefix <- "./"
-}
-
 library(data.table)
 
 test_that("correct functioning of DQA", {
@@ -68,7 +60,6 @@ test_that("correct functioning of DQA", {
   do.call(file.remove, list(list.files(
     paste0(output_dir, "_header"), full.names = TRUE
   )))
-  unlink(paste0(output_dir, "_header"), recursive = T)
-  unlink(output_dir, recursive = T)
-  file.remove(paste0(prefix, "tests/testthat/logfile.log"))
+  unlink(paste0(output_dir, "_header"), recursive = TRUE)
+  unlink(output_dir, recursive = TRUE)
 })

@@ -1,5 +1,20 @@
 # DQAstats NEWS
 
+## Unreleased (2022-01-12)
+
+#### Refactorings
+
+* updated K8s manifest and docs
+#### Docs
+
+* added @chgl / @christian.gulden to thanks
+* updated k8s docs
+#### Others
+
+* cran-submission to rbuildignore
+
+Full set of changes: [`v0.2.1...4c1dddf`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.1...4c1dddf)
+
 ## v0.2.1 (2022-01-04)
 
 #### New Features
@@ -15,6 +30,7 @@
 * cran-installation to readme
 #### Others
 
+* updated news.md
 * fixed typo in rbuildignore
 * updated `news.md`
 * detailed error message for `tinytex`
