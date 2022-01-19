@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.2")
+my_desc$set_version("0.2.2.9001")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -67,7 +67,6 @@ my_desc$write(file = "DESCRIPTION")
 
 # Imports
 usethis::use_package("data.table", type = "Imports")
-usethis::use_package("e1071", type = "Imports")
 usethis::use_package("future", type = "Imports")
 usethis::use_package("future.apply", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
@@ -91,7 +90,7 @@ usethis::use_package("lintr", type = "Suggests")
 # Development package
 utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
-  install.packages("DIZutils")
+  remotes::update_packages("DIZutils", upgrade = "always")
 } else{
   devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
   desc::desc_set_remotes(c(paste0(

@@ -39,8 +39,7 @@ ARG packages="Rcpp \
     proxy \
     RPostgres \
     kableExtra \
-    future.apply \
-    e1071"
+    future.apply"
 
 ## Install and cleanup:
 RUN for package in $packages; do \

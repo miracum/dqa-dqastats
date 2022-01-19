@@ -1,7 +1,7 @@
 Package: DQAstats
 Title: Core Functions for Data Quality Assessment
-Version: 0.2.2
-Date: 2022-01-12
+Version: 0.2.2.9001
+Date: 2022-01-19
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
@@ -19,7 +19,6 @@ BugReports: https://github.com/miracum/dqa-dqastats/issues
 Imports: 
     data.table,
     DIZutils,
-    e1071,
     future,
     future.apply,
     jsonlite,
@@ -37,4 +36,3 @@ Suggests:
     remotes,
     testthat
 Encoding: UTF-8
-RoxygenNote: 7.1.2

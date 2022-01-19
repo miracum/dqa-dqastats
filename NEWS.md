@@ -1,6 +1,17 @@
 # DQAstats NEWS
 
-## Unreleased (2022-01-12)
+## Unreleased (2022-01-19)
+
+#### Others
+
+* repair codecov badge
+* fixed wrong formatting of markdown in readme.md badges section
+* removed html comments
+* reactivated cran-badges in readme.md
+
+Full set of changes: [`v0.2.2...a9ad523`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...a9ad523)
+
+## v0.2.2 (2022-01-12)
 
 #### Fixes
 
@@ -14,10 +25,11 @@
 * updated k8s docs
 #### Others
 
+* updated news.md
 * cran-submission to rbuildignore
 * fix failing cran checks due to failing unit tests in rdevel
 
-Full set of changes: [`v0.2.1...bd79108`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.1...bd79108)
+Full set of changes: [`v0.2.1...v0.2.2`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.1...v0.2.2)
 
 ## v0.2.1 (2022-01-04)
 

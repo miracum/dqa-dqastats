@@ -44,12 +44,6 @@ extensive_summary <- function(vector) {
     c("OutHi", round(as.numeric(
       base::sum(vector > (quant[2] + i_out), na.rm = TRUE)
     ), 2)),
-    c("Skewness", round(as.numeric(
-      e1071::skewness(vector, na.rm = TRUE)
-    ), 2)),
-    c("Kurtosis", round(as.numeric(
-      e1071::kurtosis(vector, na.rm = TRUE)
-    ), 2)),
     c("Variance", round(as.numeric(
       stats::var(vector, na.rm = TRUE)
     ), 2)),

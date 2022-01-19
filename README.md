@@ -52,37 +52,6 @@ Note: A working LaTeX installation is a prerequisite for using this software (e.
 
 :bulb: If you want to run this in a dockerized environment you can use the [`rocker/verse`](https://hub.docker.com/r/rocker/verse/) image which has TeX already installed.
 
-## Demo Usage
-
-You can test the package without needing to install anything except docker. To try out the package follow these instructions:
-
-1. Make sure you have [docker](https://docs.docker.com/get-docker/) installed
-2. Clone this repo
-
-    ```bash
-    git clone https://gitlab.miracum.org/miracum/dqa/dqastats.git dqastats
-    cd dqastats
-    ```
-
-3. Run the containerized setup using
-
-    ```bash
-    docker-compose up
-    ```
-
-4. Go to `./output/` and see the created report.
-
-### Advanced dockerized usage
-
-If you want to use your own docker-compose and .env file(s) you can do this simply by using them in this command:
-
-```bash
-docker-compose \
-  -f docker-compose_miracum.yml \
-  --env-file ../dqastats.env \
-  up --build
-```
-
 ## Configuration of the tool
 
 The configuration of databases, be it CSV files or SQL-based databases, is done with environment variables, which can be set using the base R command `Sys.setenv()`.
@@ -119,6 +88,37 @@ results <- DQAstats::dqa(
 )
 
 # The PDF report is stored at "./output/"
+```
+
+## Demo Usage / Deployment Examples
+
+You can test the package without needing to install anything except docker. To try out the package follow these instructions:
+
+1. Make sure you have [docker](https://docs.docker.com/get-docker/) installed
+2. Clone this repo
+
+    ```bash
+    git clone https://gitlab.miracum.org/miracum/dqa/dqastats.git dqastats
+    cd dqastats
+    ```
+
+3. Run the containerized setup using
+
+    ```bash
+    docker-compose up
+    ```
+
+4. Go to `./output/` and see the created report.
+
+### Advanced dockerized usage
+
+If you want to use your own docker-compose and .env file(s) you can do this simply by using them in this command:
+
+```bash
+docker-compose \
+  -f docker-compose_miracum.yml \
+  --env-file ../dqastats.env \
+  up --build
 ```
 
 ## Citation

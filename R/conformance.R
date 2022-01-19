@@ -287,8 +287,7 @@ value_conformance <- function(
                     "No data available to perform conformance checks."
                 } else {
                   # get valueset from mdr
-                  constraints <-
-                    unlist(strsplit(constraints$value_set, ", ", fixed = T))
+                  constraints <- constraints$value_set
                   # get levels from results
                   levels_results <-
                     s_out[, levels(get(colnames(s_out)[1]))]
