@@ -2,6 +2,9 @@
 
 ## Unreleased (2022-01-19)
 
+#### New Features
+
+* removed e1071 dependency; expect value_set to be array
 #### Others
 
 * repair codecov badge
@@ -9,7 +12,7 @@
 * removed html comments
 * reactivated cran-badges in readme.md
 
-Full set of changes: [`v0.2.2...a9ad523`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...a9ad523)
+Full set of changes: [`v0.2.2...ebfa59b`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...ebfa59b)
 
 ## v0.2.2 (2022-01-12)
 
