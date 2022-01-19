@@ -363,7 +363,6 @@ apply_time_restriciton <- function(data,
         logfile_dir = logfile_dir,
         findme = "4ec2f96277"
       )
-      print(tables)
       stop("See error above")
     } else {
       for (table in tables$source_table_name) {
