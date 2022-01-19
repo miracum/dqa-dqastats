@@ -56,7 +56,7 @@ Note: A working LaTeX installation is a prerequisite for using this software (e.
 
 The configuration of databases, be it CSV files or SQL-based databases, is done with environment variables, which can be set using the base R command `Sys.setenv()`.
 
-A detailed description, which environment variables need to be set for the specific databases can be found [here](https://github.com/miracum/misc-dizutils/blob/master/README.md).
+A detailed description, which environment variables need to be set for the specific databases can be found [here](https://github.com/miracum/misc-dizutils/blob/master/README.md#set_env_vars).
 
 ## Example
 
