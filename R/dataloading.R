@@ -574,9 +574,46 @@ data_loading <- function(rv, system, keys_to_test) {
   outlist <- list()
 
   if (system$system_type == "csv") {
-    system$settings$path <- Sys.getenv(
-      paste0(toupper(system$system_name), "_PATH")
-    )
+    ## Get path to csv files from environment or variable:
+    if (dir.exists(Sys.getenv(paste0(toupper(system$system_name), "_PATH")))) {
+      system$settings$path <-
+        Sys.getenv(paste0(toupper(system$system_name), "_PATH"))
+      DIZutils::feedback(
+        print_this = paste0(
+          "Found the path to the csv files in the environment: '",
+          system$settings$path
+        ),
+        headless = rv$headless,
+        findme = "d45dad8b72"
+      )
+    } else if (dir.exists(system$settings$path)) {
+      DIZutils::feedback(
+        print_this = paste0(
+          "Found the path to the csv files in 'system$settings$path': '",
+          system$settings$path
+        ),
+        headless = rv$headless,
+        findme = "46a2f26236"
+      )
+    } else {
+      DIZutils::feedback(
+        print_this = paste0(
+          "No existing path to the csv files could be found in",
+          "'system$settings$path' (=",
+          system$settings$path,
+          ") or in the environment (='",
+          Sys.getenv(paste0(toupper(
+            system$system_name
+          ), "_PATH")),
+          "').",
+          system$settings$path
+        ),
+        headless = rv$headless,
+        findme = "cf220c689f",
+        type = "Error"
+      )
+      stop("See error above.")
+    }
     stopifnot(nchar(system$settings$path) > 0)
 
     test_csv_result <- test_csv(

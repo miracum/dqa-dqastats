@@ -1,24 +1,17 @@
 # DQAstats NEWS
 
-## Unreleased (2022-01-19)
+## Unreleased (2022-01-21)
 
 #### New Features
 
 * removed e1071 dependency; expect value_set to be array
-#### Others
-
-* repair codecov badge
-* fixed wrong formatting of markdown in readme.md badges section
-* removed html comments
-* reactivated cran-badges in readme.md
-
-Full set of changes: [`v0.2.2...ebfa59b`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...ebfa59b)
-
-## v0.2.2 (2022-01-12)
-
+* added script to run testdata
+* added kubernetes manifest
 #### Fixes
 
 * merging origin/development
+* will not fail when tinytex is missing
+* removed tinytex-installation from report.r due to cran policy violation
 #### Refactorings
 
 * updated K8s manifest and docs
@@ -26,29 +19,18 @@ Full set of changes: [`v0.2.2...ebfa59b`](https://gitlab.miracum.org/miracum/dqa
 
 * added @chgl / @christian.gulden to thanks
 * updated k8s docs
-#### Others
-
-* updated news.md
-* cran-submission to rbuildignore
-* fix failing cran checks due to failing unit tests in rdevel
-
-Full set of changes: [`v0.2.1...v0.2.2`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.1...v0.2.2)
-
-## v0.2.1 (2022-01-04)
-
-#### New Features
-
-* added script to run testdata
-* added kubernetes manifest
-#### Fixes
-
-* will not fail when tinytex is missing
-* removed tinytex-installation from report.r due to cran policy violation
-#### Docs
-
 * cran-installation to readme
 #### Others
 
+* updated url in readme
+* removed print-statement from datetime_restrictions
+* updated MDR and example data
+* repair codecov badge
+* fixed wrong formatting of markdown in readme.md badges section
+* removed html comments
+* reactivated cran-badges in readme.md
+* updated news.md
+* cran-submission to rbuildignore
 * updated news.md
 * fixed typo in rbuildignore
 * updated `news.md`
@@ -56,8 +38,10 @@ Full set of changes: [`v0.2.1...v0.2.2`](https://gitlab.miracum.org/miracum/dqa/
 * updated news.md
 * allow news.md in .gitignore and add to .Rbuildignore
 * added creation of news.md to devstuffs.R
+* adapt checks to MDR columns
+* fix failing cran checks due to failing unit tests in rdevel
 
-Full set of changes: [`v0.2.0...v0.2.1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.0...v0.2.1)
+Full set of changes: [`v0.2.0...535df53`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.0...535df53)
 
 ## v0.2.0 (2022-01-03)
 
