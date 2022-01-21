@@ -5,21 +5,9 @@
 #### New Features
 
 * removed e1071 dependency; expect value_set to be array
-* added script to run testdata
-* added kubernetes manifest
 #### Fixes
 
-* merging origin/development
-* will not fail when tinytex is missing
-* removed tinytex-installation from report.r due to cran policy violation
-#### Refactorings
-
-* updated K8s manifest and docs
-#### Docs
-
-* added @chgl / @christian.gulden to thanks
-* updated k8s docs
-* cran-installation to readme
+* fallback in csv path extraction to handed over variable
 #### Others
 
 * updated url in readme
@@ -29,8 +17,45 @@
 * fixed wrong formatting of markdown in readme.md badges section
 * removed html comments
 * reactivated cran-badges in readme.md
+* adapt checks to MDR columns
+
+Full set of changes: [`v0.2.2...5dee04e`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...5dee04e)
+
+## v0.2.2 (2022-01-12)
+
+#### Fixes
+
+* merging origin/development
+#### Refactorings
+
+* updated K8s manifest and docs
+#### Docs
+
+* added @chgl / @christian.gulden to thanks
+* updated k8s docs
+#### Others
+
 * updated news.md
 * cran-submission to rbuildignore
+* fix failing cran checks due to failing unit tests in rdevel
+
+Full set of changes: [`v0.2.1...v0.2.2`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.1...v0.2.2)
+
+## v0.2.1 (2022-01-04)
+
+#### New Features
+
+* added script to run testdata
+* added kubernetes manifest
+#### Fixes
+
+* will not fail when tinytex is missing
+* removed tinytex-installation from report.r due to cran policy violation
+#### Docs
+
+* cran-installation to readme
+#### Others
+
 * updated news.md
 * fixed typo in rbuildignore
 * updated `news.md`
@@ -38,10 +63,8 @@
 * updated news.md
 * allow news.md in .gitignore and add to .Rbuildignore
 * added creation of news.md to devstuffs.R
-* adapt checks to MDR columns
-* fix failing cran checks due to failing unit tests in rdevel
 
-Full set of changes: [`v0.2.0...535df53`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.0...535df53)
+Full set of changes: [`v0.2.0...v0.2.1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.0...v0.2.1)
 
 ## v0.2.0 (2022-01-03)
 
