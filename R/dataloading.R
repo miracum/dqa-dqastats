@@ -575,9 +575,9 @@ data_loading <- function(rv, system, keys_to_test) {
 
   if (system$system_type == "csv") {
     ## Get path to csv files from environment or variable:
-    if (dir.exists(Sys.getenv(paste0(toupper(system$system_name), "_PATH")))) {
-      system$settings$path <-
-        Sys.getenv(paste0(toupper(system$system_name), "_PATH"))
+    env_var_name <- paste0(toupper(system$system_name), "_PATH")
+    if (dir.exists(Sys.getenv(env_var_name))) {
+      system$settings$path <- Sys.getenv(env_var_name)
       DIZutils::feedback(
         print_this = paste0(
           "Found the path to the csv files in the environment: '",
@@ -590,7 +590,12 @@ data_loading <- function(rv, system, keys_to_test) {
       DIZutils::feedback(
         print_this = paste0(
           "Found the path to the csv files in 'system$settings$path': '",
-          system$settings$path
+          system$settings$path,
+          "'. Environment variable ",
+          env_var_name,
+          " was '",
+          Sys.getenv(env_var_name),
+          "'."
         ),
         headless = rv$headless,
         findme = "46a2f26236"
@@ -614,6 +619,7 @@ data_loading <- function(rv, system, keys_to_test) {
       )
       stop("See error above.")
     }
+    rm(env_var_name)
     stopifnot(nchar(system$settings$path) > 0)
 
     test_csv_result <- test_csv(
