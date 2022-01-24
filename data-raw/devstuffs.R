@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.2.9003")
+my_desc$set_version("0.2.2.9004")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -129,9 +129,16 @@ usethis::use_build_ignore("docker-compose.yml")
 usethis::use_build_ignore("build_image.sh")
 usethis::use_build_ignore("renovate.json")
 usethis::use_build_ignore("NEWS.md")
-usethis::use_build_ignore("manifests")
+usethis::use_build_ignore("docker")
 
 ## .gitignore:
+fn <- ".gitignore"
+if (file.exists(fn)) {
+  file.remove(fn)
+}
+usethis::use_git_ignore("## --------------")
+usethis::use_git_ignore("## Please make changes ONLY in `./data-raw/devstuffs.R`!")
+usethis::use_git_ignore("## -------------")
 usethis::use_git_ignore("/*")
 usethis::use_git_ignore("/*/")
 usethis::use_git_ignore("*.log")
@@ -154,8 +161,17 @@ usethis::use_git_ignore("/.RData")
 usethis::use_git_ignore("/.vscode")
 usethis::use_git_ignore("!/.lintr")
 usethis::use_git_ignore("!/NEWS.md")
+usethis::use_git_ignore("!/docker/")
+usethis::use_git_ignore("/docker/*")
+usethis::use_git_ignore("!/docker/build_image.sh")
+usethis::use_git_ignore("!/docker/docker-compose.yml")
+usethis::use_git_ignore("!/docker/dqastats-secret.yaml")
+usethis::use_git_ignore("!/docker/dqastats-workflow.yaml")
+usethis::use_git_ignore("!/docker/Dockerfile")
+usethis::use_git_ignore("!/docker/README.md")
 #usethis::use_git_ignore("/inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#")
 usethis::use_git_ignore(".~lock.*.csv#")
+
 
 
 usethis::use_tidy_description()

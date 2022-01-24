@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Get version tag and registry-prefix from .env:
-source ./.env
+source ../.env
 
 printf "\n\n##################################\n"
 printf "Building images with version tag $IMAGE_TAG"

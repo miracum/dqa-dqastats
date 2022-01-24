@@ -11,6 +11,17 @@
 [![CRAN Checks](https://cranchecks.info/badges/worst/DQAstats)](https://cran.r-project.org/web/checks/check_results_DQAstats.html)
 <!-- badges: end -->
 
+- [DQAstats](#dqastats)
+  - [Installation](#installation)
+    - [CRAN Version](#cran-version)
+    - [Development Version](#development-version)
+  - [Configuration of the tool](#configuration-of-the-tool)
+  - [Example](#example)
+  - [Demo Usage / Deployment Examples](#demo-usage--deployment-examples)
+    - [Advanced dockerized usage](#advanced-dockerized-usage)
+  - [Citation](#citation)
+  - [More Infos](#more-infos)
+
 The R package 'DQAstats' provides core functionalities to perform data quality assessment (DQA) of electronic health record data (EHR).  
 
 Currently implemented features are:  
@@ -99,7 +110,7 @@ You can test the package without needing to install anything except docker. To t
 
     ```bash
     git clone https://gitlab.miracum.org/miracum/dqa/dqastats.git dqastats
-    cd dqastats
+    cd dqastats/docker
     ```
 
 3. Run the containerized setup using
