@@ -25,19 +25,19 @@ The R package 'DQAstats' provides core functionalities to perform data quality a
 
 Currently implemented features are:  
 
-* descriptive (univariate) analysis of categorical and continuous variables of a source database and a target database
-* checks of the extract-transform-load (ETL) pipeline (by comparing distinct values and valid values between the source database and the target database)  
-* value conformance checks by comparing the resulting statistics to value constraints (given in a meta data repository (MDR))  
-* 'atemporal plausibility' checks (multivariate)  
-* 'uniqueness plausibility' checks (multivariate)  
+- descriptive (univariate) analysis of categorical and continuous variables of a source database and a target database
+- checks of the extract-transform-load (ETL) pipeline (by comparing distinct values and valid values between the source database and the target database)  
+- value conformance checks by comparing the resulting statistics to value constraints (given in a meta data repository (MDR))  
+- 'atemporal plausibility' checks (multivariate)  
+- 'uniqueness plausibility' checks (multivariate)  
 
 The tool provides one main function, `dqa()`, to create a comprehensive PDF document, which presents all statistics and results of the data quality assessment.
 
 Currently supported input data formats / databases:  
 
-* CSV files (via R package [`data.table`](https://cran.r-project.org/package=data.table))  
-* PostgreSQL (via R package [`RPostgres`](https://cran.r-project.org/package=RPostgres))  
-* ORACLE (via R package [`RJDBC`](https://cran.r-project.org/package=RJDBC))  
+- CSV files (via R package [`data.table`](https://cran.r-project.org/package=data.table))  
+- PostgreSQL (via R package [`RPostgres`](https://cran.r-project.org/package=RPostgres))  
+- ORACLE (via R package [`RJDBC`](https://cran.r-project.org/package=RJDBC))  
 
 ## Installation
 
@@ -126,7 +126,7 @@ You can test the package without needing to install anything except docker. To t
 
 L.A. Kapsner, J.M. Mang, S. Mate, S.A. Seuchter, A. Vengadeswaran, F. Bathelt, N. Deppenwiese, D. Kadioglu, D. Kraska, and H.-U. Prokosch, Linking a Consortium-Wide Data Quality Assessment Tool with the MIRACUM Metadata Repository, Appl Clin Inform. 12 (2021) 826–835. doi:[10.1055/s-0041-1733847](https://www.thieme-connect.com/products/ejournals/abstract/10.1055/s-0041-1733847).
 
-```
+```bibtex
 @article{kapsner2021,
   title = {Linking a {{Consortium}}-{{Wide Data Quality Assessment Tool}} with the {{MIRACUM Metadata Repository}}},
   author = {Kapsner, Lorenz A. and Mang, Jonathan M. and Mate, Sebastian and Seuchter, Susanne A. and Vengadeswaran, Abishaa and Bathelt, Franziska and Deppenwiese, Noemi and Kadioglu, Dennis and Kraska, Detlef and Prokosch, Hans-Ulrich},
