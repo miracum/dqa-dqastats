@@ -110,3 +110,62 @@ parallel <- function(parallel, logfile_dir, ncores) {
     suppressWarnings(future::plan("sequential"))
   }
 }
+
+#' @title Checks if there is a LaTeX installation available
+#'
+#' @description Internal function to determine if a LaTeX installation is
+#'   available. Used before creating/knitr-ing the PDF report.
+#'
+#' @inheritParams test_csv
+#'
+#' @return TRUE if there is a LaTeX installation, FALSE if not.
+#'
+#' @examples
+#' is_latex_installed()
+#'
+#' @export
+is_latex_installed <- function(logfile_dir = NULL,
+                               headless = TRUE) {
+  catch_msg <- paste0(
+    "Something went wrong with tinytex.",
+    " Is it installed correctly?",
+    " Try reinstalling it by running ",
+    "`remotes::update_packages('tinytex', upgrade = 'always')` ",
+    "and `tinytex::install_tinytex()`\n\n",
+    "!!! DQAstats is not able to render the PDF report !!!"
+  )
+  out <- tryCatch({
+    # Just to highlight: if you want to use more than one
+    # R expression in the "try" part then you'll have to
+    # use curly brackets.
+    # 'tryCatch()' will return the last evaluated expression
+    # in case the "try" part was completed successfully
+    if (tinytex::tinytex_root() != "" ||
+        tinytex::is_tinytex()) {
+      TRUE
+    } else {
+      FALSE
+    }
+  },
+  error = function(cond) {
+    DIZutils::feedback(
+      print_this = catch_msg,
+      type = "Error",
+      findme = "7d26ce78e5",
+      logfile_dir = logfile_dir,
+      headless = headless
+    )
+    return(FALSE)
+  },
+  warning = function(cond) {
+    DIZutils::feedback(
+      print_this = catch_msg,
+      type = "Warning",
+      findme = "7d27e403ce",
+      logfile_dir = logfile_dir,
+      headless = headless
+    )
+    return(FALSE)
+  })
+  return(out)
+}

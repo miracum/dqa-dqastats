@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.2.9004")
+my_desc$set_version("0.2.2.9005")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -105,6 +105,10 @@ if (utils_tag == "cran") {
 
 
 ## .Rbuildignore: ##
+fn <- ".Rbuildignore"
+if (file.exists(fn)) {
+  file.remove(fn)
+}
 usethis::use_build_ignore("docker")
 usethis::use_build_ignore("_settings")
 usethis::use_build_ignore("tests/testthat/testdata")
@@ -130,6 +134,14 @@ usethis::use_build_ignore("build_image.sh")
 usethis::use_build_ignore("renovate.json")
 usethis::use_build_ignore("NEWS.md")
 usethis::use_build_ignore("docker")
+usethis::use_build_ignore(".ccache")
+usethis::use_build_ignore(".github")
+usethis::use_build_ignore("tic.R")
+usethis::use_build_ignore("ci")
+usethis::use_build_ignore("CRAN-RELEASE")
+usethis::use_build_ignore("CRAN-SUBMISSION")
+usethis::use_build_ignore("Rproj")
+
 
 ## .gitignore:
 fn <- ".gitignore"
@@ -137,7 +149,8 @@ if (file.exists(fn)) {
   file.remove(fn)
 }
 usethis::use_git_ignore("## --------------")
-usethis::use_git_ignore("## Please make changes ONLY in `./data-raw/devstuffs.R`!")
+usethis::use_git_ignore("## This file is auto generated.")
+usethis::use_git_ignore("## Please apply changes in `./data-raw/devstuffs.R`!")
 usethis::use_git_ignore("## -------------")
 usethis::use_git_ignore("/*")
 usethis::use_git_ignore("/*/")
@@ -169,8 +182,10 @@ usethis::use_git_ignore("!/docker/dqastats-secret.yaml")
 usethis::use_git_ignore("!/docker/dqastats-workflow.yaml")
 usethis::use_git_ignore("!/docker/Dockerfile")
 usethis::use_git_ignore("!/docker/README.md")
+usethis::use_git_ignore("!/docker/.env")
 #usethis::use_git_ignore("/inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#")
 usethis::use_git_ignore(".~lock.*.csv#")
+usethis::use_git_ignore("!/manifests/")
 
 
 

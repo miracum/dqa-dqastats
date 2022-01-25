@@ -21,31 +21,34 @@ RUN R CMD javareconf
 RUN echo JAVA_HOME="${JAVA_HOME}" >> /etc/environment
 
 RUN echo "options('repos' = 'https://cloud.r-project.org/')" >> /usr/local/lib/R/etc/Rprofile.site
-RUN R -e "install.packages(c('devtools', 'DIZutils'))"
-RUN R -e "install.packages('remotes')"
+RUN R -e "install.packages(c('devtools', 'DIZutils', 'remotes'))"
 
 ## Dependencies for dqastats (to speedup re-build process, keep them cached here):
-ARG packages="Rcpp \
+RUN install2.r --error --deps TRUE --skipinstalled \
     cli \
     cpp11 \
-    systemfonts \
-    parallelly \
-    listenv \
-    globals \
-    ggplot2 \
-    svglite \
-    webshot \
+    e1071 \
+    fansi \
     future \
+    future.apply \
+    ggplot2 \
+    globals \
+    glue \
+    jsonlite \
+    kableExtra \
+    listenv \
+    parallelly \
     proxy \
     RPostgres \
-    kableExtra \
-    future.apply"
+    Rcpp \
+    svglite \
+    systemfonts \
+    webshot \
+    yaml
 
-## Install and cleanup:
-RUN for package in $packages; do \
-    R -q -e "p <- \"$package\"; remotes::update_packages(packages = p, build_manual = FALSE, quiet = TRUE, upgrade = \"always\")"; \
-    done && \
-    rm -rf /tmp/*
+RUN R -q -e "tex_path <- tinytex::tinytex_root(); \
+    tinytex::uninstall_tinytex(force = TRUE, dir = tex_path); \
+    tinytex::install_tinytex(force = TRUE, dir = tex_path)"
 
 ## Dependencies for LaTeX (to speed up the re-build process, keep them cached here):
 ARG texpackages="amsfonts \
@@ -96,10 +99,10 @@ ARG texpackages="amsfonts \
 RUN for package in $texpackages; do \
     R -q -e "p <- \"$package\"; tinytex::tlmgr_install(pkgs = p)"; \
     done
-RUN R -q -e "tinytex::tlmgr_update()"
+RUN R -q -e "tinytex::tlmgr_update(self = TRUE)"
 
 ## Install miracumdqa:
-RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'development')"
+# RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'development')"
 
 ENV RSESSION_USER=ruser
 ENV USER_UID=1111
@@ -111,17 +114,18 @@ RUN mkdir -p /var/run/s6 && \
     chown -R ${USER_UID}:${USER_UID} /var/run/s6
 
 ## Copy the code of this package:
-COPY ./data-raw /home/${RSESSION_USER}/dqastats/data-raw
-COPY ./inst /home/${RSESSION_USER}/dqastats/inst
-COPY ./man /home/${RSESSION_USER}/dqastats/man
-COPY ./R /home/${RSESSION_USER}/dqastats/R
-COPY ./tests /home/${RSESSION_USER}/dqastats/tests
-COPY ./DESCRIPTION /home/${RSESSION_USER}/dqastats/DESCRIPTION
-COPY ./NAMESPACE /home/${RSESSION_USER}/dqastats/NAMESPACE
+COPY ./data-raw /dqastats/data-raw
+COPY ./inst /dqastats/inst
+COPY ./man /dqastats/man
+COPY ./R /dqastats/R
+COPY ./tests /dqastats/tests
+COPY ./DESCRIPTION /dqastats/DESCRIPTION
+COPY ./NAMESPACE /dqastats/NAMESPACE
 
 ## Install our R-Package(s):
-RUN cd /home/${RSESSION_USER}/dqastats/ && \
-    R -q -e "devtools::install('.', upgrade = 'always', quick = TRUE, quiet = TRUE)"
+RUN R -q -e "devtools::install('/dqastats', upgrade = 'always', quick = TRUE, quiet = TRUE)"
+
+# RUN R -q -e "install.packages('DQAstats')"
 
 ## Switch to non-root user:
 # USER docker

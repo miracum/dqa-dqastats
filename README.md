@@ -18,7 +18,6 @@
   - [Configuration of the tool](#configuration-of-the-tool)
   - [Example](#example)
   - [Demo Usage / Deployment Examples](#demo-usage--deployment-examples)
-    - [Advanced dockerized usage](#advanced-dockerized-usage)
   - [Citation](#citation)
   - [More Infos](#more-infos)
 
@@ -73,8 +72,8 @@ A detailed description, which environment variables need to be set for the speci
 
 The following code example is intended to provide a minimal working example on how to apply the DQA tool to data. Example data and a corresponding MDR are provided with the R package *DQAstats* (a working LaTeX installation is a prerequisite for using this software, e.g. by using the R package [`tinytex`](https://yihui.org/tinytex/); please refer to the [DQAstats wiki](https://github.com/miracum/dqa-dqastats/wiki/Installation) for further installation instructions).  
 
-* Example data: [https://github.com/miracum/dqa-dqastats/tree/master/inst/demo_data](https://github.com/miracum/dqa-dqastats/tree/master/inst/demo_data)  
-* Example MDR: [https://github.com/miracum/dqa-dqastats/blob/master/inst/demo_data/utilities/MDR/mdr_example_data.csv](https://github.com/miracum/dqa-dqastats/blob/master/inst/demo_data/utilities/MDR/mdr_example_data.csv)  
+- Example data: [https://github.com/miracum/dqa-dqastats/tree/master/inst/demo_data](https://github.com/miracum/dqa-dqastats/tree/master/inst/demo_data)  
+- Example MDR: [https://github.com/miracum/dqa-dqastats/blob/master/inst/demo_data/utilities/MDR/mdr_example_data.csv](https://github.com/miracum/dqa-dqastats/blob/master/inst/demo_data/utilities/MDR/mdr_example_data.csv)  
 
 ```r
 # Load library DQAstats:
@@ -110,27 +109,18 @@ You can test the package without needing to install anything except docker. To t
 
     ```bash
     git clone https://gitlab.miracum.org/miracum/dqa/dqastats.git dqastats
-    cd dqastats/docker
+    cd dqastats
     ```
 
 3. Run the containerized setup using
 
     ```bash
-    docker-compose up
+    docker-compose -f ./docker/docker-compose.yml up
     ```
 
-4. Go to `./output/` and see the created report.
+4. Go to `./docker/output/` and see the created report.
 
-### Advanced dockerized usage
-
-If you want to use your own docker-compose and .env file(s) you can do this simply by using them in this command:
-
-```bash
-docker-compose \
-  -f docker-compose_miracum.yml \
-  --env-file ../dqastats.env \
-  up --build
-```
+:bulb: For further details, see the Wiki: <https://github.com/miracum/dqa-dqastats/wiki/Deployment>.
 
 ## Citation
 

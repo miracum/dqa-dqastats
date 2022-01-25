@@ -1,5 +1,6 @@
 ## --------------
-## Please make changes ONLY in `./data-raw/devstuffs.R`!
+## This file is auto generated.
+## Please apply changes in `./data-raw/devstuffs.R`!
 ## -------------
 /*
 /*/
@@ -31,4 +32,6 @@
 !/docker/dqastats-workflow.yaml
 !/docker/Dockerfile
 !/docker/README.md
+!/docker/.env
 .~lock.*.csv#
+!/manifests/

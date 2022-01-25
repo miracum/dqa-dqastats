@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-01-24)
+## Unreleased (2022-01-25)
 
 #### New Features
 
@@ -11,6 +11,7 @@
 * fallback in csv path extraction to handed over variable
 #### Docs
 
+* restructured files and docs
 * updated `NEWS.md`
 #### Others
 
@@ -25,7 +26,7 @@
 * reactivated cran-badges in readme.md
 * adapt checks to MDR columns
 
-Full set of changes: [`v0.2.2...907cd24`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...907cd24)
+Full set of changes: [`v0.2.2...083442d`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...083442d)
 
 ## v0.2.2 (2022-01-12)
 

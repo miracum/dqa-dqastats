@@ -442,7 +442,7 @@ create_markdown <- function(rv = rv,
     "and `tinytex::install_tinytex()`\n\n",
     "!!! DQAstats is not able to render the PDF report !!!"
   )
-  if (!tinytex::is_tinytex()) {
+  if (!is_latex_installed(logfile_dir = rv$log$logfile_dir, headless = rv$headless)) {
     DIZutils::feedback(
       print_this = catch_msg,
       type = "Error",
