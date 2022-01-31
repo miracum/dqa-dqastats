@@ -1,9 +1,10 @@
 # DQAstats NEWS
 
-## Unreleased (2022-01-25)
+## Unreleased (2022-01-31)
 
 #### New Features
 
+* updated docker image
 * added demo `email.yml` file
 * removed e1071 dependency; expect value_set to be array
 #### Fixes
@@ -11,6 +12,7 @@
 * fallback in csv path extraction to handed over variable
 #### Docs
 
+* updated readme
 * restructured files and docs
 * updated `NEWS.md`
 #### Others
@@ -26,7 +28,7 @@
 * reactivated cran-badges in readme.md
 * adapt checks to MDR columns
 
-Full set of changes: [`v0.2.2...083442d`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...083442d)
+Full set of changes: [`v0.2.2...00402d2`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...00402d2)
 
 ## v0.2.2 (2022-01-12)
 
