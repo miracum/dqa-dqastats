@@ -17,6 +17,7 @@
 * updated `NEWS.md`
 #### Others
 
+* updated news.md; .rbuildignore
 * updated date range in license statements
 * added env var content to logging msg
 * re-added roxygennote
@@ -29,7 +30,7 @@
 * reactivated cran-badges in readme.md
 * adapt checks to MDR columns
 
-Full set of changes: [`v0.2.2...b10d53b`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...b10d53b)
+Full set of changes: [`v0.2.2...a3e9060`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...a3e9060)
 
 ## v0.2.2 (2022-01-12)
 

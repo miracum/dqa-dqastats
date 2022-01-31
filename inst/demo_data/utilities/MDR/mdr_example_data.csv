@@ -11,7 +11,7 @@ Current bank balance;BANK-BALANCE;;dqa_example_data_01.csv;exampleCSV_source;csv
 Credit worthy?;CREDIT-WORTHY;;dqa_example_data_01.csv;exampleCSV_source;csv;dqa.credit_worthy;dqa_credit_worthy;;enumerated;CONTACT-DATE;"{""value_set"": [""yes"", ""no""]}";;;1;Indicates whether the person is creditworthy at the time of the contact;1;"{""atemporal"": {""dqa_bank_balance"": {""name"": ""Pl.atemporal.Item01"", ""description"": ""Persons with a negative bank balance cannot be credit worthy"", ""filter"": {""exampleCSV_source"": ""^(-)"", ""exampleCSV_target"": ""^(-)""}, ""join_crit"": ""dqa_person_id"", ""constraints"": {""value_set"": {""exampleCSV_source"": [""no""], ""exampleCSV_target"": [""no""]}}}}}"
 Amount of credit;CREDIT-AMOUNT;;dqa_example_data_01.csv;exampleCSV_source;csv;dqa.credit_amount;dqa_credit_amount;;integer;CONTACT-DATE;"{""range"":{""min"":0,""max"":""Inf"",""unit"":""money""}} ";;;1;That's the amount of credit the person has used;;
 Date of contact;CONTACT-DATE;;dqa_example_data_01.csv;exampleCSV_source;csv;dqa.contact_date;dqa_contact_date;;datetime;CONTACT-DATE;"{""datetime_format"":""%d.%m.%Y""}";;;1;Date of contact;;
-Person ID;PERSON_ID;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.person_id;dqa_person_id;;string;CONTACT-DATE;;;;1;;;
+Person ID;PERSON_ID;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.person_id;dqa_person_id;;string;CONTACT-DATE;;;;1;;1;
 Forename;FORENAME;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.forename;dqa_forename;;string;CONTACT-DATE;;;;1;;;
 Name;NAME;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.name;dqa_name;;string;CONTACT-DATE;;;;1;;;
 Age in years;AGE;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.age_years;dqa_age_years;;integer;CONTACT-DATE;"{""range"":{""min"":0,""max"":110,""unit"":""a""}} ";;;1;;;
@@ -20,6 +20,6 @@ Sex;SEX;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.sex;dqa_sex;;enumerat
 Income;INCOME;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.income;dqa_income;;integer;CONTACT-DATE;"{""range"":{""min"":0,""max"":""Inf"",""unit"":""money""}} ";;;1;;;
 Job;JOB;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.job;dqa_job;;string;CONTACT-DATE;;;;1;;;
 Current bank balance;BANK-BALANCE;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.bank_balance;dqa_bank_balance;;integer;CONTACT-DATE;"{""range"":{""min"":""-Inf"",""max"":""Inf"",""unit"":""money""}} ";;;1;;;
-Credit worthy?;CREDIT-WORTHY;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.credit_worthy;dqa_credit_worthy;;enumerated;CONTACT-DATE;"{""value_set"": [""yes"", ""no""]}";;;1;;;
+Credit worthy?;CREDIT-WORTHY;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.credit_worthy;dqa_credit_worthy;;enumerated;CONTACT-DATE;"{""value_set"": [""yes"", ""no""]}";;;1;;1;
 Amount of credit;CREDIT-AMOUNT;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.credit_amount;dqa_credit_amount;;integer;CONTACT-DATE;"{""range"":{""min"":0,""max"":""Inf"",""unit"":""money""}} ";;;1;;;
 Date of contact;CONTACT-DATE;;dqa_example_data_02.csv;exampleCSV_target;csv;dqa.contact_date;dqa_contact_date;;datetime;CONTACT-DATE;"{""datetime_format"":""%d.%m.%Y""}";;;1;;;

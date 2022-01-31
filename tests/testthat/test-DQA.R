@@ -45,7 +45,7 @@ test_that("correct functioning of DQA", {
   )
 
   expect_type(all_results, "list")
-  expect_length(all_results, 26)
+  expect_length(all_results, 27)
 
   if (tinytex::is_tinytex()) {
 

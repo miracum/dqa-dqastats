@@ -41,6 +41,6 @@ test_that("correct functioning of readme example", {
   )
 
   expect_type(results, "list")
-  expect_length(results, 26)
+  expect_length(results, 27)
 
 })

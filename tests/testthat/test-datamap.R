@@ -124,6 +124,6 @@ test_that("correct functioning of generate_datamap", {
     headless = rv$headless
   )
 
-  expect_null(rv$datamap)
+  expect_type(rv$datamap, "list")
 
 })

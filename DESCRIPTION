@@ -1,6 +1,6 @@
 Package: DQAstats
 Title: Core Functions for Data Quality Assessment
-Version: 0.2.2.9006
+Version: 0.2.2.9007
 Date: 2022-01-31
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
@@ -36,3 +36,4 @@ Suggests:
     remotes,
     testthat
 Encoding: UTF-8
+RoxygenNote: 7.1.2
