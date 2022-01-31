@@ -102,24 +102,7 @@ results <- DQAstats::dqa(
 
 ## Demo Usage / Deployment Examples
 
-You can test the package without needing to install anything except docker. To try out the package follow these instructions:
-
-1. Make sure you have [docker](https://docs.docker.com/get-docker/) installed
-2. Clone this repo
-
-    ```bash
-    git clone https://gitlab.miracum.org/miracum/dqa/dqastats.git dqastats
-    cd dqastats
-    ```
-
-3. Run the containerized setup using
-
-    ```bash
-    docker-compose -f ./docker/docker-compose.yml up
-    ```
-
-4. Go to `./docker/output/` and see the created report.
-
+You can test the package without needing to install anything except [docker](https://docs.docker.com/get-docker/). 
 :bulb: For further details, see the Wiki: <https://github.com/miracum/dqa-dqastats/wiki/Deployment>.
 
 ## Citation

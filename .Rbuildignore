@@ -28,4 +28,4 @@
 ^ci$
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
-^Rproj$
+^dqastats\.Rproj$

@@ -140,7 +140,7 @@ usethis::use_build_ignore("tic.R")
 usethis::use_build_ignore("ci")
 usethis::use_build_ignore("CRAN-RELEASE")
 usethis::use_build_ignore("CRAN-SUBMISSION")
-usethis::use_build_ignore("Rproj")
+usethis::use_build_ignore("dqastats.Rproj")
 
 
 ## .gitignore:
