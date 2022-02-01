@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-02-01)
+## v0.2.3 (2022-02-01)
 
 #### New Features
 
@@ -30,9 +30,10 @@
 * fixed wrong formatting of markdown in readme.md badges section
 * removed html comments
 * reactivated cran-badges in readme.md
+* deleting logfiles after each test
 * adapt checks to MDR columns
 
-Full set of changes: [`v0.2.2...9b19b3e`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...9b19b3e)
+Full set of changes: [`v0.2.2...v0.2.3`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...v0.2.3)
 
 ## v0.2.2 (2022-01-12)
 
