@@ -1,9 +1,10 @@
 # DQAstats NEWS
 
-## Unreleased (2022-01-31)
+## Unreleased (2022-02-01)
 
 #### New Features
 
+* added datamap variables; updated tests accordingly; added unique plausi check irregularity
 * updated docker image
 * added demo `email.yml` file
 * removed e1071 dependency; expect value_set to be array
@@ -30,7 +31,7 @@
 * reactivated cran-badges in readme.md
 * adapt checks to MDR columns
 
-Full set of changes: [`v0.2.2...a3e9060`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...a3e9060)
+Full set of changes: [`v0.2.2...cf384a6`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...cf384a6)
 
 ## v0.2.2 (2022-01-12)
 
