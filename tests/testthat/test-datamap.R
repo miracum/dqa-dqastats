@@ -126,4 +126,9 @@ test_that("correct functioning of generate_datamap", {
 
   expect_type(rv$datamap, "list")
 
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
+
 })

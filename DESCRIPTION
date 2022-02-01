@@ -27,7 +27,6 @@ Imports:
     magrittr,
     parsedate,
     rmarkdown,
-    RPostgres,
     stats,
     tinytex,
     utils

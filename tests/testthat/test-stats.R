@@ -48,4 +48,9 @@ test_that("correct functioning of statistics", {
 
   expect_known_hash(testres, "0fe6cc9f60")
 
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
+
 })

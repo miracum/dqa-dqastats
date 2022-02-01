@@ -62,4 +62,9 @@ test_that("correct functioning of DQA", {
   )))
   unlink(paste0(output_dir, "_header"), recursive = TRUE)
   unlink(output_dir, recursive = TRUE)
+
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
 })

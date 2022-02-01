@@ -149,4 +149,9 @@ test_that("correct functioning of conformance", {
   expect_type(rv$checks$value_conformance, "list")
   expect_length(rv$checks$value_conformance, n = 3)
 
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
+
 })

@@ -121,4 +121,9 @@ test_that("correct functioning of etl_checks", {
   expect_type(rv$checks$etl, "list")
   expect_length(rv$checks$etl, n = 4)
 
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
+
 })

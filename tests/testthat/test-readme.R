@@ -43,4 +43,9 @@ test_that("correct functioning of readme example", {
   expect_type(results, "list")
   expect_length(results, 27)
 
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
+
 })

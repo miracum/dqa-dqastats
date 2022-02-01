@@ -157,6 +157,11 @@ test_that("correct functioning of descriptive results", {
   expect_length(rv$conformance$value_conformance, 8)
   expect_false(!any(sapply(rv$conformance$value_conformance, length) == 2))
 
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
+
 })
 
 
@@ -307,4 +312,9 @@ test_that("correct functioning of descriptive results - single source", {
   )))
   unlink(paste0(output_dir, "_header"), recursive = TRUE)
   unlink(output_dir, recursive = TRUE)
+
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
 })

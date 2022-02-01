@@ -140,4 +140,9 @@ test_that("correct functioning of atemporal plausibilities", {
   expect_type(rv$results_plausibility_unique, "list")
   expect_length(rv$results_plausibility_unique, n = 1)
 
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
+
 })

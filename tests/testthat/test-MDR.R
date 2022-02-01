@@ -89,4 +89,9 @@ test_that("correct functioning of MDR", {
   )))
   unlink(paste0(output_dir, "_header"), recursive = T)
   unlink(output_dir, recursive = T)
+
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
 })

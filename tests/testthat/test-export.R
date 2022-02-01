@@ -145,6 +145,11 @@ test_that("correct functioning of export_aggregated", {
     )
   )
 
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
+
 })
 
 
@@ -264,5 +269,10 @@ test_that("correct functioning of export_affected_ids", {
      output_dir = output_dir,
      object = rv$results_plausibility_unique
     )
+  )
+
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
   )
 })

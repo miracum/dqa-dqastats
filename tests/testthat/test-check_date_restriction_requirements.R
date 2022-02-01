@@ -47,4 +47,9 @@ test_that("correct functioning of check_date_restriction_requirements", {
 
   expect_true(res)
 
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
+
 })

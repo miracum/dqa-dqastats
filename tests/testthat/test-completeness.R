@@ -123,4 +123,9 @@ test_that("correct functioning of completeness", {
   expect_type(rv$completeness, "list")
   expect_length(rv$completeness, n = 5)
 
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
+
 })

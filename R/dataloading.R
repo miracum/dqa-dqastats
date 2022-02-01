@@ -411,7 +411,7 @@ load_database <- function(rv,
     USE.NAMES = TRUE
   )
 
-  RPostgres::dbDisconnect(db_con)
+  DIZutils::close_connection(db_con)
 
   for (i in keys_to_test) {
     # workaround to hide shiny-stuff, when going headless
