@@ -25,6 +25,7 @@ This function exports aggregated results in csv files that
   are added to a zip archive.
 }
 \examples{
+\donttest{# runtime > 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -144,5 +145,5 @@ export_aggregated(
   output_dir = output_dir,
   rv = rv
 )
-
+}
 }

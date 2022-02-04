@@ -4,10 +4,11 @@
 
 #### Others
 
+* wrap examples into dont-test due to long runtime on cran
 * updated rbuildignore, gitignore, news.md
 * updated description and news.md
 
-Full set of changes: [`v0.2.3...2f478eb`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.3...2f478eb)
+Full set of changes: [`v0.2.3...a588fa3`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.3...a588fa3)
 
 ## v0.2.3 (2022-02-01)
 

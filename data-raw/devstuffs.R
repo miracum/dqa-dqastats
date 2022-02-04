@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.2.9007")
+my_desc$set_version("0.2.3")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -78,7 +78,7 @@ usethis::use_package("rmarkdown", type = "Imports")
 usethis::use_package("stats", type = "Imports")
 usethis::use_package("tinytex", type = "Imports")
 usethis::use_package("utils", type = "Imports")
-usethis::use_package("DIZutils", type = "Imports")
+usethis::use_package("DIZutils", type = "Imports", min_version = "0.0.12")
 
 
 # Suggests
@@ -87,7 +87,7 @@ usethis::use_package("remotes", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 # Development package
-utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   remotes::update_packages("DIZutils", upgrade = "always")
 } else{

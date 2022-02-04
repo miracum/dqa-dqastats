@@ -28,6 +28,7 @@ A data.table with the results of the datamap.
 Internal function to generate the dashboard data maps
 }
 \examples{
+\donttest{# runtime > 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -129,5 +130,5 @@ generate_datamap(
   rv = rv,
   headless = rv$headless
 )
-
+}
 }

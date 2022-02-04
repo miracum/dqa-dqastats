@@ -26,6 +26,7 @@ This function exports export_affected_ids in csv files that
   are added to a zip archive.
 }
 \examples{
+\donttest{# runtime > 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -134,5 +135,5 @@ export_affected_ids(
  output_dir = output_dir,
  object = rv$results_plausibility_unique
 )
-
+}
 }

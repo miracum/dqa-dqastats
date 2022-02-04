@@ -38,6 +38,7 @@ Internal function to generate the results of
   the 'Uniqueness Plausibility' checks.
 }
 \examples{
+\donttest{# runtime > 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -139,5 +140,5 @@ uniq_plausi_results(
   mdr = rv$mdr,
   headless = rv$headless
 )
-
+}
 }
