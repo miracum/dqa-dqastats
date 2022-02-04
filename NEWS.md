@@ -1,12 +1,13 @@
 # DQAstats NEWS
 
-## Unreleased (2022-02-01)
+## Unreleased (2022-02-04)
 
 #### Others
 
+* updated rbuildignore, gitignore, news.md
 * updated description and news.md
 
-Full set of changes: [`v0.2.3...cf545bb`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.3...cf545bb)
+Full set of changes: [`v0.2.3...2f478eb`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.3...2f478eb)
 
 ## v0.2.3 (2022-02-01)
 

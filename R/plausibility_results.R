@@ -294,6 +294,7 @@ atemp_plausi_results <- function(rv,
 #'   }
 #'
 #' @examples
+#' \donttest{# runtime > 5 sec.
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
 #'   package = "DQAstats"
@@ -395,7 +396,7 @@ atemp_plausi_results <- function(rv,
 #'   mdr = rv$mdr,
 #'   headless = rv$headless
 #' )
-#'
+#' }
 #' @export
 #'
 uniq_plausi_results <- function(rv,

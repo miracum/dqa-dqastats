@@ -31,6 +31,7 @@
 #'   `{output_dir}/export`.
 #'
 #' @examples
+#' \donttest{# runtime > 5 sec.
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
 #'   package = "DQAstats"
@@ -150,7 +151,7 @@
 #'   output_dir = output_dir,
 #'   rv = rv
 #' )
-#'
+#' }
 #' @export
 
 export_aggregated <- function(output_dir, rv) {
@@ -300,6 +301,7 @@ all_results_overview <- function(rv) {
 #'   saved in `{output_dir}/conspicuous_ids`.
 #'
 #' @examples
+#' \donttest{# runtime > 5 sec.
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
 #'   package = "DQAstats"
@@ -408,7 +410,7 @@ all_results_overview <- function(rv) {
 #'  output_dir = output_dir,
 #'  object = rv$results_plausibility_unique
 #' )
-#'
+#' }
 #' @export
 
 export_affected_ids <- function(object, output_dir, rv) {

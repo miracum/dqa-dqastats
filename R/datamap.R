@@ -28,6 +28,7 @@
 #' @return A data.table with the results of the datamap.
 #'
 #' @examples
+#' \donttest{# runtime > 5 sec.
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
 #'   package = "DQAstats"
@@ -129,7 +130,7 @@
 #'   rv = rv,
 #'   headless = rv$headless
 #' )
-#'
+#' }
 #' @export
 #'
 generate_datamap <- function(results,
