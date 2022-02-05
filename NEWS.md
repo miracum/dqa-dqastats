@@ -1,16 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-02-04)
-
-#### Others
-
-* wrap examples into dont-test due to long runtime on cran
-* updated rbuildignore, gitignore, news.md
-* updated description and news.md
-
-Full set of changes: [`v0.2.3...a588fa3`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.3...a588fa3)
-
-## v0.2.3 (2022-02-01)
+## v0.2.3 (2022-02-04)
 
 #### New Features
 
@@ -23,11 +13,15 @@ Full set of changes: [`v0.2.3...a588fa3`](https://gitlab.miracum.org/miracum/dqa
 * fallback in csv path extraction to handed over variable
 #### Docs
 
+* updated documentation
 * updated readme
 * restructured files and docs
 * updated `NEWS.md`
 #### Others
 
+* wrap examples into dont-test due to long runtime on cran
+* updated rbuildignore, gitignore, news.md
+* updated description and news.md
 * updated version for cran submission
 * updated news.md; .rbuildignore
 * updated date range in license statements
