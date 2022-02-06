@@ -1,5 +1,13 @@
 # DQAstats NEWS
 
+## Unreleased (2022-02-06)
+
+#### Others
+
+* updated news.md
+
+Full set of changes: [`v0.2.3...90725c2`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.3...90725c2)
+
 ## v0.2.3 (2022-02-04)
 
 #### New Features

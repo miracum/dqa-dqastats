@@ -119,7 +119,9 @@ dqa <- function(source_system_name,
     target_system_name <- source_system_name
   }
 
-  dir.create(file.path(logfile_dir))
+  logfile_dir %>%
+    normalizePath(mustWork = FALSE) %>%
+    dir.create(showWarnings = FALSE)
 
   stopifnot(
     is.character(source_system_name),
@@ -478,7 +480,8 @@ dqa <- function(source_system_name,
 
   # create report
   if (!dir.exists(output_dir)) {
-    dir.create(output_dir)
+    output_dir %>%
+      dir.create(showWarnings = FALSE)
   }
 
   export_aggregated(

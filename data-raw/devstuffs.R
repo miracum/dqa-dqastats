@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.3")
+my_desc$set_version("0.2.3.9001")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -87,15 +87,23 @@ usethis::use_package("remotes", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 # Development package
-utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+utils_tag <- "diztools_adaptions" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   remotes::update_packages("DIZutils", upgrade = "always")
 } else{
-  devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
-  desc::desc_set_remotes(c(paste0(
-    "github::miracum/misc-dizutils@", utils_tag
-  )),
-  file = usethis::proj_get())
+  devtools::install_git(
+    url = "https://gitlab.miracum.org/miracum/misc/dizutils.git",
+    ref = utils_tag,
+    upgrade = "always",
+    quiet = TRUE
+  )
+  add_remotes <- paste0(
+    "url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/", utils_tag, "/dizutils-", utils_tag, ".zip"
+  )
+  desc::desc_set_remotes(
+    add_remotes,
+    file = usethis::proj_get()
+  )
 }
 
 
