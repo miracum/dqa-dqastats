@@ -35,4 +35,3 @@
 !/docker/.env
 .~lock.*.csv#
 !/manifests/
-.Rproj.user

@@ -1,12 +1,13 @@
 # DQAstats NEWS
 
-## Unreleased (2022-02-06)
+## Unreleased (2022-02-08)
 
 #### Others
 
+* some revisions to file path handling to avoid warnings
 * updated news.md
 
-Full set of changes: [`v0.2.3...90725c2`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.3...90725c2)
+Full set of changes: [`v0.2.3...6b57449`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.3...6b57449)
 
 ## v0.2.3 (2022-02-04)
 
