@@ -1,15 +1,16 @@
 # DQAstats NEWS
 
-## Unreleased (2022-02-11)
+## v0.2.4 (2022-02-11)
 
 #### Others
 
+* preparing cran update
 * updated news.md, adaptions to new diztools/dizutils
 * updated news.md and description
 * some revisions to file path handling to avoid warnings
 * updated news.md
 
-Full set of changes: [`v0.2.3...c038c44`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.3...c038c44)
+Full set of changes: [`v0.2.3...v0.2.4`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.3...v0.2.4)
 
 ## v0.2.3 (2022-02-04)
 
