@@ -427,7 +427,7 @@ create_markdown <- function(rv = rv,
                             headless = FALSE) {
 
   msg <- "Creating report "
-  DIZutils::feedback(
+  DIZtools::feedback(
     print_this = msg,
     logjs = isFALSE(headless),
     findme = "aa5c87f7da",
@@ -443,7 +443,7 @@ create_markdown <- function(rv = rv,
     "!!! DQAstats is not able to render the PDF report !!!"
   )
   if (!is_latex_installed(logfile_dir = rv$log$logfile_dir, headless = rv$headless)) {
-    DIZutils::feedback(
+    DIZtools::feedback(
       print_this = catch_msg,
       type = "Error",
       findme = "e50d001ed4",
@@ -478,14 +478,14 @@ create_markdown <- function(rv = rv,
         encoding = "UTF-8"
       )
     }, error = function(e) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(catch_msg, e),
         type = "Error",
         findme = "d70789cd83",
         logfile_dir = rv$log$logfile_dir,
         headless = rv$headless)
     }, warning = function(w) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(catch_msg, w),
         type = "Warning",
         findme = "d70654cd83",

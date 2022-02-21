@@ -24,7 +24,7 @@ load_csv_files <- function(mdr,
                            restricting_date = list(use_it = FALSE)) {
 
   # original beginning of function
-  inputdir <- DIZutils::clean_path_name(inputdir)
+  inputdir <- DIZtools::clean_path_name(inputdir)
 
 
   available_systems <- mdr[get("source_system_name") == sourcesystem &
@@ -43,7 +43,7 @@ load_csv_files <- function(mdr,
   for (inputfile in available_systems[, unique(get("source_table_name"))]) {
 
     msg <- paste("Reading", inputfile, "from CSV.")
-    DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "73c0aae8d4",
+    DIZtools::feedback(msg, logjs = isFALSE(headless), findme = "73c0aae8d4",
                        logfile_dir = logfile_dir,
                        headless = headless)
 
@@ -104,7 +104,7 @@ load_csv_files <- function(mdr,
       filtered_table <- unfiltered_table
     }
 
-    DIZutils::feedback(print_this = msg,
+    DIZtools::feedback(print_this = msg,
                        logjs = isFALSE(headless),
                        findme = "81ba7f702f",
                        logfile_dir = logfile_dir,
@@ -117,7 +117,7 @@ load_csv_files <- function(mdr,
     # treating of §21 chaperones
     if (tolower(inputfile) == "fall.csv") {
       if (outlist[[inputfile]][get("AUFNAHMEANLASS") == "B", .N] > 0) {
-        DIZutils::feedback(
+        DIZtools::feedback(
           paste0(
             outlist[[inputfile]][get("AUFNAHMEANLASS") == "B", .N],
             paste0(" chaperones present in source data system.\n\n",
@@ -131,7 +131,7 @@ load_csv_files <- function(mdr,
           outlist[[inputfile]][get("AUFNAHMEANLASS") != "B" |
                                  is.na(get("AUFNAHMEANLASS")), ]
       } else {
-        DIZutils::feedback("No chaperones present in your source data.",
+        DIZtools::feedback("No chaperones present in your source data.",
                            findme = "469a0f6dde",
                            logfile_dir = logfile_dir,
                            headless = headless)
@@ -192,7 +192,7 @@ load_csv <- function(rv,
   # read sourcedata
   outlist <- load_csv_files(
     mdr = rv$mdr,
-    inputdir = DIZutils::clean_path_name(pathname = system$settings$path,
+    inputdir = DIZtools::clean_path_name(pathname = system$settings$path,
                                          remove.slash = FALSE),
     sourcesystem = system$system_name,
     headless = headless,
@@ -216,7 +216,7 @@ load_csv <- function(rv,
 
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming source variable types", i)
-    DIZutils::feedback(msg, logjs = isFALSE(headless), findme = "776ba03cbf",
+    DIZtools::feedback(msg, logjs = isFALSE(headless), findme = "776ba03cbf",
                        logfile_dir = rv$log$logfile_dir,
                        headless = rv$headless)
 
@@ -345,14 +345,14 @@ load_database <- function(rv,
         sql <- sql_statements[[i]]
       }
 
-      DIZutils::feedback(print_this = sql,
+      DIZtools::feedback(print_this = sql,
                          logjs = isFALSE(headless),
                          findme = "f45a1dc9ca",
                          logfile_dir = rv$log$logfile_dir,
                          headless = rv$headless)
 
 
-      DIZutils::feedback(print_this = msg,
+      DIZtools::feedback(print_this = msg,
                          logjs = isFALSE(headless),
                          findme = "c12a1dd9ce",
                          logfile_dir = rv$log$logfile_dir,
@@ -363,7 +363,7 @@ load_database <- function(rv,
                                  sql_statement = sql)
       },
       error = function(cond) {
-        DIZutils::feedback(
+        DIZtools::feedback(
           print_this = paste0(
             "Error while trying to get the data for element '",
             i,
@@ -392,7 +392,7 @@ load_database <- function(rv,
           "' has > 2 columns. Aborting session.\n",
           "Please adjust the SQL statement to return max. 2 columns."
         )
-        DIZutils::feedback(
+        DIZtools::feedback(
           print_this = msg,
           type = "Error",
           logjs = isFALSE(headless),
@@ -416,7 +416,7 @@ load_database <- function(rv,
   for (i in keys_to_test) {
     # workaround to hide shiny-stuff, when going headless
     msg <- paste("Transforming target variable types", i)
-    DIZutils::feedback(
+    DIZtools::feedback(
       print_this = msg,
       logjs = isFALSE(headless),
       findme = "7a3e28f291",
@@ -578,7 +578,7 @@ data_loading <- function(rv, system, keys_to_test) {
     env_var_name <- paste0(toupper(system$system_name), "_PATH")
     if (dir.exists(Sys.getenv(env_var_name))) {
       system$settings$path <- Sys.getenv(env_var_name)
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(
           "Found the path to the csv files in the environment: '",
           system$settings$path
@@ -587,7 +587,7 @@ data_loading <- function(rv, system, keys_to_test) {
         findme = "d45dad8b72"
       )
     } else if (dir.exists(system$settings$path)) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(
           "Found the path to the csv files in 'system$settings$path': '",
           system$settings$path,
@@ -601,7 +601,7 @@ data_loading <- function(rv, system, keys_to_test) {
         findme = "46a2f26236"
       )
     } else {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(
           "No existing path to the csv files could be found in",
           "'system$settings$path' (=",

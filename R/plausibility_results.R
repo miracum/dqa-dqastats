@@ -163,7 +163,7 @@ atemp_plausi_results <- function(rv,
 
         # workaround to hide shiny-stuff, when going headless
         msg <- paste("Getting plausibility descriptions of", i)
-        DIZutils::feedback(
+        DIZtools::feedback(
           msg,
           findme = "0888fa800d",
           logfile_dir = rv$log$logfile_dir,
@@ -198,7 +198,7 @@ atemp_plausi_results <- function(rv,
 
         # workaround to hide shiny-stuff, when going headless
         msg <- paste("Calculating plausibility counts of", i)
-        DIZutils::feedback(
+        DIZtools::feedback(
           msg,
           findme = "0e918bd0fd",
           logfile_dir = rv$log$logfile_dir
@@ -217,7 +217,7 @@ atemp_plausi_results <- function(rv,
           )
         } else {
           msg <- ("Error occured during creating counts.")
-          DIZutils::feedback(
+          DIZtools::feedback(
             msg,
             type = "Error",
             findme = "c57cb255fe",
@@ -229,7 +229,7 @@ atemp_plausi_results <- function(rv,
 
         # workaround to hide shiny-stuff, when going headless
         msg <- paste("Calculating plausibility statistics of", i)
-        DIZutils::feedback(
+        DIZtools::feedback(
           msg,
           findme = "cf90f11533",
           logfile_dir = rv$log$logfile_dir
@@ -449,7 +449,7 @@ uniq_plausi_results <- function(rv,
 
           # workaround to hide shiny-stuff, when going headless
           msg <- paste("Getting uniqueness plausibility", u$name)
-          DIZutils::feedback(
+          DIZtools::feedback(
             msg,
             findme = "e4fe49cd9e",
             logfile_dir = rv$log$logfile_dir
@@ -528,7 +528,7 @@ uniq_plausi_results <- function(rv,
                   "Error: wrong character in u$all_observations.",
                   collapse = "\n"
                 )
-                DIZutils::feedback(
+                DIZtools::feedback(
                   msg,
                   findme = "39a123470b",
                   logfile_dir = rv$log$logfile_dir
@@ -542,7 +542,7 @@ uniq_plausi_results <- function(rv,
                 paste(i, "not in", colnames(rv[[raw_data]][[u_key]])),
                 collapse = "\n"
               )
-              DIZutils::feedback(
+              DIZtools::feedback(
                 msg,
                 findme = "39a4eeb70b",
                 logfile_dir = rv$log$logfile_dir
@@ -581,7 +581,7 @@ uniq_plausi_results <- function(rv,
               # create m_y directly
               if (any(grepl(i, colnames(rv[[raw_data]][[m_key]])))) {
                 msg <- paste("--> found", i, "in", m_key)
-                DIZutils::feedback(
+                DIZtools::feedback(
                   msg,
                   findme = "39a4e4b70b",
                   logfile_dir = rv$log$logfile_dir
@@ -604,7 +604,7 @@ uniq_plausi_results <- function(rv,
                         get("dqa_assessment") == 1, get(key_col_name_tar)]
                 }
                 msg <- paste("--> found", i, "in", j_key)
-                DIZutils::feedback(
+                DIZtools::feedback(
                   msg,
                   findme = "39a4e6b70b",
                   logfile_dir = rv$log$logfile_dir
@@ -652,7 +652,7 @@ uniq_plausi_results <- function(rv,
                   "Error: wrong character in u$all_observations.",
                   collapse = "\n"
                 )
-                DIZutils::feedback(
+                DIZtools::feedback(
                   msg,
                   findme = "39a456770b",
                   logfile_dir = rv$log$logfile_dir

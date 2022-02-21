@@ -46,7 +46,7 @@ read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
   mdr <- data.table::fread(
     file.path(
       file.path(
-        DIZutils::clean_path_name(utils_path, remove.slash = TRUE),
+        DIZtools::clean_path_name(utils_path, remove.slash = TRUE),
         "MDR"
       ),
       mdr_filename

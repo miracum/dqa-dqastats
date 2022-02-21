@@ -78,7 +78,7 @@ calc_counts <- function(cnt_dat,
       }
       cnt
     }, error = function(e) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0("Error occured when counting source_data: ", e),
         findme = "0adf10abcc",
         type = "Error",
@@ -140,7 +140,7 @@ calc_counts <- function(cnt_dat,
       cnt
 
     }, error = function(e) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         paste0("Error occured when counting target_data: ", e),
         findme = "486bd17564",
         type = "Error",

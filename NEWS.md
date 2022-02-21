@@ -1,5 +1,13 @@
 # DQAstats NEWS
 
+## Unreleased (2022-02-21)
+
+#### Others
+
+* updated dizutils version
+
+Full set of changes: [`v0.2.4...1ab17f1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.4...1ab17f1)
+
 ## v0.2.4 (2022-02-11)
 
 #### Others

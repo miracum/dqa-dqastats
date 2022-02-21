@@ -144,7 +144,7 @@ descriptive_results <- function(rv,
 
         # workaround to hide shiny-stuff, when going headless
         msg <- paste("Getting variable descriptions of", i)
-        DIZutils::feedback(
+        DIZtools::feedback(
           msg,
           findme = "eb95542ec1",
           logfile_dir = rv$log$logfile_dir
@@ -181,7 +181,7 @@ descriptive_results <- function(rv,
         } else {
           msg <- paste0("Error occured during creating ",
                         "descriptions of source system")
-          DIZutils::feedback(
+          DIZtools::feedback(
             msg,
             type = "Error",
             findme = "b640b3c662",
@@ -192,7 +192,7 @@ descriptive_results <- function(rv,
 
         # workaround to hide shiny-stuff, when going headless
         msg <- paste("Calculating variable counts of", i)
-        DIZutils::feedback(
+        DIZtools::feedback(
           msg,
           findme = "056f1ee2e0",
           logfile_dir = rv$log$logfile_dir
@@ -227,7 +227,7 @@ descriptive_results <- function(rv,
 
         # workaround to hide shiny-stuff, when going headless
         msg <- paste("Calculating variable statistics of", i)
-        DIZutils::feedback(
+        DIZtools::feedback(
           msg,
           findme = "edf4f006a9",
           logfile_dir = rv$log$logfile_dir

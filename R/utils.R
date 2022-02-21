@@ -80,7 +80,7 @@ parallel <- function(parallel, logfile_dir, ncores) {
     }
 
     if (.Platform$OS.type == "unix") {
-      DIZutils::feedback(
+      DIZtools::feedback(
         "using future::plan(\"multicore\")",
         logjs = FALSE,
         findme = "8e8817df64",
@@ -90,7 +90,7 @@ parallel <- function(parallel, logfile_dir, ncores) {
       suppressWarnings(future::plan("multicore", worker = ncores))
 
     } else {
-      DIZutils::feedback(
+      DIZtools::feedback(
         "using future::plan(\"multisession\")",
         logjs = FALSE,
         findme = "d142855e3c",
@@ -100,7 +100,7 @@ parallel <- function(parallel, logfile_dir, ncores) {
       suppressWarnings(future::plan("multisession", worker = ncores))
     }
   } else {
-    DIZutils::feedback(
+    DIZtools::feedback(
       "using future::plan(\"sequential\")",
       logjs = FALSE,
       findme = "4294f43e54",
@@ -148,7 +148,7 @@ is_latex_installed <- function(logfile_dir = NULL,
     }
   },
   error = function(cond) {
-    DIZutils::feedback(
+    DIZtools::feedback(
       print_this = catch_msg,
       type = "Error",
       findme = "7d26ce78e5",
@@ -158,7 +158,7 @@ is_latex_installed <- function(logfile_dir = NULL,
     return(FALSE)
   },
   warning = function(cond) {
-    DIZutils::feedback(
+    DIZtools::feedback(
       print_this = catch_msg,
       type = "Warning",
       findme = "7d27e403ce",

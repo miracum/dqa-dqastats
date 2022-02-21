@@ -35,7 +35,7 @@ mdr_filename = "mdr-test.csv"
 output_dir = "output/"
 logfile_dir = "./"
 
-DIZutils::set_env_vars(
+DIZtools::setenv_file(
   paste0(
     "../",
     list.files(

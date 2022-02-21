@@ -57,7 +57,7 @@
 #' source_system_name <- "exampleCSV_source"
 #' target_system_name <- "exampleCSV_target"
 #'
-#' DIZutils::cleanup_old_logfile(logfile_dir = tempdir())
+#' DIZtools::cleanup_old_logfile(logfile_dir = tempdir())
 #'
 #' check_date_restriction_requirements(
 #'   mdr = mdr,
@@ -81,7 +81,7 @@ check_date_restriction_requirements <- # nolint
 
     if (!colname_restricting_date_var %in% colnames(mdr)) {
       error <- TRUE
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(
           "Can't find column `",
           colname_restricting_date_var,
@@ -109,7 +109,7 @@ check_date_restriction_requirements <- # nolint
             c(different_restricting_date_cols,
               restricting_date_cols)
           if (length(restricting_date_cols) != 1) {
-            DIZutils::feedback(
+            DIZtools::feedback(
               print_this = paste0(
                 "\U2718 Date restriction parameters are invalid in the MDR.",
                 " Expected one (or empty) column per table where to apply",
@@ -127,7 +127,7 @@ check_date_restriction_requirements <- # nolint
         }
         if (all(is.na(different_restricting_date_cols))) {
           error <- TRUE
-          DIZutils::feedback(
+          DIZtools::feedback(
             print_this = paste0(
               "You specified that you want to time-filter the input data.",
               " Unfortunatelly no column for applying time restriction to was",
@@ -146,7 +146,7 @@ check_date_restriction_requirements <- # nolint
 
 
     if (!error) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(
           "\U2714 Date restriction parameters ",
           "are valid in the MDR."
@@ -211,7 +211,7 @@ apply_time_restriciton <- function(data,
     )
 
     if (is.na(filter_colname)) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0("No filter-column specified for key '",
                             key, "'. Skipping."),
         findme = "3d04f6de77",
@@ -231,7 +231,7 @@ apply_time_restriciton <- function(data,
                  )])[["restricting_date_format"]]
     },
     error = function(cond) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(
           "Error while trying to extract the format parameters for applying",
           " date restriction to the data. Will try to parse the date format",
@@ -268,7 +268,7 @@ apply_time_restriciton <- function(data,
     return(res)
   } else if (system_type %in% c("postgres", "oracle")) {
     if (is.null(system_name) || is.null(mdr) || is.null(db_con)) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(
           "At least one of the necessary input parameters was missing."
         ),
@@ -352,7 +352,7 @@ apply_time_restriciton <- function(data,
         ]
       )
     if (nrow(tables) != length(unique(tables[["source_table_name"]]))) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(
           "Expected exactly one unique 'restricting_date_var'",
           " for every table in system ",
@@ -370,7 +370,7 @@ apply_time_restriciton <- function(data,
           get("source_table_name") == table,
         ][["restricting_date_var"]])) {
           ## No time-restriction needed. Skip this and don't change the SQL.
-          DIZutils::feedback(
+          DIZtools::feedback(
             print_this = paste0("No filter-column specified for table '",
                                 table, "'. Skipping."),
             findme = "1c3eb6499d",
@@ -428,7 +428,7 @@ apply_time_restriciton <- function(data,
             "')"
           )
 
-          DIZutils::feedback(
+          DIZtools::feedback(
             print_this = paste0(
               "SQL create view:\n", sql_create_view
             ),
@@ -438,7 +438,7 @@ apply_time_restriciton <- function(data,
           )
 
           if (system_type == "oracle") {
-            DIZutils::feedback(
+            DIZtools::feedback(
               print_this = paste0(
                 "VIEWs for oracle are not yet implemented.",
                 " Please implement. You find me here -->"
@@ -455,7 +455,7 @@ apply_time_restriciton <- function(data,
             table_name = view_name
           )) {
             # nolint start
-            # DIZutils::feedback(
+            # DIZtools::feedback(
             #   print_this = paste0(
             #     "Found a temporary VIEW for table '",
             #     table,
@@ -482,7 +482,7 @@ apply_time_restriciton <- function(data,
             # )
             # nolint end
           } else {
-            DIZutils::feedback(
+            DIZtools::feedback(
               print_this = paste0(
                 "Didn't find a temporary VIEW for table '",
                 table,
@@ -510,7 +510,7 @@ apply_time_restriciton <- function(data,
               ## sensitive column names!
             )
 
-          DIZutils::feedback(
+          DIZtools::feedback(
             print_this = paste0(
               "SQL modified using view:\n", sql_tmp
             ),
@@ -570,14 +570,14 @@ get_restricting_date_info <- function(restricting_date,
     res <-
       paste0(
         prefix,
-        DIZutils::format_posixct(
+        DIZtools::format_posixct(
           x = restricting_date$start,
           lang = lang,
           date = date,
           time = time
         ),
         separator,
-        DIZutils::format_posixct(
+        DIZtools::format_posixct(
           x = restricting_date$end,
           lang = lang,
           date = date,

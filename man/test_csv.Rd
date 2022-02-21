@@ -44,7 +44,7 @@ mdr <- read_mdr(
 source_system_name <- "exampleCSV_source"
 target_system_name <- "exampleCSV_target"
 
-DIZutils::cleanup_old_logfile(logfile_dir = tempdir())
+DIZtools::cleanup_old_logfile(logfile_dir = tempdir())
 
 settings <- DIZutils::get_config_env(
   system_name = source_system_name,

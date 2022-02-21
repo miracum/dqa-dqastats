@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.4.9001")
+my_desc$set_version("0.2.5")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -79,6 +79,7 @@ usethis::use_package("stats", type = "Imports")
 usethis::use_package("tinytex", type = "Imports")
 usethis::use_package("utils", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports", min_version = "0.0.13")
+usethis::use_package("DIZtools", type = "Imports")
 
 
 # Suggests
@@ -87,6 +88,25 @@ usethis::use_package("remotes", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 # Development package
+tools_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+if (tools_tag == "cran") {
+  remotes::update_packages("DIZtools", upgrade = "always")
+} else{
+  devtools::install_git(
+    url = "https://gitlab.miracum.org/miracum/misc/diztools.git",
+    ref = tools_tag,
+    upgrade = "always",
+    quiet = TRUE
+  )
+  add_remotes <- paste0(
+    "url::https://gitlab.miracum.org/miracum/misc/diztools/-/archive/", tools_tag, "/diztools-", tools_tag, ".zip"
+  )
+  desc::desc_set_remotes(
+    add_remotes,
+    file = usethis::proj_get()
+  )
+}
+
 utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   remotes::update_packages("DIZutils", upgrade = "always")

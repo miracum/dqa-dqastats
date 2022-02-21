@@ -146,12 +146,12 @@ dqa <- function(source_system_name,
   rv$headless <- TRUE
 
   # clean paths (to append the ending slash)
-  rv$utilspath <- DIZutils::clean_path_name(utils_path)
-  output_dir <- DIZutils::clean_path_name(output_dir)
+  rv$utilspath <- DIZtools::clean_path_name(utils_path)
+  output_dir <- DIZtools::clean_path_name(output_dir)
 
   # Save logfile_dir globally:
-  rv$log$logfile_dir <- DIZutils::clean_path_name(logfile_dir)
-  DIZutils::cleanup_old_logfile(logfile_dir = rv$log$logfile_dir)
+  rv$log$logfile_dir <- DIZtools::clean_path_name(logfile_dir)
+  DIZtools::cleanup_old_logfile(logfile_dir = rv$log$logfile_dir)
 
   # add mdr-filename
   rv$mdr_filename <- mdr_filename
@@ -171,7 +171,7 @@ dqa <- function(source_system_name,
   ## Save restricting date information to rv object:
   if (is.null(restricting_date_start) ||
       is.null(restricting_date_end)) {
-    DIZutils::feedback(
+    DIZtools::feedback(
       print_this = paste0(
         "No time contstraints will be applied to input data.",
         " Either `restricting_date_start` or `restricting_date_end` was null."
@@ -190,7 +190,7 @@ dqa <- function(source_system_name,
 
     ## Check the start date:
     if (is.na(restricting_date_start_posixct)) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(
           "Couldn't identify input date format",
           " for `restricting_date_start`."
@@ -204,7 +204,7 @@ dqa <- function(source_system_name,
 
     ## Check the end date:
     if (is.na(restricting_date_end_posixct)) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(
           "Couldn't identify input date format for `restricting_date_end`.",
           " Using current timestamp now."
@@ -218,7 +218,7 @@ dqa <- function(source_system_name,
 
     ## Check if start < end:
     if (restricting_date_end_posixct <= restricting_date_start_posixct) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0(
           "`restricting_date_start` needs to be a timestamp",
           " before `restricting_date_end`.",
@@ -240,7 +240,7 @@ dqa <- function(source_system_name,
     rv$restricting_date$start <- restricting_date_start_posixct
     rv$restricting_date$end <- restricting_date_end_posixct
 
-    DIZutils::feedback(
+    DIZtools::feedback(
       print_this = paste0(
         "Time contstraints from ",
         rv$restricting_date$start,
@@ -281,7 +281,7 @@ dqa <- function(source_system_name,
       headless = rv$headless
     )
   } else {
-    DIZutils::feedback(
+    DIZtools::feedback(
       print_this = paste0(
         "Don't checking the time filtering columns because time filtering",
         " is not necessarry. (`rv$restricting_date$use_it` is not TRUE)."
@@ -302,7 +302,7 @@ dqa <- function(source_system_name,
   # We only allow one (system) type per system name. There can't e.g. be
   # system types "csv" and "postgres" both with the system_name "data":
   if (length(rv$source$system_type) != 1) {
-    DIZutils::feedback(
+    DIZtools::feedback(
       print_this = paste(
         "Need exactly one source system type but found",
         length(rv$source$system_type),
@@ -517,7 +517,7 @@ dqa <- function(source_system_name,
                           units = "mins")
 
   # parallel fallback
-  DIZutils::feedback(
+  DIZtools::feedback(
     "using future::plan(\"sequential\")",
     logjs = FALSE,
     findme = "0875ba600d",

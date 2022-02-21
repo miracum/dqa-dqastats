@@ -173,7 +173,7 @@ value_conformance <- function(
   # referencing package in NAMESPACE but not as Import in DESCRIPTION)
   "%notin%" <- utils::getFromNamespace(
     x = "%notin%",
-    ns = "DIZutils"
+    ns = "DIZtools"
   )
 
   # get names
@@ -187,7 +187,7 @@ value_conformance <- function(
         outlist <- list()
 
         msg <- paste0("Performing value conformance check for '", i, "'")
-        DIZutils::feedback(
+        DIZtools::feedback(
           print_this = msg,
           findme = "5d061425eb",
           logfile_dir = logfile_dir
@@ -224,7 +224,7 @@ value_conformance <- function(
               }
               c
             }, error = function(e) {
-              DIZutils::feedback(
+              DIZtools::feedback(
                 print_this = paste0("Error in fromJSON in function",
                                     " `value_conformance()`: ", e),
                 findme = "f269cc7211",
@@ -262,7 +262,7 @@ value_conformance <- function(
               # initialize outlist
               outlist2 <- list()
 
-              DIZutils::feedback(
+              DIZtools::feedback(
                 print_this = paste0(
                   "Analyzing variable '",
                   i,
@@ -332,7 +332,7 @@ value_conformance <- function(
                     if (length(vec) != 1) {
                       msg <- paste("Error occured when trying to get",
                                    "errorneous IDs of", i, "from", j)
-                      DIZutils::feedback(
+                      DIZtools::feedback(
                         print_this = msg,
                         type = "Warning",
                         findme = "5d05678955eb",
@@ -389,7 +389,7 @@ value_conformance <- function(
                   # compare levels from results to constraints from valueset
                   #% (TRUE = constraint_error)
                   if (result_min < constraints$range$min) {
-                    DIZutils::feedback(
+                    DIZtools::feedback(
                       paste(i, "from", j, ": result_min < range$min"),
                       findme = "21abaa37e2",
                       logfile_dir = logfile_dir
@@ -398,7 +398,7 @@ value_conformance <- function(
                   }
 
                   if (result_max > constraints$range$max) {
-                    DIZutils::feedback(
+                    DIZtools::feedback(
                       paste(i, "from", j, ": result_max > range$max"),
                       findme = "44264e3a64",
                       logfile_dir = logfile_dir
@@ -432,7 +432,7 @@ value_conformance <- function(
                     if (length(vec) != 1) {
                       msg <- paste("Error occured when trying to get",
                                    "errorneous IDs of", i, "from", j)
-                      DIZutils::feedback(
+                      DIZtools::feedback(
                         print_this = msg,
                         type = "Warning",
                         findme = "5d05698563eb",
@@ -517,7 +517,7 @@ value_conformance <- function(
                     if (length(vec) != 1) {
                       msg <- paste("Error occured when trying to get",
                                    "errorneous IDs of", i, "from", j)
-                      DIZutils::feedback(
+                      DIZtools::feedback(
                         print_this = msg,
                         type = "Warning",
                         findme = "5d01111111eb",
@@ -608,7 +608,7 @@ value_conformance <- function(
                   constraints_names <- names(constraints)
                   if (length(constraints_names) == 1 &&
                         constraints_names[[1]] == "datetime_format") {
-                    DIZutils::feedback(
+                    DIZtools::feedback(
                       print_this = paste0(
                         "Value conformance check for variable '",
                         i,
@@ -622,7 +622,7 @@ value_conformance <- function(
                       headless = headless
                     )
                   } else {
-                    DIZutils::feedback(
+                    DIZtools::feedback(
                       print_this = paste0(
                         "Cannot perform value conformance check for variable '",
                         i,
@@ -646,7 +646,7 @@ value_conformance <- function(
                     "No 'value conformance' issues found."
                 }
               } else {
-                DIZutils::feedback(
+                DIZtools::feedback(
                   print_this = paste0(
                     "Cannot check ",
                     scope,
@@ -664,7 +664,7 @@ value_conformance <- function(
               outlist[[j]] <- outlist2
             }
           } else {
-            DIZutils::feedback(
+            DIZtools::feedback(
               print_this = paste0(
                 "Didn't perform value conformance checks, because there",
                 " are no constraints in the MDR for designation '",

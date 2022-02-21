@@ -45,7 +45,7 @@
 #' source_system_name <- "exampleCSV_source"
 #' target_system_name <- "exampleCSV_target"
 #'
-#' DIZutils::cleanup_old_logfile(logfile_dir = tempdir())
+#' DIZtools::cleanup_old_logfile(logfile_dir = tempdir())
 #'
 #' settings <- DIZutils::get_config_env(
 #'   system_name = source_system_name,
@@ -97,7 +97,7 @@ test_csv <- function(settings,
   # iterate over list and check for presence of required filenames:
   # FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV
   check <- sapply(filelist, function(i) {
-    DIZutils::feedback(i, findme = "208282630a",
+    DIZtools::feedback(i, findme = "208282630a",
              logfile_dir = logfile_dir,
              headless = headless)
     return(grepl(files_pattern, i))
@@ -106,7 +106,7 @@ test_csv <- function(settings,
   outflag <- tryCatch({
     # test if provided files are matching expected files
     if (base::sum(check) != length(required_files)) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         paste0("The specified directory does not contain the expected ",
                "neccessary CSV-files: ", paste0(required_files,
                                                 collapse = ", ")),
@@ -121,7 +121,7 @@ test_csv <- function(settings,
       outflag
     }
   }, error = function(e) {
-    DIZutils::feedback(
+    DIZtools::feedback(
       paste0(
         "There are no CSV-files in the specified directory ('",
         settings$path,

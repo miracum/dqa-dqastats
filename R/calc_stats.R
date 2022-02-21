@@ -120,7 +120,7 @@ calc_num_stats <- function(stat_dat,
         }
         source_data
       }, error = function(e) {
-        DIZutils::feedback(
+        DIZtools::feedback(
           paste0("Error occured when calculating simple source numStats: ", e),
           findme = "65c004f101",
           type = "Error",
@@ -172,7 +172,7 @@ calc_num_stats <- function(stat_dat,
         target_data
 
       }, error = function(e) {
-        DIZutils::feedback(
+        DIZtools::feedback(
           paste0("Error occured when calculating simple target numStats: ", e),
           findme = "7d01e3744a",
           type = "Error",
@@ -223,7 +223,7 @@ calc_num_stats <- function(stat_dat,
         }
         source_data
       }, error = function(e) {
-        DIZutils::feedback(
+        DIZtools::feedback(
           print_this = paste0("Error occured when calculating",
                               " simple source numStats: ",
                               e),
@@ -273,7 +273,7 @@ calc_num_stats <- function(stat_dat,
         target_data
 
       }, error = function(e) {
-        DIZutils::feedback(
+        DIZtools::feedback(
           "Error occured when calculating simple target numStats",
           findme = "10b1904a51",
           logfile_dir = rv$log$logfile_dir

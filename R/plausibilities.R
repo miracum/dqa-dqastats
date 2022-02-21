@@ -175,7 +175,7 @@ get_atemp_plausis <- function(rv,
 
           # workaround to hide shiny-stuff, when going headless
           msg <- paste("Getting atemporal plausibility", u$name)
-          DIZutils::feedback(
+          DIZtools::feedback(
             msg,
             findme = "0c70327436",
             logfile_dir = rv$log$logfile_dir
@@ -254,7 +254,7 @@ get_atemp_plausis <- function(rv,
                 paste(i, "not in", colnames(rv[[raw_data]][[u_key]])),
                 collapse = "\n"
               )
-              DIZutils::feedback(
+              DIZtools::feedback(
                 msg,
                 findme = "9d48df8805",
                 logfile_dir = rv$log$logfile_dir
@@ -297,7 +297,7 @@ get_atemp_plausis <- function(rv,
                   i, "in", m_key,
                   " (Joined over 2 tables)"
                 )
-                DIZutils::feedback(
+                DIZtools::feedback(
                   msg,
                   findme = "39a4e1b70b",
                   logfile_dir = rv$log$logfile_dir
@@ -323,7 +323,7 @@ get_atemp_plausis <- function(rv,
                   "--> found", i, "in",
                   j_key, " (Joined over 3 tables)"
                 )
-                DIZutils::feedback(
+                DIZtools::feedback(
                   msg,
                   findme = "39a4e2b70b",
                   logfile_dir = rv$log$logfile_dir

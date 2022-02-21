@@ -159,7 +159,7 @@ export_aggregated <- function(output_dir, rv) {
   exportdir <- paste0(output_dir, "/export/")
 
   if (!dir.exists(exportdir)) {
-    DIZutils::feedback(
+    DIZtools::feedback(
       paste0("Creating ", exportdir),
       findme = "4f10124602",
       logfile_dir = rv$log$logfile_dir,
@@ -418,7 +418,7 @@ export_affected_ids <- function(object, output_dir, rv) {
   exportdir <- paste0(output_dir, "/conspicuous_ids/")
 
   if (!dir.exists(exportdir)) {
-    DIZutils::feedback(
+    DIZtools::feedback(
       paste0("Creating ", exportdir),
       findme = "4f10sfghs602",
       logfile_dir = rv$log$logfile_dir,

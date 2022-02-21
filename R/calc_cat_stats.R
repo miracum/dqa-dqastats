@@ -62,7 +62,7 @@ calc_cat_stats <- function(stat_dat,
       }
       source_data
     }, error = function(e) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         paste0("Error occured when calculating source catStats: ", e),
         findme = "b8e039a302",
         type = "Error",
@@ -103,7 +103,7 @@ calc_cat_stats <- function(stat_dat,
       target_data
 
     }, error = function(e) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         paste0("Error occured when calculating target catStats: ", e),
         findme = "5b1a5937e5",
         type = "Error",

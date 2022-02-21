@@ -58,7 +58,7 @@ mdr <- read_mdr(
 source_system_name <- "exampleCSV_source"
 target_system_name <- "exampleCSV_target"
 
-DIZutils::cleanup_old_logfile(logfile_dir = tempdir())
+DIZtools::cleanup_old_logfile(logfile_dir = tempdir())
 
 check_date_restriction_requirements(
   mdr = mdr,
