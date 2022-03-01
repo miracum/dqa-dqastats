@@ -457,8 +457,16 @@ load_database <- function(rv,
             old = wcn,
             new = correct_colname
           )
+          DIZtools::feedback(
+            print_this = paste0(
+              "Replaced colname '", wcn, "' with '",
+              correct_colname, "'."
+            ),
+            headless = rv$headless,
+            findme = "d45dbd4b72"
+          )
         } else {
-          stop("No correct colname found (cff40d689f)")
+          stop("\nNo correct colname found (cff40d689f)\n\n")
         }
       }
     }

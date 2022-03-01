@@ -2,13 +2,16 @@
 
 ## Unreleased (2022-03-01)
 
+#### Fixes
+
+* renaming data.table columns when modified by sql
 #### Others
 
 * updated readme to comply with diztools/dizutils
 * updated readme to comply with diztools
 * removed gitlab badges from readme
 
-Full set of changes: [`v0.2.5...948c5d1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.5...948c5d1)
+Full set of changes: [`v0.2.5...708fd4c`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.5...708fd4c)
 
 ## v0.2.5 (2022-02-21)
 
