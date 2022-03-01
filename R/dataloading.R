@@ -427,6 +427,42 @@ load_database <- function(rv,
     # get column names
     col_names <- colnames(outlist[[i]])
 
+    # sometimes, colnames are altered by SQL-statement.
+    # The next step is required to fix these wrong colnames
+    # check colnames are in MDR variable_names
+    "%notin%" <- utils::getFromNamespace(
+      x = "%notin%",
+      ns = "DIZtools"
+    )
+
+    # get true names
+    mdr_var_names <- rv$mdr[
+      get("source_system_name") == db_name, get("variable_name")
+    ]
+
+    # get wrong colnames
+    wrong_colnames <- col_names[col_names %notin% mdr_var_names]
+
+    if (length(wrong_colnames) > 0) {
+      for (wcn in wrong_colnames) {
+        correct_colname <- mdr_var_names[
+          agrepl(
+            pattern = wcn,
+            x = mdr_var_names
+          )
+        ]
+        if (length(correct_colname) == 1) {
+          data.table::setnames(
+            x = outlist[[i]],
+            old = wcn,
+            new = correct_colname
+          )
+        } else {
+          stop("No correct colname found (cff40d689f)")
+        }
+      }
+    }
+
     # check, if column name in variables of interest
     for (j in col_names) {
       var_type <- rv$mdr[get("source_system_name") == db_name &

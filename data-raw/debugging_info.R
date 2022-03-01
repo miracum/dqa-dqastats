@@ -30,7 +30,7 @@ target_system_name = "fhir_gw"
 # config_file = "../demo_settings_INTERNAL.yml"
 utils_path = system.file("application/_utilities/", package = "miRacumDQA")
 #mdr_filename = "samply_export.csv"
-mdr_filename = "mdr-test.csv"
+mdr_filename = "mdr.csv"
 # mdr_filename = "mdr_combined.csv"
 output_dir = "output/"
 logfile_dir = "./"
@@ -45,8 +45,8 @@ DIZtools::setenv_file(
 )
 parallel = TRUE
 ncores = 4
-restricting_date_start = "2019-12-29"
-restricting_date_end = "2020-01-01"
+restricting_date_start = "2022-11-11"
+restricting_date_end = "2022-11-15"
 
 # Sys.setenv("P21CSV_PATH" = "~/development/_p21/data/2018_merged/")
 

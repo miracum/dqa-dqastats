@@ -1,12 +1,25 @@
 # DQAstats NEWS
 
-## Unreleased (2022-02-21)
+## Unreleased (2022-03-01)
 
+#### Others
+
+* updated readme to comply with diztools/dizutils
+* updated readme to comply with diztools
+* removed gitlab badges from readme
+
+Full set of changes: [`v0.2.5...948c5d1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.5...948c5d1)
+
+## v0.2.5 (2022-02-21)
+
+#### Refactorings
+
+* switch to diztools dependency
 #### Others
 
 * updated dizutils version
 
-Full set of changes: [`v0.2.4...1ab17f1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.4...1ab17f1)
+Full set of changes: [`v0.2.4...v0.2.5`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.4...v0.2.5)
 
 ## v0.2.4 (2022-02-11)
 
