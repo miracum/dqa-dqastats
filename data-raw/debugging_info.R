@@ -32,8 +32,8 @@ utils_path = system.file("application/_utilities/", package = "miRacumDQA")
 #mdr_filename = "samply_export.csv"
 mdr_filename = "mdr.csv"
 # mdr_filename = "mdr_combined.csv"
-output_dir = "output/"
-logfile_dir = "./"
+output_dir = tempdir()
+logfile_dir = tempdir()
 
 DIZtools::setenv_file(
   paste0(

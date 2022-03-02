@@ -1,17 +1,18 @@
 # DQAstats NEWS
 
-## Unreleased (2022-03-01)
+## Unreleased (2022-03-02)
 
 #### Fixes
 
 * renaming data.table columns when modified by sql
 #### Others
 
+* added error message to agrepl command
 * updated readme to comply with diztools/dizutils
 * updated readme to comply with diztools
 * removed gitlab badges from readme
 
-Full set of changes: [`v0.2.5...708fd4c`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.5...708fd4c)
+Full set of changes: [`v0.2.5...60f8c8a`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.5...60f8c8a)
 
 ## v0.2.5 (2022-02-21)
 
