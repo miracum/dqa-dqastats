@@ -7,12 +7,13 @@
 * renaming data.table columns when modified by sql
 #### Others
 
+* updated version; news.md
 * added error message to agrepl command
 * updated readme to comply with diztools/dizutils
 * updated readme to comply with diztools
 * removed gitlab badges from readme
 
-Full set of changes: [`v0.2.5...60f8c8a`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.5...60f8c8a)
+Full set of changes: [`v0.2.5...156c08a`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.5...156c08a)
 
 ## v0.2.5 (2022-02-21)
 
