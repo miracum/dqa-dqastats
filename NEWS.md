@@ -1,19 +1,28 @@
 # DQAstats NEWS
 
-## Unreleased (2022-03-02)
+## Unreleased (2022-03-04)
+
+#### Fixes
+
+* sql statements to target system, if source=target
+
+Full set of changes: [`v0.2.6...9f71b7f`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...9f71b7f)
+
+## v0.2.6 (2022-03-02)
 
 #### Fixes
 
 * renaming data.table columns when modified by sql
 #### Others
 
+* updated news.md
 * updated version; news.md
 * added error message to agrepl command
 * updated readme to comply with diztools/dizutils
 * updated readme to comply with diztools
 * removed gitlab badges from readme
 
-Full set of changes: [`v0.2.5...156c08a`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.5...156c08a)
+Full set of changes: [`v0.2.5...v0.2.6`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.5...v0.2.6)
 
 ## v0.2.5 (2022-02-21)
 
