@@ -165,6 +165,12 @@ utils::packageVersion("DQAstats")
 utils::packageVersion("DIZutils")
 ```
 
+## R-Package Version 'DIZtools' 
+
+```{r}
+utils::packageVersion("DIZtools")
+```
+
 
 ```{r}
 if (length(rv$source$sql) > 0 ||

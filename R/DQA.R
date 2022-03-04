@@ -360,6 +360,7 @@ dqa <- function(source_system_name,
     invisible(gc())
   } else {
     rv$data_target <- rv$data_source
+    rv$target$sql <- rv$source$sql
   }
 
   if (nrow(rv$pl$atemp_vars) > 0 && rv$pl$atemp_possible) {
