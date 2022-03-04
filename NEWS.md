@@ -5,12 +5,16 @@
 #### Fixes
 
 * sql statements to target system, if source=target
+#### Docs
+
+* adding vignette that analyzes dataquier ship-dataset
 #### Others
 
+* fixed localhost url in vignette
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...5884ddc`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...5884ddc)
+Full set of changes: [`v0.2.6...55c9210`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...55c9210)
 
 ## v0.2.6 (2022-03-02)
 
