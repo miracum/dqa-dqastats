@@ -382,7 +382,7 @@ all_results <- DQAstats::dqa(
 
 # Launch `DQAgui` as GUI-frontend to `DQAstats`
 
-When executing the following command, the GUI will be launched at port `3838` by default and can be accessed from any web-browser via [http://localhost:3838](http://localhost:3838).
+When executing the following command, the GUI will be launched at port `3838` by default and can be accessed from any web-browser via `http://localhost:3838`.
 
 ```{r eval=FALSE}
 library(DQAgui)
