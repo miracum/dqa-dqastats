@@ -5,8 +5,12 @@
 #### Fixes
 
 * sql statements to target system, if source=target
+#### Others
 
-Full set of changes: [`v0.2.6...9f71b7f`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...9f71b7f)
+* removed unnecessary columns from example mdr
+* fixed unittest for new mdr
+
+Full set of changes: [`v0.2.6...5884ddc`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...5884ddc)
 
 ## v0.2.6 (2022-03-02)
 

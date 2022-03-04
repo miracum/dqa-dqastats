@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.6.9001")
+my_desc$set_version("0.2.6.9002")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -41,6 +41,9 @@ my_desc$set("Date" = as.character(Sys.Date()))
 my_desc$set("URL", "https://github.com/miracum/dqa-dqastats")
 my_desc$set("BugReports",
             "https://github.com/miracum/dqa-dqastats/issues")
+# Vignette Builder
+my_desc$set("VignetteBuilder" = "knitr")
+
 # License
 my_desc$set("License", "GPL-3")
 # Save everyting
@@ -85,7 +88,10 @@ usethis::use_package("DIZtools", type = "Imports")
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("remotes", type = "Suggests")
-usethis::use_package("lintr", type = "Suggests")
+usethis::use_package("dataquieR", type = "Suggests")
+usethis::use_package("jsonlite", type = "Suggests")
+usethis::use_package("here", type = "Suggests")
+usethis::use_package("DT", type = "Suggests")
 
 # Development package
 tools_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
@@ -182,8 +188,10 @@ usethis::use_git_ignore("## -------------")
 usethis::use_git_ignore("/*")
 usethis::use_git_ignore("/*/")
 usethis::use_git_ignore("*.log")
+usethis::use_git_ignore("inst/doc")
 usethis::use_git_ignore("!/.gitignore")
 usethis::use_git_ignore("!/data-raw/")
+usethis::use_git_ignore("!/vignettes/")
 usethis::use_git_ignore("!/DESCRIPTION")
 usethis::use_git_ignore("!/inst/")
 usethis::use_git_ignore("!/LICENSE.md")

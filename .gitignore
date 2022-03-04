@@ -5,8 +5,10 @@
 /*
 /*/
 *.log
+inst/doc
 !/.gitignore
 !/data-raw/
+!/vignettes/
 !/DESCRIPTION
 !/inst/
 !/LICENSE.md
