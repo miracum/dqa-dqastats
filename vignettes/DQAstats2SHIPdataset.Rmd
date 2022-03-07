@@ -393,7 +393,7 @@ The `RMD` sub-directory of the `utilities`-folder contains the template files fo
 ```{r results='hide'}
 file.copy(
   from = system.file("demo_data/utilities/RMD", package = "DQAstats"),
-  to = file.path(tempdir(), "utilities"),
+  to = utils_path,
   overwrite = TRUE,
   recursive = TRUE
 )
@@ -438,9 +438,7 @@ When executing the following command, the GUI will be launched at port `3838` by
 ```{r eval=FALSE}
 library(DQAgui)
 # set basepath for file-browser in GUI-config
-Sys.setenv("CSV_SOURCE_BASEPATH" = system.file(
-  "", package = "dataquieR"
-))
+Sys.setenv("CSV_SOURCE_BASEPATH" = tempdir())
 
 ## launch GUI
 DQAgui::launch_app(

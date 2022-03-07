@@ -7,6 +7,7 @@
 * sql statements to target system, if source=target
 #### Docs
 
+* update vignette
 * adding vignette that analyzes dataquier ship-dataset
 #### Others
 
@@ -15,7 +16,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...4098434`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...4098434)
+Full set of changes: [`v0.2.6...767a677`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...767a677)
 
 ## v0.2.6 (2022-03-02)
 
