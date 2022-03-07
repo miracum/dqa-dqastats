@@ -116,11 +116,11 @@ for (var in ship_var_names) {
   )
   # convert variable description into human readable format
   if (is.na(split_list[[1]])) {
-    descr <- paste0("Beschreibung für Datenelement ", var)
+    descr <- paste0("Description for dataelement '", var, "'")
   } else {
     descr <- paste0(
-      "Beschreibung für Datenelement ", var,
-      ": \n\n", paste0(unlist(split_list), collapse = "; ")
+      "Description for dataelement '", var,
+      "': \n\n", paste0(unlist(split_list), collapse = "; ")
     )
   }
   
