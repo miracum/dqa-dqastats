@@ -26,7 +26,9 @@ knitr::opts_chunk$set(
 library(magrittr)
 ```
 
-In this vignette is demonstrated, how to prepare a dataset and its metadata in order to use the `DQAstats` R package vor data quality assessment.
+The intention of this vignette is to provide a tutorial, how to prepare the metadata information of a dataset in order to use the `DQAstats` R package for data quality assessment.
+
+The R package `dataquieR` provides both a dataset and corresponding metadata information. For demonstration purposes, the SHIP-dataset from `dataquieR` will be analyzed with `DQAstats` in the following. The necessary steps to convert `dataquieR`'s metadata representation into the format understood by `DQAstats` are provided along with some background information.
 
 # Load Data from `dataquieR` R package
 
@@ -36,29 +38,42 @@ For further information on `dataquieR`, please refer to [https://dataquality.shi
 ```{r}
 list.files(system.file("extdata", package = "dataquieR"))
 
-# ship dataset
+# load the ship dataset
 ship_data <- readRDS(
   system.file("extdata/ship.RDS", package = "dataquieR")
 ) %>%
   data.table::data.table()
+
+# export the dataset to a CSV-file (one of the formats supported by DQAstats)
 ship_data_export_fn <- "ship_data.csv"
 data.table::fwrite(
   x = ship_data,
-  file = here::here(tempdir(), ship_data_export_fn)
+  file = file.path(tempdir(), ship_data_export_fn)
 )
 
-# ship metadata
+# load the ship metadata
 ship_meta <- readRDS(
   system.file("extdata/ship_meta.RDS", package = "dataquieR")
 ) %>%
   data.table::data.table()
 ```
 
+
+Have a look at `dataquieR`'s metadata representation:
+
+```{r results='asis'}
+ship_meta %>%
+  DT::datatable(options = list(
+    scrollX = TRUE,
+    pageLength = 4
+  ))
+```
+
 # Prepare `DQAstats` MDR
 
-The most important part for using `DQAstats` for data quality assessment is to represent the metadata of the dataset(s) to be analyzed in the correct format. The MDR format expected by `DQAstats` is described in the [DQAstats-wiki](https://github.com/miracum/dqa-dqastats/wiki/MDR) section.
+The most important part for using `DQAstats` for data quality assessment is to represent the metadata of the dataset(s) to be analyzed in the correct format. The MDR format expected by `DQAstats` is described in the [DQAstats-wiki](https://github.com/miracum/dqa-dqastats/wiki/MDR).
 
-An example MDR is provided with the `DQAstats` R package [here](https://github.com/miracum/dqa-dqastats/tree/master/inst/demo_data/utilities/MDR). Furthermore, `DQAstats` comes with an exemplary toy dataset, which can be analyzed by executing the commands from the [README.md](https://github.com/miracum/dqa-dqastats#example).
+An example MDR is also provided with the `DQAstats` R package [here](https://github.com/miracum/dqa-dqastats/tree/master/inst/demo_data/utilities/MDR). Furthermore, `DQAstats` comes with an exemplary toy dataset, which can be analyzed by executing the commands from the [README.md](https://github.com/miracum/dqa-dqastats#example).
 
 ## Read empty `DQAstats` MDR as template
 
@@ -85,16 +100,21 @@ For a detailed description of the MDR fields, please refer to the [DQAstats-wiki
 Next, we need to fill the rows of the `DQAstats` MDR. Since we are only analyzing one dataset (opposed to comparing datasets from two different data systems, whereas the dataset was transferred from one of the data systems to the other, e.g., via an extract-transfrom-load (ETL) process), we can set the MDR files "designation", "variable_name", and "key" to the same values.
 
 ```{r warning=FALSE}
+# get names of dataelements from ship dataset
 ship_var_names <- colnames(ship_data)
 
+# loop over dataelements
 for (var in ship_var_names) {
+  # get variable type from ship metadata
   data_type <- ship_meta[get("VAR_NAMES") == var, get("DATA_TYPE")]
+  # get variable description from ship metadata
   labels <- ship_meta[get("VAR_NAMES") == var, get("VALUE_LABELS")]
   split_list <- strsplit(
     x = labels,
     split = " | ",
     fixed = TRUE
   )
+  # convert variable description into human readable format
   if (is.na(split_list[[1]])) {
     descr <- paste0("Beschreibung für Datenelement ", var)
   } else {
@@ -104,6 +124,7 @@ for (var in ship_var_names) {
     )
   }
   
+  # for this dataelement, fill row of DQAstats-MDR with extracted information
   mdr <- data.table::rbindlist(
     l = list(
       mdr,
@@ -115,9 +136,9 @@ for (var in ship_var_names) {
           "variable_name" = var,
           "key" = var,
           "source_table_name" = ship_data_export_fn,
-          "source_system_type" = "csv",
-          "source_system_name" = "ship",
-          "dqa_assessment" = 1,
+          "source_system_type" = "csv", # indicates that datasets format is CSV
+          "source_system_name" = "ship", # arbitrary name for this dataset
+          "dqa_assessment" = 1, # default value for dataelements to be analyzed
           "variable_type" = data_type
         )
       )
@@ -132,12 +153,15 @@ for (var in ship_var_names) {
 In `dataquieR`, categorical variables are defined as "DATA_TYPE=integer" in the MDR. To work well with `DQAstats`, this needs to be changed to "enumerated" (see also the [DQAstats-wiki](https://github.com/miracum/dqa-dqastats/wiki/MDR#mdr-variable-types-and-constraints) for further details).
 
 ```{r}
+# save all categorical variablees in a vector
 cat_vars <- c(
   "id", "sex", "obs_bp", "dev_bp", "obs_soma", "dev_length", "dev_weight",
   "obs_int", "school", "family", "smoking", "stroke", "myocard",
   "diab_known", "contraception", "income"
 )
 
+# change variable type from integer to "enumerated" (to get meaningful
+# results from DQAstats)
 mdr[get("designation") %in% cat_vars, ("variable_type") := "enumerated"]
 ```
 
@@ -148,19 +172,25 @@ Next, the formatting of the constraints defined in `dataquieR`'s MDR needs to be
 ### Constraints for Categorical Variables
 
 ```{r warning=FALSE}
+# loop over categorical variables
 for (var in cat_vars) {
+  # get definitions of category-levels
   labels <- ship_meta[get("VAR_NAMES") == var, get("VALUE_LABELS")]
   split_list <- strsplit(
     x = labels,
     split = " | ",
     fixed = TRUE
   )
-
+  
+  # extract the allowed values for each categorical dataelement
   allowed_values <- strsplit(
     x = split_list[[1]],
     split = " =",
     fixed = TRUE
   )
+  
+  # transform allowed values into a "value_set" array, which is stored
+  # as a JSON object (required by DQAstats)
   c <- jsonlite::toJSON(
     list(
       "value_set" = sapply(
@@ -171,17 +201,19 @@ for (var in cat_vars) {
     ),
     pretty = TRUE
   )
+  # add constraints for this dataelement to the DQAstats MDR
   mdr[get("source_variable_name") == var, ("constraints") := c]
 }
 ```
 
 ```{r}
+# for comparison, show metadata definition from dataquieR ...
 # dataquieR: string, split by pipes '|'
 ship_meta[get("VAR_NAMES") == "smoking", get("VALUE_LABELS")]
 ```
 
 ```{r}
-# DQAstats: JSON
+# ... and DQAstats: JSON
 mdr[get("source_variable_name") == "smoking", get("constraints")]
 mdr[get("source_variable_name") == "smoking", get("constraints")] %>%
   jsonlite::fromJSON()
@@ -194,12 +226,15 @@ Furthermore, it is to be noted that `DQAstats` **does not require constraints** 
 ### Constraints for Continuous Variables
 
 ```{r}
+# get names of continuous variables (float/integer)
 cont_vars <- mdr[
   get("variable_type") %in% c("integer", "float"),
   unique(get("source_variable_name"))
 ]
 
+# loop over continuous dataelements
 for (var in cont_vars) {
+  # extract constraints of continuous dataelement
   labels <- ship_meta[get("VAR_NAMES") == var, get("HARD_LIMITS")]
   split_list <- strsplit(
     x = labels,
@@ -207,6 +242,7 @@ for (var in cont_vars) {
     fixed = TRUE
   )
 
+  # transform these constraints to a list, with entries "min" and "max"
   constraints <- lapply(
     X = split_list,
     FUN = function(x) {
@@ -224,12 +260,14 @@ for (var in cont_vars) {
     }
   )
 
+  # save list as nested JSON within the key "range" (required by DQAstats)
   if (length(constraints[[1]]) > 1) {
     c <- jsonlite::toJSON(
       list("range" = constraints[[1]]),
       pretty = TRUE,
       auto_unbox = TRUE
     )
+    # write constraint for this dataelement to DQAstats MDR
     mdr[get("source_variable_name") == var, ("constraints") := c]
   }
 }
@@ -240,7 +278,18 @@ for (var in cont_vars) {
 When setting "id" as `variable_type="string"`, we are able to test for constraints using regular expressions. This is especially meaningful, when investigating a categorical variable with a lot of categories. Here, a simple regular expression is used, however, they can get arbitrarily complex.
 
 ```{r}
+# The `id` variable should actually not be treated as a categorical variable,
+# since the number of potential categories is (theoretically) unlimited and
+# an analysis of the categories in this case is seldom meaningful.
+# Nevertheless, we could perform quality checks on the `id` variable, e.g. to
+# check for a required formatting of the values.
+# This can be achieved with DQAstats by changing the variable type to "string"
+# and use a regular expression that checks for the expected format.
+
+# change variable type to "string"
 mdr[get("source_variable_name") == "id", ("variable_type") := "string"]
+
+# add regular expression for the dataelement "id"
 mdr[get("source_variable_name") == "id", ("constraints") := jsonlite::toJSON(
   list("regex" = "^[[:digit:]]{1,5}$"),
   pretty = TRUE,
@@ -276,6 +325,8 @@ p <- jsonlite::toJSON(list(
     )
   )
 ))
+
+# write plausibility to mdr
 mdr[
   source_variable_name == "sex" &
     dqa_assessment == 1,
@@ -328,8 +379,8 @@ mdr %>%
 When having created this folder structure, the MDR prepared for `DQAstats` can be saved as 'CSV'-file to the `MDR`-sub-directory. This file is then used as input for the function `DQAstats::dqa()`.
 
 ```{r message=FALSE}
-utils_path <- here::here(tempdir(), "utilities")
-dir.create(here::here(utils_path, "MDR"), recursive = TRUE)
+utils_path <- file.path(tempdir(), "utilities")
+dir.create(file.path(utils_path, "MDR"), recursive = TRUE)
 
 data.table::fwrite(
   x = mdr,
@@ -342,7 +393,7 @@ The `RMD` sub-directory of the `utilities`-folder contains the template files fo
 ```{r results='hide'}
 file.copy(
   from = system.file("demo_data/utilities/RMD", package = "DQAstats"),
-  to = here::here(tempdir(), "utilities"),
+  to = file.path(tempdir(), "utilities"),
   overwrite = TRUE,
   recursive = TRUE
 )
@@ -362,11 +413,11 @@ source_system_name <- "ship"
 target_system_name <- source_system_name
 
 mdr_filename <- "mdr.csv"
-output_dir <- here::here(tempdir(), "output")
+output_dir <- file.path(tempdir(), "output")
 logfile_dir = tempdir()
 
 # does only work, if "ship_data.csv" is lying next to this RMD-file
-Sys.setenv("SHIP_PATH" = here::here(tempdir()))
+Sys.setenv("SHIP_PATH" = tempdir())
 
 # provide all arguments to main function
 all_results <- DQAstats::dqa(
@@ -387,7 +438,9 @@ When executing the following command, the GUI will be launched at port `3838` by
 ```{r eval=FALSE}
 library(DQAgui)
 # set basepath for file-browser in GUI-config
-Sys.setenv("CSV_SOURCE_BASEPATH" = here::here())
+Sys.setenv("CSV_SOURCE_BASEPATH" = system.file(
+  "", package = "dataquieR"
+))
 
 ## launch GUI
 DQAgui::launch_app(
