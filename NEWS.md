@@ -1,22 +1,24 @@
 # DQAstats NEWS
 
-## Unreleased (2022-03-07)
+## Unreleased (2022-03-10)
 
 #### Fixes
 
 * sql statements to target system, if source=target
 #### Docs
 
+* fixed wrong paths in vignette
 * update vignette
 * adding vignette that analyzes dataquier ship-dataset
 #### Others
 
+* fixed typo in vignette
 * updated news.md
 * fixed localhost url in vignette
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...767a677`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...767a677)
+Full set of changes: [`v0.2.6...1f00aa1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...1f00aa1)
 
 ## v0.2.6 (2022-03-02)
 

@@ -11,8 +11,8 @@ dqa(
   mdr_filename = "mdr.csv",
   output_dir = paste0(tempdir(), "/output/"),
   logfile_dir = tempdir(),
-  parallel = TRUE,
-  ncores = 4,
+  parallel = FALSE,
+  ncores = 2,
   restricting_date_start = NULL,
   restricting_date_end = NULL,
   restricting_date_format = NULL
@@ -42,8 +42,8 @@ be stored (default: `paste0(tempdir(), "/output/")`).}
 \item{logfile_dir}{The absolute path to folder where the logfile
 will be stored default(`tempdir()`).}
 
-\item{parallel}{A boolean. If TRUE (the default value), initializing
-`future::plan("multiprocess")` before running the code.}
+\item{parallel}{A boolean. If TRUE, initializing
+`future::plan("multiprocess")` before running the code (default: FALSE).}
 
 \item{ncores}{A integer. The number of cores to use. Caution: you would
 probably like to choose a low number when operating on large datasets.

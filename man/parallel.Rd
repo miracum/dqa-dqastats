@@ -7,8 +7,8 @@
 parallel(parallel, logfile_dir, ncores)
 }
 \arguments{
-\item{parallel}{A boolean. If TRUE (the default value), initializing
-`future::plan("multiprocess")` before running the code.}
+\item{parallel}{A boolean. If TRUE, initializing
+`future::plan("multiprocess")` before running the code (default: FALSE).}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
 will be stored default(`tempdir()`).}
