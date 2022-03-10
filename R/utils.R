@@ -87,7 +87,9 @@ parallel <- function(parallel, logfile_dir, ncores) {
         logfile_dir = logfile_dir,
         headless = TRUE
       )
-      suppressWarnings(future::plan("multicore", worker = ncores))
+      suppressWarnings(
+        fplan <- future::plan("multicore", worker = ncores)
+      )
 
     } else {
       DIZtools::feedback(
@@ -97,7 +99,9 @@ parallel <- function(parallel, logfile_dir, ncores) {
         logfile_dir = logfile_dir,
         headless = TRUE
       )
-      suppressWarnings(future::plan("multisession", worker = ncores))
+      suppressWarnings(
+        fplan <- future::plan("multisession", worker = ncores)
+      )
     }
   } else {
     DIZtools::feedback(
@@ -107,8 +111,12 @@ parallel <- function(parallel, logfile_dir, ncores) {
       logfile_dir = logfile_dir,
       headless = TRUE
     )
-    suppressWarnings(future::plan("sequential"))
+    suppressWarnings(
+      fplan <- future::plan("sequential")
+    )
   }
+  # https://www.rdocumentation.org/packages/future/versions/1.24.0/topics/plan
+  on.exit(future::plan(fplan), add = TRUE)
 }
 
 #' @title Checks if there is a LaTeX installation available
