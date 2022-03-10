@@ -87,8 +87,26 @@ parallel <- function(parallel, logfile_dir, ncores) {
         logfile_dir = logfile_dir,
         headless = TRUE
       )
-      suppressWarnings(
-        fplan <- future::plan("multicore", worker = ncores)
+
+      fplan <- tryCatch(
+        expr = {
+          suppressWarnings(
+            fplan <- future::plan("multicore", worker = ncores)
+          )
+          fplan
+        }, error = function(e) {
+          DIZtools::feedback(
+            e,
+            logjs = FALSE,
+            findme = "8e8817df63",
+            logfile_dir = logfile_dir,
+            headless = TRUE
+          )
+          fplan <- "error"
+          fplan
+        }, finally = function(f) {
+          fplan
+        }
       )
 
     } else {
@@ -99,11 +117,30 @@ parallel <- function(parallel, logfile_dir, ncores) {
         logfile_dir = logfile_dir,
         headless = TRUE
       )
-      suppressWarnings(
-        fplan <- future::plan("multisession", worker = ncores)
+      fplan <- tryCatch(
+        expr = {
+          suppressWarnings(
+            fplan <- future::plan("multisession", worker = ncores)
+          )
+          fplan
+        }, error = function(e) {
+          DIZtools::feedback(
+            e,
+            logjs = FALSE,
+            findme = "8e8817df62",
+            logfile_dir = logfile_dir,
+            headless = TRUE
+          )
+          fplan <- "error"
+          fplan
+        }, finally = function(f) {
+          fplan
+        }
       )
     }
-  } else {
+  }
+
+  if (isFALSE(parallel) || fplan == "error") {
     DIZtools::feedback(
       "using future::plan(\"sequential\")",
       logjs = FALSE,
