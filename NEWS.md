@@ -4,6 +4,7 @@
 
 #### Fixes
 
+* better error handling for parallel backend
 * added on.exit for future plan
 * parallel=FALSE by default
 * sql statements to target system, if source=target
@@ -20,7 +21,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...5b4113b`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...5b4113b)
+Full set of changes: [`v0.2.6...94727be`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...94727be)
 
 ## v0.2.6 (2022-03-02)
 
