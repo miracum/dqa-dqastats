@@ -30,6 +30,8 @@ inst/doc
 /docker/*
 !/docker/build_image.sh
 !/docker/docker-compose.yml
+!/docker/docker-compose-dqastats.yml
+!/docker/docker-compose-dqagui.yml
 !/docker/dqastats-secret.yaml
 !/docker/dqastats-workflow.yaml
 !/docker/dqastats.dockerfile
