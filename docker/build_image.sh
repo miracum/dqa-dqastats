@@ -29,7 +29,7 @@ docker build \
     --progress=plain \
     --no-cache=${docker_build_no_cache} \
     --build-arg CACHEBREAKER=blabla \
-    -f docker/dqastats.dockerfile \
+    -f docker/Dockerfile \
     -t $REGISTRY_PREFIX/$IMAGE_NAME \
     . 2>&1 | tee ./log_$IMAGE_NAME.log
 cd docker
@@ -52,32 +52,3 @@ docker push "$REGISTRY_PREFIX/$IMAGE_NAME:$IMAGE_TAG"
 # printf "\n## Pushing image $REGISTRY_PREFIX2/$IMAGE_NAME...\n"
 # docker tag $REGISTRY_PREFIX2/$IMAGE_NAME:$IMAGE_TAG $REGISTRY_PREFIX2/$IMAGE_NAME
 # docker push $REGISTRY_PREFIX2/$IMAGE_NAME
-
-
-## DQAgui:
-printf "\n\n##################################\n"
-printf "$REGISTRY_PREFIX/$IMAGE_NAME_GUI:$IMAGE_TAG"
-printf "\n##################################\n"
-printf "\nPulling cached $IMAGE_NAME_GUI image\n"
-# pull latest image for caching:
-# docker pull $REGISTRY_PREFIX/$IMAGE_NAME_GUI
-# build new image (latest):
-printf "\n\nBuilding $IMAGE_NAME_GUI image\n"
-cd ..
-docker build \
-    --progress=plain \
-    --no-cache=${docker_build_no_cache} \
-    --build-arg IMAGE_NAME=${REGISTRY_PREFIX}/${IMAGE_NAME} \
-    --build-arg IMAGE_TAG=${IMAGE_TAG} \
-    -f docker/dqagui.dockerfile \
-    -t $REGISTRY_PREFIX/$IMAGE_NAME_GUI \
-    . 2>&1 | tee ./log_$IMAGE_NAME_GUI.log
-cd docker
-printf "\n\nPushing $IMAGE_NAME_GUI image (latest)\n"
-# push new image as new 'latest':
-docker push "$REGISTRY_PREFIX/$IMAGE_NAME_GUI"
-# also tag it with the new tag:
-docker tag $REGISTRY_PREFIX/$IMAGE_NAME_GUI $REGISTRY_PREFIX/$IMAGE_NAME_GUI:$IMAGE_TAG
-# and also push this (tagged) image:
-printf "\n\nPushing $IMAGE_NAME_GUI image ($IMAGE_NAME_GUI)\n"
-docker push "$REGISTRY_PREFIX/$IMAGE_NAME_GUI:$IMAGE_TAG"
