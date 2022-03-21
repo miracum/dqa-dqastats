@@ -1,9 +1,10 @@
 # DQAstats NEWS
 
-## Unreleased (2022-03-10)
+## Unreleased (2022-03-21)
 
 #### Fixes
 
+* fixed errors in vignette
 * better error handling for parallel backend
 * added on.exit for future plan
 * parallel=FALSE by default
@@ -15,13 +16,16 @@
 * adding vignette that analyzes dataquier ship-dataset
 #### Others
 
+* outscourced dqagui deployment to dqagui
+* added dqastats and dqagui docker-compse files
+* added dqagui image deployment
 * fixed typo in vignette
 * updated news.md
 * fixed localhost url in vignette
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...94727be`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...94727be)
+Full set of changes: [`v0.2.6...1aa545b`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...1aa545b)
 
 ## v0.2.6 (2022-03-02)
 

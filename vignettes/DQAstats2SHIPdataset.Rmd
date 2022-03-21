@@ -462,6 +462,8 @@ all_results <- DQAstats::dqa(
 
 When executing the following command, the GUI will be launched at port `3838` by default and can be accessed from any web-browser via `http://localhost:3838`.
 
+A tutorial for `DQAgui` can be found [here](https://github.com/miracum/dqa-dqastats/wiki/DQAgui_intro).
+
 ```{r eval=FALSE}
 library(DQAgui)
 # set basepath for file-browser in GUI-config
