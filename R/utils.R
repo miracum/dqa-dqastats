@@ -76,7 +76,8 @@ get_where_filter <- function(filter) {
 parallel <- function(parallel, logfile_dir, ncores) {
   if (isTRUE(parallel) && future::availableCores() > 1) {
     if (ncores < future::availableCores()) {
-      ncores <- future::availableCores()
+      ncores <- future::availableCores() %>%
+        unname()
     }
 
     if (.Platform$OS.type == "unix") {
