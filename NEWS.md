@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-03-21)
+## Unreleased (2022-03-22)
 
 #### Fixes
 
@@ -11,11 +11,14 @@
 * sql statements to target system, if source=target
 #### Docs
 
+* added wiki-page for gui to vignette
 * fixed wrong paths in vignette
 * update vignette
 * adding vignette that analyzes dataquier ship-dataset
 #### Others
 
+* updated cran comments
+* added unname after ncores
 * outscourced dqagui deployment to dqagui
 * added dqastats and dqagui docker-compse files
 * added dqagui image deployment
@@ -25,7 +28,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...1aa545b`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...1aa545b)
+Full set of changes: [`v0.2.6...e179ddd`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...e179ddd)
 
 ## v0.2.6 (2022-03-02)
 

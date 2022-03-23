@@ -153,15 +153,27 @@ read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
 create_helper_vars <- function(mdr,
                                source_db,
                                target_db) {
-
   # We only allow one (system) type per system name. There can't e.g. be
   # system types "csv" and "postgres" both with the system_name "data":
-  stopifnot(
-    length(mdr[get("source_system_name") ==
-                 source_db, unique(get("source_system_type"))]) == 1,
-    length(mdr[get("source_system_name") ==
-                 target_db, unique(get("source_system_type"))]) == 1
-  )
+  if (!(length(mdr[get("source_system_name") ==
+                   source_db, unique(get("source_system_type"))]) == 1 &&
+        length(mdr[get("source_system_name") ==
+                   target_db, unique(get("source_system_type"))]) == 1)) {
+    DIZtools::feedback(
+      print_this = paste0(
+        "Error in create_helper_vars(mdr, ",
+        "source_db = '",
+        source_db,
+        "', ",
+        "target_db = '",
+        target_db,
+        "')."
+      ),
+      type = "Error",
+      findme = "bee3956587"
+    )
+    stop("See error above.")
+  }
 
   outlist <- list()
 
