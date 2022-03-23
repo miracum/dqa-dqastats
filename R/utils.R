@@ -92,7 +92,7 @@ parallel <- function(parallel, logfile_dir, ncores) {
       fplan <- tryCatch(
         expr = {
           suppressWarnings(
-            fplan <- future::plan("multicore", worker = ncores)
+            fplan <- future::plan("multicore", workers = ncores)
           )
           fplan
         }, error = function(e) {
@@ -121,7 +121,7 @@ parallel <- function(parallel, logfile_dir, ncores) {
       fplan <- tryCatch(
         expr = {
           suppressWarnings(
-            fplan <- future::plan("multisession", worker = ncores)
+            fplan <- future::plan("multisession", workers = ncores)
           )
           fplan
         }, error = function(e) {

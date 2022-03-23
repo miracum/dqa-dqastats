@@ -1,9 +1,10 @@
 # DQAstats NEWS
 
-## Unreleased (2022-03-22)
+## Unreleased (2022-03-23)
 
 #### Fixes
 
+* replaced wrong argument to future::plan: 'worker' to 'workers'
 * fixed errors in vignette
 * better error handling for parallel backend
 * added on.exit for future plan
@@ -28,7 +29,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...e179ddd`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...e179ddd)
+Full set of changes: [`v0.2.6...b8a4e32`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...b8a4e32)
 
 ## v0.2.6 (2022-03-02)
 

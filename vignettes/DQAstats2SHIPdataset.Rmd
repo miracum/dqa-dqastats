@@ -36,11 +36,22 @@ First of all, load the data files from the `dataquieR` R package. These files in
 For further information on `dataquieR`, please refer to [https://dataquality.ship-med.uni-greifswald.de/](https://dataquality.ship-med.uni-greifswald.de/).
 
 ```{r}
-list.files(system.file("extdata", package = "dataquieR"))
+# the next lines are commentend, since we avoided to have 'dataquieR' as yet
+# another dependency to our package; however, if you have installed it, you
+# can uncomment these lines to load the required files from the dataquieR-package
+
+#list.files(system.file("extdata", package = "dataquieR"))
 
 # load the ship dataset
+# ship_data <- readRDS(
+#   system.file("extdata/ship.RDS", package = "dataquieR")
+# ) %>%
+#   data.table::data.table()
 ship_data <- readRDS(
-  system.file("extdata/ship.RDS", package = "dataquieR")
+  url(paste0(
+    "https://raw.githubusercontent.com/cran/",
+    "dataquieR/master/inst/extdata/ship.RDS"
+  ))
 ) %>%
   data.table::data.table()
 
@@ -52,8 +63,15 @@ data.table::fwrite(
 )
 
 # load the ship metadata
+# ship_meta <- readRDS(
+#   system.file("extdata/ship_meta.RDS", package = "dataquieR")
+# ) %>%
+#   data.table::data.table()
 ship_meta <- readRDS(
-  system.file("extdata/ship_meta.RDS", package = "dataquieR")
+  url(paste0(
+    "https://raw.githubusercontent.com/cran/",
+    "dataquieR/master/inst/extdata/ship_meta.RDS"
+  ))
 ) %>%
   data.table::data.table()
 ```

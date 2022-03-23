@@ -88,7 +88,6 @@ usethis::use_package("DIZtools", type = "Imports")
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("remotes", type = "Suggests")
-usethis::use_package("dataquieR", type = "Suggests")
 usethis::use_package("DT", type = "Suggests")
 
 # Development package
