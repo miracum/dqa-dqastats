@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.6.9009")
+my_desc$set_version("0.2.6.9010")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -88,7 +88,6 @@ usethis::use_package("DIZtools", type = "Imports")
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("remotes", type = "Suggests")
-usethis::use_package("dataquieR", type = "Suggests")
 usethis::use_package("DT", type = "Suggests")
 
 # Development package
