@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-03-23)
+## Unreleased (2022-04-04)
 
 #### Fixes
 
@@ -19,6 +19,7 @@
 * adding vignette that analyzes dataquier ship-dataset
 #### Others
 
+* updated news
 * added feedback msg to error
 * updated cran comments
 * added unname after ncores
@@ -31,7 +32,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...ceadabc`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...ceadabc)
+Full set of changes: [`v0.2.6...d7bbbe6`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...d7bbbe6)
 
 ## v0.2.6 (2022-03-02)
 

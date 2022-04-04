@@ -135,11 +135,9 @@ render_value_conformance <- function(results,
   ))
 
   # get value set
-  if (desc_out[[source]]$checks$var_type != "datetime") {
-    json_obj <- jsonlite::fromJSON(
-      desc_out[[source]]$checks$constraints
-    )
-  }
+  json_obj <- jsonlite::fromJSON(
+    desc_out[[source]]$checks$constraints
+  )
 
   if (desc_out[[source]]$checks$var_type ==
       "enumerated") {
