@@ -495,11 +495,15 @@ load_database <- function(rv,
         ]
         if (is.na(date_format) ||
             grepl("^\\s*$", date_format) ||
-            is.null(jsonlite::fromJSON(date_format)[["datetime_format"]])) {
+            is.null(jsonlite::fromJSON(
+              date_format
+            )[["datetime"]][["format"]])) {
           # set date format to default value
           date_format <- "%Y-%m-%d"
         } else{
-          date_format <- jsonlite::fromJSON(date_format)[["datetime_format"]]
+          date_format <- jsonlite::fromJSON(
+            date_format
+          )[["datetime"]][["format"]]
         }
         outlist[[i]][, (j) := as.Date(
           as.character(get(j)),

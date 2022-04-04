@@ -2,6 +2,9 @@
 
 ## Unreleased (2022-04-04)
 
+#### New Features
+
+* adding functionality for datetime constraints (wip)
 #### Fixes
 
 * replaced wrong argument to future::plan: 'worker' to 'workers'
@@ -32,7 +35,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...d7bbbe6`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...d7bbbe6)
+Full set of changes: [`v0.2.6...9752969`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...9752969)
 
 ## v0.2.6 (2022-03-02)
 

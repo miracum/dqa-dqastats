@@ -156,7 +156,13 @@ render_value_conformance <- function(results,
     print(kable_table(as.data.table(json_obj$range)))
   } else if (desc_out[[source]]$checks$var_type ==
             "datetime") {
-    cat(paste0("- Constraining values/rules: '", results[[source]]$rule, "'"))
+    rule <- results[[source]]$rule
+    if (is.list(rule)) {
+      cat(paste0("- Constraining values/rules:"))
+      print(kable_table(as.data.table(rule)))
+    } else if (is.character(rule) && length(rule) == 1) {
+      cat(paste0("- Constraining values/rules: '", rule, "'"))
+    }
   }
 
   if (isTRUE(results[[source]]$conformance_error)) {

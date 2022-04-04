@@ -656,6 +656,7 @@ value_conformance <- function(
                         )
 
                       if (isTRUE(outlist2$conformance_error)) {
+                        outlist2$rule <- constraints$datetime
                         if (scope == "plausibility") {
                           vec <- setdiff(
                             colnames(rv[[raw_data]][[i]]),
@@ -704,29 +705,7 @@ value_conformance <- function(
                         }
                       }
                     }
-                  } else {
-                    DIZtools::feedback(
-                      print_this = paste0(
-                        "Cannot perform value conformance check for variable '",
-                        i,
-                        "' because there is no logic implemented ",
-                        "for constrains '",
-                        paste(
-                          constraints_names[
-                            constraints_names != "datetime_format"
-                          ], collapse = "', '"),
-                        "'. Search for this value in the ",
-                        "brackets in the code to implement:"
-                      ),
-                      type = "Warning",
-                      findme = "4c83f9bb78",
-                      logfile_dir = logfile_dir,
-                      headless = headless
-                    )
                   }
-                  outlist2$conformance_error <- FALSE
-                  outlist2$conformance_results <-
-                    "No 'value conformance' issues found."
                 }
               } else {
                 DIZtools::feedback(
