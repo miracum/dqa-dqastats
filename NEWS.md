@@ -4,6 +4,7 @@
 
 #### New Features
 
+* added new constraints functionality for datetime variables
 * adding functionality for datetime constraints (wip)
 #### Fixes
 
@@ -35,7 +36,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...9752969`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...9752969)
+Full set of changes: [`v0.2.6...04f8cf3`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...04f8cf3)
 
 ## v0.2.6 (2022-03-02)
 
