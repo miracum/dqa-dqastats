@@ -429,7 +429,7 @@ load_database <- function(rv,
     )
 
     # get column names
-    col_names <- colnames(outlist[[i]])
+    col_names <- colnames(outlist[["outdata"]][[i]])
 
     # sometimes, colnames are altered by SQL-statement.
     # The next step is required to fix these wrong colnames
@@ -457,7 +457,7 @@ load_database <- function(rv,
         ]
         if (length(correct_colname) == 1) {
           data.table::setnames(
-            x = outlist[[i]],
+            x = outlist[["outdata"]][[i]],
             old = wcn,
             new = correct_colname
           )
@@ -483,7 +483,7 @@ load_database <- function(rv,
 
       if (var_type %in% c("enumerated", "string", "catalog")) {
         # transform to factor
-        outlist[[i]][, (j) := factor(get(j))]
+        outlist[["outdata"]][[i]][, (j) := factor(get(j))]
       } else if (var_type == "datetime") {
         # transform date variables
         # transform date variables
@@ -505,13 +505,13 @@ load_database <- function(rv,
             date_format
           )[["datetime"]][["format"]]
         }
-        outlist[[i]][, (j) := as.Date(
+        outlist[["outdata"]][[i]][, (j) := as.Date(
           as.character(get(j)),
           format = date_format
         )]
       } else if (var_type %in% c("integer", "float")) {
         # transform numeric variables
-        outlist[[i]][, (j) := as.numeric(
+        outlist[["outdata"]][[i]][, (j) := as.numeric(
           as.character(get(j))
         )]
       }
