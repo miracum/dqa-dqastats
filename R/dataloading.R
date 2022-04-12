@@ -407,7 +407,7 @@ load_database <- function(rv,
         # raise error
         stop(msg)
       } else {
-        return(dat)
+        return(list("outdata" = dat, "sql_statements" = sql))
       }
 
     },
@@ -692,95 +692,98 @@ data_loading <- function(rv, system, keys_to_test) {
     )
     outlist$sql_statements <- NA
 
-  } else if (system$system_type == "postgres") {
-    # import target SQL
-    outlist$sql_statements <- load_sqls(utils_path = rv$utilspath,
-                                        db = system$system_name)
-    stopifnot(is.list(outlist$sql_statements))
+  } else if (system$system_type %in% c("oracle", "postgres")) {
+    if (system$system_type == "postgres") {
+      # import target SQL
+      sql_statements <- load_sqls(utils_path = rv$utilspath,
+                                          db = system$system_name)
+      stopifnot(is.list(sql_statements))
 
-    # test target_db
-    if (is.null(system$settings)) {
-      ## Use environment-settings:
-      db_con <-
-        DIZutils::db_connection(
-          system_name = system$system_name,
-          db_type = system$system_type,
-          headless = rv$headless,
-          logfile_dir = rv$log$logfile_dir
-        )
-    } else {
-      ## Use included settings:
-      db_con <-
-        DIZutils::db_connection(
-          system_name = system$system_name,
-          db_type = system$system_type,
-          headless = rv$headless,
-          logfile_dir = rv$log$logfile_dir,
-          from_env = FALSE,
-          settings = system$settings
-        )
+      # test target_db
+      if (is.null(system$settings)) {
+        ## Use environment-settings:
+        db_con <-
+          DIZutils::db_connection(
+            system_name = system$system_name,
+            db_type = system$system_type,
+            headless = rv$headless,
+            logfile_dir = rv$log$logfile_dir
+          )
+      } else {
+        ## Use included settings:
+        db_con <-
+          DIZutils::db_connection(
+            system_name = system$system_name,
+            db_type = system$system_type,
+            headless = rv$headless,
+            logfile_dir = rv$log$logfile_dir,
+            from_env = FALSE,
+            settings = system$settings
+          )
+      }
+      stopifnot(!is.null(db_con))
+
+    }  else if (system$system_type == "oracle") {
+      # import target SQL
+      sql_statements <- load_sqls(utils_path = rv$utilspath,
+                                          db = system$system_name)
+      stopifnot(is.list(sql_statements))
+
+      # test target_db
+      if (is.null(system$settings)) {
+        ## Use environment-settings:
+        db_con <-
+          DIZutils::db_connection(
+            system_name = system$system_name,
+            db_type = system$system_type,
+            headless = rv$headless,
+            logfile_dir = rv$log$logfile_dir,
+            lib_path = Sys.getenv(paste0(
+              toupper(system$system_name), "_DRIVER"
+            ))
+          )
+      } else {
+        ## Use included settings:
+        db_con <-
+          DIZutils::db_connection(
+            system_name = system$system_name,
+            db_type = system$system_type,
+            headless = rv$headless,
+            logfile_dir = rv$log$logfile_dir,
+            lib_path = Sys.getenv(paste0(
+              toupper(system$system_name), "_DRIVER"
+            )),
+            from_env = FALSE,
+            settings = system$settings
+          )
+      }
+      stopifnot(!is.null(db_con))
     }
-
-    stopifnot(!is.null(db_con))
-
     # load target data
-    outlist$outdata <- load_database(
+    loaded_from_db <- load_database(
       rv = rv,
-      sql_statements = outlist$sql_statements,
+      sql_statements = sql_statements,
       db_con = db_con,
       keys_to_test = keys_to_test,
       headless = rv$headless,
       db_name = system$system_name,
       db_type = system$system_type
     )
-    rm(db_con)
-
-  }  else if (system$system_type == "oracle") {
-    # import target SQL
-    outlist$sql_statements <- load_sqls(utils_path = rv$utilspath,
-                                        db = system$system_name)
-    stopifnot(is.list(outlist$sql_statements))
-
-    # test target_db
-    if (is.null(system$settings)) {
-      ## Use environment-settings:
-      db_con <-
-        DIZutils::db_connection(
-          system_name = system$system_name,
-          db_type = system$system_type,
-          headless = rv$headless,
-          logfile_dir = rv$log$logfile_dir,
-          lib_path = Sys.getenv(paste0(
-            toupper(system$system_name), "_DRIVER"
-          ))
-        )
-    } else {
-      ## Use included settings:
-      db_con <-
-        DIZutils::db_connection(
-          system_name = system$system_name,
-          db_type = system$system_type,
-          headless = rv$headless,
-          logfile_dir = rv$log$logfile_dir,
-          lib_path = Sys.getenv(paste0(
-            toupper(system$system_name), "_DRIVER"
-          )),
-          from_env = FALSE,
-          settings = system$settings
-        )
-    }
-
-    stopifnot(!is.null(db_con))
-
-    # load target data
-    outlist$outdata <- load_database(
-      rv = rv,
-      sql_statements = outlist$sql_statements,
-      db_con = db_con,
-      keys_to_test = keys_to_test,
-      headless = rv$headless,
-      db_name = system$system_name,
-      db_type = system$system_type
+    outlist$outdata <- sapply(
+      X = names(loaded_from_db),
+      FUN = function(x) {
+        loaded_from_db[[x]][["outdata"]]
+      },
+      simplify = FALSE,
+      USE.NAMES = TRUE
+    )
+    outlist$sql_statements <- sapply(
+      X = names(loaded_from_db),
+      FUN = function(x) {
+        loaded_from_db[[x]][["sql_statements"]]
+      },
+      simplify = FALSE,
+      USE.NAMES = TRUE
     )
     rm(db_con)
 
