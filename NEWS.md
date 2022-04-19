@@ -4,6 +4,7 @@
 
 #### New Features
 
+* added creation of temporal view to sql display
 * now returning modified sql statements for pdf / gui-button
 * added new constraints functionality for datetime variables
 * adding functionality for datetime constraints (wip)
@@ -41,7 +42,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...e99385a`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...e99385a)
+Full set of changes: [`v0.2.6...58f8775`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...58f8775)
 
 ## v0.2.6 (2022-03-02)
 

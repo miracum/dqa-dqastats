@@ -367,6 +367,10 @@ apply_time_restriciton <- function(data,
       )
       stop("See error above")
     } else {
+      ## Here all commands to create the views will be stored for later
+      ## display in the GUI:
+      sql_create_view_all <- list()
+
       for (table in tables$source_table_name) {
         if (is.na(tables[
           get("source_table_name") == table,
@@ -430,15 +434,6 @@ apply_time_restriciton <- function(data,
             "')"
           )
 
-          DIZtools::feedback(
-            print_this = paste0(
-              "SQL create view:\n", sql_create_view
-            ),
-            type = "Info",
-            findme = "ce1ihs8f3f",
-            logfile_dir = logfile_dir
-          )
-
           if (system_type == "oracle") {
             DIZtools::feedback(
               print_this = paste0(
@@ -488,15 +483,19 @@ apply_time_restriciton <- function(data,
               print_this = paste0(
                 "Didn't find a temporary VIEW for table '",
                 table,
-                "'. Creating it now."
+                "'. Creating it now using:\n",
+                sql_create_view
               ),
               findme = "e1a20a8b94",
               logfile_dir = logfile_dir
             )
+
             ## Create the time-restricted VIEW:
             DIZutils::query_database(db_con = db_con,
                                      sql_statement = sql_create_view,
                                      no_result = TRUE)
+
+            sql_create_view_all[[view_name]] <- sql_create_view
           }
           ## Replace the original not-time-filtered table-calls from the
           ## SQL with the new time-filtered tables:
@@ -514,7 +513,8 @@ apply_time_restriciton <- function(data,
 
           DIZtools::feedback(
             print_this = paste0(
-              "SQL modified using view:\n", sql_tmp
+              "The SQL now uses the temporal filtered view:\n",
+              sql_tmp
             ),
             type = "Info",
             findme = "789ass8f3f",
@@ -532,12 +532,12 @@ apply_time_restriciton <- function(data,
     return(list(
       "sql" = sql_tmp,
       "sql_extended" = paste0(
-        sql_create_view,
+        paste(sql_create_view_all, collapse = ";\n"),
         ";\n\n",
         sql_tmp,
         ";\n\n",
-        "DROP VIEW ",
-        view_name
+        paste("DROP VIEW", names(sql_create_view_all), collapse = ";\n"),
+        ";"
       )
     ))
   } else {
