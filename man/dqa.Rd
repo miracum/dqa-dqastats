@@ -42,8 +42,8 @@ be stored (default: `paste0(tempdir(), "/output/")`).}
 \item{logfile_dir}{The absolute path to folder where the logfile
 will be stored default(`tempdir()`).}
 
-\item{parallel}{A boolean. If TRUE, initializing
-`future::plan("multiprocess")` before running the code (default: FALSE).}
+\item{parallel}{A boolean. If TRUE, initializing a `future::plan()`
+for running the code (default: FALSE).}
 
 \item{ncores}{A integer. The number of cores to use. Caution: you would
 probably like to choose a low number when operating on large datasets.
