@@ -532,10 +532,19 @@ apply_time_restriciton <- function(data,
     return(list(
       "sql" = sql_tmp,
       "sql_extended" = paste0(
+        "-- ###\n",
+        "-- Create the VIEWs:",
+        "-- ###\n",
         paste(sql_create_view_all, collapse = ";\n"),
         ";\n\n",
+        "-- ###\n",
+        "-- The actual SQL:",
+        "-- ###\n",
         sql_tmp,
         ";\n\n",
+        "-- ###\n",
+        "-- If needed, drop the temporal VIEWs:",
+        "-- ###\n",
         paste("DROP VIEW", names(sql_create_view_all), collapse = ";\n"),
         ";"
       )

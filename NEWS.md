@@ -10,6 +10,7 @@
 * adding functionality for datetime constraints (wip)
 #### Fixes
 
+* added all view creations to display-sql where only the last one was
 * corrected hierarchy of outlist list to transform variables 2
 * corrected hierarchy of outlist list to transform variables
 * replaced wrong argument to future::plan: 'worker' to 'workers'
@@ -42,7 +43,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...58f8775`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...58f8775)
+Full set of changes: [`v0.2.6...0310356`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...0310356)
 
 ## v0.2.6 (2022-03-02)
 
