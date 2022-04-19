@@ -41,16 +41,26 @@
 #'
 #' @export
 #'
-read_mdr <- function(utils_path, mdr_filename = "mdr.csv") {
+read_mdr <- function(utils_path = NULL, mdr_filename = "mdr.csv") {
 
-  mdr <- data.table::fread(
-    file.path(
+  if (!is.null(utils_path)) {
+    mdr_path <- file.path(
       file.path(
         DIZtools::clean_path_name(utils_path, remove.slash = TRUE),
         "MDR"
       ),
       mdr_filename
-    ),
+    )
+  } else {
+    mdr_path <- mdr_filename
+  }
+
+  stopifnot(
+    file.exists(mdr_path)
+  )
+
+  mdr <- data.table::fread(
+    file = mdr_path,
     header = TRUE
   )
 

@@ -4,7 +4,7 @@
 \alias{read_mdr}
 \title{read_mdr helper function}
 \usage{
-read_mdr(utils_path, mdr_filename = "mdr.csv")
+read_mdr(utils_path = NULL, mdr_filename = "mdr.csv")
 }
 \arguments{
 \item{utils_path}{A character string. The path to the utils-folder,

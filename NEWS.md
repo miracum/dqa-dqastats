@@ -41,7 +41,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...22b5c16`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...22b5c16)
+Full set of changes: [`v0.2.6...e99385a`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...e99385a)
 
 ## v0.2.6 (2022-03-02)
 
