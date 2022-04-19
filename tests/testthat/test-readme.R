@@ -19,7 +19,7 @@ context("test readme example")
 
 library(data.table)
 
-test_that("correct functioning of readme example", {
+test_that("correct functioning of readme example (parallel = FALSE)", {
 
   # Set environment vars to demo files paths:
   Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file("demo_data",
@@ -38,6 +38,38 @@ test_that("correct functioning of readme example", {
     mdr_filename = "mdr_example_data.csv",
     output_dir = paste0(tempdir(), "/output/"),
     parallel = FALSE
+  )
+
+  expect_type(results, "list")
+  expect_length(results, 27)
+
+  do.call(
+    file.remove,
+    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
+  )
+
+})
+
+
+test_that("correct functioning of readme example (parallel = TRUE)", {
+
+  # Set environment vars to demo files paths:
+  Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file("demo_data",
+                                                    package = "DQAstats"))
+  Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file("demo_data",
+                                                    package = "DQAstats"))
+  # Set path to utilities folder where to find the mdr and template files:
+  utils_path <- system.file("demo_data/utilities",
+                            package = "DQAstats")
+
+  # Execute the DQA and generate a PDF report:
+  results <- DQAstats::dqa(
+    source_system_name = "exampleCSV_source",
+    target_system_name = "exampleCSV_target",
+    utils_path = utils_path,
+    mdr_filename = "mdr_example_data.csv",
+    output_dir = paste0(tempdir(), "/output/"),
+    parallel = TRUE
   )
 
   expect_type(results, "list")

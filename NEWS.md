@@ -1,13 +1,16 @@
 # DQAstats NEWS
 
-## Unreleased (2022-04-11)
+## Unreleased (2022-04-19)
 
 #### New Features
 
+* now returning modified sql statements for pdf / gui-button
 * added new constraints functionality for datetime variables
 * adding functionality for datetime constraints (wip)
 #### Fixes
 
+* corrected hierarchy of outlist list to transform variables 2
+* corrected hierarchy of outlist list to transform variables
 * replaced wrong argument to future::plan: 'worker' to 'workers'
 * fixed errors in vignette
 * better error handling for parallel backend
@@ -24,6 +27,7 @@
 #### Others
 
 * updated news.md
+* updated news.md
 * updated news
 * added feedback msg to error
 * updated cran comments
@@ -37,7 +41,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...997ed4d`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...997ed4d)
+Full set of changes: [`v0.2.6...22b5c16`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...22b5c16)
 
 ## v0.2.6 (2022-03-02)
 
