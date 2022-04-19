@@ -296,16 +296,17 @@ load_database <- function(rv,
                           headless = FALSE,
                           db_type) {
 
-  # initialize outlist
+  ## Initialize outlist:
   outlist <- list()
 
-  # read target data
+  ## Read data:
   outlist <- sapply(
     X = keys_to_test,
     FUN = function(i) {
       stopifnot(!is.null(sql_statements[[i]]))
 
       msg <- paste("Getting", i, "from database", db_name)
+      sql_extended <- NULL
 
       ## Apply time filtering (if needed):
       if (rv$restricting_date$use_it) {
@@ -328,7 +329,7 @@ load_database <- function(rv,
           msg <- paste0(msg, " (using a MODIFIED SUBSELECT)")
         } else {
           ## Filter SQL
-          sql <- apply_time_restriciton(
+          sql_list <- apply_time_restriciton(
             data = sql_statements[[i]],
             # filter_colname = unique(rv$mdr[get("key") == i &
             # get("source_system_name") == db_name &
@@ -342,11 +343,29 @@ load_database <- function(rv,
             db_con = db_con,
             logfile_dir = rv$log$logfile_dir
           )
+          sql <- sql_list$sql
+          sql_extended <- sql_list$sql_extended
           msg <- paste0(msg, " (using a TEMPORAL VIEW)")
         }
       } else {
         ## Unfiltered:
         sql <- sql_statements[[i]]
+      }
+
+      ## The `sql_extended` is the same like the normal `sql` but extened with
+      ## additional information needed to run the SQL, e.g. the commands
+      ## to create a view which the `sql` utilizes:
+      if (is.null(sql_extended) ||
+          !is.character(sql_extended)) {
+        sql_extended <- sql
+      } else {
+        DIZtools::feedback(
+          print_this = paste0(
+            "Found extended SQL information. Using this one now: ",
+            sql_extended
+          ),
+          findme = "060a2a152d"
+        )
       }
 
       DIZtools::feedback(print_this = sql,
@@ -363,6 +382,16 @@ load_database <- function(rv,
                          headless = rv$headless)
 
       dat <- tryCatch({
+        ## Note that there is also a `sql_extended`, which also has
+        ## commands to create the necessary view(s) in it. BUT: This one
+        ## would create the same temporal filtered view again for every
+        ## data element. To avoid this, the view will be created if not
+        ## existing in the previous `apply_time_restriciton` call and
+        ## during the data extraction here, this view is assumed as existing.
+        ## Thats the reason why we only use the `sql` here and NOT the
+        ## extended `sql_extended.` The temporal view will automatically be
+        ## deleted after the connection is closed. So no need to manually
+        ## close it.
         DIZutils::query_database(db_con = db_con,
                                  sql_statement = sql)
       },
@@ -407,7 +436,7 @@ load_database <- function(rv,
         # raise error
         stop(msg)
       } else {
-        return(list("outdata" = dat, "sql_statements" = sql))
+        return(list("outdata" = dat, "sql_statements" = sql_extended))
       }
 
     },

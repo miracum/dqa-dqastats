@@ -41,9 +41,11 @@ Defaults to NULL.}
 database. Used to create the views we need later to apply the SQLs to.}
 }
 \value{
-If system_type is a database, the new sql-string containing the
-  temporal filtering will be returned ('order by' parts will be removed).
-  If system_type is 'csv', the filtered data.table will be returned.
+If system_type is a database, a list with the new sql-string
+  containing the temporal filtering will be returned under $sql
+ ('order by' parts will be removed) and a printable sql containing the
+ commands to create the view needed to run the sql under $sql_extended.
+ If system_type is 'csv', the filtered data.table will be returned.
 }
 \description{
 Internal function to filter the input data (or SQL) depending

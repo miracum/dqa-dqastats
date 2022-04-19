@@ -17,11 +17,11 @@ invisible(gc()) # Garbage collector/Clear unused RAM
 
 devtools::load_all()
 ## using real data:
-#source_system_name = "i2b2"
+source_system_name = "i2b2"
 # source_system_name = "kdb"
 # source_system_name = "p21csv"
 # source_system_name = "p21staging"
-source_system_name = "fhir_gw"
+# source_system_name = "fhir_gw"
 target_system_name = "i2b2"
 # target_system_name = "p21csv"
 # target_system_name = "p21staging"

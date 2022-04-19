@@ -188,9 +188,11 @@ check_date_restriction_requirements <- # nolint
 #' @param db_con (Optional for non-database-changes) The connection to the
 #'   database. Used to create the views we need later to apply the SQLs to.
 #'
-#' @return If system_type is a database, the new sql-string containing the
-#'   temporal filtering will be returned ('order by' parts will be removed).
-#'   If system_type is 'csv', the filtered data.table will be returned.
+#' @return If system_type is a database, a list with the new sql-string
+#'   containing the temporal filtering will be returned under $sql
+#'  ('order by' parts will be removed) and a printable sql containing the
+#'  commands to create the view needed to run the sql under $sql_extended.
+#'  If system_type is 'csv', the filtered data.table will be returned.
 #'
 apply_time_restriciton <- function(data,
                                    # filter_colname,
@@ -527,7 +529,17 @@ apply_time_restriciton <- function(data,
     # print("New SQL:")
     # print(sql_tmp)
     # nolint end
-    return(sql_tmp)
+    return(list(
+      "sql" = sql_tmp,
+      "sql_extended" = paste0(
+        sql_create_view,
+        ";\n\n",
+        sql_tmp,
+        ";\n\n",
+        "DROP VIEW ",
+        view_name
+      )
+    ))
   } else {
     return(NULL)
   }
