@@ -1,10 +1,11 @@
 # DQAstats NEWS
 
-## Unreleased (2022-04-19)
+## Unreleased (2022-04-20)
 
 #### New Features
 
 * added creation of temporal view to sql display
+* more flexibility to use read_mdr
 * now returning modified sql statements for pdf / gui-button
 * added new constraints functionality for datetime variables
 * adding functionality for datetime constraints (wip)
@@ -28,6 +29,8 @@
 * adding vignette that analyzes dataquier ship-dataset
 #### Others
 
+* merged development
+* extened SQL hints in display message
 * updated news.md
 * updated news.md
 * updated news
@@ -43,7 +46,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...0310356`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...0310356)
+Full set of changes: [`v0.2.6...fc09efc`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...fc09efc)
 
 ## v0.2.6 (2022-03-02)
 
