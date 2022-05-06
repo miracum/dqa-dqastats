@@ -341,10 +341,12 @@ load_database <- function(rv,
             key = i,
             mdr = rv$mdr,
             db_con = db_con,
-            logfile_dir = rv$log$logfile_dir
+            logfile_dir = rv$log$logfile_dir,
+            sql_create_view_all = rv$db_name$sql_create_view_all
           )
           sql <- sql_list$sql
           sql_extended <- sql_list$sql_extended
+          rv$db_name$sql_create_view_all <- sql_list$sql_create_view_all
           msg <- paste0(msg, " (using a TEMPORAL VIEW)")
         }
       } else {

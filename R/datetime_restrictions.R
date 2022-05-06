@@ -187,6 +187,10 @@ check_date_restriction_requirements <- # nolint
 #'   Defaults to NULL.
 #' @param db_con (Optional for non-database-changes) The connection to the
 #'   database. Used to create the views we need later to apply the SQLs to.
+#' @param sql_create_view_all (Optional, list). A list containing the SQLs to
+#'   create all Views for the time-filtering. This is needed for the
+#'   printing-friendly SQL including this view-creating SQLs and the actual
+#'   data-extracting SQL query.
 #'
 #' @return If system_type is a database, a list with the new sql-string
 #'   containing the temporal filtering will be returned under $sql
@@ -203,7 +207,8 @@ apply_time_restriciton <- function(data,
                                    system_type,
                                    mdr,
                                    logfile_dir = NULL,
-                                   db_con = NULL) {
+                                   db_con = NULL,
+                                   sql_create_view_all = list()) {
 
 
   if (system_type == "csv") {
@@ -369,7 +374,9 @@ apply_time_restriciton <- function(data,
     } else {
       ## Here all commands to create the views will be stored for later
       ## display in the GUI:
-      sql_create_view_all <- list()
+      if(all(DIZtools::is.empty(sql_create_view_all))) {
+        sql_create_view_all <- list()
+      }
 
       for (table in tables$source_table_name) {
         if (is.na(tables[
@@ -523,6 +530,16 @@ apply_time_restriciton <- function(data,
         }
       }
     }
+
+    if (all(DIZtools::is.empty(sql_create_view_all))) {
+      DIZtools::feedback(
+        print_this = paste0("Couldn't get information about ",
+                            " the SQL views."),
+        type = "Warning",
+        findme = "9292c14a02"
+      )
+    }
+
     # nolint start
     # print("Old SQL:")
     # print(data)
@@ -541,7 +558,8 @@ apply_time_restriciton <- function(data,
         "-- If needed, drop the temporal VIEWs:\n",
         paste("DROP VIEW", names(sql_create_view_all), collapse = ";\n"),
         ";"
-      )
+      ),
+      "sql_create_view_all" = sql_create_view_all
     ))
   } else {
     return(NULL)

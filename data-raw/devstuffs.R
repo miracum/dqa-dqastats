@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.6.9016")
+my_desc$set_version("0.2.6.9017")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -231,7 +231,7 @@ usethis::use_tidy_description()
 
 # https://github.com/gitpython-developers/GitPython/issues/1016#issuecomment-1104114129
 system(
-  command = paste0("git config --global -add safe.directory ", getwd())
+  command = paste0("git config --global --add safe.directory ", getwd())
 )
 system(
   command = 'auto-changelog -u -t "DQAstats NEWS" --tag-prefix "v" -o "NEWS.md"'

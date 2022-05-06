@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-05-04)
+## Unreleased (2022-05-06)
 
 #### New Features
 
@@ -29,6 +29,7 @@
 * adding vignette that analyzes dataquier ship-dataset
 #### Others
 
+* updated news.md; fixed git config to work with auto-changelog again
 * update debugging.info
 * updated debugging info
 * removed comments from display sql
@@ -49,7 +50,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...90d2f32`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...90d2f32)
+Full set of changes: [`v0.2.6...e9bbed7`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...e9bbed7)
 
 ## v0.2.6 (2022-03-02)
 
