@@ -1,6 +1,6 @@
 Package: DQAstats
 Title: Core Functions for Data Quality Assessment
-Version: 0.2.6.9018
+Version: 0.2.6.9019
 Date: 2022-05-09
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
@@ -38,3 +38,4 @@ Suggests:
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
+RoxygenNote: 7.1.2

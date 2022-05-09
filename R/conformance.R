@@ -910,26 +910,36 @@ value_conformance_checks <- function(results) {
 
 
   for (i in obj_names) {
-    error_source <-
-      ifelse(
-        !is.null(results[[i]]$source_data),
+    if (results[[i]]$source_data$conformance_results ==
+        "No data available to perform conformance checks.") {
+      error_source <- "no data available"
+    } else {
+      error_source <-
         ifelse(
-          results[[i]]$source_data$conformance_error,
-          "failed",
-          "passed"
-        ),
-        "ERROR"
-      )
-    error_target <-
-      ifelse(
-        !is.null(results[[i]]$target_data),
+          !is.null(results[[i]]$source_data),
+          ifelse(
+            results[[i]]$source_data$conformance_error,
+            "failed",
+            "passed"
+          ),
+          "ERROR"
+        )
+    }
+    if (results[[i]]$target_data$conformance_results ==
+        "No data available to perform conformance checks.") {
+      error_target <- "no data available"
+    } else {
+      error_target <-
         ifelse(
-          results[[i]]$target_data$conformance_error,
-          "failed",
-          "passed"
-        ),
-        "ERROR"
-      )
+          !is.null(results[[i]]$target_data),
+          ifelse(
+            results[[i]]$target_data$conformance_error,
+            "failed",
+            "passed"
+          ),
+          "ERROR"
+        )
+    }
     out <- rbind(
       out,
       data.table::data.table(

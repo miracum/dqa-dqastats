@@ -30,3 +30,4 @@
 ^CRAN-SUBMISSION$
 ^dqastats\.Rproj$
 ^cran-comments\.md$
+^\.Rproj\.user$

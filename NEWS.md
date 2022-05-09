@@ -11,6 +11,8 @@
 * adding functionality for datetime constraints (wip)
 #### Fixes
 
+* fixed displaying of conformance results, when no data available to perform conformance checks
+* fixed recognition of empty data for datetime variables
 * fixed missing of view creation / deletion in displayed sqls
 * fixed issues when source_table_name included where-clause
 * only the first sql showed the view-creation sql. This is now fixed.
@@ -25,6 +27,7 @@
 * sql statements to target system, if source=target
 #### Refactorings
 
+* added 'no data available' category for etl checks
 * enhanced formatting of displayed sqls
 #### Docs
 
@@ -35,6 +38,7 @@
 * adding vignette that analyzes dataquier ship-dataset
 #### Others
 
+* updated package metadata and news.md
 * updated news.md
 * updated news.md; fixed git config to work with auto-changelog again
 * update debugging.info
@@ -57,7 +61,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...895d9b0`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...895d9b0)
+Full set of changes: [`v0.2.6...3402dc7`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...3402dc7)
 
 ## v0.2.6 (2022-03-02)
 
