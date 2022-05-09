@@ -11,6 +11,8 @@
 * adding functionality for datetime constraints (wip)
 #### Fixes
 
+* fixed missing of view creation / deletion in displayed sqls
+* fixed issues when source_table_name included where-clause
 * only the first sql showed the view-creation sql. This is now fixed.
 * added all view creations to display-sql where only the last one was
 * corrected hierarchy of outlist list to transform variables 2
@@ -21,6 +23,9 @@
 * added on.exit for future plan
 * parallel=FALSE by default
 * sql statements to target system, if source=target
+#### Refactorings
+
+* enhanced formatting of displayed sqls
 #### Docs
 
 * removed dataquier as soft dependency; now loading datasets directly from url in vignette
@@ -30,6 +35,7 @@
 * adding vignette that analyzes dataquier ship-dataset
 #### Others
 
+* updated news.md
 * updated news.md; fixed git config to work with auto-changelog again
 * update debugging.info
 * updated debugging info
@@ -51,7 +57,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...b69c716`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...b69c716)
+Full set of changes: [`v0.2.6...895d9b0`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...895d9b0)
 
 ## v0.2.6 (2022-03-02)
 
