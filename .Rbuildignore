@@ -30,4 +30,5 @@
 ^CRAN-SUBMISSION$
 ^dqastats\.Rproj$
 ^cran-comments\.md$
-^\.Rproj\.user$
+^man/figures$
+^Rplots\.pdf$

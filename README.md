@@ -1,14 +1,15 @@
-# DQAstats
+# DQAstats <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
+[![CRAN Status Badge](https://www.r-pkg.org/badges/version-ago/DQAstats)](https://cran.r-project.org/package=DQAstats)
+[![CRAN Checks](https://cranchecks.info/badges/worst/DQAstats)](https://cran.r-project.org/web/checks/check_results_DQAstats.html)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/DQAstats?color=blue)](https://cran.r-project.org/package=DQAstats)
+[![](http://cranlogs.r-pkg.org/badges/last-month/DQAstats?color=blue)](https://cran.r-project.org/package=DQAstats)
+[![Dependencies](https://tinyverse.netlify.com/badge/DQAstats)](https://cran.r-project.org/package=DQAstats)
 [![R CMD Check via {tic}](https://github.com/miracum/dqa-dqastats/workflows/R%20CMD%20Check%20via%20{tic}/badge.svg?branch=master)](https://github.com/miracum/dqa-dqastats/actions)
 [![linting](https://github.com/miracum/dqa-dqastats/workflows/lint/badge.svg?branch=master)](https://github.com/miracum/dqa-dqastats/actions)
 [![test-coverage](https://github.com/miracum/dqa-dqastats/workflows/test-coverage/badge.svg?branch=master)](https://github.com/miracum/dqa-dqastats/actions)
 [![codecov](https://codecov.io/gh/miracum/dqa-dqastats/branch/master/graph/badge.svg)](https://app.codecov.io/gh/miracum/dqa-dqastats)
-<!--[![pipeline status](https://gitlab.miracum.org/miracum/dqa/dqastats/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/dqastats/-/commits/master)
-[![coverage report](https://gitlab.miracum.org/miracum/dqa/dqastats/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/dqastats/-/commits/master)-->
-[![CRAN Status Badge](https://www.r-pkg.org/badges/version-ago/DQAstats)](https://cran.r-project.org/package=DQAstats)
-[![CRAN Checks](https://cranchecks.info/badges/worst/DQAstats)](https://cran.r-project.org/web/checks/check_results_DQAstats.html)
 <!-- badges: end -->
 
 - [DQAstats](#dqastats)

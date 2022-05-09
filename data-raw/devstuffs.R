@@ -172,6 +172,8 @@ usethis::use_build_ignore("CRAN-RELEASE")
 usethis::use_build_ignore("CRAN-SUBMISSION")
 usethis::use_build_ignore("dqastats.Rproj")
 usethis::use_build_ignore("cran-comments.md")
+usethis::use_build_ignore("man/figures")
+usethis::use_build_ignore("Rplots.pdf")
 
 
 ## .gitignore:
@@ -236,3 +238,31 @@ system(
 system(
   command = 'auto-changelog -u -t "DQAstats NEWS" --tag-prefix "v" -o "NEWS.md"'
 )
+
+badger::badge_cran_download("DQAstats", "grand-total", "blue")
+badger::badge_cran_download("DQAstats", "last-month", "blue")
+badger::badge_dependencies("DQAstats")
+
+
+# imgurl <- path.expand("~/development/Rpackages/bg3.jpeg")
+# hexSticker::sticker(
+#   subplot = imgurl,
+#   package = "DQAstats",
+#   s_width = 0.66,
+#   s_height = 0.66,
+#   s_x = 1,
+#   s_y = 1,
+#   p_size = 22,
+#   p_x = 1,
+#   p_y = 1,
+#   filename = "man/figures/logo.png",
+#   h_color = "#00ffd5", # "#b4f2e9",
+#   p_color = "#00ffd5", # "#b4f2e9",
+#   h_size = 0.8,
+#   h_fill = "#baffa8",
+#   spotlight = TRUE,
+#   #l_width = 6,
+#   #l_height = 6,
+#   white_around_sticker = FALSE,
+#   asp = 1
+# )

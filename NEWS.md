@@ -4,6 +4,7 @@
 
 #### New Features
 
+* 'no data available' now available for conformance checks
 * added creation of temporal view to sql display
 * more flexibility to use read_mdr
 * now returning modified sql statements for pdf / gui-button
@@ -61,7 +62,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...3402dc7`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...3402dc7)
+Full set of changes: [`v0.2.6...94279d7`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...94279d7)
 
 ## v0.2.6 (2022-03-02)
 
