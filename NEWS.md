@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-05-06)
+## Unreleased (2022-05-09)
 
 #### New Features
 
@@ -11,6 +11,7 @@
 * adding functionality for datetime constraints (wip)
 #### Fixes
 
+* only the first sql showed the view-creation sql. This is now fixed.
 * added all view creations to display-sql where only the last one was
 * corrected hierarchy of outlist list to transform variables 2
 * corrected hierarchy of outlist list to transform variables
@@ -50,7 +51,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...e9bbed7`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...e9bbed7)
+Full set of changes: [`v0.2.6...b69c716`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...b69c716)
 
 ## v0.2.6 (2022-03-02)
 
