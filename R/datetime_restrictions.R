@@ -460,39 +460,15 @@ apply_time_restriciton <- function(data,
             )
             stop("See error above.")
           }
+
+          # store view in list
+          sql_create_view_all[[view_name]] <- sql_create_view
+
           ## Create VIEW if it is not already created:
-          if (DIZutils::check_if_table_exists(
+          if (isFALSE(DIZutils::check_if_table_exists(
             db_con = db_con,
             table_name = view_name
-          )) {
-            # nolint start
-            # DIZtools::feedback(
-            #   print_this = paste0(
-            #     "Found a temporary VIEW for table '",
-            #     table,
-            #     "' which will be used now."
-            #   ),
-            #   findme = "dd695dbbe6",
-            #   logfile_dir = logfile_dir
-            # )
-            ## VIEW is already there. Normally we can be sure that this
-            ## VIEW is the right one and not an older one, because we
-            ## only create TEMP VIEWs which will automatically be removed
-            ## when the connection closes.
-            ## If you want to be sure, drop it and re-create it here:
-            # sql_drop_view <- paste0("DROP VIEW ", view_name)
-            # ## Drop it:
-            # DIZutils::query_database(
-            #   db_con = db_con,
-            #   sql_statement = sql_drop_view
-            # )
-            # ## Re-create it:
-            # DIZutils::query_database(
-            #   db_con = db_con,
-            #   sql_statement = sql_create_view
-            # )
-            # nolint end
-          } else {
+          ))) {
             DIZtools::feedback(
               print_this = paste0(
                 "Didn't find a temporary VIEW for table '",
@@ -508,8 +484,6 @@ apply_time_restriciton <- function(data,
             DIZutils::query_database(db_con = db_con,
                                      sql_statement = sql_create_view,
                                      no_result = TRUE)
-
-            sql_create_view_all[[view_name]] <- sql_create_view
           }
           ## Replace the original not-time-filtered table-calls from the
           ## SQL with the new time-filtered tables:
