@@ -553,8 +553,7 @@ value_conformance <- function(
                   }
                 }
               } else if (d_out$checks$var_type == "datetime") {
-                if (((nrow(s_out) == 1) && is.na(s_out[[1, 1]])) ||
-                    (nrow(s_out) == 0)) {
+                if (((nrow(s_out) == 6) && is.na(s_out[[1, 2]]))) {
                   outlist2$conformance_error <- TRUE
                   outlist2$conformance_results <-
                     "No data available to perform conformance checks."
