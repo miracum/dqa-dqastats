@@ -141,24 +141,35 @@ etl_checks <- function(results) {
 
 
   for (i in obj_names) {
-    check_distinct <- ifelse(
-      results[[i]]$counts$source_data$cnt$distinct ==
-        results[[i]]$counts$target_data$cnt$distinct,
-      "passed",
-      "failed"
-    )
-    check_valids <- ifelse(
-      results[[i]]$counts$source_data$cnt$valids ==
-        results[[i]]$counts$target_data$cnt$valids,
-      "passed",
-      "failed"
-    )
-    check_missings <- ifelse(
-      results[[i]]$counts$source_data$cnt$missings ==
-        results[[i]]$counts$target_data$cnt$missings,
-      "passed",
-      "failed"
-    )
+    # check, if there are data available
+    if (results[[i]]$counts$source_data$cnt$n == 0 &&
+        results[[i]]$counts$target_data$cnt$n == 0) {
+      check_distinct <- "no data available"
+      check_valids <- check_distinct
+      check_missings <- check_distinct
+
+    } else {
+
+      check_distinct <- ifelse(
+        results[[i]]$counts$source_data$cnt$distinct ==
+          results[[i]]$counts$target_data$cnt$distinct,
+        "passed",
+        "failed"
+      )
+      check_valids <- ifelse(
+        results[[i]]$counts$source_data$cnt$valids ==
+          results[[i]]$counts$target_data$cnt$valids,
+        "passed",
+        "failed"
+      )
+      check_missings <- ifelse(
+        results[[i]]$counts$source_data$cnt$missings ==
+          results[[i]]$counts$target_data$cnt$missings,
+        "passed",
+        "failed"
+      )
+    }
+
     out <- rbind(
       out,
       data.table::data.table(
