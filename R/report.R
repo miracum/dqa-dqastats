@@ -25,6 +25,7 @@ render_results <- function(descriptive_results,
 
   # loop over objects
   tmp_firstline <- TRUE
+
   for (i in obj_names) {
     desc_out <- descriptive_results[[i]]$description
     count_out <- descriptive_results[[i]]$counts
@@ -124,53 +125,63 @@ render_counts <- function(count_out,
 render_value_conformance <- function(results,
                                      desc_out,
                                      source) {
-  cat(paste0(
-    "\n- Conformance check: ",
-    ifelse(
-      results[[source]]$conformance_error,
-      "failed",
-      "passed"
-    ),
-    "\n"
-  ))
 
-  # get value set
-  json_obj <- jsonlite::fromJSON(
-    desc_out[[source]]$checks$constraints
-  )
+  if (results[[source]]$conformance_results ==
+      "No data available to perform conformance checks.") {
+    cat(paste0(
+      "\n- Conformance check: ",
+      results[[source]]$conformance_results
+    ))
+  } else {
 
-  if (desc_out[[source]]$checks$var_type ==
-      "enumerated") {
-    cat("- Constraining values/rules: '",
-        paste(json_obj$value_set,
-              collapse = ", "),
-        "'")
+    cat(paste0(
+      "\n- Conformance check: ",
+      ifelse(
+        results[[source]]$conformance_error,
+        "failed",
+        "passed"
+      ),
+      "\n"
+    ))
 
-  } else if (desc_out[[source]]$checks$var_type ==
-             "string") {
-    cat("- Constraining values/rules: '", json_obj$regex, "'")
+    # get value set
+    json_obj <- jsonlite::fromJSON(
+      desc_out[[source]]$checks$constraints
+    )
 
-  } else if (desc_out[[source]]$checks$var_type %in%
-             c("integer", "float")) {
-    cat(paste0("- Constraining values/rules:"))
-    print(kable_table(as.data.table(json_obj$range)))
-  } else if (desc_out[[source]]$checks$var_type ==
-            "datetime") {
-    rule <- results[[source]]$rule
-    if (is.list(rule)) {
+    if (desc_out[[source]]$checks$var_type ==
+        "enumerated") {
+      cat("- Constraining values/rules: '",
+          paste(json_obj$value_set,
+                collapse = ", "),
+          "'")
+
+    } else if (desc_out[[source]]$checks$var_type ==
+               "string") {
+      cat("- Constraining values/rules: '", json_obj$regex, "'")
+
+    } else if (desc_out[[source]]$checks$var_type %in%
+               c("integer", "float")) {
       cat(paste0("- Constraining values/rules:"))
-      print(kable_table(as.data.table(rule)))
-    } else if (is.character(rule) && length(rule) == 1) {
-      cat(paste0("- Constraining values/rules: '", rule, "'"))
+      print(kable_table(as.data.table(json_obj$range)))
+    } else if (desc_out[[source]]$checks$var_type ==
+              "datetime") {
+      rule <- results[[source]]$rule
+      if (is.list(rule)) {
+        cat(paste0("- Constraining values/rules:"))
+        print(kable_table(as.data.table(rule)))
+      } else if (is.character(rule) && length(rule) == 1) {
+        cat(paste0("- Constraining values/rules: '", rule, "'"))
+      }
+    }
+
+    if (isTRUE(results[[source]]$conformance_error)) {
+      cat("\n- ",
+          paste0(results[[source]]$conformance_results)
+        )
     }
   }
-
-  if (isTRUE(results[[source]]$conformance_error)) {
-    cat("\n- ", paste0(results[[source]]$conformance_results,
-                       "  \n  \n"))
-  } else {
-    cat("  \n  \n")
-  }
+  cat("  \n  \n")
 }
 
 render_data_map <- function(datamap) {
