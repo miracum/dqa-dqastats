@@ -438,9 +438,15 @@ load_database <- function(rv,
         # raise error
         stop(msg)
       } else {
+        sql_extended <- gsub(
+          pattern = "(,|AND|SELECT|FROM|JOIN|ON)\\s?",
+          replacement = "\\1\n",
+          x = sql_extended,
+          ignore.case = FALSE
+        )
         return(list(
           "outdata" = dat,
-          "sql_statements" = gsub("(,|AND) ", "\\1\n", sql_extended)
+          "sql_statements" = sql_extended
         ))
       }
 
