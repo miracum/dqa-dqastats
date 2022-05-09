@@ -438,7 +438,10 @@ load_database <- function(rv,
         # raise error
         stop(msg)
       } else {
-        return(list("outdata" = dat, "sql_statements" = sql_extended))
+        return(list(
+          "outdata" = dat,
+          "sql_statements" = gsub("(,|AND) ", "\\1\n", sql_extended)
+        ))
       }
 
     },

@@ -349,15 +349,22 @@ apply_time_restriciton <- function(data,
     # nolint end
 
     ## Get all tables needed for this SQL:
-    tables <-
-      unique(
-        mdr[get("source_system_name") == system_name,
+    tables <- mdr[get("source_system_name") == system_name,
             .SD,
             .SDcols = c("source_table_name",
                         "restricting_date_var",
                         "restricting_date_format")
-        ]
+        ] %>%
+      unique()
+    # ignore any where statements and stuff
+    tables[
+      ,
+      ("source_table_name") := gsub(
+        "^(\\S*)(\\s*WHERE.*)?$", "\\1", get("source_table_name")
       )
+    ]
+    tables <- tables %>%
+      unique()
     if (nrow(tables) != length(unique(tables[["source_table_name"]]))) {
       DIZtools::feedback(
         print_this = paste0(

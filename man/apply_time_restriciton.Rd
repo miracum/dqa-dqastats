@@ -13,7 +13,8 @@ apply_time_restriciton(
   system_type,
   mdr,
   logfile_dir = NULL,
-  db_con = NULL
+  db_con = NULL,
+  sql_create_view_all = list()
 )
 }
 \arguments{
@@ -39,6 +40,11 @@ Defaults to NULL.}
 
 \item{db_con}{(Optional for non-database-changes) The connection to the
 database. Used to create the views we need later to apply the SQLs to.}
+
+\item{sql_create_view_all}{(Optional, list). A list containing the SQLs to
+create all Views for the time-filtering. This is needed for the
+printing-friendly SQL including this view-creating SQLs and the actual
+data-extracting SQL query.}
 }
 \value{
 If system_type is a database, a list with the new sql-string
