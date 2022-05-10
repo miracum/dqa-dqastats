@@ -111,7 +111,7 @@ dqa <- function(source_system_name,
                 restricting_date_format = NULL) {
 
   ## Print versions of packages:
-  for (p in c("DIZutils", "DQAstats")) {
+  for (p in c("DIZtools", "DIZutils", "DQAstats")) {
     message(paste0("Version of '", p, "': ", utils::packageVersion(p)))
   }
 
