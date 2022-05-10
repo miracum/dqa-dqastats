@@ -145,9 +145,11 @@ render_value_conformance <- function(results,
     ))
 
     # get value set
-    json_obj <- jsonlite::fromJSON(
-      desc_out[[source]]$checks$constraints
-    )
+    if (!is.na(desc_out[[source]]$checks$constraints)) {
+      json_obj <- jsonlite::fromJSON(
+        desc_out[[source]]$checks$constraints
+      )
+    }
 
     if (desc_out[[source]]$checks$var_type ==
         "enumerated") {
