@@ -1,9 +1,10 @@
 # DQAstats NEWS
 
-## Unreleased (2022-05-09)
+## Unreleased (2022-05-10)
 
 #### New Features
 
+* added logo
 * 'no data available' now available for conformance checks
 * added creation of temporal view to sql display
 * more flexibility to use read_mdr
@@ -12,6 +13,8 @@
 * adding functionality for datetime constraints (wip)
 #### Fixes
 
+* fixed rendering of report when datetime future checks present
+* error with diztools::is.empty
 * fixed displaying of conformance results, when no data available to perform conformance checks
 * fixed recognition of empty data for datetime variables
 * fixed missing of view creation / deletion in displayed sqls
@@ -28,10 +31,12 @@
 * sql statements to target system, if source=target
 #### Refactorings
 
+* improved detection of missing datetime data
 * added 'no data available' category for etl checks
 * enhanced formatting of displayed sqls
 #### Docs
 
+* replace missing definition with informatino
 * removed dataquier as soft dependency; now loading datasets directly from url in vignette
 * added wiki-page for gui to vignette
 * fixed wrong paths in vignette
@@ -39,6 +44,7 @@
 * adding vignette that analyzes dataquier ship-dataset
 #### Others
 
+* added diztools version to logging
 * updated package metadata and news.md
 * updated news.md
 * updated news.md; fixed git config to work with auto-changelog again
@@ -62,7 +68,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...94279d7`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...94279d7)
+Full set of changes: [`v0.2.6...a427c4a`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...a427c4a)
 
 ## v0.2.6 (2022-03-02)
 
