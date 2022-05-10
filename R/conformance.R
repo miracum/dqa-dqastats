@@ -553,7 +553,7 @@ value_conformance <- function(
                   }
                 }
               } else if (d_out$checks$var_type == "datetime") {
-                if (((nrow(s_out) == 6) && is.na(s_out[[1, 2]]))) {
+                if (is.na(s_out[[1, 2]])) {
                   outlist2$conformance_error <- TRUE
                   outlist2$conformance_results <-
                     "No data available to perform conformance checks."
@@ -610,7 +610,7 @@ value_conformance <- function(
                         constraints_names[[1]] == "datetime") {
                     if (is.null(s_out) || nrow(s_out) == 0 ||
                         (any(is.na(s_out[, 2])) ||
-                         (s_out[1, 1] == "NaN"))) {
+                         (s_out[4, 2] == "NaN"))) {
                       outlist2$conformance_error <- TRUE
                       outlist2$conformance_results <-
                         "No data available to perform conformance checks."
