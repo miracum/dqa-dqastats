@@ -80,9 +80,13 @@ read_mdr <- function(utils_path = NULL, mdr_filename = "mdr.csv") {
     ]
 
   # fix representation of missing values in all columns
-  for (i in colnames(mdr)) {
-    mdr[get(i) == "", (i) := NA]
-  }
+  mdr[mdr == ""] <- NA
+
+  # make empty definitions readable to avoid errors
+  mdr[
+    is.na(get("definition")),
+    ("definition") := "(The definition is missing in the MDR.)"
+  ]
 
   ## Remove rows with "undefined" key or variablename:
   mdr <- mdr[!(get("key") == "undefined" |
