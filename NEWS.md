@@ -44,6 +44,7 @@
 * adding vignette that analyzes dataquier ship-dataset
 #### Others
 
+* updated news.md
 * added diztools version to logging
 * updated package metadata and news.md
 * updated news.md
@@ -68,7 +69,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...a427c4a`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...a427c4a)
+Full set of changes: [`v0.2.6...1e17de9`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...1e17de9)
 
 ## v0.2.6 (2022-03-02)
 
