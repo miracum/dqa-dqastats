@@ -439,7 +439,7 @@ load_database <- function(rv,
         stop(msg)
       } else {
         sql_extended <- gsub(
-          pattern = "(,|AND|SELECT|FROM|JOIN|ON)\\s?",
+          pattern = "(,|AND|SELECT|FROM|JOIN|ON|WHERE)\\s?",
           replacement = "\\1\n",
           x = sql_extended,
           ignore.case = FALSE
