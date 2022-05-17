@@ -230,9 +230,7 @@ format_value_conformance_results <- function(results,
     }
 
     if (isTRUE(results[[source]]$conformance_error)) {
-      outlist$conformance_results <- paste0(
-        results[[source]]$conformance_results
-      )
+      outlist$conformance_results <- results[[source]]$conformance_results
     }
   }
 
