@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-05-10)
+## Unreleased (2022-05-17)
 
 #### New Features
 
@@ -45,6 +45,7 @@
 #### Others
 
 * updated news.md
+* updated news.md
 * added diztools version to logging
 * updated package metadata and news.md
 * updated news.md
@@ -69,7 +70,7 @@
 * removed unnecessary columns from example mdr
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...1e17de9`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...1e17de9)
+Full set of changes: [`v0.2.6...c8dae31`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...c8dae31)
 
 ## v0.2.6 (2022-03-02)
 

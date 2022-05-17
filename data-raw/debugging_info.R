@@ -31,7 +31,7 @@ target_system_name = "i2b2"
 utils_path = system.file("application/_utilities/", package = "miRacumDQA")
 #mdr_filename = "samply_export.csv"
 mdr_filename = "mdr.csv"
-mdr_filename = "mdr_debug.csv"
+#mdr_filename = "mdr_debug.csv"
 output_dir = "./output"
 logfile_dir = tempdir()
 
@@ -45,8 +45,8 @@ DIZtools::setenv_file(
 )
 parallel = TRUE
 ncores = 4
-restricting_date_start = "2021-11-11"
-restricting_date_end = "2021-11-12"
+restricting_date_start = "2022-05-10"
+restricting_date_end = "2022-05-17"
 
 # Sys.setenv("P21CSV_PATH" = "~/development/_p21/data/2018_merged/")
 
