@@ -122,67 +122,41 @@ render_counts <- function(count_out,
   }
 }
 
+
 render_value_conformance <- function(results,
                                      desc_out,
                                      source) {
 
-  if (results[[source]]$conformance_results ==
-      "No data available to perform conformance checks.") {
+  results_text <- format_value_conformance_results(
+    results = results,
+    desc_out = desc_out,
+    source = source
+  )
+
+  # conformance check (always)
+  cat(paste0(
+    "\n- ", results_text$conformance_check
+  ))
+
+  # rules (only if present)
+  if (!is.null(results_text$constraining_rules)) {
     cat(paste0(
-      "\n- Conformance check: ",
-      results[[source]]$conformance_results
+      "\n- ", results_text$constraining_rules
     ))
-  } else {
-
-    cat(paste0(
-      "\n- Conformance check: ",
-      ifelse(
-        results[[source]]$conformance_error,
-        "failed",
-        "passed"
-      ),
-      "\n"
-    ))
-
-    # get value set
-    if (!is.na(desc_out[[source]]$checks$constraints)) {
-      json_obj <- jsonlite::fromJSON(
-        desc_out[[source]]$checks$constraints
-      )
-    }
-
-    if (desc_out[[source]]$checks$var_type ==
-        "enumerated") {
-      cat("- Constraining values/rules: '",
-          paste(json_obj$value_set,
-                collapse = ", "),
-          "'")
-
-    } else if (desc_out[[source]]$checks$var_type ==
-               "string") {
-      cat("- Constraining values/rules: '", json_obj$regex, "'")
-
-    } else if (desc_out[[source]]$checks$var_type %in%
-               c("integer", "float")) {
-      cat(paste0("- Constraining values/rules:"))
-      print(kable_table(as.data.table(json_obj$range)))
-    } else if (desc_out[[source]]$checks$var_type ==
-              "datetime") {
-      rule <- results[[source]]$rule
-      if (is.list(rule)) {
-        cat(paste0("- Constraining values/rules:"))
-        print(kable_table(as.data.table(rule)))
-      } else if (is.character(rule) && length(rule) == 1) {
-        cat(paste0("- Constraining values/rules: '", rule, "'"))
-      }
-    }
-
-    if (isTRUE(results[[source]]$conformance_error)) {
-      cat("\n- ",
-          paste0(results[[source]]$conformance_results)
-        )
-    }
   }
+
+  # table (only if present)
+  if (!is.null(results_text$kable)) {
+    print(kable_table(results_text$kable))
+  }
+
+  # conformance results (only if present)
+  if (!is.null(results_text$conformance_results)) {
+    cat(paste0(
+      "\n- ", results_text$conformance_results
+    ))
+  }
+
   cat("  \n  \n")
 }
 
@@ -270,9 +244,9 @@ render_atemp_plausis <- function(plausiresults,
     if (i %in% names(valueconformance_results)) {
       cat("\n **Value conformance:**  \n")
       render_value_conformance(
-        valueconformance_results[[i]],
-        desc_out,
-        "source_data"
+        results = valueconformance_results[[i]],
+        desc_out = desc_out,
+        source = "source_data"
       )
     }
 
@@ -292,9 +266,9 @@ render_atemp_plausis <- function(plausiresults,
     if (i %in% names(valueconformance_results)) {
       cat("\n **Value conformance:**  \n")
       render_value_conformance(
-        valueconformance_results[[i]],
-        desc_out,
-        "target_data"
+        results = valueconformance_results[[i]],
+        desc_out = desc_out,
+        source = "target_data"
       )
     }
   }
@@ -313,201 +287,4 @@ render_atemp_pl_representation <- function(desc_out, source) {
 }
 
 
-#' @title create_markdown helper function
-#'
-#' @description Internal function to generate the final PDF report.
-#'
-#' @param outdir A character string. The directory to store the resulting
-#'   PDF document. Default: \code{tempdir}.
-#' @inheritParams load_csv
-#' @inheritParams dqa
-#'
-#' @return No return value. This function renders the PDF markdown report with
-#'   the data quality assessment results and saves it to `outdir`.
-#'
-#' @examples
-#' \donttest{# runtime > 5 sec.
-#' utils_path <- system.file(
-#'   "demo_data/utilities/",
-#'   package = "DQAstats"
-#' )
-#' mdr_filename <- "mdr_example_data.csv"
-#' rv <- list()
-#' rv$mdr <- read_mdr(
-#'   utils_path = utils_path,
-#'   mdr_filename <- mdr_filename
-#' )
-#'
-#' source_system_name <- "exampleCSV_source"
-#' target_system_name <- "exampleCSV_target"
-#'
-#' rv <- c(rv, create_helper_vars(
-#'   mdr = rv$mdr,
-#'   source_db = source_system_name,
-#'   target_db = target_system_name
-#' ))
-#' # save source/target vars
-#' rv$source$system_name <- source_system_name
-#' rv$target$system_name <- target_system_name
-#' rv$source$system_type <- "csv"
-#' rv$target$system_type <- "csv"
-#'
-#' rv$log$logfile_dir <- tempdir()
-#'
-#' # set headless (without GUI, progressbars, etc.)
-#' rv$headless <- TRUE
-#'
-#' # set configs
-#' demo_files <- system.file("demo_data", package = "DQAstats")
-#' Sys.setenv("EXAMPLECSV_SOURCE_PATH" = demo_files)
-#' Sys.setenv("EXAMPLECSV_TARGET_PATH" = demo_files)
-#'
-#' # get configs
-#' rv$source$settings <- DIZutils::get_config_env(
-#'   system_name = rv$source$system_name,
-#'   logfile_dir = rv$log$logfile_dir,
-#'   headless = rv$headless
-#' )
-#' rv$target$settings <- DIZutils::get_config_env(
-#'   system_name = tolower(rv$target$system_name),
-#'   logfile_dir = rv$log$logfile_dir,
-#'   headless = rv$headless
-#' )
-#'
-#' # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-#' rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
-#'
-#' # define restricting date
-#' rv$restricting_date$use_it <- FALSE
-#'
-#' # load source data
-#' tempdat <- data_loading(
-#'   rv = rv,
-#'   system = rv$source,
-#'   keys_to_test = rv$keys_source
-#' )
-#' rv$data_source <- tempdat$outdata
-#'
-#' # load target data
-#' tempdat <- data_loading(
-#'   rv = rv,
-#'   system = rv$target,
-#'   keys_to_test = rv$keys_target
-#' )
-#' rv$data_target <- tempdat$outdata
-#'
-#' rv$data_plausibility$atemporal <- get_atemp_plausis(
-#'   rv = rv,
-#'   atemp_vars = rv$pl$atemp_vars,
-#'   mdr = rv$mdr,
-#'   headless = rv$headless
-#' )
-#'
-#' # add the plausibility raw data to data_target and data_source
-#' for (i in names(rv$data_plausibility$atemporal)) {
-#'   for (k in c("source_data", "target_data")) {
-#'     w <- gsub("_data", "", k)
-#'     raw_data <- paste0("data_", w)
-#'     rv[[raw_data]][[i]] <-
-#'       rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
-#'     rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
-#'   }
-#'   gc()
-#' }
-#'
-#' # calculate descriptive results
-#' rv$results_descriptive <- descriptive_results(
-#'   rv = rv,
-#'   headless = rv$headless
-#' )
-#'
-#' # calculate unique plausibilites
-#' rv$results_plausibility_unique <- uniq_plausi_results(
-#'   rv = rv,
-#'   uniq_vars = rv$pl$uniq_vars,
-#'   mdr = rv$mdr,
-#'   headless = rv$headless
-#' )
-#'
-#' create_markdown(
-#'   rv = rv,
-#'   utils_path = rv$utilspath,
-#'   outdir = output_dir,
-#'   headless = rv$headless
-#' )
-#' }
-#' @export
-#'
-create_markdown <- function(rv = rv,
-                            utils_path,
-                            outdir = tempdir(),
-                            headless = FALSE) {
 
-  msg <- "Creating report "
-  DIZtools::feedback(
-    print_this = msg,
-    logjs = isFALSE(headless),
-    findme = "aa5c87f7da",
-    logfile_dir = rv$log$logfile_dir,
-    headless = rv$headless)
-
-  catch_msg <- paste0(
-    "Something went wrong with tinytex.",
-    " Is it installed correctly?",
-    " Try reinstalling it by running ",
-    "`remotes::update_packages('tinytex', upgrade = 'always')` ",
-    "and `tinytex::install_tinytex()`\n\n",
-    "!!! DQAstats is not able to render the PDF report !!!"
-  )
-  if (!is_latex_installed(logfile_dir = rv$log$logfile_dir, headless = rv$headless)) {
-    DIZtools::feedback(
-      print_this = catch_msg,
-      type = "Error",
-      findme = "e50d001ed4",
-      logfile_dir = rv$log$logfile_dir,
-      headless = rv$headless
-    )
-  } else {
-    catch_msg <- "Error occured when rendering the PDF document"
-    tryCatch({
-      knitr::knit(
-        input = paste0(utils_path, "RMD/DQA_report.Rmd"),
-        output = paste0(outdir, "/DQA_report.md"),
-        encoding = "UTF-8"
-      )
-
-      # copy header-folder to tempdir to make files available for
-      # the next command
-      if (dir.exists(paste0(utils_path, "RMD/_header"))) {
-        file.copy(
-          paste0(utils_path, "RMD/_header"),
-          outdir,
-          recursive = TRUE
-        )
-      }
-
-      rmarkdown::render(
-        input = paste0(outdir, "/DQA_report.md"),
-        output_dir = outdir,
-        output_file = paste0("DQA_report_", gsub(
-          "\\-|\\:| ", "", substr(rv$start_time, 1, 16)
-        ), ".pdf"),
-        encoding = "UTF-8"
-      )
-    }, error = function(e) {
-      DIZtools::feedback(
-        print_this = paste0(catch_msg, e),
-        type = "Error",
-        findme = "d70789cd83",
-        logfile_dir = rv$log$logfile_dir,
-        headless = rv$headless)
-    }, warning = function(w) {
-      DIZtools::feedback(
-        print_this = paste0(catch_msg, w),
-        type = "Warning",
-        findme = "d70654cd83",
-        logfile_dir = rv$log$logfile_dir,
-        headless = rv$headless)
-    })
-  }
-}
