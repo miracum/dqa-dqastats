@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-05-17)
+## Unreleased (2022-05-18)
 
 #### New Features
 
@@ -31,6 +31,7 @@
 * sql statements to target system, if source=target
 #### Refactorings
 
+* formating value conformance results for reuse in dqagui
 * improved detection of missing datetime data
 * added 'no data available' category for etl checks
 * enhanced formatting of displayed sqls
@@ -44,6 +45,10 @@
 * adding vignette that analyzes dataquier ship-dataset
 #### Others
 
+* removed unnecessary paste
+* updated version, news.md, etc.
+* added linebreake after sql-where
+* function create_markdown to extra file
 * updated news.md
 * updated news.md
 * added diztools version to logging
@@ -68,9 +73,10 @@
 * updated news.md
 * fixed localhost url in vignette
 * removed unnecessary columns from example mdr
+* removed contexts
 * fixed unittest for new mdr
 
-Full set of changes: [`v0.2.6...c8dae31`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...c8dae31)
+Full set of changes: [`v0.2.6...85c3866`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...85c3866)
 
 ## v0.2.6 (2022-03-02)
 
