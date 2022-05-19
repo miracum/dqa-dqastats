@@ -1,6 +1,6 @@
 Package: DQAstats
 Title: Core Functions for Data Quality Assessment
-Version: 0.3.0
+Version: 0.3.0.9000
 Date: 2022-05-19
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
@@ -37,5 +37,6 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
+Remotes: 
+    url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/development/dizutils-development.zip
 Encoding: UTF-8
-RoxygenNote: 7.1.2

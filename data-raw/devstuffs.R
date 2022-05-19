@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.3.0")
+my_desc$set_version("0.3.0.9000")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -82,7 +82,7 @@ usethis::use_package("stats", type = "Imports")
 usethis::use_package("tinytex", type = "Imports")
 usethis::use_package("utils", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.0")
-usethis::use_package("DIZtools", type = "Imports", min_version = "0.5.0")
+usethis::use_package("DIZtools", type = "Imports", min_version = "0.0.5")
 
 
 # Suggests
@@ -91,7 +91,7 @@ usethis::use_package("remotes", type = "Suggests")
 usethis::use_package("DT", type = "Suggests")
 
 # Development package
-tools_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+tools_tag <- "dev" # e.g. "v0.1.7", "development" or "cran"
 if (tools_tag == "cran") {
   remotes::update_packages("DIZtools", upgrade = "always")
 } else{
@@ -110,7 +110,7 @@ if (tools_tag == "cran") {
   )
 }
 
-utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   remotes::update_packages("DIZutils", upgrade = "always")
 } else{
