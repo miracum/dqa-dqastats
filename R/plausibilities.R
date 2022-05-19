@@ -215,7 +215,9 @@ get_atemp_plausis <- function(rv,
               constr <- u$constraints$value_set[[src_flag]]
 
               outlist[[k]]$checks$constraints <-
-                jsonlite::toJSON(list("value_set" = constr))
+                as.character(
+                  jsonlite::toJSON(list("value_set" = constr))
+                )
             }
 
             # TODO this is yet tailored to §21

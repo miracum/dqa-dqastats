@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.3.0.9000")
+my_desc$set_version("0.3.0.9001")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -93,7 +93,7 @@ usethis::use_package("DT", type = "Suggests")
 # Development package
 tools_tag <- "dev" # e.g. "v0.1.7", "development" or "cran"
 if (tools_tag == "cran") {
-  remotes::update_packages("DIZtools", upgrade = "always")
+  install.packages("DIZtools")
 } else{
   devtools::install_git(
     url = "https://gitlab.miracum.org/miracum/misc/diztools.git",
@@ -112,7 +112,7 @@ if (tools_tag == "cran") {
 
 utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
-  remotes::update_packages("DIZutils", upgrade = "always")
+  install.packages("DIZutils")
 } else{
   devtools::install_git(
     url = "https://gitlab.miracum.org/miracum/misc/dizutils.git",
