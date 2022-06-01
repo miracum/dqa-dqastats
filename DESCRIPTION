@@ -40,3 +40,4 @@ VignetteBuilder:
 Remotes: 
     url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/development/dizutils-development.zip
 Encoding: UTF-8
+RoxygenNote: 7.1.2
