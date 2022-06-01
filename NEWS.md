@@ -7,9 +7,10 @@
 * json-object to character for storing in pl-list
 #### Others
 
+* making json prettier
 * updating description and news.md
 
-Full set of changes: [`v0.3.0...683a355`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...683a355)
+Full set of changes: [`v0.3.0...0498fee`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...0498fee)
 
 ## v0.3.0 (2022-05-19)
 
