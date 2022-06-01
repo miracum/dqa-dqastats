@@ -216,7 +216,10 @@ get_atemp_plausis <- function(rv,
 
               outlist[[k]]$checks$constraints <-
                 as.character(
-                  jsonlite::toJSON(list("value_set" = constr))
+                  jsonlite::toJSON(
+                    x = list("value_set" = constr),
+                    auto_unbox = TRUE
+                  )
                 )
             }
 

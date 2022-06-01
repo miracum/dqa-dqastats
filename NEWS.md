@@ -1,12 +1,15 @@
 # DQAstats NEWS
 
-## Unreleased (2022-05-19)
+## Unreleased (2022-06-01)
 
+#### Fixes
+
+* json-object to character for storing in pl-list
 #### Others
 
 * updating description and news.md
 
-Full set of changes: [`v0.3.0...3fa87cb`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...3fa87cb)
+Full set of changes: [`v0.3.0...683a355`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...683a355)
 
 ## v0.3.0 (2022-05-19)
 
