@@ -296,36 +296,49 @@ create_helper_vars <- function(mdr,
     ]
 
   if (nrow(outlist$pl$atemp_vars) > 0) {
+    atemp_helper_vars <- character(0)
     # look, if all required variables are within dqa_assessment
     for (r in seq_len(nrow(outlist$pl$atemp_vars))) {
       # get required helper variables
       js <- jsonlite::fromJSON(
         outlist$pl$atemp_vars[r, get("plausibility_relation")]
       )
-      js_names <- names(js$atemporal)
-      js_names <- sapply(
-        X = js_names,
+      js_names <- outlist$pl$atemp_vars[r, get("variable_name")]
+
+      add_atemp_vars <- sapply(
+        X = names(js$atemporal),
         FUN = function(x) {
           gsub("(\\.\\d+)?$", "", x)
         },
         USE.NAMES = FALSE,
         simplify = TRUE
-      )
+      ) %>%
+        unique()
 
-      if (is.null(outlist$pl$atemp_helper_vars)) {
-        outlist$pl$atemp_helper_vars <- js_names
-      } else {
-        outlist$pl$atemp_helper_vars <- c(
-          outlist$pl$atemp_helper_vars,
-          setdiff(js_names, outlist$pl$atemp_helper_vars)
-        )
-      }
+      js_names <- c(js_names, add_atemp_vars)
+
+      add_join_crit_vars <- sapply(
+        X = js$atemporal,
+        FUN = function(x) {
+          x["join_crit"]
+        },
+        USE.NAMES = FALSE,
+        simplify = TRUE
+      ) %>%
+        unlist() %>%
+        unique()
+
+      js_names <- c(js_names, add_join_crit_vars)
+
+      atemp_helper_vars <- c(atemp_helper_vars, js_names)
     }
+
+    outlist$pl$atemp_helper_vars <- unique(atemp_helper_vars)
 
     # check, if all variable names, that are required for atemporal checks
     # are available
-    if (sum(js_names %in% available_variables) !=
-        length(js_names)) {
+    if (sum(outlist$pl$atemp_helper_vars %in% available_variables) !=
+        length(outlist$pl$atemp_helper_vars)) {
       outlist$pl$atemp_possible <- FALSE
     } else {
       outlist$pl$atemp_possible <- TRUE
@@ -336,36 +349,36 @@ create_helper_vars <- function(mdr,
 
 
   if (nrow(outlist$pl$uniq_vars) > 0) {
+    unique_helper_vars <- character(0)
     # look, if all required variables are within dqa_assessment
     for (r in seq_len(nrow(outlist$pl$uniq_vars))) {
       # get required helper variables
       js <- jsonlite::fromJSON(
         outlist$pl$uniq_vars[r, get("plausibility_relation")]
       )
-      js_names <- names(js$uniqueness)
-      js_names <- sapply(
-        X = js_names,
+      js_names <- outlist$pl$uniq_vars[r, get("variable_name")]
+
+      add_unique_vars <- sapply(
+        X = names(js$uniqueness),
         FUN = function(x) {
           gsub("(\\.\\d+)?$", "", x)
         },
         USE.NAMES = FALSE,
         simplify = TRUE
-      )
+      ) %>%
+        unique()
 
-      if (is.null(outlist$pl$uniq_helper_vars)) {
-        outlist$pl$uniq_helper_vars <- js_names
-      } else {
-        outlist$pl$uniq_helper_vars <- c(
-          outlist$pl$uniq_helper_vars,
-          setdiff(js_names, outlist$pl$uniq_helper_vars)
-        )
-      }
+      js_names <- c(js_names, add_unique_vars)
+
+      unique_helper_vars <- c(unique_helper_vars, js_names)
     }
+
+    outlist$pl$uniq_helper_vars <- unique(unique_helper_vars)
 
     # check, if all variable names, that are required for atemporal checks
     # are available
-    if (sum(js_names %in% available_variables) !=
-        length(js_names)) {
+    if (sum(outlist$pl$uniq_helper_vars %in% available_variables) !=
+        length(outlist$pl$uniq_helper_vars)) {
       outlist$pl$uniq_possible <- FALSE
     } else {
       outlist$pl$uniq_possible <- TRUE
