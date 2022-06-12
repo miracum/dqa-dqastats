@@ -47,7 +47,7 @@ options(tinytex.verbose = TRUE)
 
 # Data Map
 
-## Target Data System
+## Target Database
 
 ```{r results='asis'}
 no_data_to_display_msg <- "There is no data to display.\n\n"
@@ -58,7 +58,7 @@ if (!is.null(rv$datamap$target_data)) {
 }
 ```
 
-## Source Data System
+## Source Database
 
 ```{r results='asis'}
 if (!is.null(rv$datamap$source_data)) {
@@ -74,7 +74,7 @@ if (!is.null(rv$datamap$source_data)) {
 
 ## Validation 
 
-Completeness checks (validation) evaluate the ETL (extract transform load) jobs. They compare for each variable the exact matching of the number of distinct values, the number of valid values (=n), and the number of missing values between the source data system and the target data system.  
+Completeness checks (validation) evaluate the ETL (extract transform load) jobs. They compare for each variable the exact matching of the number of distinct values, the number of valid values (=n), and the number of missing values between the source database and the target database.
 
 ```{r results='asis'}
 kable_table(rv$checks$etl)
@@ -96,7 +96,7 @@ if (!is.null(rv$completeness)) {
 
 ## Value Conformance
 
-Value conformance checks (verification) compare for each variable the values of each data system to predefined constraints. Those constraints can be defined for each variable and data system individually in the metadata repository (MDR).
+Value conformance checks (verification) compare for each variable the values of each database to predefined constraints. Those constraints can be defined for each variable and database individually in the metadata repository (MDR).
 
 ```{r results='asis'}
 if (!is.null(rv$checks$value_conformance)) {
@@ -181,14 +181,14 @@ if (length(rv$source$sql) > 0 ||
 
 ```{r}
 if (length(rv$source$sql) > 0) {
-  cat("\n### Source Data System  \n")
+  cat("\n### Source Database  \n")
   for (i in names(rv$source$sql)) {
     cat(paste0("  \nMDR key: ", i, "  \n  \n"))
     cat(paste0(rv$source$sql[[i]]))
     cat("  \n  \n")
   }
 } else {
-  cat("\nNo source data system SQL statements found.\n")
+  cat("\nNo source database SQL statements found.\n")
 }
 ```
 
@@ -196,13 +196,13 @@ if (length(rv$source$sql) > 0) {
 
 ```{r}
 if (length(rv$target$sql) > 0) {
-  cat("\n### Target Data System  \n")
+  cat("\n### Target Database  \n")
   for (i in names(rv$target$sql)) {
     cat(paste0("  \nMDR key: ", i, "  \n  \n"))
     cat(paste0(rv$target$sql[[i]]))
     cat("  \n  \n")
   }
 } else {
-  cat("\nNo target data system SQL statements found.\n")
+  cat("\nNo target database SQL statements found.\n")
 }
 ```

@@ -180,7 +180,7 @@ descriptive_results <- function(rv,
           outlist$description <- calc_description(desc_dat, rv)
         } else {
           msg <- paste0("Error occured during creating ",
-                        "descriptions of source system")
+                        "descriptions of source database")
           DIZtools::feedback(
             msg,
             type = "Error",

@@ -42,8 +42,8 @@ render_results <- function(descriptive_results,
     # description of variable
     cat(paste0("\n", desc_out$source_data$description, "  \n"))
 
-    # representation in the source system
-    cat("\n### Representation in **source** data system  \n")
+    # representation in the source database
+    cat("\n### Representation in **source** database  \n")
     render_representation(desc_out, "source_data")
 
     # overview
@@ -61,8 +61,8 @@ render_results <- function(descriptive_results,
     }
 
     cat("\\newpage")
-    # representation in the target system
-    cat("\n### Representation in **target** data system  \n")
+    # representation in the target database
+    cat("\n### Representation in **target** database  \n")
     render_representation(desc_out, "target_data")
 
     # overview
@@ -188,12 +188,12 @@ render_uniq_plausis <- function(plausiresults) {
     # description of variable
     cat(paste0("\n", pl_item$description, "  \n"))
 
-    # representation in the source system
-    cat("\n#### Representation in source data system  \n")
+    # representation in the source database
+    cat("\n#### Representation in source database  \n")
     render_uniq_pl_representation(pl_item, "source_data")
 
-    # representation in the source system
-    cat("\n#### Representation in target data system  \n")
+    # representation in the source database
+    cat("\n#### Representation in target database  \n")
     render_uniq_pl_representation(pl_item, "target_data")
   }
 }
@@ -228,8 +228,8 @@ render_atemp_plausis <- function(plausiresults,
     # description of variable
     cat(paste0("\n", desc_out$source_data$description, "  \n"))
 
-    # representation in the source system
-    cat("\n#### Representation in source data system  \n")
+    # representation in the source database
+    cat("\n#### Representation in source database  \n")
     render_atemp_pl_representation(desc_out, "source_data")
 
     # overview
@@ -250,8 +250,8 @@ render_atemp_plausis <- function(plausiresults,
       )
     }
 
-    # representation in the target system
-    cat("\n#### Representation in target data system  \n")
+    # representation in the target database
+    cat("\n#### Representation in target database  \n")
     render_atemp_pl_representation(desc_out, "target_data")
 
     # overview

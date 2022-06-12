@@ -115,7 +115,7 @@ For a detailed description of the MDR fields, please refer to the [DQAstats-wiki
 
 ## Transform SHIP-MDR to `DQAstats` representation
 
-Next, we need to fill the rows of the `DQAstats` MDR. Since we are only analyzing one dataset (opposed to comparing datasets from two different data systems, whereas the dataset was transferred from one of the data systems to the other, e.g., via an extract-transfrom-load (ETL) process), we can set the MDR files "designation", "variable_name", and "key" to the same values.
+Next, we need to fill the rows of the `DQAstats` MDR. Since we are only analyzing one dataset (opposed to comparing datasets from two different databases, whereas the dataset was transferred from one of the databases to the other, e.g., via an extract-transfrom-load (ETL) process), we can set the MDR files "designation", "variable_name", and "key" to the same values.
 
 ```{r warning=FALSE}
 # get names of dataelements from ship dataset
@@ -446,7 +446,7 @@ file.copy(
 
 # Run `DQAstats::dqa()`
 
-Since we are here not aiming to compare two datasets, we are going to set the `target_system_name` to `source_system_name`. Thus we will get the analysis of the system compared with itself. 
+Since we are here not aiming to compare two datasets, we are going to set the `target_system_name` to `source_system_name`. Thus we will get the analysis of the database compared with itself.
 
 Furthermore, the path to the `utilities`-folder, the logging directory, the MDR-filename, as well as the directory to store the resulting PDF-report (`output_dir`) need to be defined and provided to the function `DQAstats::dqa()`.
 

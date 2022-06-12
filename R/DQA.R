@@ -304,9 +304,9 @@ dqa <- function(source_system_name,
   if (length(rv$source$system_type) != 1) {
     DIZtools::feedback(
       print_this = paste(
-        "Need exactly one source system type but found",
+        "Need exactly one source database type but found",
         length(rv$source$system_type),
-        ". If there are 0 system types: The system name you",
+        ". If there are 0 database types: The database name you",
         "provided was not found in the mdr. Maybe there is",
         "a typo?"
       ),

@@ -18,7 +18,7 @@
 #' @title test_csv helper function
 #'
 #' @description Internal function to test and get the database connection
-#'   of the source data system.
+#'   of the source database.
 #'
 #' @param headless A boolean (default: FALSE). Indicating, if the function is
 #'   run only in the console (headless = TRUE) or on a GUI frontend
@@ -125,7 +125,7 @@ test_csv <- function(settings,
       paste0(
         "There are no CSV-files in the specified directory ('",
         settings$path,
-        "') for system ",
+        "') for database ",
         source_db,
         ".\n"
       ),

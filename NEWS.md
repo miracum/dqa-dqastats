@@ -1,9 +1,10 @@
 # DQAstats NEWS
 
-## Unreleased (2022-06-07)
+## Unreleased (2022-06-12)
 
 #### Fixes
 
+* fixed checking if plausibility checks are possible with subset of data elements
 * json-object to character for storing in pl-list
 #### Refactorings
 
@@ -14,7 +15,7 @@
 * making json prettier
 * updating description and news.md
 
-Full set of changes: [`v0.3.0...d85e4f6`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...d85e4f6)
+Full set of changes: [`v0.3.0...e7c9320`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...e7c9320)
 
 ## v0.3.0 (2022-05-19)
 

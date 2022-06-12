@@ -28,7 +28,7 @@ A boolean indicating if the CSV files specified in the metadata
 }
 \description{
 Internal function to test and get the database connection
-  of the source data system.
+  of the source database.
 }
 \examples{
 utils_path <- system.file(

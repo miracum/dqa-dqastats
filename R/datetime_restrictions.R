@@ -131,10 +131,10 @@ check_date_restriction_requirements <- # nolint
             print_this = paste0(
               "You specified that you want to time-filter the input data.",
               " Unfortunatelly no column for applying time restriction to was",
-              " found for system '",
+              " found for database '",
               system_name,
               "' in the mdr. This might lead to false results, if source and",
-              " target system are not identically filtered."
+              " target database are not identically filtered."
             ),
             type = "Warning",
             # ui = !headless,
@@ -369,7 +369,7 @@ apply_time_restriciton <- function(data,
       DIZtools::feedback(
         print_this = paste0(
           "Expected exactly one unique 'restricting_date_var'",
-          " for every table in system ",
+          " for every table in database ",
           system_name,
           " but found these: "
         ),
