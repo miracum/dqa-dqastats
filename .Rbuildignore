@@ -22,6 +22,7 @@
 ^build_image\.sh$
 ^renovate\.json$
 ^NEWS\.md$
+^README\.md$
 ^\.ccache$
 ^\.github$
 ^tic\.R$

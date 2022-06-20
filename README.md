@@ -1,6 +1,7 @@
 # DQAstats <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
+[![](https://img.shields.io/badge/doi-10.1055/s--0041--1733847-yellow.svg)](https://doi.org/10.1055/s-0041-1733847)
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version-ago/DQAstats)](https://cran.r-project.org/package=DQAstats)
 [![CRAN Checks](https://cranchecks.info/badges/worst/DQAstats)](https://cran.r-project.org/web/checks/check_results_DQAstats.html)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/DQAstats?color=blue)](https://cran.r-project.org/package=DQAstats)
@@ -131,3 +132,4 @@ L.A. Kapsner, J.M. Mang, S. Mate, S.A. Seuchter, A. Vengadeswaran, F. Bathelt, N
 
 * about MIRACUM: [https://www.miracum.org/](https://www.miracum.org/)
 * about the Medical Informatics Initiative: [https://www.medizininformatik-initiative.de/index.php/de](https://www.medizininformatik-initiative.de/index.php/de)
+* the precursor's version of the MIRACUM DQA tool ([publication](https://doi.org/10.3233/SHTI190834)): [https://gitlab.miracum.org/miracum/dqa/dqa-p21-i2b2](https://gitlab.miracum.org/miracum/dqa/dqa-p21-i2b2)
