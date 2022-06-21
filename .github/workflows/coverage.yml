@@ -21,7 +21,7 @@ jobs:
           # use a different tic template type if you do not want to build on all listed platforms
           #- { os: windows-latest, r: "release", java: "true" }
           #- { os: macOS-latest, r: "release", java: "true" }
-          - { os: ubuntu-latest, r: "release", latex: "true", java: "true" }
+          - { os: ubuntu-latest, r: "release", java: "true" }
 
     env:
       # otherwise remotes::fun() errors cause the build to fail. Example: Unavailability of binaries
@@ -44,9 +44,9 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
           Ncpus: 4
@@ -55,16 +55,19 @@ jobs:
       # Linux: ~ 1 min
       # macOS: ~ 1 min 30s
       # Windows: never finishes
-      - uses: r-lib/actions/setup-tinytex@master
+      - uses: r-lib/actions/setup-tinytex@v2
         if: matrix.config.latex == 'true'
+        env:
+          # install full prebuilt version
+          TINYTEX_INSTALLER: TinyTeX
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v2
         if: matrix.config.latex == 'true'
 
       - uses: actions/setup-java@v1
         if: matrix.config.java == 'true'
         with:
-          java-version: 8
+          java-version: '8'
 
       # set date/week for use in cache creation
       # https://github.community/t5/GitHub-Actions/How-to-set-and-access-a-Workflow-variable/m-p/42970

@@ -44,9 +44,9 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
           Ncpus: 4
@@ -55,16 +55,19 @@ jobs:
       # Linux: ~ 1 min
       # macOS: ~ 1 min 30s
       # Windows: never finishes
-      - uses: r-lib/actions/setup-tinytex@master
+      - uses: r-lib/actions/setup-tinytex@v2
         if: matrix.config.latex == 'true'
+        env:
+          # install full prebuilt version
+          TINYTEX_INSTALLER: TinyTeX
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v2
         if: matrix.config.latex == 'true'
 
       - uses: actions/setup-java@v1
         if: matrix.config.java == 'true'
         with:
-          java-version: 8
+          java-version: '8'
 
       # set date/week for use in cache creation
       # https://github.community/t5/GitHub-Actions/How-to-set-and-access-a-Workflow-variable/m-p/42970
@@ -92,7 +95,7 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt install libcurl4-openssl-dev
 
-      - name: "[Stage] Configure R Java"
+     - name: "[Stage] Configure R Java"
         if: runner.os != 'Windows' && matrix.config.java == 'true'
         run: "echo export PATH=$PATH > reconf.sh; echo export JAVA_HOME=$JAVA_HOME >> reconf.sh; echo R CMD javareconf >> reconf.sh; sudo bash reconf.sh"
 
