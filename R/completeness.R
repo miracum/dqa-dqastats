@@ -165,7 +165,7 @@ completeness <- function(results, headless = FALSE, logfile_dir) {
           ) * 100,
           "Missings (target)" = count_out$target_data$cnt$missings,
           "Missings [%] (target)" = round(
-            count_out$target_data$cnt$missings / count_out$source_data$cnt$n,
+            count_out$target_data$cnt$missings / count_out$target_data$cnt$n,
             4
           ) * 100
         )

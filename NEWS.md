@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-06-20)
+## Unreleased (2022-06-22)
 
 #### Fixes
 
@@ -11,13 +11,17 @@
 * failing if info from mdr is lacking for plausibilities
 #### Others
 
+* updated gha 2
+* updated gha
+* updated lintr
+* preparing next cran-release
 * added demo sitename.json
 * replaced "data system" with "database"
 * updated description
 * making json prettier
 * updating description and news.md
 
-Full set of changes: [`v0.3.0...69a9706`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...69a9706)
+Full set of changes: [`v0.3.0...9e3da23`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...9e3da23)
 
 ## v0.3.0 (2022-05-19)
 
