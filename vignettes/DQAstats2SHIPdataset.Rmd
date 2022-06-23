@@ -16,6 +16,7 @@ pre {
 </style>
 
 ```{r, include = FALSE}
+# nolint start
 knitr::opts_chunk$set(
   echo = TRUE,
   message = FALSE,
@@ -493,4 +494,5 @@ DQAgui::launch_app(
   mdr_filename = "mdr.csv",
   parallel = FALSE
 )
+# nolint end
 ```

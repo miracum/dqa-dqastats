@@ -285,6 +285,3 @@ render_atemp_pl_representation <- function(desc_out, source) {
   ))
   cat(paste0("- Join criterion: ", desc_out[[source]]$join_crit, "\n"))
 }
-
-
-

@@ -346,7 +346,7 @@ value_conformance <- function(
                           rv[[raw_data]][[i]][
                             get(d_out$var_dependent) %notin% constraints,
                             vec,
-                            with = F
+                            with = FALSE
                           ]
                         )
                       } else if (scope == "descriptive") {
@@ -354,7 +354,7 @@ value_conformance <- function(
                           rv[[raw_data]][[tab]][
                             get(ih) %notin% constraints,
                             vec,
-                            with = F
+                            with = FALSE
                           ]
                         )
                       }

@@ -167,7 +167,7 @@
 #' )
 #' @export
 
-format_value_conformance_results <- function(results,
+format_value_conformance_results <- function(results, # nolint
                                              desc_out,
                                              source) {
   outlist <- list(

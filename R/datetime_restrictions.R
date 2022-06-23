@@ -381,7 +381,7 @@ apply_time_restriciton <- function(data,
     } else {
       ## Here all commands to create the views will be stored for later
       ## display in the GUI:
-      if(is.null(sql_create_view_all) ||
+      if (is.null(sql_create_view_all) ||
          all(sapply(sql_create_view_all, function(x) {
            is.na(x) || is.nan(x)
          }))) {
@@ -515,7 +515,7 @@ apply_time_restriciton <- function(data,
       }
     }
 
-    if(is.null(sql_create_view_all) ||
+    if (is.null(sql_create_view_all) ||
        all(sapply(sql_create_view_all, function(x) {
          is.na(x) || is.nan(x)
        }))) {

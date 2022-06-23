@@ -25,7 +25,7 @@ kable_table <- function(data) {
         format = "latex",
         col.names = NULL
       ) %>%
-        kableExtra::kable_styling(full_width = F,
+        kableExtra::kable_styling(full_width = FALSE,
                                   latex_options = "HOLD_position")
     )
   } else {
@@ -34,7 +34,7 @@ kable_table <- function(data) {
                    digits = 3,
                    format = "latex") %>%
         kableExtra::row_spec(0, bold = TRUE) %>%
-        kableExtra::kable_styling(full_width = F,
+        kableExtra::kable_styling(full_width = FALSE,
                                   latex_options = "HOLD_position")
     )
   }

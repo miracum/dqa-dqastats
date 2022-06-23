@@ -252,7 +252,7 @@ load_csv <- function(rv,
               )[["datetime"]][["format"]])) {
             # set date format to default value
             date_format <- "%Y-%m-%d"
-          } else{
+          } else {
             date_format <- jsonlite::fromJSON(
               date_format
             )[["datetime"]][["format"]]
@@ -540,7 +540,7 @@ load_database <- function(rv,
             )[["datetime"]][["format"]])) {
           # set date format to default value
           date_format <- "%Y-%m-%d"
-        } else{
+        } else {
           date_format <- jsonlite::fromJSON(
             date_format
           )[["datetime"]][["format"]]

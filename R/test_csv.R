@@ -74,7 +74,7 @@ test_csv <- function(settings,
   filelist <- list.files(
     path = settings$path,
     pattern = "\\.CSV|\\.csv",
-    full.names = T
+    full.names = TRUE
   )
 
   # get expected filenames of csv files from MDR

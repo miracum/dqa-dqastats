@@ -1,3 +1,4 @@
+# nolint start
 packagename <- "DQAstats"
 
 # remove existing description object
@@ -268,3 +269,4 @@ badger::badge_doi("10.1055/s-0041-1733847", color = "yellow")
 #   white_around_sticker = FALSE,
 #   asp = 1
 # )
+# nolint end

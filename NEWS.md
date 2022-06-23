@@ -1,9 +1,10 @@
 # DQAstats NEWS
 
-## Unreleased (2022-06-22)
+## Unreleased (2022-06-23)
 
 #### Fixes
 
+* fixed wrong calculation of target-completness; closes [#50](https://gitlab.miracum.org/miracum/dqa/dqastats/issues/50)
 * fixed checking if plausibility checks are possible with subset of data elements
 * json-object to character for storing in pl-list
 #### Refactorings
@@ -21,7 +22,7 @@
 * making json prettier
 * updating description and news.md
 
-Full set of changes: [`v0.3.0...9e3da23`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...9e3da23)
+Full set of changes: [`v0.3.0...60830d5`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...60830d5)
 
 ## v0.3.0 (2022-05-19)
 

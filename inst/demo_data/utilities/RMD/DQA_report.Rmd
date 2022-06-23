@@ -39,7 +39,7 @@ output:
 
 ```{r global_options, include=FALSE}
 # include this to compile pdf
-knitr::opts_chunk$set(echo = F)
+knitr::opts_chunk$set(echo = FALSE)
 options(tinytex.verbose = TRUE)
 ```
 
@@ -114,7 +114,7 @@ if (!is.null(rv$checks$value_conformance)) {
 ```{r results='asis'}
 if (!is.null(rv$results_descriptive) &&
     !is.null(rv$conformance$value_conformance)) {
-  render_results(rv$results_descriptive, 
+  render_results(rv$results_descriptive,
                  rv$conformance$value_conformance)
 } else {
   cat(no_data_to_display_msg)

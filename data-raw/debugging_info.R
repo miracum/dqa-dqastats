@@ -1,3 +1,4 @@
+# nolint start
 # Cleanup the backend in RStudio:
 cat("\014") # Clears the console (imitates CTR + L)
 rm(list = ls(all.names = TRUE)) # Clears the Global Environment/variables/data
@@ -89,3 +90,5 @@ all_results <- DQAstats::dqa(
 # logfile_dir = tempdir()
 # parallel = TRUE
 # ncores = 4
+
+# nolint end

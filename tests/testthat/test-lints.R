@@ -15,40 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-library(data.table)
+if (dir.exists("../../00_pkg_src")) {
+  prefix <- "../../00_pkg_src/DQAstats/"
+} else if (dir.exists("../../R")) {
+  prefix <- "../../"
+} else if (dir.exists("./R")) {
+  prefix <- "./"
+}
 
-test_that("correct functioning of statistics", {
-
-  set.seed(1)
-  testdat <- data.table::data.table(
-    "gender" = sample(x = c("m", "f", "u"),
-                      size = 20,
-                      replace = TRUE),
-    "age" = rnorm(20, mean = 45, sd = 10)
-  )
-  testdat[, ("gender") := factor(get("gender"))]
-
-  testres <- count_uniques(
-    data = testdat,
-    var = "gender",
-    sourcesystem = "testsystem",
-    datamap = FALSE,
-    utils_path = "testpath",
-    filter = NULL
-  )
-
-  expect_true(testres$valids == 20)
-
-
-  testres <- extensive_summary(
-    vector = testdat$age
-  )
-
-  expect_known_hash(testres, "0fe6cc9f60")
-
-  do.call(
-    file.remove,
-    list(list.files(tempdir(), pattern = "log$", full.names = TRUE))
-  )
-
-})
+test_that(
+  desc = "test lints",
+  code = {
+    skip_on_cran()
+    skip_if(dir.exists("../../00_pkg_src"))
+    lintr::expect_lint_free(path = prefix)
+  })

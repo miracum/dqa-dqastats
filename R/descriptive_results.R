@@ -172,7 +172,7 @@ descriptive_results <- function(rv,
             #"value_threshold",
             #"missing_threshold",
             "filter"
-          ), with = F
+          ), with = FALSE
         ]
 
         if (nrow(desc_dat) > 1 ||

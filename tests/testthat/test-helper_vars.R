@@ -136,8 +136,8 @@ test_that("correct functioning of helper vars", {
   do.call(file.remove, list(list.files(
     paste0(output_dir, "_header"), full.names = TRUE
   )))
-  unlink(paste0(output_dir, "_header"), recursive = T)
-  unlink(output_dir, recursive = T)
+  unlink(paste0(output_dir, "_header"), recursive = TRUE)
+  unlink(output_dir, recursive = TRUE)
 
   do.call(
     file.remove,

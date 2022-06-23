@@ -38,12 +38,12 @@ categorical_analysis <- function(data,
   #% (default = 20)
   if (data[, nlevels(get(var))] > levellimit) {
     tabdat <- data[, .N, by = var][
-      order(get("N"), decreasing = T)
+      order(get("N"), decreasing = TRUE)
     ]
     tabdat_out <- tabdat[1:levellimit, ]
   } else {
     tabdat_out <- data[, .N, by = var][
-      order(get("N"), decreasing = T)
+      order(get("N"), decreasing = TRUE)
     ]
   }
   tabdat_out[, "valid" := (get("N") / nrow(data)) * 100]
