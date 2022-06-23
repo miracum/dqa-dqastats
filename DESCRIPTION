@@ -33,6 +33,7 @@ Imports:
     utils
 Suggests: 
     DT,
+    lintr,
     remotes,
     testthat (>= 3.0.0)
 VignetteBuilder: 

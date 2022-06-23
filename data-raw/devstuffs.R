@@ -88,6 +88,7 @@ usethis::use_package("DIZtools", type = "Imports", min_version = "0.0.5")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests", min_version = "3.0.0")
+usethis::use_package("lintr", type = "Suggests")
 usethis::use_package("remotes", type = "Suggests")
 usethis::use_package("DT", type = "Suggests")
 

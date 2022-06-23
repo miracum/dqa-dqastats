@@ -21,8 +21,9 @@
 * updated description
 * making json prettier
 * updating description and news.md
+* added linting tests
 
-Full set of changes: [`v0.3.0...60830d5`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...60830d5)
+Full set of changes: [`v0.3.0...89df2c7`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...89df2c7)
 
 ## v0.3.0 (2022-05-19)
 
