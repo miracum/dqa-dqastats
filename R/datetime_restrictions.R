@@ -172,9 +172,6 @@ check_date_restriction_requirements <- # nolint
 #' @param data If system_type is a database, the sql-string goes here.
 #'   If system_type is 'csv', the data.table of this csv goes here.
 #'   Sensitive to SQL dialects.
-#'
-#' @param data If system_type is a database, the sql-string goes here.
-#'   If system_type is 'csv', the data.table of this csv goes here.
 #' @param key The key from the mdr.
 #' @param lower_limit The posixct timestamp of the lower filtering boundary.
 #' @param upper_limit The posixct timestamp of the upper filtering boundary.
@@ -191,6 +188,8 @@ check_date_restriction_requirements <- # nolint
 #'   create all Views for the time-filtering. This is needed for the
 #'   printing-friendly SQL including this view-creating SQLs and the actual
 #'   data-extracting SQL query.
+#' @param verify_on_db A boolean. If the view should be verified on the
+#'   database (default: `TRUE`).
 #'
 #' @return If system_type is a database, a list with the new sql-string
 #'   containing the temporal filtering will be returned under $sql
@@ -208,7 +207,8 @@ apply_time_restriciton <- function(data,
                                    mdr,
                                    logfile_dir = NULL,
                                    db_con = NULL,
-                                   sql_create_view_all = list()) {
+                                   sql_create_view_all = list(),
+                                   verify_on_db = TRUE) {
 
 
   if (system_type == "csv") {
@@ -365,6 +365,7 @@ apply_time_restriciton <- function(data,
     ]
     tables <- tables %>%
       unique()
+
     if (nrow(tables) != length(unique(tables[["source_table_name"]]))) {
       DIZtools::feedback(
         print_this = paste0(
@@ -467,26 +468,28 @@ apply_time_restriciton <- function(data,
           # store view in list
           sql_create_view_all[[view_name]] <- sql_create_view
 
-          ## Create VIEW if it is not already created:
-          if (isFALSE(DIZutils::check_if_table_exists(
-            db_con = db_con,
-            table_name = view_name
-          ))) {
-            DIZtools::feedback(
-              print_this = paste0(
-                "Didn't find a temporary VIEW for table '",
-                table,
-                "'. Creating it now using:\n",
-                sql_create_view
-              ),
-              findme = "e1a20a8b94",
-              logfile_dir = logfile_dir
-            )
+          if (isTRUE(verify_on_db)) {
+            ## Create VIEW if it is not already created:
+            if (isFALSE(DIZutils::check_if_table_exists(
+              db_con = db_con,
+              table_name = view_name
+            ))) {
+              DIZtools::feedback(
+                print_this = paste0(
+                  "Didn't find a temporary VIEW for table '",
+                  table,
+                  "'. Creating it now using:\n",
+                  sql_create_view
+                ),
+                findme = "e1a20a8b94",
+                logfile_dir = logfile_dir
+              )
 
-            ## Create the time-restricted VIEW:
-            DIZutils::query_database(db_con = db_con,
-                                     sql_statement = sql_create_view,
-                                     no_result = TRUE)
+              ## Create the time-restricted VIEW:
+              DIZutils::query_database(db_con = db_con,
+                                       sql_statement = sql_create_view,
+                                       no_result = TRUE)
+            }
           }
           ## Replace the original not-time-filtered table-calls from the
           ## SQL with the new time-filtered tables:

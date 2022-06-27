@@ -167,6 +167,8 @@ atemp_plausi_results <- function(rv,
           msg,
           findme = "0888fa800d",
           logfile_dir = rv$log$logfile_dir,
+          logjs = isFALSE(headless),
+          headless = headless
         )
 
         # add the raw data to data_target and data_source
@@ -201,7 +203,9 @@ atemp_plausi_results <- function(rv,
         DIZtools::feedback(
           msg,
           findme = "0e918bd0fd",
-          logfile_dir = rv$log$logfile_dir
+          logfile_dir = rv$log$logfile_dir,
+          logjs = isFALSE(headless),
+          headless = headless
         )
 
         cnt_dat <- desc_dat
@@ -221,7 +225,9 @@ atemp_plausi_results <- function(rv,
             msg,
             type = "Error",
             findme = "c57cb255fe",
-            logfile_dir = rv$log$logfile_dir
+            logfile_dir = rv$log$logfile_dir,
+            logjs = isFALSE(headless),
+            headless = headless
           )
           stop("", msg, "\n")
         }

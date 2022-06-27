@@ -14,12 +14,14 @@ apply_time_restriciton(
   mdr,
   logfile_dir = NULL,
   db_con = NULL,
-  sql_create_view_all = list()
+  sql_create_view_all = list(),
+  verify_on_db = TRUE
 )
 }
 \arguments{
 \item{data}{If system_type is a database, the sql-string goes here.
-If system_type is 'csv', the data.table of this csv goes here.}
+If system_type is 'csv', the data.table of this csv goes here.
+Sensitive to SQL dialects.}
 
 \item{key}{The key from the mdr.}
 
@@ -45,6 +47,9 @@ database. Used to create the views we need later to apply the SQLs to.}
 create all Views for the time-filtering. This is needed for the
 printing-friendly SQL including this view-creating SQLs and the actual
 data-extracting SQL query.}
+
+\item{verify_on_db}{A boolean. If the view should be verified on the
+database (default: `TRUE`).}
 }
 \value{
 If system_type is a database, a list with the new sql-string

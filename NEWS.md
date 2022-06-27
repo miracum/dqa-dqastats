@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-06-23)
+## Unreleased (2022-06-27)
 
 #### Fixes
 
@@ -21,9 +21,10 @@
 * updated description
 * making json prettier
 * updating description and news.md
+* added missing lintr dependency to suggests
 * added linting tests
 
-Full set of changes: [`v0.3.0...89df2c7`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...89df2c7)
+Full set of changes: [`v0.3.0...ee98ebc`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...ee98ebc)
 
 ## v0.3.0 (2022-05-19)
 

@@ -190,7 +190,9 @@ value_conformance <- function(
         DIZtools::feedback(
           print_this = msg,
           findme = "5d061425eb",
-          logfile_dir = logfile_dir
+          logfile_dir = logfile_dir,
+          logjs = isFALSE(headless),
+          headless = headless
         )
 
         desc_out <- results[[i]]$description
@@ -230,7 +232,9 @@ value_conformance <- function(
                                     " `value_conformance()`: ", e),
                 findme = "f269cc7211",
                 type = "Error",
-                logfile_dir = logfile_dir
+                logfile_dir = logfile_dir,
+                logjs = isFALSE(headless),
+                headless = headless
               )
               c <- NA
               c
@@ -275,6 +279,7 @@ value_conformance <- function(
                 ),
                 findme = "d9f44d5c97",
                 logfile_dir = logfile_dir,
+                logjs = isFALSE(headless),
                 headless = headless
               )
 
@@ -337,7 +342,9 @@ value_conformance <- function(
                         print_this = msg,
                         type = "Warning",
                         findme = "5d05678955eb",
-                        logfile_dir = logfile_dir
+                        logfile_dir = logfile_dir,
+                        logjs = isFALSE(headless),
+                        headless = headless
                       )
                     } else {
 
@@ -393,7 +400,9 @@ value_conformance <- function(
                     DIZtools::feedback(
                       paste(i, "from", j, ": result_min < range$min"),
                       findme = "21abaa37e2",
-                      logfile_dir = logfile_dir
+                      logfile_dir = logfile_dir,
+                      logjs = isFALSE(headless),
+                      headless = headless
                     )
                     error_flag <- TRUE
                   }
@@ -402,7 +411,9 @@ value_conformance <- function(
                     DIZtools::feedback(
                       paste(i, "from", j, ": result_max > range$max"),
                       findme = "44264e3a64",
-                      logfile_dir = logfile_dir
+                      logfile_dir = logfile_dir,
+                      logjs = isFALSE(headless),
+                      headless = headless
                     )
                     error_flag <- TRUE
                   }
@@ -437,7 +448,9 @@ value_conformance <- function(
                         print_this = msg,
                         type = "Warning",
                         findme = "5d05698563eb",
-                        logfile_dir = logfile_dir
+                        logfile_dir = logfile_dir,
+                        logjs = isFALSE(headless),
+                        headless = headless
                       )
                     } else {
                       if (scope == "plausibility") {
@@ -522,7 +535,9 @@ value_conformance <- function(
                         print_this = msg,
                         type = "Warning",
                         findme = "5d01111111eb",
-                        logfile_dir = logfile_dir
+                        logfile_dir = logfile_dir,
+                        logjs = isFALSE(headless),
+                        headless = headless
                       )
                     } else {
 
@@ -632,7 +647,9 @@ value_conformance <- function(
                         DIZtools::feedback(
                           paste(i, "from", j, ": result_min < datetime$min"),
                           findme = "21abaa38e2",
-                          logfile_dir = logfile_dir
+                          logfile_dir = logfile_dir,
+                          logjs = isFALSE(headless),
+                          headless = headless
                         )
                         error_flag <- TRUE
                       }
@@ -641,7 +658,9 @@ value_conformance <- function(
                         DIZtools::feedback(
                           paste(i, "from", j, ": result_max > datetime$max"),
                           findme = "44264e8a64",
-                          logfile_dir = logfile_dir
+                          logfile_dir = logfile_dir,
+                          logjs = isFALSE(headless),
+                          headless = headless
                         )
                         error_flag <- TRUE
                       }
@@ -677,7 +696,9 @@ value_conformance <- function(
                             print_this = msg,
                             type = "Warning",
                             findme = "5d0563563eb",
-                            logfile_dir = logfile_dir
+                            logfile_dir = logfile_dir,
+                            logjs = isFALSE(headless),
+                            headless = headless
                           )
                         } else {
                           if (scope == "plausibility") {
@@ -719,7 +740,9 @@ value_conformance <- function(
                   ),
                   type = "Warning",
                   findme = "4817d8aec4",
-                  logfile_dir = logfile_dir
+                  logfile_dir = logfile_dir,
+                  logjs = isFALSE(headless),
+                  headless = headless
                 )
               }
               outlist[[j]] <- outlist2
@@ -735,7 +758,9 @@ value_conformance <- function(
                 "')."
               ),
               findme = "4b27c49aa9",
-              logfile_dir = logfile_dir
+              logfile_dir = logfile_dir,
+              logjs = isFALSE(headless),
+              headless = headless
             )
           }
         }
