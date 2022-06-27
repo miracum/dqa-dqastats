@@ -82,7 +82,7 @@ usethis::use_package("rmarkdown", type = "Imports")
 usethis::use_package("stats", type = "Imports")
 usethis::use_package("tinytex", type = "Imports")
 usethis::use_package("utils", type = "Imports")
-usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.0")
+usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.1")
 usethis::use_package("DIZtools", type = "Imports", min_version = "0.0.5")
 
 

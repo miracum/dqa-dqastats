@@ -19,7 +19,7 @@ BugReports: https://github.com/miracum/dqa-dqastats/issues
 Imports: 
     data.table,
     DIZtools (>= 0.0.5),
-    DIZutils (>= 0.1.0),
+    DIZutils (>= 0.1.1),
     future,
     future.apply,
     jsonlite,
@@ -39,4 +39,3 @@ Suggests:
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
-RoxygenNote: 7.2.0

@@ -21,10 +21,11 @@
 * updated description
 * making json prettier
 * updating description and news.md
+* new unit tests for datetime-restriction
 * added missing lintr dependency to suggests
 * added linting tests
 
-Full set of changes: [`v0.3.0...ee98ebc`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...ee98ebc)
+Full set of changes: [`v0.3.0...876a026`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...876a026)
 
 ## v0.3.0 (2022-05-19)
 
