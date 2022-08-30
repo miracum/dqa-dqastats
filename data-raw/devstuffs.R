@@ -25,7 +25,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.3.1")
+my_desc$set_version("0.3.1.9001")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -93,7 +93,7 @@ usethis::use_package("remotes", type = "Suggests")
 usethis::use_package("DT", type = "Suggests")
 
 # Development package
-tools_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+tools_tag <- "dev" # e.g. "v0.1.7", "development" or "cran"
 if (tools_tag == "cran") {
   install.packages("DIZtools")
 } else{
@@ -112,7 +112,7 @@ if (tools_tag == "cran") {
   )
 }
 
-utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   install.packages("DIZutils")
 } else{
@@ -193,6 +193,7 @@ usethis::use_git_ignore("/*/")
 usethis::use_git_ignore("*.log")
 usethis::use_git_ignore("inst/doc")
 usethis::use_git_ignore("!/.gitignore")
+usethis::use_git_ignore("!/.github")
 usethis::use_git_ignore("!/data-raw/")
 usethis::use_git_ignore("!/vignettes/")
 usethis::use_git_ignore("!/DESCRIPTION")
@@ -235,12 +236,16 @@ usethis::use_tidy_description()
 # build|ci|docs|feat|fix|perf|refactor|test
 
 # https://github.com/gitpython-developers/GitPython/issues/1016#issuecomment-1104114129
-system(
-  command = paste0("git config --global --add safe.directory ", getwd())
-)
-system(
-  command = 'auto-changelog -u -t "DQAstats NEWS" --tag-prefix "v" -o "NEWS.md"'
-)
+# system(
+#   command = paste0("git config --global --add safe.directory ", getwd())
+# )
+# system(
+#   command = 'auto-changelog -u -t "DQAstats NEWS" --tag-prefix "v" -o "NEWS.md"'
+# )
+
+an <- autonewsmd::autonewsmd$new(repo_name = packagename)
+an$generate()
+an$write()
 
 badger::badge_cran_download("DQAstats", "grand-total", "blue")
 badger::badge_cran_download("DQAstats", "last-month", "blue")
