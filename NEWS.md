@@ -1,19 +1,25 @@
 # DQAstats NEWS
 
-## Unreleased (2022-08-30)
+## Unreleased (2022-09-06)
 
 #### CI
 
+-   fixing gha (wip)
+    ([9dcbc32](https://gitlab.miracum.org/miracum/dqa/dqastats.git/tree/9dcbc3278c29501c9b16b3fccd492574afba9fc8))
+-   removed gitlab-ci in favor of github actions
+    ([2527c90](https://gitlab.miracum.org/miracum/dqa/dqastats.git/tree/2527c9027823b4ada66d7899a168366f9f3d46d2))
 -   added deps for devtools
     ([92c63df](https://gitlab.miracum.org/miracum/dqa/dqastats.git/tree/92c63df265ef8d2a4a09a5c8c9e47df41d6b385b))
 
 #### Other changes
 
+-   news.md now with autonewsmd package
+    ([025d3b9](https://gitlab.miracum.org/miracum/dqa/dqastats.git/tree/025d3b942ccd8e1cb5ce1c407e915cfe06825a4e))
 -   updated descr
     ([4130add](https://gitlab.miracum.org/miracum/dqa/dqastats.git/tree/4130adde7eae47622b9829f47ed7ad60b9201102))
 
 Full set of changes:
-[`v0.3.1...92c63df`](https://gitlab.miracum.org/miracum/dqa/dqastats.git/compare/v0.3.1...92c63df)
+[`v0.3.1...9dcbc32`](https://gitlab.miracum.org/miracum/dqa/dqastats.git/compare/v0.3.1...9dcbc32)
 
 ## v0.3.1 (2022-06-27)
 
