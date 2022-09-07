@@ -264,14 +264,15 @@ usethis::use_tidy_description()
 #   command = 'auto-changelog -u -t "DQAstats NEWS" --tag-prefix "v" -o "NEWS.md"'
 # )
 
-an <- autonewsmd::autonewsmd$new(repo_name = packagename)
-an$generate()
-an$write()
 
 badger::badge_cran_download("DQAstats", "grand-total", "blue")
 badger::badge_cran_download("DQAstats", "last-month", "blue")
 badger::badge_dependencies("DQAstats")
 badger::badge_doi("10.1055/s-0041-1733847", color = "yellow")
+
+an <- autonewsmd::autonewsmd$new(repo_name = packagename)
+an$generate()
+an$write()
 
 
 # imgurl <- path.expand("~/development/Rpackages/bg3.jpeg")
