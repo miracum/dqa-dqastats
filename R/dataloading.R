@@ -733,11 +733,18 @@ data_loading <- function(rv, system, keys_to_test) {
     outlist$sql_statements <- NA
 
   } else if (system$system_type %in% c("oracle", "postgres")) {
+
+    # import target SQL
+    if (is.null(rv$sql_statements)) {
+      sql_statements <- load_sqls(
+        utils_path = rv$utilspath,
+        db = system$system_name
+      )
+    } else {
+      sql_statements <- rv$sql_statements[[system$system_name]]
+    }
+
     if (system$system_type == "postgres") {
-      # import target SQL
-      sql_statements <- load_sqls(utils_path = rv$utilspath,
-                                          db = system$system_name)
-      stopifnot(is.list(sql_statements))
 
       # test target_db
       if (is.null(system$settings)) {
@@ -764,10 +771,6 @@ data_loading <- function(rv, system, keys_to_test) {
       stopifnot(!is.null(db_con))
 
     }  else if (system$system_type == "oracle") {
-      # import target SQL
-      sql_statements <- load_sqls(utils_path = rv$utilspath,
-                                          db = system$system_name)
-      stopifnot(is.list(sql_statements))
 
       # test target_db
       if (is.null(system$settings)) {
