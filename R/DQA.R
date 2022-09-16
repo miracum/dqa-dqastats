@@ -61,9 +61,6 @@
 #'   See `?strptime` for possible parameters.
 #'   Currently not implemented! So there is no effect if you pass a format here.
 #'
-#' @import data.table
-#' @importFrom magrittr "%>%"
-#'
 #' @return This function is a wrapper around all helper functions in `DQAstats`
 #'   to perform the data quality assessment. The results are summarized in a
 #'   PDF report which is saved to `outdir`. The return value of this function is
