@@ -1,6 +1,16 @@
 # DQAstats NEWS
 
-## Unreleased (2022-09-07)
+## Unreleased (2022-09-16)
+
+#### New features
+
+-   do not read sqls from file if loaded elsewhere
+    ([e3e799b](https://gitlab.miracum.org/miracum/dqa/dqastats.git/tree/e3e799b7a3d653c909330653f4f8640f0f19785f))
+
+#### Refactorings
+
+-   namespace imports to zzz.r
+    ([8d8354f](https://gitlab.miracum.org/miracum/dqa/dqastats.git/tree/8d8354f5f741b37685353305e3114a26b3ee8f71))
 
 #### CI
 
@@ -25,7 +35,7 @@
     ([4130add](https://gitlab.miracum.org/miracum/dqa/dqastats.git/tree/4130adde7eae47622b9829f47ed7ad60b9201102))
 
 Full set of changes:
-[`v0.3.1...77a1e9c`](https://gitlab.miracum.org/miracum/dqa/dqastats.git/compare/v0.3.1...77a1e9c)
+[`v0.3.1...8d8354f`](https://gitlab.miracum.org/miracum/dqa/dqastats.git/compare/v0.3.1...8d8354f)
 
 ## v0.3.1 (2022-06-27)
 

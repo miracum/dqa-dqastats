@@ -735,13 +735,30 @@ data_loading <- function(rv, system, keys_to_test) {
   } else if (system$system_type %in% c("oracle", "postgres")) {
 
     # import target SQL
+    msg <- "Loaded SQL statements from "
     if (is.null(rv$sql_statements)) {
       sql_statements <- load_sqls(
         utils_path = rv$utilspath,
         db = system$system_name
       )
+      DIZtools::feedback(
+        print_this = paste0(msg, "file."),
+        logjs = isFALSE(rv$headless),
+        findme = "73c0ddd8d4",
+        logfile_dir = logfile_dir,
+        headless = rv$headless
+      )
     } else {
       sql_statements <- rv$sql_statements[[system$system_name]]
+      DIZtools::feedback(
+        print_this = paste0(
+          "SQL statements already present. ", msg, "elsewhere."
+        ),
+        logjs = isFALSE(rv$headless),
+        findme = "73c0fff8d4",
+        logfile_dir = logfile_dir,
+        headless = rv$headless
+      )
     }
 
     if (system$system_type == "postgres") {
