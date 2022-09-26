@@ -487,19 +487,6 @@ dqa <- function(source_system_name,
     rv = rv
   )
 
-  # export descriptive results (inkl. atemporal plausbility)
-  export_affected_ids(
-    rv = rv,
-    output_dir = output_dir,
-    object = rv$conformance$value_conformance
-  )
-
-  export_affected_ids(
-    rv = rv,
-    output_dir = output_dir,
-    object = rv$results_plausibility_unique
-  )
-
   create_markdown(
     rv = rv,
     utils_path = rv$utilspath,

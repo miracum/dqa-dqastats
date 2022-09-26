@@ -700,10 +700,6 @@ uniq_plausi_results <- function(rv,
               "Error", #% paste0(get_dupl, collapse = ", "),
               as.character(FALSE)
             )
-
-            if (nrow(get_dupl) > 0) {
-              outlist[[k]]$affected_ids <- get_dupl
-            }
           }
           return(outlist)
         })

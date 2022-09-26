@@ -318,55 +318,6 @@ value_conformance <- function(
                       ),
                       "No 'value conformance' issues found."
                     )
-
-                  # return affected ids in case, if conformance_error = true
-                  if (isTRUE(outlist2$conformance_error)) {
-                    if (scope == "plausibility") {
-                      vec <- setdiff(
-                        colnames(rv[[raw_data]][[i]]),
-                        d_out$var_dependent
-                      )
-                    } else if (scope == "descriptive") {
-                      # does only work with tables with 2 columns (most
-                      # probably not with CSV files)
-                      vec <- setdiff(
-                        colnames(rv[[raw_data]][[tab]]),
-                        ih
-                      )
-                    }
-
-                    if (length(vec) != 1) {
-                      msg <- paste("Error occured when trying to get",
-                                   "errorneous IDs of", i, "from", j)
-                      DIZtools::feedback(
-                        print_this = msg,
-                        type = "Warning",
-                        findme = "5d05678955eb",
-                        logfile_dir = logfile_dir,
-                        logjs = isFALSE(headless),
-                        headless = headless
-                      )
-                    } else {
-
-                      if (scope == "plausibility") {
-                        outlist2$affected_ids <- unique(
-                          rv[[raw_data]][[i]][
-                            get(d_out$var_dependent) %notin% constraints,
-                            vec,
-                            with = FALSE
-                          ]
-                        )
-                      } else if (scope == "descriptive") {
-                        outlist2$affected_ids <- unique(
-                          rv[[raw_data]][[tab]][
-                            get(ih) %notin% constraints,
-                            vec,
-                            with = FALSE
-                          ]
-                        )
-                      }
-                    }
-                  }
                 }
 
                 # numerics treatment (range: min, max, unit)
@@ -425,55 +376,6 @@ value_conformance <- function(
                       "Extrem values are not conform with constraints.",
                       "No 'value conformance' issues found."
                     )
-
-                  if (isTRUE(outlist2$conformance_error)) {
-                    if (scope == "plausibility") {
-                      vec <- setdiff(
-                        colnames(rv[[raw_data]][[i]]),
-                        d_out$var_dependent
-                      )
-                    } else if (scope == "descriptive") {
-                      # does only work with tables with 2 columns (most
-                      # probably not with CSV files)
-                      vec <- setdiff(
-                        colnames(rv[[raw_data]][[tab]]),
-                        ih
-                      )
-                    }
-
-                    if (length(vec) != 1) {
-                      msg <- paste("Error occured when trying to get",
-                                   "errorneous IDs of", i, "from", j)
-                      DIZtools::feedback(
-                        print_this = msg,
-                        type = "Warning",
-                        findme = "5d05698563eb",
-                        logfile_dir = logfile_dir,
-                        logjs = isFALSE(headless),
-                        headless = headless
-                      )
-                    } else {
-                      if (scope == "plausibility") {
-                        outlist2$affected_ids <- unique(
-                          rv[[raw_data]][[i]][
-                            get(d_out$var_dependent) < constraints$range$min |
-                              get(d_out$var_dependent) > constraints$range$max,
-                            vec,
-                            with = FALSE
-                          ]
-                        )
-                      } else if (scope == "descriptive") {
-                        outlist2$affected_ids <- unique(
-                          rv[[raw_data]][[tab]][
-                            get(ih) < constraints$range$min |
-                              get(ih) > constraints$range$max,
-                            vec,
-                            with = FALSE
-                          ]
-                        )
-                      }
-                    }
-                  }
                 }
 
                 # string treatment (regex)
@@ -512,60 +414,6 @@ value_conformance <- function(
                       ),
                       "No 'value conformance' issues found."
                     )
-
-                  if (isTRUE(outlist2$conformance_error)) {
-                    if (scope == "plausibility") {
-                      vec <- setdiff(
-                        colnames(rv[[raw_data]][[i]]),
-                        d_out$var_dependent
-                      )
-                    } else if (scope == "descriptive") {
-                      # does only work with tables with 2 columns (most
-                      # probably not with CSV files)
-                      vec <- setdiff(
-                        colnames(rv[[raw_data]][[tab]]),
-                        ih
-                      )
-                    }
-
-                    if (length(vec) != 1) {
-                      msg <- paste("Error occured when trying to get",
-                                   "errorneous IDs of", i, "from", j)
-                      DIZtools::feedback(
-                        print_this = msg,
-                        type = "Warning",
-                        findme = "5d01111111eb",
-                        logfile_dir = logfile_dir,
-                        logjs = isFALSE(headless),
-                        headless = headless
-                      )
-                    } else {
-
-                      if (scope == "plausibility") {
-                        outlist2$affected_ids <- unique(
-                          rv[[raw_data]][[i]][
-                            !grepl(
-                              pattern = pattern,
-                              x = get(d_out$var_dependent)
-                            ),
-                            vec,
-                            with = FALSE
-                          ]
-                        )
-                      } else if (scope == "descriptive") {
-                        outlist2$affected_ids <- unique(
-                          rv[[raw_data]][[tab]][
-                            !grepl(
-                              pattern = pattern,
-                              x = get(ih)
-                            ),
-                            vec,
-                            with = FALSE
-                          ]
-                        )
-                      }
-                    }
-                  }
                 }
               } else if (d_out$checks$var_type == "datetime") {
                 if (is.na(s_out[[1, 2]])) {
@@ -599,22 +447,6 @@ value_conformance <- function(
                       ),
                       "No 'value conformance' issues found."
                     )
-
-                  if (isTRUE(outlist2$conformance_error)) {
-
-                    vec <- setdiff(
-                      colnames(rv[[raw_data]][[tab]]),
-                      ih
-                    )
-
-                    outlist2$affected_ids <- unique(
-                      fut_dat[
-                        ,
-                        vec,
-                        with = FALSE
-                      ]
-                    )
-                  }
 
                 } else {
                   ## Check if there only is a datetime_format in the
@@ -675,54 +507,6 @@ value_conformance <- function(
 
                       if (isTRUE(outlist2$conformance_error)) {
                         outlist2$rule <- constraints$datetime
-                        if (scope == "plausibility") {
-                          vec <- setdiff(
-                            colnames(rv[[raw_data]][[i]]),
-                            d_out$var_dependent
-                          )
-                        } else if (scope == "descriptive") {
-                          # does only work with tables with 2 columns (most
-                          # probably not with CSV files)
-                          vec <- setdiff(
-                            colnames(rv[[raw_data]][[tab]]),
-                            ih
-                          )
-                        }
-
-                        if (length(vec) != 1) {
-                          msg <- paste("Error occured when trying to get",
-                                       "errorneous IDs of", i, "from", j)
-                          DIZtools::feedback(
-                            print_this = msg,
-                            type = "Warning",
-                            findme = "5d0563563eb",
-                            logfile_dir = logfile_dir,
-                            logjs = isFALSE(headless),
-                            headless = headless
-                          )
-                        } else {
-                          if (scope == "plausibility") {
-                            outlist2$affected_ids <- unique(
-                              rv[[raw_data]][[i]][
-                                get(d_out$var_dependent) <
-                                  as.Date(constraints$datetime$min) |
-                                  get(d_out$var_dependent) >
-                                  as.Date(constraints$datetime$max),
-                                vec,
-                                with = FALSE
-                              ]
-                            )
-                          } else if (scope == "descriptive") {
-                            outlist2$affected_ids <- unique(
-                              rv[[raw_data]][[tab]][
-                                get(ih) < as.Date(constraints$datetime$min) |
-                                  get(ih) > as.Date(constraints$datetime$max),
-                                vec,
-                                with = FALSE
-                              ]
-                            )
-                          }
-                        }
                       }
                     }
                   }

@@ -202,73 +202,87 @@ load_csv <- function(rv,
 
   # datatransformation source:
   for (i in keys_to_test) {
-    # get column names
-    col_names <- colnames(outlist[[i]])
 
-    # check, if column name in variables of interest
-    # var_names of interest:
-    var_names <- rv$mdr[get("source_table_name") == i &
-                          get("source_system_name") == system$system_name,
-    ][
-      , get("source_variable_name")
-    ]
-    stopifnot(is.character(var_names))
+    tryCatch(
+      expr = {
+        # get column names
+        col_names <- colnames(outlist[[i]])
 
-    # workaround to hide shiny-stuff, when going headless
-    msg <- paste("Transforming source variable types", i)
-    DIZtools::feedback(msg, logjs = isFALSE(headless), findme = "776ba03cbf",
-                       logfile_dir = rv$log$logfile_dir,
-                       headless = rv$headless)
-
-    for (j in col_names) {
-      var_type <- rv$mdr[get("source_system_name") == system$system_name &
-                           get("source_table_name") == i &
-                           get("source_variable_name") == j,
-                         unique(get("variable_type"))]
-
-      if (j %in% var_names && j %in% colnames(outlist[[i]])) {
-        vn <- rv$mdr[get("source_table_name") == i &
-                       get("source_system_name") == system$system_name,
+        # check, if column name in variables of interest
+        # var_names of interest:
+        var_names <- rv$mdr[get("source_table_name") == i &
+                              get("source_system_name") == system$system_name,
         ][
-          get("source_variable_name") ==
-            j, unique(get("variable_name"))]
-        colnames(outlist[[i]])[which(col_names == j)] <- vn
+          , get("source_variable_name")
+        ]
+        stopifnot(is.character(var_names))
 
-        if (var_type %in% c("enumerated", "string", "catalog")) {
-          # transform to factor
-          outlist[[i]][, (vn) := factor(get(vn))]
-        } else if (var_type == "datetime") {
-          # transform date variables
-          date_format <- rv$mdr[
-            get("source_system_name") == system$system_name &
-              get("source_table_name") == i &
-              get("variable_name") == vn,
-            unique(get("constraints"))
-          ]
-          if (is.na(date_format) ||
-              grepl("^\\s*$", date_format) ||
-              is.null(jsonlite::fromJSON(
-                date_format
-              )[["datetime"]][["format"]])) {
-            # set date format to default value
-            date_format <- "%Y-%m-%d"
-          } else {
-            date_format <- jsonlite::fromJSON(
-              date_format
-            )[["datetime"]][["format"]]
+        # workaround to hide shiny-stuff, when going headless
+        msg <- paste("Transforming source variable types", i)
+        DIZtools::feedback(msg, logjs = isFALSE(headless),
+                           findme = "776ba03cbf",
+                           logfile_dir = rv$log$logfile_dir,
+                           headless = rv$headless)
+
+        for (j in col_names) {
+          var_type <- rv$mdr[get("source_system_name") == system$system_name &
+                               get("source_table_name") == i &
+                               get("source_variable_name") == j,
+                             unique(get("variable_type"))]
+
+          if (j %in% var_names && j %in% colnames(outlist[[i]])) {
+            vn <- rv$mdr[get("source_table_name") == i &
+                           get("source_system_name") == system$system_name,
+            ][
+              get("source_variable_name") ==
+                j, unique(get("variable_name"))]
+            colnames(outlist[[i]])[which(col_names == j)] <- vn
+
+            if (var_type %in% c("enumerated", "string", "catalog")) {
+              # transform to factor
+              outlist[[i]][, (vn) := factor(get(vn))]
+            } else if (var_type == "datetime") {
+              # transform date variables
+              date_format <- rv$mdr[
+                get("source_system_name") == system$system_name &
+                  get("source_table_name") == i &
+                  get("variable_name") == vn,
+                unique(get("constraints"))
+              ]
+              if (is.na(date_format) ||
+                  grepl("^\\s*$", date_format) ||
+                  is.null(jsonlite::fromJSON(
+                    date_format
+                  )[["datetime"]][["format"]])) {
+                # set date format to default value
+                date_format <- "%Y-%m-%d"
+              } else {
+                date_format <- jsonlite::fromJSON(
+                  date_format
+                )[["datetime"]][["format"]]
+              }
+              outlist[[i]][, (vn) := as.Date(
+                as.character(get(vn)),
+                format = date_format
+              )]
+            } else if (var_type %in% c("integer", "float")) {
+              # transform numeric variables
+              outlist[[i]][, (vn) := as.numeric(
+                as.character(get(vn))
+              )]
+            }
           }
-          outlist[[i]][, (vn) := as.Date(
-            as.character(get(vn)),
-            format = date_format
-          )]
-        } else if (var_type %in% c("integer", "float")) {
-          # transform numeric variables
-          outlist[[i]][, (vn) := as.numeric(
-            as.character(get(vn))
-          )]
         }
+      }, error = function(e) {
+        DIZtools::feedback(
+          cat(e), logjs = isFALSE(headless),
+          type = "Error",
+          findme = "776bb03cbf",
+          logfile_dir = rv$log$logfile_dir,
+          headless = rv$headless
+        )
       }
-    }
+    )
   }
   return(outlist)
 }
@@ -417,10 +431,14 @@ load_database <- function(rv,
         return(NULL)
       })
 
+      if (is.null(dat)) {
+        return(NULL)
+      }
+
 
       # check, if table has more than two columns and thus does not comply
       # with DQAstats table requirements for SQL based systems
-      if (is.null(dat) || ncol(dat) > 2) {
+      if (ncol(dat) > 2) {
         msg <- paste0(
           "Table of data element '",
           i,
@@ -456,6 +474,9 @@ load_database <- function(rv,
   )
 
   DIZutils::close_connection(db_con)
+
+  # remove data elements for which the sql-statement failed
+  outlist <- outlist[!sapply(outlist, is.null)]
 
   for (i in keys_to_test) {
     # workaround to hide shiny-stuff, when going headless
@@ -745,7 +766,7 @@ data_loading <- function(rv, system, keys_to_test) {
         print_this = paste0(msg, "file."),
         logjs = isFALSE(rv$headless),
         findme = "73c0ddd8d4",
-        logfile_dir = logfile_dir,
+        logfile_dir = rv$log$logfile_dir,
         headless = rv$headless
       )
     } else {
@@ -756,7 +777,7 @@ data_loading <- function(rv, system, keys_to_test) {
         ),
         logjs = isFALSE(rv$headless),
         findme = "73c0fff8d4",
-        logfile_dir = logfile_dir,
+        logfile_dir = rv$log$logfile_dir,
         headless = rv$headless
       )
     }
