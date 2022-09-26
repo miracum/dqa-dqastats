@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-09-19)
+## Unreleased (2022-09-26)
 
 #### New features
 
@@ -25,6 +25,8 @@
 
 #### Other changes
 
+-   updated news.md
+    ([b44da32](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/b44da32ad6e55b03325758688e4b3b95d2656f00))
 -   better logging messages to understand origin of sql statements
     ([fa8c4e2](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/fa8c4e2c955b642ccb390cc37d2762976f671069))
 -   updated rbuildignore
@@ -37,7 +39,7 @@
     ([4130add](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/4130adde7eae47622b9829f47ed7ad60b9201102))
 
 Full set of changes:
-[`v0.3.1...fa8c4e2`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.1...fa8c4e2)
+[`v0.3.1...192327b`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.1...192327b)
 
 ## v0.3.1 (2022-06-27)
 
