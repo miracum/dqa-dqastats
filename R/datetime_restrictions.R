@@ -137,7 +137,7 @@ check_date_restriction_requirements <- # nolint
               " target database are not identically filtered."
             ),
             type = "Warning",
-            # ui = !headless,
+            #% ui = !headless,
             findme = "a178197913"
           )
         }

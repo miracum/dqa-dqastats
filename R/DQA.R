@@ -273,7 +273,7 @@ dqa <- function(source_system_name,
     check_date_restriction_requirements(
       mdr = rv$mdr,
       system_names = c(rv$source$system_name, rv$target$system_name),
-      # restricting_date = rv$restricting_date,
+      #% restricting_date = rv$restricting_date,
       logfile_dir = rv$log$logfile_dir,
       headless = rv$headless
     )
