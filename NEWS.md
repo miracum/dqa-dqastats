@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-09-26)
+## Unreleased (2022-11-07)
 
 #### New features
 
@@ -9,11 +9,15 @@
 
 #### Refactorings
 
+-   sql date restrictions now use between
+    ([5d492c1](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/5d492c174b1fc0a4129c23ccad573075ce79790d))
 -   namespace imports to zzz.r
     ([8d8354f](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/8d8354f5f741b37685353305e3114a26b3ee8f71))
 
 #### CI
 
+-   fixed errors
+    ([9396a7d](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/9396a7d7c6cceb55375b827e42425d417e8312c1))
 -   fixing github actions with tic
     ([6c7ae2f](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/6c7ae2f3796f7ff87a4f4cd408a20a598a262829))
 -   fixing gha (wip)
@@ -41,7 +45,7 @@
     ([4130add](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/4130adde7eae47622b9829f47ed7ad60b9201102))
 
 Full set of changes:
-[`v0.3.1...9c1fde0`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.1...9c1fde0)
+[`v0.3.1...5d492c1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.1...5d492c1)
 
 ## v0.3.1 (2022-06-27)
 
