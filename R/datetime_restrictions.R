@@ -443,11 +443,9 @@ apply_time_restriciton <- function(data,
             table,
             " WHERE ",
             timestamp_col_sql,
-            " >= timestamp '",
+            " BETWEEN '",
             format(x = lower_limit, format = "%Y-%m-%d %H:%M:%S"),
-            "' AND ",
-            timestamp_col_sql,
-            " <= timestamp '",
+            "' AND '",
             format(x = upper_limit, format = "%Y-%m-%d %H:%M:%S"),
             "')"
           )

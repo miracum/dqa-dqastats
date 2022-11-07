@@ -332,12 +332,11 @@ load_database <- function(rv,
           ]
           replace_string <- paste0(
             "AS r_intermediate WHERE r_intermediate.",
-            restricting_date_var, " >= '",
+            restricting_date_var, " BETWEEN '",
             rv$restricting_date$start,
-            "' AND r_intermediate.",
-            restricting_date_var, " <= '",
+            "' AND '",
             rv$restricting_date$end,
-            "' "
+            "'"
           )
           sql <- gsub("AS r_intermediate", replace_string, sql_statements[[i]])
           msg <- paste0(msg, " (using a MODIFIED SUBSELECT)")
