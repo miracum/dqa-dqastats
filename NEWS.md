@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2022-11-07)
+## Unreleased (2022-11-08)
 
 #### New features
 
@@ -16,6 +16,8 @@
 
 #### CI
 
+-   fixed unit tests
+    ([04c53cc](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/04c53cce99f791766baddf98ad3137aa0e669006))
 -   fixed errors
     ([9396a7d](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/9396a7d7c6cceb55375b827e42425d417e8312c1))
 -   fixing github actions with tic
@@ -29,6 +31,8 @@
 
 #### Other changes
 
+-   updated description and news.md
+    ([567fce8](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/567fce8d4e8d300d5079aded2532d63b9866a15c))
 -   updated news.md
     ([9c1fde0](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/9c1fde02a9613bf8d8e53e50f28af22af93a0b56))
 -   updated news.md
@@ -45,7 +49,7 @@
     ([4130add](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/4130adde7eae47622b9829f47ed7ad60b9201102))
 
 Full set of changes:
-[`v0.3.1...5d492c1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.1...5d492c1)
+[`v0.3.1...04c53cc`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.1...04c53cc)
 
 ## v0.3.1 (2022-06-27)
 

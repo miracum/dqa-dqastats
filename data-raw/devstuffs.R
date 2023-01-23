@@ -25,7 +25,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.3.1.9006")
+my_desc$set_version("0.3.2")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -96,7 +96,7 @@ usethis::use_package("DT", type = "Suggests")
 remotes_append_vector <- NULL
 
 # Development package
-tools_tag <- "dev" # e.g. "v0.1.7", "development" or "cran"
+tools_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (tools_tag == "cran") {
   install.packages("DIZtools")
 } else{
@@ -120,7 +120,7 @@ if (tools_tag == "cran") {
   }
 }
 
-utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   install.packages("DIZutils")
 } else{
@@ -272,7 +272,7 @@ badger::badge_doi("10.1055/s-0041-1733847", color = "yellow")
 
 an <- autonewsmd::autonewsmd$new(repo_name = packagename)
 an$generate()
-an$write()
+an$write(force = TRUE)
 
 
 # imgurl <- path.expand("~/development/Rpackages/bg3.jpeg")
