@@ -339,6 +339,9 @@ load_database <- function(rv,
             "'"
           )
           sql <- gsub("AS r_intermediate", replace_string, sql_statements[[i]])
+          if (db_type == "oracle") {
+            sql <- gsub("AS r_intermediate", "r_intermediate", sql)
+          }
           msg <- paste0(msg, " (using a MODIFIED SUBSELECT)")
         } else {
           ## Filter SQL
