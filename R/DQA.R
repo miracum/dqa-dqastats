@@ -329,12 +329,6 @@ dqa <- function(source_system_name,
   rm(reactive_to_append)
   invisible(gc())
 
-  # fix datetime-formatting for oracle / kdb here
-  if ("oracle" %in% c(rv$source$system_type, rv$target$system_type)) {
-    rv$restricting_date$start <- format(rv$restricting_date$start, format = "%d.%m.%Y")
-    rv$restricting_date$end <- format(rv$restricting_date$end, format = "%d.%m.%Y")
-  }
-
   # set start_time (e.g. when clicking the 'Load Data'-button in shiny
   rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
 

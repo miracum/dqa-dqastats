@@ -330,13 +330,23 @@ load_database <- function(rv,
               get("source_system_name") == db_name,
             get("restricting_date_var")
           ]
+          restricting_date_format <- rv$mdr[
+            get("key") == i &
+              get("source_system_name") == db_name,
+            get("restricting_date_format")
+          ]
+          if (is.NULL(restricting_date_format) || restricting_date_format == "") {
+            restricting_date_format <- "%Y-%m-%d"
+          }
+
+          # fix datetime-formatting for oracle / kdb here
           replace_string <- paste0(
             "AS r_intermediate WHERE r_intermediate.",
-            restricting_date_var, " BETWEEN '",
-            rv$restricting_date$start,
-            "' AND '",
-            rv$restricting_date$end,
-            "'"
+            restricting_date_var, " BETWEEN TO_DATE('",
+            as.Date(rv$restricting_date$start, format = restricting_date_format),
+            "', 'YYYY-MM-DD') AND TO_DATE('",
+            as.Date(rv$restricting_date$end, format = restricting_date_format),
+            "', 'YYYY-MM-DD')"
           )
           sql <- gsub("AS r_intermediate", replace_string, sql_statements[[i]])
           msg <- paste0(msg, " (using a MODIFIED SUBSELECT)")
