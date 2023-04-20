@@ -335,7 +335,7 @@ load_database <- function(rv,
               get("source_system_name") == db_name,
             get("restricting_date_format")
           ]
-          if (is.null(restricting_date_format) || restricting_date_format == "") {
+          if (DIZtools::is.empty(restricting_date_format)) {
             restricting_date_format <- "%Y-%m-%d"
           }
 
