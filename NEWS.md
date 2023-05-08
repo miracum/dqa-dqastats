@@ -1,5 +1,12 @@
 # DQAstats NEWS
 
+## Unreleased (2023-01-23)
+
+#### Other changes
+
+-   updated dev-version
+    ([91a749c](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/91a749cf1232b86af3d499c60b3cbb06dfe68618))
+
 ## v0.3.2 (2023-01-23)
 
 #### New features
