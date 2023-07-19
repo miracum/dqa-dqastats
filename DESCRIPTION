@@ -42,3 +42,4 @@ Remotes:
     github::miracum/misc-diztools@dev,
     github::miracum/misc-dizutils@development
 Encoding: UTF-8
+RoxygenNote: 7.2.3
