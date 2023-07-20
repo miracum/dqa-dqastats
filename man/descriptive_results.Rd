@@ -16,17 +16,17 @@ run only in the console (headless = TRUE) or on a GUI frontend
 }
 \value{
 A list with one entry for each dataelement containing the results of
-  the descriptive results. Each entry contains the following (nested) list
-  items:
-  \describe{
-  \item{description}{A nested list with the description of the dataelement
-  for the source data system and the target data system.}
-  \item{counts}{A nested list with the frequency count results for the
-  source data system and the target data system.}
-  \item{statistics}{A nested list with the descriptive results for the
-  source data system and the target data system stored as data.table
-  objects.}
-  }
+the descriptive results. Each entry contains the following (nested) list
+items:
+\describe{
+\item{description}{A nested list with the description of the dataelement
+for the source data system and the target data system.}
+\item{counts}{A nested list with the frequency count results for the
+source data system and the target data system.}
+\item{statistics}{A nested list with the descriptive results for the
+source data system and the target data system stored as data.table
+objects.}
+}
 }
 \description{
 Internal function to generate the descriptive results.

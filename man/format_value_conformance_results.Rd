@@ -13,12 +13,12 @@ element.}
 \item{desc_out}{A list containing the descriptive results for the same data
 element.}
 
-\item{source}{A character: either `source_data` or `target_data` to indicate,
+\item{source}{A character: either \code{source_data} or \code{target_data} to indicate,
 which results to render.}
 }
 \value{
 The function returns a list with the formatted value conformance
-  results for one data element.
+results for one data element.
 }
 \description{
 Internal function to format the value conformance results

@@ -7,11 +7,11 @@
 parallel(parallel, logfile_dir, ncores)
 }
 \arguments{
-\item{parallel}{A boolean. If TRUE, initializing a `future::plan()`
+\item{parallel}{A boolean. If TRUE, initializing a \code{future::plan()}
 for running the code (default: FALSE).}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
-will be stored default(`tempdir()`).}
+will be stored default(\code{tempdir()}).}
 
 \item{ncores}{A integer. The number of cores to use. Caution: you would
 probably like to choose a low number when operating on large datasets.
@@ -19,7 +19,7 @@ Default: 2.}
 }
 \value{
 No return value. Depending on the specified arguments, this function
-  enables a parallel backend for faster computations.
+enables a parallel backend for faster computations.
 }
 \description{
 Internal function to initialize the parallel backend.

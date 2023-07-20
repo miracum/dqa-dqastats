@@ -44,7 +44,11 @@ my_desc$set("BugReports",
             "https://github.com/miracum/dqa-dqastats/issues")
 # Vignette Builder
 my_desc$set("VignetteBuilder" = "knitr")
-
+# Testthat stuff
+my_desc$set("Config/testthat/parallel" = "false")
+my_desc$set("Config/testthat/edition" = "3")
+# Roxygen
+my_desc$set("Roxygen" = "list(markdown = TRUE)")
 # License
 my_desc$set("License", "GPL-3")
 # Save everyting
@@ -82,12 +86,12 @@ usethis::use_package("rmarkdown", type = "Imports")
 usethis::use_package("stats", type = "Imports")
 usethis::use_package("tinytex", type = "Imports")
 usethis::use_package("utils", type = "Imports")
-usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.1")
-usethis::use_package("DIZtools", type = "Imports", min_version = "0.0.5")
+usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.2")
+usethis::use_package("DIZtools", type = "Imports", min_version = "0.0.8")
 
 
 # Suggests
-usethis::use_package("testthat", type = "Suggests", min_version = "3.0.0")
+usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 usethis::use_package("remotes", type = "Suggests")
 usethis::use_package("DT", type = "Suggests")

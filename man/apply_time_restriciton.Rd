@@ -35,7 +35,7 @@ Sensitive to SQL dialects.}
 \item{system_type}{'postgres'/'oracle'/'csv'}
 
 \item{mdr}{(Optional for non-database-changes) The internal MDR
-(get it from `rv$mdr`)}
+(get it from \code{rv$mdr})}
 
 \item{logfile_dir}{(Optional) The directory to store the logfile in.
 Defaults to NULL.}
@@ -49,16 +49,16 @@ printing-friendly SQL including this view-creating SQLs and the actual
 data-extracting SQL query.}
 
 \item{verify_on_db}{A boolean. If the view should be verified on the
-database (default: `TRUE`).}
+database (default: \code{TRUE}).}
 }
 \value{
 If system_type is a database, a list with the new sql-string
-  containing the temporal filtering will be returned under $sql
- ('order by' parts will be removed) and a printable sql containing the
- commands to create the view needed to run the sql under $sql_extended.
- If system_type is 'csv', the filtered data.table will be returned.
+containing the temporal filtering will be returned under $sql
+('order by' parts will be removed) and a printable sql containing the
+commands to create the view needed to run the sql under $sql_extended.
+If system_type is 'csv', the filtered data.table will be returned.
 }
 \description{
 Internal function to filter the input data (or SQL) depending
-  on provided time information. Sensitive to SQL dialects.
+on provided time information. Sensitive to SQL dialects.
 }
