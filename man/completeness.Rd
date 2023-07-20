@@ -26,6 +26,7 @@ A data.table with the absolute and relative counts of missing values
 Internal function to perform missing analysis.
 }
 \examples{
+\donttest{# runtime ~ 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -124,5 +125,6 @@ completeness(
   headless = rv$headless,
   logfile_dir = rv$log$logfile_dir
 )
+}
 
 }

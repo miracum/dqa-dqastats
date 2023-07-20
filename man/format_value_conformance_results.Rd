@@ -24,6 +24,7 @@ The function returns a list with the formatted value conformance
 Internal function to format the value conformance results
 }
 \examples{
+\donttest{# runtime ~ 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -158,4 +159,6 @@ value_conformance_formatted <- sapply(
     }
   }
 )
+}
+
 }

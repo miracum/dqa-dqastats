@@ -19,6 +19,7 @@ A data.table with the automated comparison of the counts of valid,
 Internal function to perform etl conformance checks.
 }
 \examples{
+\donttest{# runtime ~ 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -114,5 +115,6 @@ rv$results_descriptive <- descriptive_results(
 )
 
 etl_checks(results = rv$results_descriptive)
+}
 
 }

@@ -22,6 +22,7 @@ Internal function to reduce categorical variables
   to a maximum of values to be displayed.
 }
 \examples{
+\donttest{# runtime ~ 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -120,5 +121,6 @@ reduce_cat(
   data = rv$results_descriptive,
   levellimit = 25
 )
+}
 
 }

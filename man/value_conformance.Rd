@@ -37,6 +37,7 @@ A list with one entry for each dataelement containing the raw results
 Internal function to perform value conformance checks.
 }
 \examples{
+\donttest{# runtime ~ 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -154,5 +155,6 @@ value_conformance(
   headless = rv$headless,
   logfile_dir = rv$log$logfile_dir
 )
+}
 
 }

@@ -387,6 +387,11 @@ load_database <- function(rv,
         sql <- sql_statements[[i]]
       }
 
+      # replace not-allowed AS for aliasing r_interediate in case of oracle statements
+      if (db_type == "oracle") {
+        sql <- gsub("AS r_intermediate", "r_intermediate", sql)
+      }
+
       ## The `sql_extended` is the same like the normal `sql` but extened with
       ## additional information needed to run the SQL, e.g. the commands
       ## to create a view which the `sql` utilizes:

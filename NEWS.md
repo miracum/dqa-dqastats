@@ -9,11 +9,13 @@
 
 #### Other changes
 
+-   updated news.md
+    ([dbb16cb](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/dbb16cb29c084281ebc73494792ca51eb4dff095))
 -   updated dev-version
     ([91a749c](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/91a749cf1232b86af3d499c60b3cbb06dfe68618))
 
 Full set of changes:
-[`v0.3.2...482ea46`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.2...482ea46)
+[`v0.3.2...dbb16cb`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.2...dbb16cb)
 
 ## v0.3.2 (2023-01-23)
 

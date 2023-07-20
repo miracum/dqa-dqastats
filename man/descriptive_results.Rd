@@ -32,6 +32,7 @@ A list with one entry for each dataelement containing the results of
 Internal function to generate the descriptive results.
 }
 \examples{
+\donttest{# runtime ~ 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -125,5 +126,6 @@ descriptive_results(
   rv = rv,
   headless = rv$headless
 )
+}
 
 }

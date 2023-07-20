@@ -36,6 +36,7 @@
 #'   }
 #'
 #' @examples
+#' \donttest{# runtime ~ 5 sec.
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
 #'   package = "DQAstats"
@@ -129,6 +130,7 @@
 #'   rv = rv,
 #'   headless = rv$headless
 #' )
+#' }
 #'
 #' @export
 #'

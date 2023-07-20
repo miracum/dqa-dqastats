@@ -36,6 +36,7 @@ Internal function to generate the results of the
   'Atemporal Plausibility' checks.
 }
 \examples{
+\donttest{# runtime ~ 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -137,5 +138,6 @@ atemp_plausi_results(
   mdr = rv$mdr,
   headless = rv$headless
 )
+}
 
 }

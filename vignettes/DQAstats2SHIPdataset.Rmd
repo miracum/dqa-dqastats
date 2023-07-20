@@ -49,13 +49,15 @@ For further information on `dataquieR`, please refer to [https://dataquality.shi
 # ) %>%
 #   data.table::data.table()
 ship_fn <- file.path(tempdir(), "ship.RDS")
+ship_url <- paste0(
+  "https://raw.githubusercontent.com/cran/dataquieR/",
+  "master/inst/extdata/ship.RDS"
+)
 download.file(
-  url = paste0(
-    "https://github.com/cran/",
-    "dataquieR/raw/master/inst/extdata/ship.RDS"
-  ),
+  url = ship_url,
   destfile = ship_fn
 )
+Sys.sleep(1)
 ship_data <- readRDS(ship_fn) %>%
   data.table::data.table()
 
@@ -65,20 +67,25 @@ data.table::fwrite(
   x = ship_data,
   file = file.path(tempdir(), ship_data_export_fn)
 )
+```
 
+
+```{r}
 # load the ship metadata
 # ship_meta <- readRDS(
 #   system.file("extdata/ship_meta.RDS", package = "dataquieR")
 # ) %>%
 #   data.table::data.table()
 ship_meta_fn <- file.path(tempdir(), "ship_meta.RDS")
+ship_meta_url <- paste0(
+  "https://raw.githubusercontent.com/cran/dataquieR/",
+  "master/inst/extdata/ship_meta.RDS"
+)
 download.file(
-  url = paste0(
-    "https://github.com/cran/",
-    "dataquieR/raw/master/inst/extdata/ship_meta.RDS"
-  ),
+  url = ship_meta_url,
   destfile = ship_meta_fn
 )
+Sys.sleep(1)
 ship_meta <- readRDS(ship_meta_fn) %>%
   data.table::data.table()
 ```
