@@ -1,11 +1,19 @@
 # DQAstats NEWS
 
-## Unreleased (2023-01-23)
+## Unreleased (2023-07-20)
+
+#### Bug fixes
+
+-   hot-fix to resolve cran errors
+    ([482ea46](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/482ea46623666f2a5fb1a0ff2c6394e1fb40d6e4))
 
 #### Other changes
 
 -   updated dev-version
     ([91a749c](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/91a749cf1232b86af3d499c60b3cbb06dfe68618))
+
+Full set of changes:
+[`v0.3.2...482ea46`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.2...482ea46)
 
 ## v0.3.2 (2023-01-23)
 
