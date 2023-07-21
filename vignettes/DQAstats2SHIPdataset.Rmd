@@ -52,17 +52,12 @@ For further information on `dataquieR`, please refer to [https://dataquality.shi
 #   system.file("extdata/ship.RDS", package = "dataquieR")
 # ) %>%
 #   data.table::data.table()
-ship_fn <- file.path(tempdir(), "ship.RDS")
 ship_url <- paste0(
   "https://raw.githubusercontent.com/cran/dataquieR/",
-  "master/inst/extdata/ship.RDS"
+  "60ea33bb3a5b42978c5f62cee9b9a1241fb28d66/inst/extdata/ship.RDS"
 )
-download.file(
-  url = ship_url,
-  destfile = ship_fn
-)
-Sys.sleep(1)
-ship_data <- readRDS(ship_fn) %>%
+ship_data <- url(ship_url) %>%
+  readRDS() %>%
   data.table::data.table()
 
 # export the dataset to a CSV-file (one of the formats supported by DQAstats)
@@ -80,17 +75,12 @@ data.table::fwrite(
 #   system.file("extdata/ship_meta.RDS", package = "dataquieR")
 # ) %>%
 #   data.table::data.table()
-ship_meta_fn <- file.path(tempdir(), "ship_meta.RDS")
 ship_meta_url <- paste0(
   "https://raw.githubusercontent.com/cran/dataquieR/",
-  "master/inst/extdata/ship_meta.RDS"
+  "60ea33bb3a5b42978c5f62cee9b9a1241fb28d66/inst/extdata/ship_meta.RDS"
 )
-download.file(
-  url = ship_meta_url,
-  destfile = ship_meta_fn
-)
-Sys.sleep(1)
-ship_meta <- readRDS(ship_meta_fn) %>%
+ship_meta <- url(ship_meta_url) %>%
+  readRDS() %>%
   data.table::data.table()
 ```
 

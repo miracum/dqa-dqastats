@@ -1,9 +1,22 @@
 # DQAstats NEWS
 
-## Unreleased (2023-07-19)
+## Unreleased (2023-07-21)
+
+#### Other changes
+
+-   merged latest changes
+    ([1580fd1](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/1580fd12f2ef9a8fa8ec14ed0bb3a5b8aabaa01b))
+
+## v0.3.3 (2023-07-20)
 
 #### Bug fixes
 
+-   set eval=FALSE for vignette on windows
+    ([502dcfb](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/502dcfbc4f86f54a534300adefd83e6abd39fdaf))
+-   solving cran issues
+    ([b1344f3](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/b1344f32799b8b70a6813e940f64e84b1ccc3cf4))
+-   hot-fix to resolve cran errors
+    ([482ea46](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/482ea46623666f2a5fb1a0ff2c6394e1fb40d6e4))
 -   checking of empty restricting\_date\_format
     ([a847ba2](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/a847ba201c002acecb5bfd118034e243529fa929))
 -   fixed typo
@@ -15,13 +28,20 @@
 -   replace as also for no time filtering
     ([d5a2444](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d5a24444b358a3ccb4bfeb3cff3f233177252994))
 
+#### Docs
+
+-   switched to building man pages with markdown
+    ([fc16321](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/fc1632195474eb128abdeba4eb5ccd5d3c674e82))
+
 #### Other changes
 
+-   updated news.md
+    ([dbb16cb](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/dbb16cb29c084281ebc73494792ca51eb4dff095))
 -   updated dev-version
     ([91a749c](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/91a749cf1232b86af3d499c60b3cbb06dfe68618))
 
 Full set of changes:
-[`v0.3.2...dfb49d0`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.2...dfb49d0)
+[`v0.3.2...v0.3.3`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.2...v0.3.3)
 
 ## v0.3.2 (2023-01-23)
 
