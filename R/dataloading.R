@@ -340,12 +340,22 @@ load_database <- function(rv,
           }
 
           # fix datetime-formatting for oracle / kdb here
+          # TODO: check overlaps with https://github.com/miracum/dqa-dqastats/
+          # blob/91a749cf1232b86af3d499c60b3cbb06dfe68618/R/
+          # datetime_restrictions.R#L333
+          # --> maybe try to resolve them / add replace string there
           replace_string <- paste0(
             "AS r_intermediate WHERE r_intermediate.",
             restricting_date_var, " BETWEEN TO_TIMESTAMP('",
-            as.Date(rv$restricting_date$start, format = restricting_date_format),
+            as.Date(
+              rv$restricting_date$start,
+              format = restricting_date_format
+            ),
             "', 'YYYY-MM-DD') AND TO_TIMESTAMP('",
-            as.Date(rv$restricting_date$end, format = restricting_date_format),
+            as.Date(
+              rv$restricting_date$end,
+              format = restricting_date_format
+            ),
             " 23:59:59', 'YYYY-MM-DD HH24:MI:SS')"
           )
           sql <- gsub("AS r_intermediate", replace_string, sql_statements[[i]])

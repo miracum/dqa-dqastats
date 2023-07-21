@@ -22,7 +22,7 @@ run only in the console (headless = TRUE) or on a GUI frontend
 }
 \value{
 No return value. This function renders the PDF markdown report with
-  the data quality assessment results and saves it to `outdir`.
+the data quality assessment results and saves it to \code{outdir}.
 }
 \description{
 Internal function to generate the final PDF report.

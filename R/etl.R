@@ -28,6 +28,7 @@
 #'   data system.
 #'
 #' @examples
+#' \donttest{# runtime ~ 5 sec.
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
 #'   package = "DQAstats"
@@ -123,6 +124,7 @@
 #' )
 #'
 #' etl_checks(results = rv$results_descriptive)
+#' }
 #'
 #' @export
 #'

@@ -1,12 +1,13 @@
 Package: DQAstats
 Title: Core Functions for Data Quality Assessment
-Version: 0.3.2.9001
-Date: 2023-01-23
+Version: 0.3.3
+Date: 2023-07-21
 Authors@R: c(
-    person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
+    person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
     person("Jonathan M.", "Mang", role = "aut",
            comment = c(ORCID = "0000-0003-0518-4710")),
+    person("Helene Köster", role = "ctb"),
     person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = "fnd"),
     person("Universitätsklinikum Erlangen", role = "cph")
   )
@@ -18,8 +19,8 @@ URL: https://github.com/miracum/dqa-dqastats
 BugReports: https://github.com/miracum/dqa-dqastats/issues
 Imports: 
     data.table,
-    DIZtools (>= 0.0.5),
-    DIZutils (>= 0.1.1),
+    DIZtools (>= 0.0.8),
+    DIZutils (>= 0.1.2),
     future,
     future.apply,
     jsonlite,
@@ -35,11 +36,11 @@ Suggests:
     DT,
     lintr,
     remotes,
-    testthat (>= 3.0.0)
+    testthat
 VignetteBuilder: 
     knitr
-Remotes: 
-    github::miracum/misc-diztools@dev,
-    github::miracum/misc-dizutils@development
+Config/testthat/edition: 3
+Config/testthat/parallel: false
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

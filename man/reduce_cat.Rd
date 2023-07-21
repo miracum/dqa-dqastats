@@ -7,21 +7,22 @@
 reduce_cat(data, levellimit = 25)
 }
 \arguments{
-\item{data}{A list object. The object `rv$results_descriptive`.}
+\item{data}{A list object. The object \code{rv$results_descriptive}.}
 
 \item{levellimit}{An integer value. The number of maximum
 values to be displayed (default: 25).}
 }
 \value{
 A data.table with the data quality assessment results for categorical
-  dataelements that are reduced to the maximum number of levels specified
-  with `levellimit`.
+dataelements that are reduced to the maximum number of levels specified
+with \code{levellimit}.
 }
 \description{
 Internal function to reduce categorical variables
-  to a maximum of values to be displayed.
+to a maximum of values to be displayed.
 }
 \examples{
+\donttest{# runtime ~ 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -120,5 +121,6 @@ reduce_cat(
   data = rv$results_descriptive,
   levellimit = 25
 )
+}
 
 }

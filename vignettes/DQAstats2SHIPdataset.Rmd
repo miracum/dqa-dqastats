@@ -24,6 +24,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+if (.Platform$OS.type == "windows") {
+  # due to corrupt rds-file from dataquieR package
+  knitr::opts_chunk$set(eval = FALSE)
+}
 library(magrittr)
 ```
 
@@ -48,12 +52,17 @@ For further information on `dataquieR`, please refer to [https://dataquality.shi
 #   system.file("extdata/ship.RDS", package = "dataquieR")
 # ) %>%
 #   data.table::data.table()
-ship_data <- readRDS(
-  url(paste0(
-    "https://raw.githubusercontent.com/cran/",
-    "dataquieR/master/inst/extdata/ship.RDS"
-  ))
-) %>%
+ship_fn <- file.path(tempdir(), "ship.RDS")
+ship_url <- paste0(
+  "https://raw.githubusercontent.com/cran/dataquieR/",
+  "master/inst/extdata/ship.RDS"
+)
+download.file(
+  url = ship_url,
+  destfile = ship_fn
+)
+Sys.sleep(1)
+ship_data <- readRDS(ship_fn) %>%
   data.table::data.table()
 
 # export the dataset to a CSV-file (one of the formats supported by DQAstats)
@@ -62,18 +71,26 @@ data.table::fwrite(
   x = ship_data,
   file = file.path(tempdir(), ship_data_export_fn)
 )
+```
 
+
+```{r}
 # load the ship metadata
 # ship_meta <- readRDS(
 #   system.file("extdata/ship_meta.RDS", package = "dataquieR")
 # ) %>%
 #   data.table::data.table()
-ship_meta <- readRDS(
-  url(paste0(
-    "https://raw.githubusercontent.com/cran/",
-    "dataquieR/master/inst/extdata/ship_meta.RDS"
-  ))
-) %>%
+ship_meta_fn <- file.path(tempdir(), "ship_meta.RDS")
+ship_meta_url <- paste0(
+  "https://raw.githubusercontent.com/cran/dataquieR/",
+  "master/inst/extdata/ship_meta.RDS"
+)
+download.file(
+  url = ship_meta_url,
+  destfile = ship_meta_fn
+)
+Sys.sleep(1)
+ship_meta <- readRDS(ship_meta_fn) %>%
   data.table::data.table()
 ```
 

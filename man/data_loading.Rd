@@ -17,7 +17,7 @@ the variables to test.}
 }
 \value{
 A list with the fields '$outdata' and if testing an SQL-based
-  database also '$sql_statements'.
+database also '$sql_statements'.
 }
 \description{
 Internal function to load the source and target data

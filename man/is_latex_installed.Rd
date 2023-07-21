@@ -8,7 +8,7 @@ is_latex_installed(logfile_dir = NULL, headless = TRUE)
 }
 \arguments{
 \item{logfile_dir}{The absolute path to folder where the logfile
-will be stored default(`tempdir()`).}
+will be stored default(\code{tempdir()}).}
 
 \item{headless}{A boolean (default: FALSE). Indicating, if the function is
 run only in the console (headless = TRUE) or on a GUI frontend
@@ -19,7 +19,7 @@ TRUE if there is a LaTeX installation, FALSE if not.
 }
 \description{
 Internal function to determine if a LaTeX installation is
-  available. Used before creating/knitr-ing the PDF report.
+available. Used before creating/knitr-ing the PDF report.
 }
 \examples{
 is_latex_installed()

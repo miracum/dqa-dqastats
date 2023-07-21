@@ -12,8 +12,8 @@ difference_checks(results)
 }
 \value{
 A data.table with the automated comparison of the counts of total,
-  valid,missing, and distinct values between the source data system and the
-  target data system.
+valid,missing, and distinct values between the source data system and the
+target data system.
 }
 \description{
 Internal function to calculate differences

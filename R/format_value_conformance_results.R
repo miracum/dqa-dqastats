@@ -31,6 +31,7 @@
 #'   results for one data element.
 #'
 #' @examples
+#' \donttest{# runtime ~ 5 sec.
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
 #'   package = "DQAstats"
@@ -165,6 +166,8 @@
 #'     }
 #'   }
 #' )
+#' }
+#'
 #' @export
 
 format_value_conformance_results <- function(results, # nolint

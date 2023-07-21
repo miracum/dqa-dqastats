@@ -3,7 +3,7 @@
 \name{get_restricting_date_info}
 \alias{get_restricting_date_info}
 \title{Get a formatted string containing start and end time of the
-  date restriction applied to the data.}
+date restriction applied to the data.}
 \usage{
 get_restricting_date_info(
   restricting_date,
@@ -24,7 +24,7 @@ If language is not yet implemented, "en" is used.}
 }
 \value{
 String containing start and end date obtained from the list of
-  `restricting_date`.
+\code{restricting_date}.
 }
 \description{
 See title.

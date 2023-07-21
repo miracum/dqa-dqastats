@@ -33,16 +33,15 @@ be processed as standalone on its own.}
 containing the required app utilities like the MDR and the settings folder.}
 
 \item{mdr_filename}{A character string.
-The filename of the MDR e.g. "mdr_example_data.csv"
-For a detailed description please visit \url{#TODO}.}
+The filename of the MDR e.g. "mdr_example_data.csv".}
 
 \item{output_dir}{The path to the output folder where all the results will
-be stored (default: `paste0(tempdir(), "/output/")`).}
+be stored (default: \code{paste0(tempdir(), "/output/")}).}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
-will be stored default(`tempdir()`).}
+will be stored default(\code{tempdir()}).}
 
-\item{parallel}{A boolean. If TRUE, initializing a `future::plan()`
+\item{parallel}{A boolean. If TRUE, initializing a \code{future::plan()}
 for running the code (default: FALSE).}
 
 \item{ncores}{A integer. The number of cores to use. Caution: you would
@@ -51,13 +50,13 @@ Default: 2.}
 
 \item{restricting_date_start}{The date as the lower limit against which
 the data to be analyzed will be filtered. Your input must be able to be
-recognized as a date by `parsedate::parse_date("2021-02-25")`.
+recognized as a date by \code{parsedate::parse_date("2021-02-25")}.
 Keep in mind: If you supply a date without a time here,
 the time will automatically be set to 00:00.}
 
 \item{restricting_date_end}{The date as the lower limit against which
 the data to be analyzed will be filtered. Your input must be able to be
-recognized as a date by `parsedate::parse_date("2021-02-25")`
+recognized as a date by \code{parsedate::parse_date("2021-02-25")}
 Keep in mind: If you supply a date without a time here,
 the time will automatically be set to 00:00. This means, the end DAY
 you provide here won't be included: '2021-12-31' will become
@@ -66,18 +65,18 @@ supply also a time '2021-12-31 23:59:59' or just use the next day
 without a time: '2022-01-01'.}
 
 \item{restricting_date_format}{The format in which the input data is stored.
-See `?strptime` for possible parameters.
+See \code{?strptime} for possible parameters.
 Currently not implemented! So there is no effect if you pass a format here.}
 }
 \value{
-This function is a wrapper around all helper functions in `DQAstats`
-  to perform the data quality assessment. The results are summarized in a
-  PDF report which is saved to `outdir`. The return value of this function is
-  a nested list that contains all results as R objects.
+This function is a wrapper around all helper functions in \code{DQAstats}
+to perform the data quality assessment. The results are summarized in a
+PDF report which is saved to \code{outdir}. The return value of this function is
+a nested list that contains all results as R objects.
 }
 \description{
 This function performs a data quality assessment (DQA)
-  of electronic health records (EHR).#'
+of electronic health records (EHR).#'
 }
 \examples{
 \donttest{# runtime > 5 sec.

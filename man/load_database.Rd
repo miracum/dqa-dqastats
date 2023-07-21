@@ -35,7 +35,7 @@ run only in the console (headless = TRUE) or on a GUI frontend
 }
 \value{
 A list with a data.table for each data element as defined in the
-  in the MDR.
+in the MDR.
 }
 \description{
 Internal function to load the data from SQL databases.

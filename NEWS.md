@@ -1,5 +1,28 @@
 # DQAstats NEWS
 
+## Unreleased (2023-07-19)
+
+#### Bug fixes
+
+-   checking of empty restricting\_date\_format
+    ([a847ba2](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/a847ba201c002acecb5bfd118034e243529fa929))
+-   fixed typo
+    ([5490bf4](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/5490bf4d2df09135ef85198337681d24def2b04f))
+-   working on getting dates fixed for oracle
+    ([e3345cc](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/e3345cc9c92c3507abf2c51001986e974868f3cf))
+-   date-formatting for oracle
+    ([4398f89](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/4398f89a14422328ac08545012f1b5f4b0574e34))
+-   replace as also for no time filtering
+    ([d5a2444](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d5a24444b358a3ccb4bfeb3cff3f233177252994))
+
+#### Other changes
+
+-   updated dev-version
+    ([91a749c](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/91a749cf1232b86af3d499c60b3cbb06dfe68618))
+
+Full set of changes:
+[`v0.3.2...dfb49d0`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.2...dfb49d0)
+
 ## v0.3.2 (2023-01-23)
 
 #### New features
