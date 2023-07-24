@@ -1,9 +1,11 @@
 # DQAstats NEWS
 
-## Unreleased (2023-07-20)
+## v0.3.3 (2023-07-20)
 
 #### Bug fixes
 
+-   set eval=FALSE for vignette on windows
+    ([502dcfb](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/502dcfbc4f86f54a534300adefd83e6abd39fdaf))
 -   solving cran issues
     ([b1344f3](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/b1344f32799b8b70a6813e940f64e84b1ccc3cf4))
 -   hot-fix to resolve cran errors
@@ -19,6 +21,11 @@
 -   replace as also for no time filtering
     ([d5a2444](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d5a24444b358a3ccb4bfeb3cff3f233177252994))
 
+#### Docs
+
+-   switched to building man pages with markdown
+    ([fc16321](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/fc1632195474eb128abdeba4eb5ccd5d3c674e82))
+
 #### Other changes
 
 -   updated news.md
@@ -27,7 +34,7 @@
     ([91a749c](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/91a749cf1232b86af3d499c60b3cbb06dfe68618))
 
 Full set of changes:
-[`v0.3.2...b1344f3`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.2...b1344f3)
+[`v0.3.2...v0.3.3`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.2...v0.3.3)
 
 ## v0.3.2 (2023-01-23)
 
