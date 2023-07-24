@@ -24,10 +24,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-if (.Platform$OS.type == "windows") {
-  # due to corrupt rds-file from dataquieR package
-  knitr::opts_chunk$set(eval = FALSE)
-}
 library(magrittr)
 ```
 
@@ -54,10 +50,11 @@ For further information on `dataquieR`, please refer to [https://dataquality.shi
 #   data.table::data.table()
 ship_url <- paste0(
   "https://raw.githubusercontent.com/cran/dataquieR/",
-  "60ea33bb3a5b42978c5f62cee9b9a1241fb28d66/inst/extdata/ship.RDS"
+  "master/inst/extdata/ship.RDS"
 )
-ship_data <- url(ship_url) %>%
-  readRDS() %>%
+tmpf <- tempfile()
+download.file(ship_url, tmpf, mode = "wb")
+ship_data <- readRDS(tmpf) %>%
   data.table::data.table()
 
 # export the dataset to a CSV-file (one of the formats supported by DQAstats)
@@ -77,10 +74,11 @@ data.table::fwrite(
 #   data.table::data.table()
 ship_meta_url <- paste0(
   "https://raw.githubusercontent.com/cran/dataquieR/",
-  "60ea33bb3a5b42978c5f62cee9b9a1241fb28d66/inst/extdata/ship_meta.RDS"
+  "master/inst/extdata/ship_meta.RDS"
 )
-ship_meta <- url(ship_meta_url) %>%
-  readRDS() %>%
+tmpf <- tempfile()
+download.file(ship_meta_url, tmpf, mode = "wb")
+ship_meta <- readRDS(tmpf) %>%
   data.table::data.table()
 ```
 
