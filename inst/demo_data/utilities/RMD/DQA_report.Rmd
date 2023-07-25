@@ -47,7 +47,7 @@ options(tinytex.verbose = TRUE)
 
 # Data Map
 
-## Target Database
+## Target Database: `r rv$target$system_name`
 
 ```{r results='asis'}
 no_data_to_display_msg <- "There is no data to display.\n\n"
@@ -58,7 +58,7 @@ if (!is.null(rv$datamap$target_data)) {
 }
 ```
 
-## Source Database
+## Source Database: `r rv$source$system_name`
 
 ```{r results='asis'}
 if (!is.null(rv$datamap$source_data)) {
@@ -106,6 +106,20 @@ if (!is.null(rv$checks$value_conformance)) {
 }
 ```
 
+
+\newpage
+
+# Difference Monitor
+
+Calculates the discrepancies between source (`r rv$source$system_name`) and target (`r rv$target$system_name`) database. Differences are shown in absolute values as well as percentage.
+
+```{r results='asis'}
+if (!is.null(rv$checks$differences)) {
+  render_difference_check(rv$checks$differences)
+} else {
+  cat(no_data_to_display_msg)
+}
+```
 
 \newpage
 

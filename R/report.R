@@ -174,6 +174,22 @@ render_data_map <- function(datamap) {
   }
 }
 
+render_difference_check <- function(datamap) {
+  if (!is.null(datamap) && nrow(datamap) > 0) {
+    # colnames are too long for proper display.
+    # Workaround by assigning shorter names
+    colnames(datamap) <-
+      c("Variable",
+        "Diff. Totals",
+        "Diff. Distincts",
+        "Diff. Valids",
+        "Diff. Missings")
+    print(kable_table(datamap))
+  } else {
+    cat("No dataelements from the datamap where analysed.")
+  }
+}
+
 render_uniq_plausis <- function(plausiresults) {
   # get names
   obj_names <- names(plausiresults)
