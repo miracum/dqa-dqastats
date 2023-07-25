@@ -19,30 +19,30 @@ check_date_restriction_requirements(
 to check for possible date restriction in the mdr.}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
-will be stored default(`tempdir()`).}
+will be stored default(\code{tempdir()}).}
 
 \item{headless}{(Boolean) Is this a console application? Otherwise
-(if `headless = FALSE`) there is a GUI and there will be GUI-feedback.}
+(if \code{headless = FALSE}) there is a GUI and there will be GUI-feedback.}
 
 \item{enable_stop}{(Boolean, default = TRUE) If true (default) this function
-will call `stop()` in case of the check fails. If `enable_stop = FALSE`
-it will return `TRUE` if the check was successful and `FALSE` if the
-check failed. Use `enable_stop = FALSE` to avoid the need of a try/catch
+will call \code{stop()} in case of the check fails. If \code{enable_stop = FALSE}
+it will return \code{TRUE} if the check was successful and \code{FALSE} if the
+check failed. Use \code{enable_stop = FALSE} to avoid the need of a try/catch
 block around this function.}
 }
 \value{
 TRUE/FALSE: TRUE if the check was successful and the given
-  systems can be time filtered, FALSE if something went wrong and no time
-  filtering is possible.
+systems can be time filtered, FALSE if something went wrong and no time
+filtering is possible.
 
 A boolean to indicate if the date restriction requirements are met
-  (TRUE) or not (FALSE).
+(TRUE) or not (FALSE).
 }
 \description{
 Internal function to check if for every input table there is
-  one single (or empty) column where to apply the time restriction to.
-  If the input is valid, it will just print a success-message, if the
-  data is invalid, the function will call `stop()`.
+one single (or empty) column where to apply the time restriction to.
+If the input is valid, it will just print a success-message, if the
+data is invalid, the function will call \code{stop()}.
 }
 \examples{
 utils_path <- system.file(

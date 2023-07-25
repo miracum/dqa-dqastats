@@ -20,23 +20,24 @@ run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
-will be stored default(`tempdir()`).}
+will be stored default(\code{tempdir()}).}
 }
 \value{
 A list with one entry for each dataelement containing the raw results
-  of the value conformance checks. Each entry contains the following (nested)
-  list items:
-  \describe{
-  \item{source_data}{A nested list with the raw value conformance check
-  results for the source data system.}
-  \item{target_data}{A nested list with the raw value conformance check
-  results for the target data system.}
-  }
+of the value conformance checks. Each entry contains the following (nested)
+list items:
+\describe{
+\item{source_data}{A nested list with the raw value conformance check
+results for the source data system.}
+\item{target_data}{A nested list with the raw value conformance check
+results for the target data system.}
+}
 }
 \description{
 Internal function to perform value conformance checks.
 }
 \examples{
+\donttest{# runtime ~ 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -154,5 +155,6 @@ value_conformance(
   headless = rv$headless,
   logfile_dir = rv$log$logfile_dir
 )
+}
 
 }

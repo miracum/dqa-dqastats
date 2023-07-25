@@ -15,17 +15,18 @@ run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
-will be stored default(`tempdir()`).}
+will be stored default(\code{tempdir()}).}
 }
 \value{
 A data.table with the absolute and relative counts of missing values
-  (results of the completeness checks) for each dataelement for the source
-  data system and the target data system.
+(results of the completeness checks) for each dataelement for the source
+data system and the target data system.
 }
 \description{
 Internal function to perform missing analysis.
 }
 \examples{
+\donttest{# runtime ~ 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -124,5 +125,6 @@ completeness(
   headless = rv$headless,
   logfile_dir = rv$log$logfile_dir
 )
+}
 
 }

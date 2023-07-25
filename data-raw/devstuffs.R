@@ -12,12 +12,13 @@ my_desc$set_authors(c(
   person(
     "Lorenz A.",
     "Kapsner",
-    email = "lorenz.kapsner@uk-erlangen.de",
+    email = "lorenz.kapsner@gmail.com",
     role = c("cre", "aut"),
     comment = c(ORCID = "0000-0003-1866-860X")
   ),
   person("Jonathan M.", "Mang", role = "aut",
          comment = c(ORCID = "0000-0003-0518-4710")),
+  person("Helene Köster", role = "ctb"),
   person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = "fnd"),
   person("Universitätsklinikum Erlangen", role = "cph")
 )) #,
@@ -25,7 +26,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.3.2.9001")
+my_desc$set_version("0.3.3.9001")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -44,7 +45,11 @@ my_desc$set("BugReports",
             "https://github.com/miracum/dqa-dqastats/issues")
 # Vignette Builder
 my_desc$set("VignetteBuilder" = "knitr")
-
+# Testthat stuff
+my_desc$set("Config/testthat/parallel" = "false")
+my_desc$set("Config/testthat/edition" = "3")
+# Roxygen
+my_desc$set("Roxygen" = "list(markdown = TRUE)")
 # License
 my_desc$set("License", "GPL-3")
 # Save everyting
@@ -82,12 +87,12 @@ usethis::use_package("rmarkdown", type = "Imports")
 usethis::use_package("stats", type = "Imports")
 usethis::use_package("tinytex", type = "Imports")
 usethis::use_package("utils", type = "Imports")
-usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.1")
-usethis::use_package("DIZtools", type = "Imports", min_version = "0.0.5")
+usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.2")
+usethis::use_package("DIZtools", type = "Imports", min_version = "0.0.8")
 
 
 # Suggests
-usethis::use_package("testthat", type = "Suggests", min_version = "3.0.0")
+usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 usethis::use_package("remotes", type = "Suggests")
 usethis::use_package("DT", type = "Suggests")

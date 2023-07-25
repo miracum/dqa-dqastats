@@ -15,7 +15,7 @@ repository (default: 'mdr.csv').}
 }
 \value{
 A data.table containing the metadata repository which is imported
-  from the CSV file provided with `{utils_path}/MDR/{mdr_filename}`.
+from the CSV file provided with \code{{utils_path}/MDR/{mdr_filename}}.
 }
 \description{
 Internal function to read the meta data repository (MDR).

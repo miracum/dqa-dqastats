@@ -12,8 +12,8 @@ the function \code{value_conformance}.}
 }
 \value{
 A data.table with the results of the automated comparison of the
-  value conformance check results between the source data system and the
-  target data system.
+value conformance check results between the source data system and the
+target data system.
 }
 \description{
 Internal function to perform value conformance checks.

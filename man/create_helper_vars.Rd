@@ -19,38 +19,38 @@ in the config.yml-file.}
 }
 \value{
 A list with results from the analysis of the metadata repository
-  (MDR) with the following items:
-  \describe{
-  \item{keys_source}{A character vector with the different values of the
-  'key' field from the MDR for the source data system.}
-  \item{keys_target}{A character vector with the different values of the
-  'key' field from the MDR for the target data system.}
-  \item{dqa_assessment}{A data.table with a subset of the MDR for the
-  dataelement entries with the field 'dqa_assessment' = 1.}
-  \item{variable_list}{A mapping list from MDR variable names (MDR field
-  'designation') to DQA tool internal variable names (MDR field
-  'variable_name').}
-  \item{pl}{A nested list with items regarding the plausibility checks}
-  \describe{
-  \item{atemp_vars}{A data.table with a subset of the MDR with dataelements
-  that are associated with atemporal plausibility checks.}
-  \item{uniq_vars}{A data.table with a subset of the MDR with dataelements
-  that are associated with uniqueness plausibility checks.}
-  \item{atemp_helper_vars}{A character vector with further dataelements that
-  are required to perform the atemporal plausibility checks.}
-  \item{atemp_possible}{A boolean to indicate if all dataelements required
-  to perform the atemporal plausibility checks are available in the dataset.}
-  \item{uniq_helper_vars}{A character vector with further dataelements that
-  are required to perform the uniqueness plausibility checks.}
-  \item{uniq_possible}{A boolean to indicate if all dataelements required
-  to perform the uniqueness plausibility checks are available in the
-  dataset.}
-  }
-  }
+(MDR) with the following items:
+\describe{
+\item{keys_source}{A character vector with the different values of the
+'key' field from the MDR for the source data system.}
+\item{keys_target}{A character vector with the different values of the
+'key' field from the MDR for the target data system.}
+\item{dqa_assessment}{A data.table with a subset of the MDR for the
+dataelement entries with the field 'dqa_assessment' = 1.}
+\item{variable_list}{A mapping list from MDR variable names (MDR field
+'designation') to DQA tool internal variable names (MDR field
+'variable_name').}
+\item{pl}{A nested list with items regarding the plausibility checks}
+\describe{
+\item{atemp_vars}{A data.table with a subset of the MDR with dataelements
+that are associated with atemporal plausibility checks.}
+\item{uniq_vars}{A data.table with a subset of the MDR with dataelements
+that are associated with uniqueness plausibility checks.}
+\item{atemp_helper_vars}{A character vector with further dataelements that
+are required to perform the atemporal plausibility checks.}
+\item{atemp_possible}{A boolean to indicate if all dataelements required
+to perform the atemporal plausibility checks are available in the dataset.}
+\item{uniq_helper_vars}{A character vector with further dataelements that
+are required to perform the uniqueness plausibility checks.}
+\item{uniq_possible}{A boolean to indicate if all dataelements required
+to perform the uniqueness plausibility checks are available in the
+dataset.}
+}
+}
 }
 \description{
 Internal function to create necessary variables from the
-  meta data repository (MDR).
+meta data repository (MDR).
 }
 \examples{
 utils_path <- system.file(

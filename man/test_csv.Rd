@@ -20,15 +20,15 @@ run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
-will be stored default(`tempdir()`).}
+will be stored default(\code{tempdir()}).}
 }
 \value{
 A boolean indicating if the CSV files specified in the metadata
-  repository are found in the specified locations.
+repository are found in the specified locations.
 }
 \description{
 Internal function to test and get the database connection
-  of the source database.
+of the source database.
 }
 \examples{
 utils_path <- system.file(

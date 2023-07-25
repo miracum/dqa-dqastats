@@ -21,7 +21,7 @@ run only in the console (headless = TRUE) or on a GUI frontend
 }
 \value{
 A list with data.tables for each unique CSV file as defined in the
-  'source_system_table' field of the MDR.
+'source_system_table' field of the MDR.
 }
 \description{
 Internal function to load the data from CSV files.

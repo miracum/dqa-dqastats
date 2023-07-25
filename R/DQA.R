@@ -32,8 +32,7 @@
 #' @param utils_path A character string. The path to the utils-folder,
 #'   containing the required app utilities like the MDR and the settings folder.
 #' @param mdr_filename A character string.
-#'   The filename of the MDR e.g. "mdr_example_data.csv"
-#'   For a detailed description please visit \url{#TODO}.
+#'   The filename of the MDR e.g. "mdr_example_data.csv".
 #' @param output_dir The path to the output folder where all the results will
 #'   be stored (default: `paste0(tempdir(), "/output/")`).
 #' @param logfile_dir The absolute path to folder where the logfile
