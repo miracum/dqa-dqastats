@@ -2,7 +2,7 @@
 % Please edit documentation in R/difference_check.R
 \name{difference_checks}
 \alias{difference_checks}
-\title{differnce_checks helper function}
+\title{difference_checks helper function}
 \usage{
 difference_checks(results)
 }
@@ -11,14 +11,15 @@ difference_checks(results)
 'rv$results_descriptive'.}
 }
 \value{
-A data.table with the automated comparison of the counts of total,
-valid,missing, and distinct values between the source data system and the
-target data system.
+A data.table with the difference in total, distinct, valid and ,
+missing values of source and target database. Result is represented as a
+string containing the absolute difference as well as the percentage
 }
 \description{
 Internal function to calculate differences
 }
 \examples{
+ \donttest{# runtime ~ 5 sec.
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -114,5 +115,6 @@ rv$results_descriptive <- descriptive_results(
 )
 
 difference_checks(results = rv$results_descriptive)
+}
 
 }

@@ -475,7 +475,7 @@ dqa <- function(source_system_name,
   # checks$etl
   rv$checks$etl <- etl_checks(results = rv$results_descriptive)
 
-  # checks$differences 
+  # checks$differences
   rv$checks$differences <- difference_checks(results = rv$results_descriptive)
 
   # create report

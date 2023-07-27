@@ -387,7 +387,8 @@ load_database <- function(rv,
         sql <- sql_statements[[i]]
       }
 
-      # replace not-allowed AS for aliasing r_interediate in case of oracle statements
+      # replace not-allowed AS for aliasing r_interediate
+      # in case of oracle statements
       if (db_type == "oracle") {
         sql <- gsub("AS r_intermediate", "r_intermediate", sql)
       }

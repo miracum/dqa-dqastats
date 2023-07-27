@@ -16,18 +16,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' @title differnce_checks helper function
+#' @title difference_checks helper function
 #'
 #' @description Internal function to calculate differences
 #'
 #' @param results A list object. The list should contain the results
 #'   'rv$results_descriptive'.
 #'
-#' @return A data.table with the automated comparison of the counts of total,
-#'   valid,missing, and distinct values between the source data system and the
-#'   target data system.
+#' @return A data.table with the difference in total, distinct, valid and ,
+#'   missing values of source and target database. Result is represented as a
+#'   string containing the absolute difference as well as the percentage
 #'
 #' @examples
+#'  \donttest{# runtime ~ 5 sec.
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
 #'   package = "DQAstats"
@@ -123,6 +124,7 @@
 #' )
 #'
 #' difference_checks(results = rv$results_descriptive)
+#'}
 #'
 #' @export
 #'
@@ -187,19 +189,20 @@ difference_checks <- function(results) {
 }
 
 
-calculate_difference <- function(count_source, count_target){
+calculate_difference <- function(count_source, count_target) {
 
+  result <- NULL
   absolut_diff <- count_target - count_source
 
   if (absolut_diff == 0) {
+
     result <- "no diff."
 
   } else {
-    percent_diff <- (absolut_diff/count_source) * 100
+    percent_diff <- (absolut_diff / count_source) * 100
 
-    result <- paste( absolut_diff, " (", signif(percent_diff,2), "%)")
+    result  <- paste(absolut_diff, " (", signif(percent_diff, 2), "%)")
   }
 
   return(result)
 }
-

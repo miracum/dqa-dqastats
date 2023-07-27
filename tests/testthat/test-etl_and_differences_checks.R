@@ -17,7 +17,7 @@
 
 library(data.table)
 
-test_that("correct functioning of etl_checks", {
+test_that("correct functioning of etl_checks and difference_checks", {
 
 
   utils_path <- system.file(
@@ -116,8 +116,13 @@ test_that("correct functioning of etl_checks", {
 
   rv$checks$etl <- etl_checks(results = rv$results_descriptive)
 
+  rv$checks$differences <- difference_checks(results = rv$results_descriptive)
+
   expect_type(rv$checks$etl, "list")
   expect_length(rv$checks$etl, n = 4)
+
+  expect_type(rv$checks$differences, "list")
+  expect_length(rv$checks$differences, n = 5)
 
   do.call(
     file.remove,
