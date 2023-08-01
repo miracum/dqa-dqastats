@@ -359,6 +359,14 @@ dqa <- function(source_system_name,
     rv$target$sql <- rv$source$sql
   }
 
+  # here is the place to insert the new code for time-compare
+
+  ## time-compare(rv)
+
+  # delete the TIMESTAMP columns
+  rv$data_target %>% dplyr::select(-c("TIMESTAMP"))
+  rv$source_target %>% dplyr::select(-c("TIMESTAMP"))
+
   if (nrow(rv$pl$atemp_vars) > 0 && rv$pl$atemp_possible) {
     # get atemporal plausibilities
     rv$data_plausibility$atemporal <- get_atemp_plausis(
