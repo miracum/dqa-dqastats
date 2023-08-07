@@ -361,11 +361,31 @@ dqa <- function(source_system_name,
 
   # here is the place to insert the new code for time-compare
 
-  ## time-compare(rv)
+   rv$time_compare_results <- time_compare(rv$data_target,
+                rv$data_source,
+                logfile_dir = rv$log$logfile_dir,
+                headless = rv$headless)
+   DIZtools::feedback(print_this = paste0("time_compare: ",
+                                           rv$time_compare_results),
+                                          logjs = isFALSE(rv$headless),
+                                          type = "Error",
+                                          findme = "f45a1dcerad",
+                                          logfile_dir,
+                                          headless = rv$headless)
 
   # delete the TIMESTAMP columns
-  rv$data_target %>% dplyr::select(-c("TIMESTAMP"))
-  rv$source_target %>% dplyr::select(-c("TIMESTAMP"))
+  # ToDo: what happens if not deleted?
+
+  fun <- function(x) {
+
+    if ("TIMESTAMP" %in% names(x)) {
+      x$TIMESTAMP <- NULL
+    }
+    return(x)
+  }
+
+  rv$data_source <- lapply(rv$data_source, fun)
+  rv$data_target <- lapply(rv$data_target, fun)
 
   if (nrow(rv$pl$atemp_vars) > 0 && rv$pl$atemp_possible) {
     # get atemporal plausibilities

@@ -629,15 +629,13 @@ load_database <- function(rv,
           as.character(get(j))
         )]
       } else if (var_type == "timestamp") {
+        # convert oracle timestamps into POSIXct
+        # postgress timestamps are allready correct
         if (db_type == "oracle") {
-          date_format <- "%d.%m.%y"
-        } else {
-          date_format <- "%Y-%m-%d"
-        }
-        outlist[[i]][["outdata"]][, (j) := as.Date(
-          as.character(get(j)),
-          format = date_format
-        )]
+          outlist[[i]][["outdata"]][, (j) := as.POSIXct(
+            as.character(get(j))
+          )]
+       }
       }
     }
   }
