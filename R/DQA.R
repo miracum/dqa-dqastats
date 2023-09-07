@@ -365,13 +365,6 @@ dqa <- function(source_system_name,
                 rv$data_source,
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless)
-   DIZtools::feedback(print_this = paste0("time_compare: ",
-                                           rv$time_compare_results),
-                                          logjs = isFALSE(rv$headless),
-                                          type = "Error",
-                                          findme = "f45a1dcerad",
-                                          logfile_dir,
-                                          headless = rv$headless)
 
   # delete the TIMESTAMP columns
   # ToDo: what happens if not deleted?

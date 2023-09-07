@@ -163,14 +163,22 @@ time_compare <- function(data_target,
 
   for (item in items_toCheck) {
 
-    # get the TIMESTAMP columns
-    source_ts <- data_source[[item]]$TIMESTAMP
-    target_ts <- data_target[[item]]$TIMESTAMP
+    DIZtools::feedback(print_this = paste0("Start comparing timestamps of: ",
+                                           item),
+                       logjs = isFALSE(headless),
+                       findme = "tcst1dwe12",
+                       logfile_dir = logfile_dir,
+                       headless = headless)
 
 
-    # check if the columns have the correct format:
-    if (!lubridate::is.POSIXct(source_ts)
-        || !lubridate::is.POSIXct(target_ts)) {
+    # get all the needed raw data
+    source_item_all <- data_source[[item]]
+    target_item_all <- data_target[[item]]
+
+
+    # check if the TIMESTAMP columns have the correct format:
+    if (!lubridate::is.POSIXct(source_item_all$TIMESTAMP)
+        || !lubridate::is.POSIXct(target_item_all$TIMESTAMP)) {
       DIZtools::feedback(print_this = paste0("TIMESTAMP columns are not",
                                              "in POSIXct format"),
                          logjs = isFALSE(headless),
@@ -181,79 +189,63 @@ time_compare <- function(data_target,
       stop("\n TIMESTAMP columns are not in the correct format\n\n")
     }
 
-    # convert them to characters for easy comparison
-    source_ts <- as.character(source_ts)
-    target_ts <- as.character(target_ts)
+    # # convert TIMESTAMP columns to characters for easy comparison
+    source_item_all$TIMESTAMP <- as.character(source_item_all$TIMESTAMP)
+    target_item_all$TIMESTAMP <- as.character(target_item_all$TIMESTAMP)
 
-    # get a list with all Timestamps that are present in source and/or target
-    all_ts <- unique(c(source_ts, target_ts))
+    # get a list with all timestamps that are present in source and/or target
+    all_ts <- unique(c(source_item_all$TIMESTAMP, target_item_all$TIMESTAMP))
 
     # group timestamps
-    group_source_ts <- table(source_ts)
-    group_target_ts <- table(target_ts)
-
-    # initialize result list
-    result_compare <- list()
-
-    DIZtools::feedback(print_this = paste0("Start comparing timestamps of: ",
-                                           item),
-                       logjs = isFALSE(headless),
-                       findme = "tcst1dwe12",
-                       logfile_dir = logfile_dir,
-                       headless = headless)
-
-    # compare ToDo: needs to be faster
-    for (date in all_ts) {
-
-      # Get the count for the current name in listA and listB
-      count_source_ts <- group_source_ts[date]
-      count_target_ts <- group_target_ts[date]
-
-      # If the date is not present  set count to 0
-      if (is.na(count_source_ts)) {
-        count_source_ts <- 0
-      }
-
-      if (is.na(count_target_ts)) {
-        count_target_ts <- 0
-      }
-
-      # calculate the difference
-      count_diff <- count_target_ts - count_source_ts
-
-      if (count_diff != 0) {
-        result_compare <- rbind(result_compare,
-                            data.frame(DiffTimestamps = date,
-                                      Count_source = count_source_ts,
-                                      Count_target = count_target_ts,
-                                      Count_diff = count_diff))
-      }
-
-    }
+    group_source_ts <- table(source_item_all$TIMESTAMP)
+    group_target_ts <- table(target_item_all$TIMESTAMP)
 
 
+    # write a table with all the counts and set na values to 0
+    Table_all <- data.frame(Time = all_ts)
+    Table_all$Count_source <-
+      group_source_ts[match(Table_all$Time, names(group_source_ts))]
 
+    Table_all$Count_target <-
+      group_target_ts[match(Table_all$Time, names(group_target_ts))]
 
-    DIZtools::feedback(print_this = "End of compare",
-                       logjs = isFALSE(headless),
-                       findme = "tcen1dwe67",
-                       logfile_dir = logfile_dir,
-                       headless = headless)
+    Table_all$Count_target[is.na(Table_all$Count_target)] <- 0
+    Table_all$Count_source[is.na(Table_all$Count_source)] <- 0
 
-    All_results[[item]] <- result_compare
+    # calculate the differences
+    Table_all$Diff_count <- Table_all$Count_target - Table_all$Count_source
+
+    # create a result table with all data where the difference is not 0
+    result_table <- subset(Table_all, Diff_count != 0)
+
+    # filter the original data by the result timestamps using a filter column
+    # (better solutions to accomplish this are welcome)
+
+    source_item_all <- data.frame(source_item_all)
+    source_item_all$filter <- source_item_all$TIMESTAMP %in% result_table$Time
+    suspect_data_source <- subset(source_item_all, filter == TRUE)
+    suspect_data_source$filter <- NULL
+
+    target_item_all <- data.frame(target_item_all)
+    target_item_all$filter <- target_item_all$TIMESTAMP %in% result_table$Time
+    suspect_data_target <- subset(target_item_all, filter == TRUE)
+    suspect_data_target$filter <- NULL
+
+    # create a result vector with all the results
+    results_item <- list(result_table = result_table,
+                         suspect_data_source = suspect_data_source,
+                         suspect_data_target = suspect_data_target)
+
+    # add this to All_results
+    All_results[[item]] <- results_item
+
   }
 
-  #ToDo: add Data to the Timestamps
-
-  # # initialize output table
-  # result_table <- data.table::data.table(
-  #   "Time" = character(0),
-  #   "Count Diff" = character(0),
-  #   "source Value1" = character(0),
-  #   "source Value2" = character(0),
-  #   "target Value1" = character(0),
-  #   "target Value2" = character(0)
-  # )
+  DIZtools::feedback(print_this = "End of time-compare",
+                     logjs = isFALSE(headless),
+                     findme = "tcen1dwe67",
+                     logfile_dir = logfile_dir,
+                     headless = headless)
 
   return(All_results)
 }
