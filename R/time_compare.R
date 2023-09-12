@@ -130,8 +130,7 @@
 #' @export
 #'
 #'
-time_compare <- function(data_target,
-                        data_source,
+time_compare <- function(rv,
                         logfile_dir,
                         headless = FALSE) {
 
@@ -142,26 +141,26 @@ time_compare <- function(data_target,
                      headless = headless)
 
   # get the items that have TIMESTAMP column (which means three columns)
-  getTimestampItems <- function(data) {
-    returnValues <- c(NULL)
+  get_timestamp_items <- function(data) {
+    return_values <- c(NULL)
     for (name in names(data)) {
       if (length(data[[name]]) == 3) {
-        returnValues <- c(returnValues, name)
+        return_values <- c(return_values, name)
       }
     }
-    return(returnValues)
+    return(return_values)
   }
 
-  source_items <- getTimestampItems(data_source)
-  target_items <- getTimestampItems(data_target)
+  source_items <- get_timestamp_items(rv$data_source)
+  target_items <- get_timestamp_items(rv$data_target)
 
   # get the items that have a TIMESTAMP column in both databases
-  items_toCheck <- intersect(source_items, target_items)
+  items_to_check <- intersect(source_items, target_items)
 
   # initialize a list for the results
-  All_results <- list()
+  all_results <- list()
 
-  for (item in items_toCheck) {
+  for (item in items_to_check) {
 
     DIZtools::feedback(print_this = paste0("Start comparing timestamps of: ",
                                            item),
@@ -172,9 +171,8 @@ time_compare <- function(data_target,
 
 
     # get all the needed raw data
-    source_item_all <- data_source[[item]]
-    target_item_all <- data_target[[item]]
-
+    source_item_all <- rv$data_source[[item]]
+    target_item_all <- rv$data_target[[item]]
 
     # check if the TIMESTAMP columns have the correct format:
     if (!lubridate::is.POSIXct(source_item_all$TIMESTAMP)
@@ -200,27 +198,24 @@ time_compare <- function(data_target,
     group_source_ts <- table(source_item_all$TIMESTAMP)
     group_target_ts <- table(target_item_all$TIMESTAMP)
 
-
     # write a table with all the counts and set na values to 0
-    Table_all <- data.frame(Time = all_ts)
-    Table_all$Count_source <-
-      group_source_ts[match(Table_all$Time, names(group_source_ts))]
+    table_all <- data.frame(Time = all_ts)
+    table_all$Count_source <-
+      group_source_ts[match(table_all$Time, names(group_source_ts))]
 
-    Table_all$Count_target <-
-      group_target_ts[match(Table_all$Time, names(group_target_ts))]
+    table_all$Count_target <-
+      group_target_ts[match(table_all$Time, names(group_target_ts))]
 
-    Table_all$Count_target[is.na(Table_all$Count_target)] <- 0
-    Table_all$Count_source[is.na(Table_all$Count_source)] <- 0
+    table_all$Count_target[is.na(table_all$Count_target)] <- 0
+    table_all$Count_source[is.na(table_all$Count_source)] <- 0
 
     # calculate the differences
-    Table_all$Diff_count <- Table_all$Count_target - Table_all$Count_source
+    table_all$Diff_count <- table_all$Count_target - table_all$Count_source
 
     # create a result table with all data where the difference is not 0
-    result_table <- subset(Table_all, Diff_count != 0)
+    result_table <- subset(table_all, Diff_count != 0)
 
     # filter the original data by the result timestamps using a filter column
-    # (better solutions to accomplish this are welcome)
-
     source_item_all <- data.frame(source_item_all)
     source_item_all$filter <- source_item_all$TIMESTAMP %in% result_table$Time
     suspect_data_source <- subset(source_item_all, filter == TRUE)
@@ -231,13 +226,27 @@ time_compare <- function(data_target,
     suspect_data_target <- subset(target_item_all, filter == TRUE)
     suspect_data_target$filter <- NULL
 
+    #rearrange so that timestamp column is first
+    suspect_data_source <- suspect_data_source %>%
+    dplyr::select("TIMESTAMP", dplyr::everything())
+
+    suspect_data_target <- suspect_data_target %>%
+    dplyr::select("TIMESTAMP", dplyr::everything())
+
+    #sort the TIMESTAMPS
+    result_table <- result_table[order(result_table$Time), ]
+    suspect_data_source <-
+          suspect_data_source[order(suspect_data_source$TIMESTAMP), ]
+    suspect_data_target <-
+          suspect_data_target[order(suspect_data_target$TIMESTAMP), ]
+
     # create a result vector with all the results
     results_item <- list(result_table = result_table,
                          suspect_data_source = suspect_data_source,
                          suspect_data_target = suspect_data_target)
 
     # add this to All_results
-    All_results[[item]] <- results_item
+    all_results[[item]] <- results_item
 
   }
 
@@ -247,7 +256,5 @@ time_compare <- function(data_target,
                      logfile_dir = logfile_dir,
                      headless = headless)
 
-  return(All_results)
+  return(all_results)
 }
-
-

@@ -361,8 +361,7 @@ dqa <- function(source_system_name,
 
   # here is the place to insert the new code for time-compare
 
-   rv$time_compare_results <- time_compare(rv$data_target,
-                rv$data_source,
+   rv$time_compare_results <- time_compare(rv = rv,
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless)
 

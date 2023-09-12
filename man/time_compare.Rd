@@ -4,7 +4,7 @@
 \alias{time_compare}
 \title{time_compare helper function}
 \usage{
-time_compare(data_target, data_source, logfile_dir, headless = FALSE)
+time_compare(rv, logfile_dir, headless = FALSE)
 }
 \arguments{
 \item{headless}{(Boolean) Is this a console application? Otherwise
