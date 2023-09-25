@@ -301,3 +301,42 @@ render_atemp_pl_representation <- function(desc_out, source) {
   ))
   cat(paste0("- Join criterion: ", desc_out[[source]]$join_crit, "\n"))
 }
+
+render_time_compare <- function(time_compare_results) {
+
+  # get names
+  obj_names <- names(time_compare_results)
+
+  # loop over objects
+  tmp_firstline <- TRUE
+
+  for (i in obj_names) {
+
+    if (tmp_firstline) {
+      ## Skip newpage for the first variable
+      tmp_firstline <- FALSE
+    } else {
+      cat("\\newpage")
+    }
+    # title of variable
+    cat(paste0("\n## ", i, "  \n"))
+
+    render_this <- function(data){
+
+          return(
+            knitr::kable(data,
+                         row.names = FALSE,
+                         digits = 3,
+                         format = "latex") %>%
+              kableExtra::row_spec(0, bold = TRUE) %>%
+              kableExtra::kable_styling(full_width = FALSE,
+                                        latex_options = "HOLD_position")
+          )
+        # info: https://stackoverflow.com/questions/53153537/
+        # rmarkdown-setting-the-position-of-kable
+    }
+
+    # as.matrix to get rid of the row names
+    print(render_this(head(time_compare_results[[i]]$result_table, 30)))
+  }
+}

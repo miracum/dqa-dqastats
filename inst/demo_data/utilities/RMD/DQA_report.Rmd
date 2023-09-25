@@ -120,6 +120,20 @@ if (!is.null(rv$checks$differences)) {
   cat(no_data_to_display_msg)
 }
 ```
+\newpage
+
+# Time-compare Results
+
+If the available resources for a given timestamp differ, it is likely that a resource is missing in either the source (`r rv$source$system_name`) or the target (`r rv$target$system_name`) database. 
+The following tablse are limited to the first 30 timestamps.
+
+```{r results='asis'}
+if (!is.null(rv$time_compare_results)) {
+  render_time_compare(rv$time_compare_results)
+} else {
+  cat(no_data_to_display_msg)
+}
+```
 
 \newpage
 

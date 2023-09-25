@@ -19,15 +19,19 @@
 #' @title time_compare helper function
 #'
 #' @description Internal function to calculate differences
-#'  betwween source and target based on a timestamp comparison
+#'  between source and target based on a timestamp comparison. It can help to
+#'  identify potential missing resources.
 #'
 #' @param headless (Boolean) Is this a console application? Otherwise
 #'   (if `headless = FALSE`) there is a GUI and there will be GUI-feedback.
 #'
-#' @return A data.table with the difference in total, distinct, valid and ,
-#'   missing values of source and target database. Result is represented as a
-#'   string containing the absolute difference as well as the percentage
-#'
+#' @return a list of time-compare results for each analyzed element.
+#' For every element, there are three dataframes available. The first dataframe
+#' (result_table), presents an overview table that displays the counts for each
+#' timestamp. The other two dataframes (suspect_data_source and
+#' suspect_data_target), contain all the data associated with the identified
+#' timestamps found in the source or target data.
+
 #' @examples
 #'  \donttest{# runtime ~ 5 sec.
 #' utils_path <- system.file(
@@ -99,32 +103,24 @@
 #' )
 #' rv$data_target <- tempdat$outdata
 #'
-#' rv$data_plausibility$atemporal <- get_atemp_plausis(
-#'   rv = rv,
-#'   atemp_vars = rv$pl$atemp_vars,
-#'   mdr = rv$mdr,
-#'   headless = rv$headless
-#' )
+#' # time_compare
+#' rv$time_compare_results <- time_compare(rv = rv,
+#' logfile_dir = rv$log$logfile_dir,
+#' headless = rv$headless)
 #'
-#' # add the plausibility raw data to data_target and data_source
-#' for (i in names(rv$data_plausibility$atemporal)) {
-#'   for (k in c("source_data", "target_data")) {
-#'     w <- gsub("_data", "", k)
-#'     raw_data <- paste0("data_", w)
-#'     rv[[raw_data]][[i]] <-
-#'       rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
-#'     rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
+#' # delete the TIMESTAMP columns
+#'
+#' fun <- function(x) {
+#'
+#'   if ("TIMESTAMP" %in% names(x)) {
+#'     x$TIMESTAMP <- NULL
 #'   }
-#'   gc()
+#'   return(x)
 #' }
 #'
-#' # calculate descriptive results
-#' rv$results_descriptive <- descriptive_results(
-#'   rv = rv,
-#'   headless = rv$headless
-#' )
+#' rv$data_source <- lapply(rv$data_source, fun)
+#' rv$data_target <- lapply(rv$data_target, fun)
 #'
-#' difference_checks(results = rv$results_descriptive)
 #'}
 #'
 #' @export
@@ -187,7 +183,7 @@ time_compare <- function(rv,
       stop("\n TIMESTAMP columns are not in the correct format\n\n")
     }
 
-    # # convert TIMESTAMP columns to characters for easy comparison
+    # convert TIMESTAMP columns to characters for easy comparison
     source_item_all$TIMESTAMP <- as.character(source_item_all$TIMESTAMP)
     target_item_all$TIMESTAMP <- as.character(target_item_all$TIMESTAMP)
 
@@ -213,7 +209,7 @@ time_compare <- function(rv,
     table_all$Diff_count <- table_all$Count_target - table_all$Count_source
 
     # create a result table with all data where the difference is not 0
-    result_table <- subset(table_all, Diff_count != 0)
+    result_table <- subset(table_all, table_all$Diff_count != 0)
 
     # filter the original data by the result timestamps using a filter column
     source_item_all <- data.frame(source_item_all)

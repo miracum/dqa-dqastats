@@ -359,7 +359,7 @@ dqa <- function(source_system_name,
     rv$target$sql <- rv$source$sql
   }
 
-  # here is the place to insert the new code for time-compare
+  # time_compare
 
    rv$time_compare_results <- time_compare(rv = rv,
                 logfile_dir = rv$log$logfile_dir,
