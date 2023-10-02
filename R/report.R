@@ -304,10 +304,11 @@ render_atemp_pl_representation <- function(desc_out, source) {
 
 render_time_compare <- function(time_compare_results) {
 
-  # get names
+  # similar to kable_table function form utils.R
+  # but this has row.names = FALSE to suppress IDs
+
   obj_names <- names(time_compare_results)
 
-  # loop over objects
   tmp_firstline <- TRUE
 
   for (i in obj_names) {
@@ -321,7 +322,7 @@ render_time_compare <- function(time_compare_results) {
     # title of variable
     cat(paste0("\n## ", i, "  \n"))
 
-    render_this <- function(data){
+    render_this <- function(data) {
 
           return(
             knitr::kable(data,
@@ -332,11 +333,9 @@ render_time_compare <- function(time_compare_results) {
               kableExtra::kable_styling(full_width = FALSE,
                                         latex_options = "HOLD_position")
           )
-        # info: https://stackoverflow.com/questions/53153537/
-        # rmarkdown-setting-the-position-of-kable
     }
 
-    # as.matrix to get rid of the row names
+    # print only the first 30 rows
     print(render_this(head(time_compare_results[[i]]$result_table, 30)))
   }
 }

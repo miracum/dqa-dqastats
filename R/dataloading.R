@@ -56,6 +56,7 @@ load_csv_files <- function(mdr,
       ]
     )
 
+
     select_cols <- unlist(
       sapply(
         X = input_vars$source_variable_name,
@@ -72,6 +73,11 @@ load_csv_files <- function(mdr,
       )
     )
 
+    # if there are timestamp columns they also need to be selected
+    # so add them to select_cols
+
+    select_cols["TIMESTAMP"] <- "character"
+
     unfiltered_table <- NULL
     filtered_table <- NULL
 
@@ -83,6 +89,11 @@ load_csv_files <- function(mdr,
       na.strings = "",
       stringsAsFactors = TRUE
     )
+
+    # if there are NA values in timestamp column delete it
+    if (any(is.na(unfiltered_table$TIMESTAMP))) {
+      unfiltered_table$TIMESTAMP <- NULL
+    }
 
     msg <- paste("Getting ", inputfile)
 
@@ -220,15 +231,20 @@ load_csv <- function(rv,
         # workaround to hide shiny-stuff, when going headless
         msg <- paste("Transforming source variable types", i)
         DIZtools::feedback(msg, logjs = isFALSE(headless),
-                           findme = "776ba03cbf",
-                           logfile_dir = rv$log$logfile_dir,
-                           headless = rv$headless)
+                            findme = "776ba03cbf",
+                            logfile_dir = rv$log$logfile_dir,
+                            headless = rv$headless)
 
         for (j in col_names) {
           var_type <- rv$mdr[get("source_system_name") == system$system_name &
                                get("source_table_name") == i &
                                get("source_variable_name") == j,
                              unique(get("variable_type"))]
+
+          # Timestamp columns are not in MDR, convert them to Posixct
+          if (j == "TIMESTAMP") {
+            outlist[[i]] [, (j) := as.POSIXct(as.character(get(j)))]
+          }
 
           if (j %in% var_names && j %in% colnames(outlist[[i]])) {
             vn <- rv$mdr[get("source_table_name") == i &
@@ -461,7 +477,7 @@ load_database <- function(rv,
       }
 
 
-      # check, if table has more than two columns or three colmns 
+      # check, if table has more than two columns or three colmns
       # and no TIMESTAMP column and thus does not comply
       # with DQAstats table requirements for SQL based systems
       if (ncol(dat) > 3) {

@@ -16,7 +16,6 @@ invisible(gc()) # Garbage collector/Clear unused RAM
 # mdr_filename = "mdr_example_data.csv"
 # output_dir = "output/"
 
-library(lubridate)
 
 devtools::load_all()
 ## using real data:
@@ -70,17 +69,17 @@ all_results <- DQAstats::dqa(
 )
 
 
-## Testfunction to run the demo files:
+# Testfunction to run the demo files:
 # Sys.setenv("EXAMPLECSV_SOURCE_PATH" = "inst/demo_data")
 # Sys.setenv("EXAMPLECSV_TARGET_PATH" = "inst/demo_data")
 # all_results <- DQAstats::dqa(
-#   source_system_name = "exampleCSV_source",
-#   target_system_name = "exampleCSV_target",
+#   source_system_name = "dqa_example_data_01.csv",
+#   target_system_name = "dqa_example_data_02.csv",
 #   utils_path = "inst/demo_data/utilities",
 #   mdr_filename = "mdr_example_data.csv",
-#   output_dir = "output/",
-#   restricting_date_start = "2014-01-01",
-#   restricting_date_end = "2014-12-31"
+#   output_dir = "output/"
+#  restricting_date_start = "2014-01-01",
+#  restricting_date_end = "2014-12-31"
 # )
 #
 # source_system_name = "exampleCSV_source"

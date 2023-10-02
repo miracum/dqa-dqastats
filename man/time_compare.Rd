@@ -11,13 +11,17 @@ time_compare(rv, logfile_dir, headless = FALSE)
 (if \code{headless = FALSE}) there is a GUI and there will be GUI-feedback.}
 }
 \value{
-A data.table with the difference in total, distinct, valid and ,
-missing values of source and target database. Result is represented as a
-string containing the absolute difference as well as the percentage
+a list of time-compare results for each analyzed element.
+For every element, there are three dataframes available. The first dataframe
+(result_table), presents an overview table that displays the counts for each
+timestamp. The other two dataframes (suspect_data_source and
+suspect_data_target), contain all the data associated with the identified
+timestamps found in the source or target data.
 }
 \description{
 Internal function to calculate differences
-betwween source and target based on a timestamp comparison
+between source and target based on a timestamp comparison. It can help to
+identify potential missing resources.
 }
 \examples{
  \donttest{# runtime ~ 5 sec.
@@ -90,32 +94,24 @@ tempdat <- data_loading(
 )
 rv$data_target <- tempdat$outdata
 
-rv$data_plausibility$atemporal <- get_atemp_plausis(
-  rv = rv,
-  atemp_vars = rv$pl$atemp_vars,
-  mdr = rv$mdr,
-  headless = rv$headless
-)
+# time_compare
+rv$time_compare_results <- time_compare(rv = rv,
+logfile_dir = rv$log$logfile_dir,
+headless = rv$headless)
 
-# add the plausibility raw data to data_target and data_source
-for (i in names(rv$data_plausibility$atemporal)) {
-  for (k in c("source_data", "target_data")) {
-    w <- gsub("_data", "", k)
-    raw_data <- paste0("data_", w)
-    rv[[raw_data]][[i]] <-
-      rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
-    rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
+# delete the TIMESTAMP columns
+
+fun <- function(x) {
+
+  if ("TIMESTAMP" \%in\% names(x)) {
+    x$TIMESTAMP <- NULL
   }
-  gc()
+  return(x)
 }
 
-# calculate descriptive results
-rv$results_descriptive <- descriptive_results(
-  rv = rv,
-  headless = rv$headless
-)
+rv$data_source <- lapply(rv$data_source, fun)
+rv$data_target <- lapply(rv$data_target, fun)
 
-difference_checks(results = rv$results_descriptive)
 }
 
 }

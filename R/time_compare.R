@@ -34,6 +34,7 @@
 
 #' @examples
 #'  \donttest{# runtime ~ 5 sec.
+#' library(dplyr)
 #' utils_path <- system.file(
 #'   "demo_data/utilities/",
 #'   package = "DQAstats"
@@ -104,22 +105,9 @@
 #' rv$data_target <- tempdat$outdata
 #'
 #' # time_compare
-#' rv$time_compare_results <- time_compare(rv = rv,
+#' time_compare_results <- time_compare(rv = rv,
 #' logfile_dir = rv$log$logfile_dir,
 #' headless = rv$headless)
-#'
-#' # delete the TIMESTAMP columns
-#'
-#' fun <- function(x) {
-#'
-#'   if ("TIMESTAMP" %in% names(x)) {
-#'     x$TIMESTAMP <- NULL
-#'   }
-#'   return(x)
-#' }
-#'
-#' rv$data_source <- lapply(rv$data_source, fun)
-#' rv$data_target <- lapply(rv$data_target, fun)
 #'
 #'}
 #'
@@ -136,11 +124,11 @@ time_compare <- function(rv,
                      logfile_dir = logfile_dir,
                      headless = headless)
 
-  # get the items that have TIMESTAMP column (which means three columns)
+  # get the items that have TIMESTAMP column
   get_timestamp_items <- function(data) {
-    return_values <- c(NULL)
+    return_values <- NULL
     for (name in names(data)) {
-      if (length(data[[name]]) == 3) {
+      if ("TIMESTAMP" %in% names(data[[name]]))  {
         return_values <- c(return_values, name)
       }
     }
@@ -152,6 +140,16 @@ time_compare <- function(rv,
 
   # get the items that have a TIMESTAMP column in both databases
   items_to_check <- intersect(source_items, target_items)
+
+  # workaround for .csv files. If data is read from .csv the item key is the
+  # filename. This one key contains all data. So if there are timestamps in both
+  # files, do the compare.
+
+  if ((rv$source$system_type == "csv") && (rv$target$system_type == "csv")) {
+    if (!is.null(source_items) && (!is.null(target_items))) {
+      items_to_check <- source_items[1]
+    }
+  }
 
   # initialize a list for the results
   all_results <- list()
@@ -169,6 +167,14 @@ time_compare <- function(rv,
     # get all the needed raw data
     source_item_all <- rv$data_source[[item]]
     target_item_all <- rv$data_target[[item]]
+
+    # workaround for .csv.files. Target data has another key, so just take
+    # the first (and only) entry
+
+    if ((rv$source$system_type == "csv") && (rv$target$system_type == "csv")) {
+      target_item_all <- rv$data_target[[1]]
+    }
+
 
     # check if the TIMESTAMP columns have the correct format:
     if (!lubridate::is.POSIXct(source_item_all$TIMESTAMP)

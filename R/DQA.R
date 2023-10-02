@@ -337,6 +337,7 @@ dqa <- function(source_system_name,
     system = rv$source,
     keys_to_test = rv$keys_source
   )
+
   rv$data_source <- temp_dat$outdata
   rv$source$sql <- temp_dat$sql_statements
   rm(temp_dat)
@@ -350,6 +351,7 @@ dqa <- function(source_system_name,
       system = rv$target,
       keys_to_test = rv$keys_target
     )
+
     rv$data_target <- temp_dat$outdata
     rv$target$sql <- temp_dat$sql_statements
     rm(temp_dat)
