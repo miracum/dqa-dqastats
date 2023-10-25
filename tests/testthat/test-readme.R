@@ -39,7 +39,7 @@ test_that("correct functioning of readme example (parallel = FALSE)", {
   )
 
   expect_type(results, "list")
-  expect_length(results, 27)
+  expect_length(results, 28)
 
   do.call(
     file.remove,
@@ -71,7 +71,7 @@ test_that("correct functioning of readme example (parallel = TRUE)", {
   )
 
   expect_type(results, "list")
-  expect_length(results, 27)
+  expect_length(results, 28)
 
   do.call(
     file.remove,

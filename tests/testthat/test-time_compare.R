@@ -89,13 +89,6 @@ test_that("correct functioning of time_compare", {
   )
   rv$data_target <- tempdat$outdata
 
-  rv$data_plausibility$atemporal <- get_atemp_plausis(
-    rv = rv,
-    atemp_vars = rv$pl$atemp_vars,
-    mdr = rv$mdr,
-    headless = rv$headless
-  )
-
   rv$time_compare_results <- time_compare(rv = rv,
                                         logfile_dir = rv$log$logfile_dir,
                                         headless = rv$headless)

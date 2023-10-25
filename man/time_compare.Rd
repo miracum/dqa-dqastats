@@ -25,6 +25,7 @@ identify potential missing resources.
 }
 \examples{
  \donttest{# runtime ~ 5 sec.
+library(dplyr)
 utils_path <- system.file(
   "demo_data/utilities/",
   package = "DQAstats"
@@ -95,22 +96,9 @@ tempdat <- data_loading(
 rv$data_target <- tempdat$outdata
 
 # time_compare
-rv$time_compare_results <- time_compare(rv = rv,
+time_compare_results <- time_compare(rv = rv,
 logfile_dir = rv$log$logfile_dir,
 headless = rv$headless)
-
-# delete the TIMESTAMP columns
-
-fun <- function(x) {
-
-  if ("TIMESTAMP" \%in\% names(x)) {
-    x$TIMESTAMP <- NULL
-  }
-  return(x)
-}
-
-rv$data_source <- lapply(rv$data_source, fun)
-rv$data_target <- lapply(rv$data_target, fun)
 
 }
 

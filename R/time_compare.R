@@ -229,10 +229,10 @@ time_compare <- function(rv,
     suspect_data_target$filter <- NULL
 
     #rearrange so that timestamp column is first
-    suspect_data_source <- suspect_data_source %>%
+    suspect_data_source %>%
     dplyr::select("TIMESTAMP", dplyr::everything())
 
-    suspect_data_target <- suspect_data_target %>%
+    suspect_data_target %>%
     dplyr::select("TIMESTAMP", dplyr::everything())
 
     #sort the TIMESTAMPS
