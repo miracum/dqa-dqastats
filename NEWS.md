@@ -1,5 +1,25 @@
 # DQAstats NEWS
 
+## Unreleased (2023-11-07)
+
+#### Bug fixes
+
+-   fixed vignette also for windows
+    ([76b45d5](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/76b45d563e015a43f80727562a89a9006cb50b37))
+
+#### CI
+
+-   updated checkout tags for github actions
+    ([3470aeb](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/3470aeb45d20d190127ec6865bba924fe07dc42e))
+
+#### Other changes
+
+-   updated rocker image tag to `rocker/verse:4.3.2`
+    ([f7cdf21](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f7cdf211b020ca7aa83e783262041584e253ad6f))
+
+Full set of changes:
+[`v0.3.3...f7cdf21`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.3...f7cdf21)
+
 ## v0.3.3 (2023-07-20)
 
 #### Bug fixes

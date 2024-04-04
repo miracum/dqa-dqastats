@@ -39,4 +39,3 @@ inst/doc
 .~lock.*.csv#
 !/manifests/
 !cran-comments.md
-.Rproj.user
