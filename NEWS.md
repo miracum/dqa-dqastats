@@ -1,9 +1,11 @@
 # DQAstats NEWS
 
-## Unreleased (2023-11-07)
+## Unreleased (2024-04-04)
 
 #### Bug fixes
 
+-   fixed issues in vignette
+    ([f67cb85](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f67cb85adf7493893a5530c2140122509819a544))
 -   fixed vignette also for windows
     ([76b45d5](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/76b45d563e015a43f80727562a89a9006cb50b37))
 
@@ -14,11 +16,13 @@
 
 #### Other changes
 
+-   updated cran-comments
+    ([e7faf98](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/e7faf98fd5278d98b09abc07e6c8bee396fe0f14))
 -   updated rocker image tag to `rocker/verse:4.3.2`
     ([f7cdf21](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f7cdf211b020ca7aa83e783262041584e253ad6f))
 
 Full set of changes:
-[`v0.3.3...f7cdf21`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.3...f7cdf21)
+[`v0.3.3...e7faf98`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.3...e7faf98)
 
 ## v0.3.3 (2023-07-20)
 
