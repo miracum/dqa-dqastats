@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2024-04-04)
+## v0.3.4 (2024-04-04)
 
 #### Bug fixes
 
@@ -16,13 +16,15 @@
 
 #### Other changes
 
+-   updated news.md
+    ([3fa8fc4](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/3fa8fc4d77edc032da78439ac5cc961a31f2654a))
 -   updated cran-comments
     ([e7faf98](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/e7faf98fd5278d98b09abc07e6c8bee396fe0f14))
 -   updated rocker image tag to `rocker/verse:4.3.2`
     ([f7cdf21](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f7cdf211b020ca7aa83e783262041584e253ad6f))
 
 Full set of changes:
-[`v0.3.3...e7faf98`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.3...e7faf98)
+[`v0.3.3...v0.3.4`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.3...v0.3.4)
 
 ## v0.3.3 (2023-07-20)
 
