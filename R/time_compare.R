@@ -242,6 +242,14 @@ time_compare <- function(rv,
     suspect_data_target <-
           suspect_data_target[order(suspect_data_target$TIMESTAMP), ]
 
+    # if there are dates columns, convert them to character. This is needed
+    # for a proper display later on
+    suspect_data_source <- suspect_data_source %>% dplyr::mutate_if(
+      function(x) inherits(x, "Date"), as.character)
+
+    suspect_data_target <- suspect_data_target %>% dplyr::mutate_if(
+      function(x) inherits(x, "Date"), as.character)
+
     # create a result vector with all the results
     results_item <- list(result_table = result_table,
                          suspect_data_source = suspect_data_source,

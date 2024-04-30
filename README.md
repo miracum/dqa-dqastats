@@ -28,7 +28,9 @@ The R package 'DQAstats' provides core functionalities to perform data quality a
 Currently implemented features are:  
 
 - descriptive (univariate) analysis of categorical and continuous variables of a source database and a target database
-- checks of the extract-transform-load (ETL) pipeline (by comparing distinct values and valid values between the source database and the target database)  
+- checks of the extract-transform-load (ETL) pipeline: 
+  - comparing of distinct values and valid values between the source database and the target database
+  - identification of missing/duplicate Data based on a comparison of timestamps  
 - value conformance checks by comparing the resulting statistics to value constraints (given in a meta data repository (MDR))  
 - 'atemporal plausibility' checks (multivariate)  
 - 'uniqueness plausibility' checks (multivariate)  
