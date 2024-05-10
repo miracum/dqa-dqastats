@@ -11,8 +11,9 @@
       [1] "Constraining values/rules:"
       
       $`Age in years`$kable
-         min max unit
-      1:   0 110    a
+           min   max   unit
+         <int> <int> <char>
+      1:     0   110      a
       
       $`Age in years`$conformance_results
       NULL
@@ -26,8 +27,9 @@
       [1] "Constraining values/rules:"
       
       $`Amount of credit`$kable
-         min max  unit
-      1:   0 Inf money
+           min    max   unit
+         <int> <char> <char>
+      1:     0    Inf  money
       
       $`Amount of credit`$conformance_results
       NULL
@@ -42,6 +44,7 @@
       
       $Birthdate$kable
                 min        max   format
+             <char>     <char>   <char>
       1: 1950-01-01 1989-12-31 %d.%m.%Y
       
       $Birthdate$conformance_results
@@ -70,8 +73,9 @@
       [1] "Constraining values/rules:"
       
       $`Current bank balance`$kable
-          min max  unit
-      1: -Inf Inf money
+            min    max   unit
+         <char> <char> <char>
+      1:   -Inf    Inf  money
       
       $`Current bank balance`$conformance_results
       [1] "Extrem values are not conform with constraints."
@@ -86,6 +90,7 @@
       
       $`Date of contact`$kable
                 min        max   format
+             <char>     <char>   <char>
       1: 2012-01-01 2015-12-31 %d.%m.%Y
       
       $`Date of contact`$conformance_results
@@ -103,8 +108,9 @@
       [1] "Constraining values/rules:"
       
       $Income$kable
-         min max  unit
-      1:   0 Inf money
+           min    max   unit
+         <int> <char> <char>
+      1:     0    Inf  money
       
       $Income$conformance_results
       NULL
