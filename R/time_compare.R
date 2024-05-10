@@ -118,7 +118,7 @@ time_compare <- function(
     rv,
     logfile_dir,
     headless = FALSE
-  ) {
+) {
 
   DIZtools::feedback(print_this = "Start the time_compare",
                      logjs = isFALSE(headless),
@@ -149,12 +149,12 @@ time_compare <- function(
 
     DIZtools::feedback(
       print_this = paste0("Start comparing timestamps of: ",
-                                           item),
-                       logjs = isFALSE(headless),
-                       findme = "tcst1dwe12",
-                       logfile_dir = logfile_dir,
-                       headless = headless
-      )
+                          item),
+      logjs = isFALSE(headless),
+      findme = "tcst1dwe12",
+      logfile_dir = logfile_dir,
+      headless = headless
+    )
 
 
     # get all the needed raw data
@@ -168,17 +168,18 @@ time_compare <- function(
       target_item_all <- rv$data_target[[1]]
     }
 
-
     # check if the TIMESTAMP columns have the correct format:
     if (!lubridate::is.POSIXct(source_item_all$TIMESTAMP)
         || !lubridate::is.POSIXct(target_item_all$TIMESTAMP)) {
-      DIZtools::feedback(print_this = paste0("TIMESTAMP columns are not",
-                                             "in POSIXct format"),
-                         logjs = isFALSE(headless),
-                         type = "Error",
-                         findme = "tcer1dc7zt",
-                         logfile_dir = logfile_dir,
-                         headless = headless)
+      DIZtools::feedback(
+        print_this = paste0("TIMESTAMP columns are not",
+                            "in POSIXct format"),
+        logjs = isFALSE(headless),
+        type = "Error",
+        findme = "tcer1dc7zt",
+        logfile_dir = logfile_dir,
+        headless = headless
+      )
       stop("\n TIMESTAMP columns are not in the correct format\n\n")
     }
 
@@ -218,22 +219,22 @@ time_compare <- function(
 
     target_item_all <- data.table::data.table(target_item_all)
     target_item_all$filter <- target_item_all$TIMESTAMP %in% result_table$Time
-    suspect_data_target <- suspect_data_target[isTRUE(get("filter")), ]
+    suspect_data_target <- target_item_all[isTRUE(get("filter")), ]
     suspect_data_target[, ("filter") := NULL]
 
     #rearrange so that timestamp column is first
     suspect_data_source %>%
-    dplyr::select("TIMESTAMP", dplyr::everything())
+      dplyr::select("TIMESTAMP", dplyr::everything())
 
     suspect_data_target %>%
-    dplyr::select("TIMESTAMP", dplyr::everything())
+      dplyr::select("TIMESTAMP", dplyr::everything())
 
     #sort the TIMESTAMPS
     result_table <- result_table[order(result_table$Time), ]
     suspect_data_source <-
-          suspect_data_source[order(suspect_data_source$TIMESTAMP), ]
+      suspect_data_source[order(suspect_data_source$TIMESTAMP), ]
     suspect_data_target <-
-          suspect_data_target[order(suspect_data_target$TIMESTAMP), ]
+      suspect_data_target[order(suspect_data_target$TIMESTAMP), ]
 
     # if there are dates columns, convert them to character. This is needed
     # for a proper display later on
@@ -253,11 +254,13 @@ time_compare <- function(
 
   }
 
-  DIZtools::feedback(print_this = "End of time-compare",
-                     logjs = isFALSE(headless),
-                     findme = "tcen1dwe67",
-                     logfile_dir = logfile_dir,
-                     headless = headless)
+  DIZtools::feedback(
+    print_this = "End of time-compare",
+    logjs = isFALSE(headless),
+    findme = "tcen1dwe67",
+    logfile_dir = logfile_dir,
+    headless = headless
+  )
 
   return(all_results)
 }
