@@ -126,17 +126,6 @@ time_compare <- function(
                      logfile_dir = logfile_dir,
                      headless = headless)
 
-  # get the items that have TIMESTAMP column
-  get_timestamp_items <- function(data) {
-    return_values <- NULL
-    for (name in names(data)) {
-      if ("TIMESTAMP" %in% names(data[[name]]))  {
-        return_values <- c(return_values, name)
-      }
-    }
-    return(return_values)
-  }
-
   source_items <- get_timestamp_items(rv$data_source)
   target_items <- get_timestamp_items(rv$data_target)
 
@@ -271,4 +260,15 @@ time_compare <- function(
                      headless = headless)
 
   return(all_results)
+}
+
+# get the items that have TIMESTAMP column
+get_timestamp_items <- function(data) {
+  return_values <- NULL
+  for (name in names(data)) {
+    if ("TIMESTAMP" %in% names(data[[name]]))  {
+      return_values <- c(return_values, name)
+    }
+  }
+  return(return_values)
 }
