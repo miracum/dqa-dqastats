@@ -336,6 +336,6 @@ render_time_compare <- function(time_compare_results) {
     }
 
     # print only the first 30 rows
-    print(render_this(head(time_compare_results[[i]]$result_table, 30)))
+    print(render_this(utils::head(time_compare_results[[i]]$result_table, 30)))
   }
 }
