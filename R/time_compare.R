@@ -22,15 +22,15 @@
 #'  between source and target based on a timestamp comparison. It can help to
 #'  identify potential missing resources.
 #'
-#' @param headless (Boolean) Is this a console application? Otherwise
-#'   (if `headless = FALSE`) there is a GUI and there will be GUI-feedback.
-#'
 #' @return a list of time-compare results for each analyzed element.
 #' For every element, there are three dataframes available. The first dataframe
 #' (result_table), presents an overview table that displays the counts for each
 #' timestamp. The other two dataframes (suspect_data_source and
 #' suspect_data_target), contain all the data associated with the identified
 #' timestamps found in the source or target data.
+#'
+#' @inheritParams load_csv
+#' @inheritParams value_conformance
 
 #' @examples
 #'  \donttest{# runtime ~ 5 sec.
@@ -105,18 +105,20 @@
 #' rv$data_target <- tempdat$outdata
 #'
 #' # time_compare
-#' time_compare_results <- time_compare(rv = rv,
-#' logfile_dir = rv$log$logfile_dir,
-#' headless = rv$headless)
+#' time_compare_results <- time_compare(
+#'   rv = rv,
+#'   logfile_dir = rv$log$logfile_dir,
+#'   headless = rv$headless
+#' )
 #'
 #'}
 #'
 #' @export
-#'
-#'
-time_compare <- function(rv,
-                        logfile_dir,
-                        headless = FALSE) {
+time_compare <- function(
+    rv,
+    logfile_dir,
+    headless = FALSE
+  ) {
 
   DIZtools::feedback(print_this = "Start the time_compare",
                      logjs = isFALSE(headless),
@@ -156,12 +158,14 @@ time_compare <- function(rv,
 
   for (item in items_to_check) {
 
-    DIZtools::feedback(print_this = paste0("Start comparing timestamps of: ",
+    DIZtools::feedback(
+      print_this = paste0("Start comparing timestamps of: ",
                                            item),
                        logjs = isFALSE(headless),
                        findme = "tcst1dwe12",
                        logfile_dir = logfile_dir,
-                       headless = headless)
+                       headless = headless
+      )
 
 
     # get all the needed raw data
@@ -201,7 +205,7 @@ time_compare <- function(rv,
     group_target_ts <- table(target_item_all$TIMESTAMP)
 
     # write a table with all the counts and set na values to 0
-    table_all <- data.frame(Time = all_ts)
+    table_all <- data.table::data.table(Time = all_ts)
     table_all$Count_source <-
       group_source_ts[match(table_all$Time, names(group_source_ts))]
 
@@ -218,15 +222,15 @@ time_compare <- function(rv,
     result_table <- subset(table_all, table_all$Diff_count != 0)
 
     # filter the original data by the result timestamps using a filter column
-    source_item_all <- data.frame(source_item_all)
+    source_item_all <- data.table::data.table(source_item_all)
     source_item_all$filter <- source_item_all$TIMESTAMP %in% result_table$Time
-    suspect_data_source <- subset(source_item_all, filter == TRUE)
-    suspect_data_source$filter <- NULL
+    suspect_data_source <- source_item_all[isTRUE(get("filter")), ]
+    suspect_data_source[, ("filter") := NULL]
 
-    target_item_all <- data.frame(target_item_all)
+    target_item_all <- data.table::data.table(target_item_all)
     target_item_all$filter <- target_item_all$TIMESTAMP %in% result_table$Time
-    suspect_data_target <- subset(target_item_all, filter == TRUE)
-    suspect_data_target$filter <- NULL
+    suspect_data_target <- suspect_data_target[isTRUE(get("filter")), ]
+    suspect_data_target[, ("filter") := NULL]
 
     #rearrange so that timestamp column is first
     suspect_data_source %>%

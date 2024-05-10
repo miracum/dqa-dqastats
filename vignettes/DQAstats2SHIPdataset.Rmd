@@ -125,7 +125,7 @@ Next, we need to fill the rows of the `DQAstats` MDR. Since we are only analyzin
 
 ```{r warning=FALSE}
 # get names of dataelements from ship dataset
-ship_var_names <- colnames(ship_data)
+ship_var_names <- intersect(colnames(ship_data), ship_meta[, get("VAR_NAMES")])
 
 # loop over dataelements
 for (var in ship_var_names) {

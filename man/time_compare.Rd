@@ -7,8 +7,15 @@
 time_compare(rv, logfile_dir, headless = FALSE)
 }
 \arguments{
-\item{headless}{(Boolean) Is this a console application? Otherwise
-(if \code{headless = FALSE}) there is a GUI and there will be GUI-feedback.}
+\item{rv}{A list object. Internal list simulating Shiny's
+'reactive values'.}
+
+\item{logfile_dir}{The absolute path to folder where the logfile
+will be stored default(\code{tempdir()}).}
+
+\item{headless}{A boolean (default: FALSE). Indicating, if the function is
+run only in the console (headless = TRUE) or on a GUI frontend
+(headless = FALSE).}
 }
 \value{
 a list of time-compare results for each analyzed element.
@@ -96,9 +103,11 @@ tempdat <- data_loading(
 rv$data_target <- tempdat$outdata
 
 # time_compare
-time_compare_results <- time_compare(rv = rv,
-logfile_dir = rv$log$logfile_dir,
-headless = rv$headless)
+time_compare_results <- time_compare(
+  rv = rv,
+  logfile_dir = rv$log$logfile_dir,
+  headless = rv$headless
+)
 
 }
 

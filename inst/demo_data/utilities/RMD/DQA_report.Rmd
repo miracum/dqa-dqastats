@@ -125,7 +125,7 @@ if (!is.null(rv$checks$differences)) {
 # Time-compare Results
 
 If the available resources for a given timestamp differ, it is likely that a resource is missing in either the source (`r rv$source$system_name`) or the target (`r rv$target$system_name`) database. 
-The following tablse are limited to the first 30 timestamps.
+The following tables are limited to the first 30 timestamps.
 
 ```{r results='asis'}
 if (!is.null(rv$time_compare_results)) {

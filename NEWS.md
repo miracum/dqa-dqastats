@@ -1,11 +1,25 @@
 # DQAstats NEWS
 
-## Unreleased (2023-07-21)
+## Unreleased (2024-04-30)
+
+#### Bug fixes
+
+-   convert Date to character, update Readme
+    ([3789f66](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/3789f664f5a5cffe5372ca71f5d2a066857f3e30))
+-   fixed vignette also for windows
+    ([76b45d5](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/76b45d563e015a43f80727562a89a9006cb50b37))
+-   using last working version of dataquier datasets
+    ([b30f7b0](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/b30f7b011072d02ccbf42988f616facac843ec3c))
 
 #### Other changes
 
+-   updated to latest changes
+    ([19a048c](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/19a048c339232783b3507202f68872733cd8c9ed))
 -   merged latest changes
     ([1580fd1](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/1580fd12f2ef9a8fa8ec14ed0bb3a5b8aabaa01b))
+
+Full set of changes:
+[`v0.3.3...3789f66`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.3...3789f66)
 
 ## v0.3.3 (2023-07-20)
 
