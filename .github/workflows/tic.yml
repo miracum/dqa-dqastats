@@ -65,7 +65,7 @@ jobs:
       - uses: actions/setup-java@v4
         if: matrix.config.java == 'true'
         with:
-          distribution: 'temurin'
+          distribution: 'microsoft'
           java-version: '8'
 
       - name: Install sys deps for Ubuntu
