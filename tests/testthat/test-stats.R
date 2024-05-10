@@ -44,7 +44,7 @@ test_that("correct functioning of statistics", {
     vector = testdat$age
   )
 
-  expect_known_hash(testres, "0fe6cc9f60")
+  expect_snapshot_value(testres, style = "json2")
 
   do.call(
     file.remove,
