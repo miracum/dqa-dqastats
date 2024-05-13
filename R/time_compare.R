@@ -169,8 +169,8 @@ time_compare <- function(
     }
 
     # check if the TIMESTAMP columns have the correct format:
-    if (!lubridate::is.POSIXct(source_item_all$TIMESTAMP)
-        || !lubridate::is.POSIXct(target_item_all$TIMESTAMP)) {
+    if (!inherits(source_item_all$TIMESTAMP, "POSIXct")
+        || !inherits(target_item_all$TIMESTAMP, "POSIXct")) {
       DIZtools::feedback(
         print_this = paste0("TIMESTAMP columns are not",
                             "in POSIXct format"),
@@ -212,22 +212,22 @@ time_compare <- function(
     result_table <- subset(table_all, table_all$Diff_count != 0)
 
     # filter the original data by the result timestamps using a filter column
-    source_item_all <- data.table::data.table(source_item_all)
+    source_item_all <- data.frame(source_item_all)
     source_item_all$filter <- source_item_all$TIMESTAMP %in% result_table$Time
-    suspect_data_source <- source_item_all[isTRUE(get("filter")), ]
-    suspect_data_source[, ("filter") := NULL]
+    suspect_data_source <- subset(source_item_all, filter == TRUE)
+    suspect_data_source$filter <- NULL
 
-    target_item_all <- data.table::data.table(target_item_all)
+    target_item_all <- data.frame(target_item_all)
     target_item_all$filter <- target_item_all$TIMESTAMP %in% result_table$Time
-    suspect_data_target <- target_item_all[isTRUE(get("filter")), ]
-    suspect_data_target[, ("filter") := NULL]
+    suspect_data_target <- subset(target_item_all, filter == TRUE)
+    suspect_data_target$filter <- NULL
 
     #rearrange so that timestamp column is first
-    suspect_data_source %>%
-      dplyr::select("TIMESTAMP", dplyr::everything())
+    suspect_data_source <- suspect_data_source[,
+      c("TIMESTAMP", setdiff(names(suspect_data_source), "TIMESTAMP"))]
 
-    suspect_data_target %>%
-      dplyr::select("TIMESTAMP", dplyr::everything())
+    suspect_data_target <- suspect_data_target[,
+      c("TIMESTAMP", setdiff(names(suspect_data_target), "TIMESTAMP"))]
 
     #sort the TIMESTAMPS
     result_table <- result_table[order(result_table$Time), ]
@@ -238,11 +238,16 @@ time_compare <- function(
 
     # if there are dates columns, convert them to character. This is needed
     # for a proper display later on
-    suspect_data_source <- suspect_data_source %>% dplyr::mutate_if(
-      function(x) inherits(x, "Date"), as.character)
-
-    suspect_data_target <- suspect_data_target %>% dplyr::mutate_if(
-      function(x) inherits(x, "Date"), as.character)
+    date_columns_source <- sapply(suspect_data_source,
+      function(x) inherits(x, "Date"))
+    for (col in names(suspect_data_source)[date_columns_source]) {
+      suspect_data_source[[col]] <- as.character(suspect_data_source[[col]])
+    }
+    date_columns_target <- sapply(suspect_data_target,
+      function(x) inherits(x, "Date"))
+    for (col in names(suspect_data_target)[date_columns_target]) {
+      suspect_data_target[[col]] <- as.character(suspect_data_target[[col]])
+    }
 
     # create a result vector with all the results
     results_item <- list(result_table = result_table,
