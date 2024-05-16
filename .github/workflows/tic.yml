@@ -58,6 +58,12 @@ jobs:
 
       - uses: r-lib/actions/setup-tinytex@v2
         if: matrix.config.latex == 'true'
+      - run: tlmgr --version
+
+      - name: Install additional LaTeX packages
+        run: |
+          tlmgr update --self
+          tlmgr list --only-installed
 
       - uses: r-lib/actions/setup-pandoc@v2
         if: matrix.config.latex == 'true'
@@ -70,7 +76,7 @@ jobs:
 
       - name: Install sys deps for Ubuntu
         if: runner.os == 'Linux'
-        run: sudo apt update && sudo apt install -y libgit2-dev libcurl4-openssl-dev texlive-lang-german
+        run: sudo apt update && sudo apt install -y libgit2-dev libcurl4-openssl-dev
 
       # set date/week for use in cache creation
       # https://github.community/t5/GitHub-Actions/How-to-set-and-access-a-Workflow-variable/m-p/42970
