@@ -214,12 +214,14 @@ time_compare <- function(
     # filter the original data by the result timestamps using a filter column
     source_item_all <- data.frame(source_item_all)
     source_item_all$filter <- source_item_all$TIMESTAMP %in% result_table$Time
-    suspect_data_source <- subset(source_item_all, filter == TRUE)
+    suspect_data_source <- subset(source_item_all,
+                                  source_item_all$filter == TRUE)
     suspect_data_source$filter <- NULL
 
     target_item_all <- data.frame(target_item_all)
     target_item_all$filter <- target_item_all$TIMESTAMP %in% result_table$Time
-    suspect_data_target <- subset(target_item_all, filter == TRUE)
+    suspect_data_target <- subset(target_item_all,
+                                  target_item_all$filter == TRUE)
     suspect_data_target$filter <- NULL
 
     #rearrange so that timestamp column is first
