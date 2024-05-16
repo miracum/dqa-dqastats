@@ -1,25 +1,91 @@
 # DQAstats NEWS
 
-## Unreleased (2024-04-30)
+## Unreleased (2024-05-16)
 
 #### Bug fixes
 
+-   no more filter error
+    ([34a9bc4](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/34a9bc4769d52d0216d7efe753494ddd7fc94278))
+-   fixed dplyr residual stuff
+    ([8f390a5](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/8f390a58c13e23d7a48f203904f988a67bac8099))
+-   fixed error in time\_compare
+    ([83ba875](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/83ba8757b8f1c9eb267ebf47acace4c146b673ba))
+-   fixed utils::head declaration
+    ([c0febd0](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/c0febd0fee6f576110655cc703ebee593d96c031))
 -   convert Date to character, update Readme
     ([3789f66](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/3789f664f5a5cffe5372ca71f5d2a066857f3e30))
+
+#### Tests
+
+-   fixed unit tests
+    ([10209f4](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/10209f4d37a5cc4893e0395cda4668bbc7ed3899))
+
+#### CI
+
+-   installing bable-german
+    ([4b01a85](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/4b01a85411a9354156a6345160a6812471b0c716))
+-   trying to fix rchecks
+    ([da91f32](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/da91f321fcbb805b74ab47c54828382fc4abf50d))
+-   trying to fix latex issue
+    ([f3e7e1b](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f3e7e1b96f9729220f33bac81c31c17903a102b6))
+-   try java 11
+    ([a77379c](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/a77379cf46775f46997fd139cf756256cba8b145))
+-   try microsoft dist
+    ([bd54153](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/bd54153ed9a2687d6e2375a65eb9f48c0667d2e0))
+-   added distribution to java config
+    ([d5957d7](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d5957d75be547840bbd2f014b73992a6d3bb6ddf))
+-   minor fixes to get files working
+    ([c1f3b9e](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/c1f3b9e5e29414190c2572c82dc0ac2941ac987b))
+-   fix github actions
+    ([d239468](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d23946896152c5ad39a0dca51b0da83b54912bb8))
+
+#### Other changes
+
+-   merged fixed ci into tc branch
+    ([090cd16](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/090cd16e92eee0b0ed185f4c75dbd518342691fc))
+-   merged latest changes into time\_compare
+    ([1e57f52](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/1e57f52d0ad675d410dba61229b64dc7b6418178))
+-   get\_timestamp\_items to separate function
+    ([f59557a](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f59557a50e440f30c6810b97d572331c74ea7646))
+-   started with review
+    ([57a201a](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/57a201a228401c3921a5917777e2136e34f612c4))
+-   prep new dev-version
+    ([d1f2610](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d1f2610048a79b42b0a5036e12b25f87e3976d14))
+
+Full set of changes:
+[`v0.3.4...46f2049`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.4...46f2049)
+
+## v0.3.4 (2024-04-04)
+
+#### Bug fixes
+
+-   fixed issues in vignette
+    ([f67cb85](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f67cb85adf7493893a5530c2140122509819a544))
 -   fixed vignette also for windows
     ([76b45d5](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/76b45d563e015a43f80727562a89a9006cb50b37))
 -   using last working version of dataquier datasets
     ([b30f7b0](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/b30f7b011072d02ccbf42988f616facac843ec3c))
 
+#### CI
+
+-   updated checkout tags for github actions
+    ([3470aeb](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/3470aeb45d20d190127ec6865bba924fe07dc42e))
+
 #### Other changes
 
+-   updated news.md
+    ([3fa8fc4](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/3fa8fc4d77edc032da78439ac5cc961a31f2654a))
+-   updated cran-comments
+    ([e7faf98](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/e7faf98fd5278d98b09abc07e6c8bee396fe0f14))
+-   updated rocker image tag to `rocker/verse:4.3.2`
+    ([f7cdf21](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f7cdf211b020ca7aa83e783262041584e253ad6f))
 -   updated to latest changes
     ([19a048c](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/19a048c339232783b3507202f68872733cd8c9ed))
 -   merged latest changes
     ([1580fd1](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/1580fd12f2ef9a8fa8ec14ed0bb3a5b8aabaa01b))
 
 Full set of changes:
-[`v0.3.3...3789f66`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.3...3789f66)
+[`v0.3.3...v0.3.4`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.3...v0.3.4)
 
 ## v0.3.3 (2023-07-20)
 
