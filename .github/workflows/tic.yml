@@ -70,7 +70,7 @@ jobs:
 
       - name: Install sys deps for Ubuntu
         if: runner.os == 'Linux'
-        run: sudo apt update && sudo apt install -y libgit2-dev libcurl4-openssl-dev
+        run: sudo apt update && sudo apt install -y libgit2-dev libcurl4-openssl-dev texlive-lang-german
 
       # set date/week for use in cache creation
       # https://github.community/t5/GitHub-Actions/How-to-set-and-access-a-Workflow-variable/m-p/42970
