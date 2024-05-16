@@ -63,6 +63,7 @@ jobs:
       - name: Install additional LaTeX packages
         run: |
           tlmgr update --self
+          tlmgr install babel-german
           tlmgr list --only-installed
 
       - uses: r-lib/actions/setup-pandoc@v2
