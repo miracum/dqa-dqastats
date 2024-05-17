@@ -1,6 +1,7 @@
+
 # DQAstats NEWS
 
-## Unreleased (2024-05-16)
+## Unreleased (2024-05-17)
 
 #### Bug fixes
 
@@ -8,7 +9,7 @@
     ([34a9bc4](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/34a9bc4769d52d0216d7efe753494ddd7fc94278))
 -   fixed dplyr residual stuff
     ([8f390a5](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/8f390a58c13e23d7a48f203904f988a67bac8099))
--   fixed error in time\_compare
+-   fixed error in time_compare
     ([83ba875](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/83ba8757b8f1c9eb267ebf47acace4c146b673ba))
 -   fixed utils::head declaration
     ([c0febd0](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/c0febd0fee6f576110655cc703ebee593d96c031))
@@ -22,6 +23,10 @@
 
 #### CI
 
+-   fixing pandoc issue in windows
+    ([ca7756f](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/ca7756f8b6b50d64627857de9f6160b844828fc3))
+-   moving to quarto in gha
+    ([01c0adb](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/01c0adb42aa980843080604eac6000ce970b2f91))
 -   installing bable-german
     ([4b01a85](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/4b01a85411a9354156a6345160a6812471b0c716))
 -   trying to fix rchecks
@@ -41,11 +46,13 @@
 
 #### Other changes
 
+-   updated desc and news.md
+    ([e0678bb](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/e0678bbdd334e547a9fc1f1c739af0a38fdb41ef))
 -   merged fixed ci into tc branch
     ([090cd16](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/090cd16e92eee0b0ed185f4c75dbd518342691fc))
--   merged latest changes into time\_compare
+-   merged latest changes into time_compare
     ([1e57f52](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/1e57f52d0ad675d410dba61229b64dc7b6418178))
--   get\_timestamp\_items to separate function
+-   get_timestamp_items to separate function
     ([f59557a](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f59557a50e440f30c6810b97d572331c74ea7646))
 -   started with review
     ([57a201a](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/57a201a228401c3921a5917777e2136e34f612c4))
@@ -53,7 +60,7 @@
     ([d1f2610](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d1f2610048a79b42b0a5036e12b25f87e3976d14))
 
 Full set of changes:
-[`v0.3.4...46f2049`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.4...46f2049)
+[`v0.3.4...ca7756f`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...ca7756f)
 
 ## v0.3.4 (2024-04-04)
 
@@ -85,7 +92,7 @@ Full set of changes:
     ([1580fd1](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/1580fd12f2ef9a8fa8ec14ed0bb3a5b8aabaa01b))
 
 Full set of changes:
-[`v0.3.3...v0.3.4`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.3...v0.3.4)
+[`v0.3.3...v0.3.4`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.3...v0.3.4)
 
 ## v0.3.3 (2023-07-20)
 
@@ -97,7 +104,7 @@ Full set of changes:
     ([b1344f3](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/b1344f32799b8b70a6813e940f64e84b1ccc3cf4))
 -   hot-fix to resolve cran errors
     ([482ea46](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/482ea46623666f2a5fb1a0ff2c6394e1fb40d6e4))
--   checking of empty restricting\_date\_format
+-   checking of empty restricting_date_format
     ([a847ba2](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/a847ba201c002acecb5bfd118034e243529fa929))
 -   fixed typo
     ([5490bf4](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/5490bf4d2df09135ef85198337681d24def2b04f))
@@ -121,7 +128,7 @@ Full set of changes:
     ([91a749c](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/91a749cf1232b86af3d499c60b3cbb06dfe68618))
 
 Full set of changes:
-[`v0.3.2...v0.3.3`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.2...v0.3.3)
+[`v0.3.2...v0.3.3`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.2...v0.3.3)
 
 ## v0.3.2 (2023-01-23)
 
@@ -174,13 +181,13 @@ Full set of changes:
     ([4130add](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/4130adde7eae47622b9829f47ed7ad60b9201102))
 
 Full set of changes:
-[`v0.3.1...v0.3.2`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.1...v0.3.2)
+[`v0.3.1...v0.3.2`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.1...v0.3.2)
 
 ## v0.3.1 (2022-06-27)
 
 #### Bug fixes
 
--   fixed wrong calculation of target-completness; closes \#50
+-   fixed wrong calculation of target-completness; closes #50
     ([60830d5](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/60830d5abb67ea03e03af0c6ee76e28ae4498f87))
 -   fixed checking if plausibility checks are possible with subset of
     data elements
@@ -232,7 +239,7 @@ Full set of changes:
     ([3fa87cb](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/3fa87cbf2fed96fb67f17a84809503ccd47b67c4))
 
 Full set of changes:
-[`v0.3.0...v0.3.1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.0...v0.3.1)
+[`v0.3.0...v0.3.1`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.0...v0.3.1)
 
 ## v0.3.0 (2022-05-19)
 
@@ -244,7 +251,7 @@ Full set of changes:
     ([94279d7](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/94279d7ffd38eff58ce06d3ed53a431f74eacf91))
 -   added creation of temporal view to sql display
     ([58f8775](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/58f8775ae6340e65eb36597486f7631ee0411c69))
--   more flexibility to use read\_mdr
+-   more flexibility to use read_mdr
     ([c96a30c](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/c96a30cb4c2da26a04d3c3cc99ae6e511152d2c0))
 -   now returning modified sql statements for pdf / gui-button
     ([152bd52](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/152bd52d2378b377e38f3c75393c0e781505d14b))
@@ -266,7 +273,7 @@ Full set of changes:
     ([e8f6c4f](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/e8f6c4fdf086997c060909dc9cedb459ffca4f52))
 -   fixed missing of view creation / deletion in displayed sqls
     ([895d9b0](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/895d9b07c88856a70dccab03766f3bede3d216e1))
--   fixed issues when source\_table\_name included where-clause
+-   fixed issues when source_table_name included where-clause
     ([e4dc982](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/e4dc98243bd67a9ba10adc7c9caa0ce05c8921b6))
 -   only the first sql showed the view-creation sql. This is now fixed.
     ([b69c716](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/b69c71634c85a80b3db0e3a7464ec3ddf2e55644))
@@ -335,7 +342,7 @@ Full set of changes:
     ([603897e](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/603897e75b72575737139f61c4704d933cf11578))
 -   added linebreake after sql-where
     ([15921fc](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/15921fc6eff5cd1e7d34e97f9bba73c0b2ec1dc5))
--   function create\_markdown to extra file
+-   function create_markdown to extra file
     ([4e565f0](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/4e565f0fff752c30507e3cdcdd12fd2a90359d2d))
 -   updated news.md
     ([c8dae31](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/c8dae312d837f04ce3e1844783b795e22306add5))
@@ -387,7 +394,7 @@ Full set of changes:
     ([3579cd6](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/3579cd61c0aecefef7db6033da82128917abee94))
 
 Full set of changes:
-[`v0.2.6...v0.3.0`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.6...v0.3.0)
+[`v0.2.6...v0.3.0`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.2.6...v0.3.0)
 
 ## v0.2.6 (2022-03-02)
 
@@ -412,7 +419,7 @@ Full set of changes:
     ([384b017](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/384b01727728e74c4dabe79ce1313d4f63cef028))
 
 Full set of changes:
-[`v0.2.5...v0.2.6`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.5...v0.2.6)
+[`v0.2.5...v0.2.6`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.2.5...v0.2.6)
 
 ## v0.2.5 (2022-02-21)
 
@@ -427,7 +434,7 @@ Full set of changes:
     ([1ab17f1](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/1ab17f181f3d48bad9ca414b7e253caf8179f95e))
 
 Full set of changes:
-[`v0.2.4...v0.2.5`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.4...v0.2.5)
+[`v0.2.4...v0.2.5`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.2.4...v0.2.5)
 
 ## v0.2.4 (2022-02-11)
 
@@ -445,7 +452,7 @@ Full set of changes:
     ([90725c2](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/90725c273e108b581187091f7af6c9ecd0896db9))
 
 Full set of changes:
-[`v0.2.3...v0.2.4`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.3...v0.2.4)
+[`v0.2.3...v0.2.4`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.2.3...v0.2.4)
 
 ## v0.2.3 (2022-02-04)
 
@@ -458,7 +465,7 @@ Full set of changes:
     ([15c18a8](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/15c18a8bf313034700de639e8d952bba65c01530))
 -   added demo `email.yml` file
     ([907cd24](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/907cd24fd65490dc336b7019bafd9970de69f3e9))
--   removed e1071 dependency; expect value\_set to be array
+-   removed e1071 dependency; expect value_set to be array
     ([ebfa59b](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/ebfa59ba620a3c3afe7e50be1c967e1b468ce226))
 
 #### Bug fixes
@@ -504,7 +511,7 @@ Full set of changes:
     ([50b616f](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/50b616f91a2b56ff6ed38ca4bb058181182a4a2c))
 -   updated url in readme
     ([535df53](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/535df539f7207f70dc118b918b8641df8e5d3edc))
--   removed print-statement from datetime\_restrictions
+-   removed print-statement from datetime_restrictions
     ([e48d477](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/e48d4778ae88ca44172a3004b3a3084f3183c3b8))
 -   updated MDR and example data
     ([6c8a4f4](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/6c8a4f49ef96cbbf61a89ede49f2243b1c9ede80))
@@ -518,7 +525,7 @@ Full set of changes:
     ([5055a0a](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/5055a0a48498b272488b600e47783ef4aac35d9a))
 
 Full set of changes:
-[`v0.2.2...v0.2.3`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.2...v0.2.3)
+[`v0.2.2...v0.2.3`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.2.2...v0.2.3)
 
 ## v0.2.2 (2022-01-12)
 
@@ -552,7 +559,7 @@ Full set of changes:
     ([f288671](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f288671ae43158cf5aeb4e233b183ae86aa74e62))
 
 Full set of changes:
-[`v0.2.1...v0.2.2`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.1...v0.2.2)
+[`v0.2.1...v0.2.2`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.2.1...v0.2.2)
 
 ## v0.2.1 (2022-01-04)
 
@@ -594,7 +601,7 @@ Full set of changes:
     ([6f551b8](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/6f551b8f149b791ec9805ec229e3a377d36e78a0))
 
 Full set of changes:
-[`v0.2.0...v0.2.1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.2.0...v0.2.1)
+[`v0.2.0...v0.2.1`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.2.0...v0.2.1)
 
 ## v0.2.0 (2022-01-03)
 
@@ -655,7 +662,7 @@ Full set of changes:
     ([8bfe9e5](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/8bfe9e584f0713c098b62133dcd36c2642a9237b))
 
 Full set of changes:
-[`v0.1.7...v0.2.0`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.1.7...v0.2.0)
+[`v0.1.7...v0.2.0`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.1.7...v0.2.0)
 
 ## v0.1.7 (2021-07-01)
 
@@ -685,13 +692,13 @@ Full set of changes:
     ([337d0a0](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/337d0a0cfed410350eab0fae216bd09f5ad2ea3a))
 -   removing undefined from mdr filtering
     ([94e76ba](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/94e76ba890cc79b22867014ea76a136ee7b14c94))
--   renamed format\_POSIXct to lowercase
+-   renamed format_POSIXct to lowercase
     ([9306751](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/9306751e762b70bda64000edfb45810915cc0ddf))
 -   formatting error
     ([1a551d8](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/1a551d80363bd422e0e2a504117413e078ae6509))
 -   made demo files working
     ([26c864c](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/26c864cadbe8323bf7671343e9d4183cb86ad428))
--   added support for datetime\_format in conformance checks
+-   added support for datetime_format in conformance checks
     ([bde1f22](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/bde1f22350925ef4e9fe8d3cb6c80d26e3888215))
 -   changed default format for date constraint
     ([57fcc54](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/57fcc5451571ef241d1956a22e2e4ae70f4b743b))
@@ -761,7 +768,7 @@ Full set of changes:
     ([43f946a](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/43f946aa927f6b7f7f8a677f30d9b183bc226067))
 
 Full set of changes:
-[`v0.1.6...v0.1.7`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.1.6...v0.1.7)
+[`v0.1.6...v0.1.7`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.1.6...v0.1.7)
 
 ## v0.1.6 (2021-02-18)
 
@@ -769,7 +776,7 @@ Full set of changes:
 
 -   updated dizutils version
     ([f4a6182](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f4a618294af85ba7e00ab224159593b17a9eb79a))
--   fixed error with missing date\_format
+-   fixed error with missing date_format
     ([31e60a4](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/31e60a4d61509addbd98ce75027a25e0878638f3))
 -   custom setting inputs (from the ui) are now used as db-connection
     parameters
@@ -790,13 +797,13 @@ Full set of changes:
     ([94bcf25](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/94bcf2554a0d074c04d302de7ec20e403db9f0cb))
 -   update
     ([d917729](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d917729d6daac72b4ea5246321750667e972a331))
--   excluded building a new base\_image for all dev-commits
+-   excluded building a new base_image for all dev-commits
     ([e4cbc09](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/e4cbc09d9ac510a22c50f5916a145830361a52b5))
 -   fixed ci pipeline
     ([816dc34](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/816dc3441192084e3f33a819ef8efd6d828a27b0))
 -   fix
     ([84ef752](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/84ef752276210302537c2d1e2cb7997bb37f1b0d))
--   updated ci for updateing the base\_image in ci-run
+-   updated ci for updateing the base_image in ci-run
     ([c6cc1ee](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/c6cc1ee62db06b38be9f2230319a53d4aba1ca58))
 -   updated ci
     ([55b7631](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/55b76319e490779876b2cb9c992292f9c2f28e48))
@@ -814,7 +821,7 @@ Full set of changes:
     ([9b79009](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/9b79009ea821008164e6fa029fb34d6d587ab38b))
 -   updated ci
     ([d5040c1](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d5040c174cbdda75a4217d9c75e39e73086a9a41))
--   added dqa\_base\_image as ci-source
+-   added dqa_base_image as ci-source
     ([7f595fd](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/7f595fd8f812accb137364db3d2eaa8acb513288))
 -   switched from install.packages() to install2.r due to speed
     improvements
@@ -836,84 +843,84 @@ Full set of changes:
     ([6ca1dd8](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/6ca1dd871b98c634a693ccaf52591d0461d67f5a))
 
 Full set of changes:
-[`v0.1.5...v0.1.6`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.1.5...v0.1.6)
+[`v0.1.5...v0.1.6`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.1.5...v0.1.6)
 
 ## v0.1.5 (2020-05-07)
 
 Full set of changes:
-[`v0.1.4...v0.1.5`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.1.4...v0.1.5)
+[`v0.1.4...v0.1.5`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.1.4...v0.1.5)
 
 ## v0.1.4 (2020-04-28)
 
 Full set of changes:
-[`v0.1.3...v0.1.4`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.1.3...v0.1.4)
+[`v0.1.3...v0.1.4`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.1.3...v0.1.4)
 
 ## v0.1.3 (2020-04-20)
 
 Full set of changes:
-[`v0.1.2...v0.1.3`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.1.2...v0.1.3)
+[`v0.1.2...v0.1.3`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.1.2...v0.1.3)
 
 ## v0.1.2 (2020-03-20)
 
 Full set of changes:
-[`v0.1.1...v0.1.2`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.1.1...v0.1.2)
+[`v0.1.1...v0.1.2`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.1.1...v0.1.2)
 
 ## v0.1.1 (2020-03-18)
 
 Full set of changes:
-[`v0.1.0...v0.1.1`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.1.0...v0.1.1)
+[`v0.1.0...v0.1.1`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.1.0...v0.1.1)
 
 ## v0.1.0 (2020-03-16)
 
 Full set of changes:
-[`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.0.7...v0.1.0)
+[`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.0.7...v0.1.0)
 
 ## v0.0.7 (2020-02-25)
 
 Full set of changes:
-[`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.0.6...v0.0.7)
+[`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.0.6...v0.0.7)
 
 ## v0.0.6 (2020-01-29)
 
 Full set of changes:
-[`v0.0.5...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.0.5...v0.0.6)
+[`v0.0.5...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.0.5...v0.0.6)
 
 ## v0.0.5 (2019-12-02)
 
 Full set of changes:
-[`v0.0.4...v0.0.5`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.0.4...v0.0.5)
+[`v0.0.4...v0.0.5`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.0.4...v0.0.5)
 
 ## v0.0.4 (2019-11-15)
 
 Full set of changes:
-[`v0.0.3...v0.0.4`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.0.3...v0.0.4)
+[`v0.0.3...v0.0.4`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.0.3...v0.0.4)
 
 ## v0.0.3 (2019-11-12)
 
 Full set of changes:
-[`v0.0.2...v0.0.3`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.0.2...v0.0.3)
+[`v0.0.2...v0.0.3`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.0.2...v0.0.3)
 
 ## v0.0.2 (2019-09-27)
 
 Full set of changes:
-[`v0.0.2.9000...v0.0.2`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.0.2.9000...v0.0.2)
+[`v0.0.2.9000...v0.0.2`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.0.2.9000...v0.0.2)
 
 ## v0.0.2.9000 (2019-08-30)
 
 Full set of changes:
-[`v0.0.1.9000...v0.0.2.9000`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.0.1.9000...v0.0.2.9000)
+[`v0.0.1.9000...v0.0.2.9000`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.0.1.9000...v0.0.2.9000)
 
 ## v0.0.1.9000 (2019-08-20)
 
 Full set of changes:
-[`v0.0.0.9003...v0.0.1.9000`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.0.0.9003...v0.0.1.9000)
+[`v0.0.0.9003...v0.0.1.9000`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.0.0.9003...v0.0.1.9000)
 
 ## v0.0.0.9003 (2019-08-14)
 
 Full set of changes:
-[`v0.0.0.9002...v0.0.0.9003`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.0.0.9002...v0.0.0.9003)
+[`v0.0.0.9002...v0.0.0.9003`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.0.0.9002...v0.0.0.9003)
 
 ## v0.0.0.9002 (2019-08-08)
 
 Full set of changes:
-[`0567007...v0.0.0.9002`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/0567007...v0.0.0.9002)
+[`0567007...v0.0.0.9002`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/0567007...v0.0.0.9002)
