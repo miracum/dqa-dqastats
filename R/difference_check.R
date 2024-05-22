@@ -23,9 +23,11 @@
 #' @param results A list object. The list should contain the results
 #'   'rv$results_descriptive'.
 #'
-#' @return A data.table with the difference in total, distinct, valid and ,
-#'   missing values of source and target database. Result is represented as a
-#'   string containing the absolute difference as well as the percentage
+#' @return A list with two data.tables with the differences in total, distinct,
+#'   valid and missing values of source and target database.
+#'   In table one, called text, the results are represented as a string
+#'   containing the absolute difference as well as the percentage. Table two,
+#'   called percent, contains the percentage as a numeric value.
 #'
 #' @examples
 #'  \donttest{# runtime ~ 5 sec.
@@ -133,14 +135,26 @@ difference_checks <- function(results) {
   # get names
   obj_names <- names(results)
 
-  # initialize output table
-  out <- data.table::data.table(
+  # initialize output tables. We need two tables: one for the textual
+  # representation of the result (for a nice display) and one with the
+  # numeric percentage value
+
+  out <- list()
+  out$text <- data.table::data.table(
     "Variable" = character(0),
     "Difference in Totals" = character(0),
     "Difference in Distincts" = character(0),
     "Difference in Valids" = character(0),
     "Difference in Missings" = character(0)
   )
+  out$percent <- data.table::data.table(
+    "Variable" = character(0),
+    "Difference in Totals" = numeric(0),
+    "Difference in Distincts" = numeric(0),
+    "Difference in Valids" = numeric(0),
+    "Difference in Missings" = numeric(0)
+  )
+
 
 
   for (i in obj_names) {
@@ -174,14 +188,25 @@ difference_checks <- function(results) {
       )
     }
 
-    out <- rbind(
-      out,
+    out$text <- rbind(
+      out$text,
       data.table::data.table(
         "Variable" = i,
-        "Difference in Totals" = check_total,
-        "Difference in Distincts" = check_distinct,
-        "Difference in Valids" = check_valids,
-        "Difference in Missings" = check_missings
+        "Difference in Totals" = check_total$text,
+        "Difference in Distincts" = check_distinct$text,
+        "Difference in Valids" = check_valids$text,
+        "Difference in Missings" = check_missings$text
+      )
+    )
+
+    out$percent <- rbind(
+      out$percent,
+      data.table::data.table(
+        "Variable" = i,
+        "Difference in Totals" = check_total$percent,
+        "Difference in Distincts" = check_distinct$percent,
+        "Difference in Valids" = check_valids$percent,
+        "Difference in Missings" = check_missings$percent
       )
     )
   }
@@ -191,17 +216,19 @@ difference_checks <- function(results) {
 
 calculate_difference <- function(count_source, count_target) {
 
-  result <- NULL
+  result <- list()
   absolut_diff <- count_target - count_source
 
   if (absolut_diff == 0) {
 
-    result <- "no diff."
+    result$text <- "no diff."
+    result$percent <- 0
 
   } else {
     percent_diff <- (absolut_diff / count_source) * 100
 
-    result  <- paste(absolut_diff, " (", signif(percent_diff, 2), "%)")
+    result$percent <- percent_diff
+    result$text  <- paste(absolut_diff, " (", signif(percent_diff, 2), "%)")
   }
 
   return(result)

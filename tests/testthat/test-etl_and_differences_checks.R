@@ -122,7 +122,7 @@ test_that("correct functioning of etl_checks and difference_checks", {
   expect_length(rv$checks$etl, n = 4)
 
   expect_type(rv$checks$differences, "list")
-  expect_length(rv$checks$differences, n = 5)
+  expect_length(rv$checks$differences, n = 2)
 
   do.call(
     file.remove,

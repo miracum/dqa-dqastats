@@ -116,7 +116,7 @@ Calculates the discrepancies between source (`r rv$source$system_name`) and targ
 
 ```{r results='asis'}
 if (!is.null(rv$checks$differences)) {
-  render_difference_check(rv$checks$differences)
+  # render_difference_check(rv$checks$differences$text)
 } else {
   cat(no_data_to_display_msg)
 }

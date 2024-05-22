@@ -11,9 +11,11 @@ difference_checks(results)
 'rv$results_descriptive'.}
 }
 \value{
-A data.table with the difference in total, distinct, valid and ,
-missing values of source and target database. Result is represented as a
-string containing the absolute difference as well as the percentage
+A list with two data.tables with the differences in total, distinct,
+valid and missing values of source and target database.
+In table one, called text, the results are represented as a string
+containing the absolute difference as well as the percentage. Table two,
+called percent, contains the percentage as a numeric value.
 }
 \description{
 Internal function to calculate differences
