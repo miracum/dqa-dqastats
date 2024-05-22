@@ -176,20 +176,10 @@ create_markdown <- function(rv = rv,
   } else {
     catch_msg <- "Error occured when rendering the PDF document"
     tryCatch({
-
-      # address issues on some systems when rendering the markdown with the
-      # template as input
-      template_file <- tempfile(
-        pattern = "DQAstats-",
-        tmpdir = tempdir(),
-        fileext = "-DQA_report.Rmd"
-      )
-
-      # copy template file from package directory to tempdir()
-      file.copy(
-        from = paste0(utils_path, "RMD/DQA_report.Rmd"),
-        to = template_file,
-        overwrite = TRUE
+      knitr::knit(
+        input = paste0(utils_path, "RMD/DQA_report.Rmd"),
+        output = paste0(outdir, "/DQA_report.md"),
+        encoding = "UTF-8"
       )
 
       # copy header-folder to tempdir to make files available for
@@ -197,56 +187,19 @@ create_markdown <- function(rv = rv,
       if (dir.exists(paste0(utils_path, "RMD/_header"))) {
         file.copy(
           paste0(utils_path, "RMD/_header"),
-          tempdir(),
+          outdir,
           recursive = TRUE
         )
       }
 
-      outfile <- file.path(paste0("DQA_report_", gsub(
-        "\\-|\\:| ", "", substr(rv$start_time, 1, 16)
-      ), ".pdf"))
-
-      # save rv object for rendering document
-      save(
-        list = c(
-          "rv", ls(getNamespace("DQAstats"), all.names = TRUE)
-        ),
-        file = file.path(tempdir(), "DQAstats.Rda")
+      rmarkdown::render(
+        input = paste0(outdir, "/DQA_report.md"),
+        output_dir = outdir,
+        output_file = paste0("DQA_report_", gsub(
+          "\\-|\\:| ", "", substr(rv$start_time, 1, 16)
+        ), ".pdf"),
+        encoding = "UTF-8"
       )
-
-      # save metadata for quarto title
-      params_file <- tempfile(
-        pattern = "DQAstats-",
-        tmpdir = tempdir(),
-        fileext = "-params.yml"
-      )
-      writeLines(
-        text = c(paste0("source_system_name: ", rv$source$system_name),
-                 paste0("target_system_name: ", rv$target$system_name),
-                 paste0("restricting_date: ", get_restricting_date_info(
-                   restricting_date = rv$restricting_date, time = FALSE)
-                 )),
-        con = params_file
-      )
-
-      quarto::quarto_render(
-        input = template_file,
-        output_format = "pdf",
-        execute_params = params_file
-      )
-
-      pdf_temp_file <- gsub("\\.Rmd$", ".pdf", template_file)
-
-      file.copy(
-        from = pdf_temp_file,
-        to = file.path(outdir, outfile),
-        overwrite = TRUE
-      )
-
-      message(paste0(
-        "Copied generated '", pdf_temp_file,
-        "' to '", file.path(outdir, outfile), "'."))
-
     }, error = function(e) {
       DIZtools::feedback(
         print_this = paste0(catch_msg, e),

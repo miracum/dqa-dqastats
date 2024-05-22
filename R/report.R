@@ -250,7 +250,7 @@ render_atemp_plausis <- function(plausiresults,
 
     # overview
     cat("\n **Overview:**  \n")
-    render_counts(count_out, stat_out, "source_data")
+    render_counts(count_out, "source_data")
 
     # statistics
     cat("\n **Results:**  \n")
@@ -272,7 +272,7 @@ render_atemp_plausis <- function(plausiresults,
 
     # overview
     cat("\n **Overview:**  \n")
-    render_counts(count_out, stat_out, "target_data")
+    render_counts(count_out, "target_data")
 
     # statistics
     cat("\n **Results:**  \n")

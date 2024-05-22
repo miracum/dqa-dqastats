@@ -17,8 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-title: "Data Quality Report: Comparison of {{< meta source_system_name >}} and {{< meta target_system_name >}}"
-subtitle: "{{< meta restricting_date >}}"
+title: "Data Quality Report: Comparison of `r rv$source$system_name` and `r rv$target$system_name`"
+subtitle: "`r DQAstats:::get_restricting_date_info(restricting_date = rv$restricting_date, time = FALSE)`"
 author: "(c) Universitätsklinikum Erlangen"
 date: \today
 geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
@@ -41,7 +41,6 @@ output:
 # include this to compile pdf
 knitr::opts_chunk$set(echo = FALSE)
 options(tinytex.verbose = TRUE)
-load("./DQAstats.Rda")
 ```
 
 \newpage
