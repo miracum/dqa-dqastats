@@ -34,3 +34,4 @@
 ^man/figures$
 ^Rplots\.pdf$
 ^\.Rproj\.user$
+^/dqa-dqastats\.wiki$

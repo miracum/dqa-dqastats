@@ -40,3 +40,4 @@ inst/doc
 !/manifests/
 !cran-comments.md
 .Rproj.user
+/dqa-dqastats.wiki/

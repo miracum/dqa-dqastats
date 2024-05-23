@@ -203,6 +203,7 @@ usethis::use_build_ignore("dqastats.Rproj")
 usethis::use_build_ignore("cran-comments.md")
 usethis::use_build_ignore("man/figures")
 usethis::use_build_ignore("Rplots.pdf")
+usethis::use_build_ignore("/dqa-dqastats.wiki/")
 
 
 ## .gitignore:
@@ -232,6 +233,7 @@ usethis::use_git_ignore("!/README.md")
 usethis::use_git_ignore("!/tests/")
 usethis::use_git_ignore("/tests/testthat/test_settings_use.yml")
 usethis::use_git_ignore("/tests/testthat/testdata/")
+usethis::use_git_ignore("/dqa-dqastats.wiki/")
 usethis::use_git_ignore("/.Rhistory")
 usethis::use_git_ignore("!/*.Rproj")
 usethis::use_git_ignore("/.Rproj*")
