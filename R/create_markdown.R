@@ -182,12 +182,12 @@ create_markdown <- function(rv = rv,
       template_file <- tempfile(
         pattern = "DQAstats-",
         tmpdir = tempdir(),
-        fileext = "-DQA_report.Rmd"
+        fileext = "-DQA_report.qmd"
       )
 
       # copy template file from package directory to tempdir()
       file.copy(
-        from = paste0(utils_path, "RMD/DQA_report.Rmd"),
+        from = paste0(utils_path, "RMD/DQA_report.qmd"),
         to = template_file,
         overwrite = TRUE
       )
@@ -232,7 +232,7 @@ create_markdown <- function(rv = rv,
       quarto::quarto_render(
         input = template_file,
         output_format = "pdf",
-        execute_params = params_file
+        metadata_file = params_file
       )
 
       pdf_temp_file <- gsub("\\.Rmd$", ".pdf", template_file)

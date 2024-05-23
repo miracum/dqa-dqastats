@@ -20,10 +20,11 @@
 title: "Data Quality Report: Comparison of {{< meta source_system_name >}} and {{< meta target_system_name >}}"
 subtitle: "{{< meta restricting_date >}}"
 author: "(c) Universitätsklinikum Erlangen"
-date: \today
-geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
+date: today
+
 output: 
-  pdf_document:
+  pdf:
+    geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
     toc: true
     toc_depth: 2
     number_sections: true

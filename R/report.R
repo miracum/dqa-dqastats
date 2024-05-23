@@ -324,15 +324,15 @@ render_time_compare <- function(time_compare_results) {
 
     render_this <- function(data) {
 
-          return(
-            knitr::kable(data,
-                         row.names = FALSE,
-                         digits = 3,
-                         format = "latex") %>%
-              kableExtra::row_spec(0, bold = TRUE) %>%
-              kableExtra::kable_styling(full_width = FALSE,
-                                        latex_options = "HOLD_position")
-          )
+      return(
+        knitr::kable(data,
+                     row.names = FALSE,
+                     digits = 3,
+                     format = "latex") %>%
+          kableExtra::row_spec(0, bold = TRUE) %>%
+          kableExtra::kable_styling(full_width = FALSE,
+                                    latex_options = "HOLD_position")
+      )
     }
 
     # print only the first 30 rows

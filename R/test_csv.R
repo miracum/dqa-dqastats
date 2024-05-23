@@ -98,8 +98,8 @@ test_csv <- function(settings,
   # FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV
   check <- sapply(filelist, function(i) {
     DIZtools::feedback(i, findme = "208282630a",
-             logfile_dir = logfile_dir,
-             headless = headless)
+                       logfile_dir = logfile_dir,
+                       headless = headless)
     return(grepl(files_pattern, i))
   })
 

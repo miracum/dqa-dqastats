@@ -363,9 +363,9 @@ dqa <- function(source_system_name,
 
   # time_compare
 
-   rv$time_compare_results <- time_compare(rv = rv,
-                logfile_dir = rv$log$logfile_dir,
-                headless = rv$headless)
+  rv$time_compare_results <- time_compare(rv = rv,
+                                          logfile_dir = rv$log$logfile_dir,
+                                          headless = rv$headless)
 
   # delete the TIMESTAMP columns
   # ToDo: what happens if not deleted?

@@ -147,9 +147,9 @@
 #' @export
 #'
 atemp_plausi_results <- function(rv,
-                                atemp_vars,
-                                mdr,
-                                headless = FALSE) {
+                                 atemp_vars,
+                                 mdr,
+                                 headless = FALSE) {
   #% source_db = rv$source$system_name
   #% headless = T
 
@@ -461,7 +461,7 @@ uniq_plausi_results <- function(rv,
             msg,
             findme = "e4fe49cd9e",
             logfile_dir = rv$log$logfile_dir
-            )
+          )
 
           outlist$description <- u$description
 
@@ -554,7 +554,7 @@ uniq_plausi_results <- function(rv,
                 msg,
                 findme = "39a4eeb70b",
                 logfile_dir = rv$log$logfile_dir
-                )
+              )
 
               # we need to find the correct data and merge
               if (k == "source_data") {

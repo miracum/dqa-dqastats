@@ -48,7 +48,7 @@ calc_counts <- function(cnt_dat,
           data = rv$data_source[[
             cnt_dat[get("source_system_name") == rv$source$system_name,
                     get(key_col_name_src)]
-            ]],
+          ]],
           var = count_key,
           sourcesystem = rv$source$system_name,
           datamap = datamap,

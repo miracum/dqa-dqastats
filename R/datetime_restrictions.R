@@ -350,11 +350,11 @@ apply_time_restriciton <- function(data,
 
     ## Get all tables needed for this SQL:
     tables <- mdr[get("source_system_name") == system_name,
-            .SD,
-            .SDcols = c("source_table_name",
-                        "restricting_date_var",
-                        "restricting_date_format")
-        ] %>%
+                  .SD,
+                  .SDcols = c("source_table_name",
+                              "restricting_date_var",
+                              "restricting_date_format")
+    ] %>%
       unique()
     # ignore any where statements and stuff
     tables[
@@ -383,9 +383,9 @@ apply_time_restriciton <- function(data,
       ## Here all commands to create the views will be stored for later
       ## display in the GUI:
       if (is.null(sql_create_view_all) ||
-         all(sapply(sql_create_view_all, function(x) {
-           is.na(x) || is.nan(x)
-         }))) {
+          all(sapply(sql_create_view_all, function(x) {
+            is.na(x) || is.nan(x)
+          }))) {
         sql_create_view_all <- list()
       }
 
@@ -517,9 +517,9 @@ apply_time_restriciton <- function(data,
     }
 
     if (is.null(sql_create_view_all) ||
-       all(sapply(sql_create_view_all, function(x) {
-         is.na(x) || is.nan(x)
-       }))) {
+        all(sapply(sql_create_view_all, function(x) {
+          is.na(x) || is.nan(x)
+        }))) {
       DIZtools::feedback(
         print_this = paste0("Couldn't get information about ",
                             " the SQL views."),

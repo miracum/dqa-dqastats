@@ -161,16 +161,16 @@ difference_checks <- function(results) {
 
       check_distinct <- calculate_difference(
         results[[i]]$counts$source_data$cnt$distinct,
-          results[[i]]$counts$target_data$cnt$distinct
+        results[[i]]$counts$target_data$cnt$distinct
       )
 
       check_valids <- calculate_difference(
         results[[i]]$counts$source_data$cnt$valids,
-          results[[i]]$counts$target_data$cnt$valids
+        results[[i]]$counts$target_data$cnt$valids
       )
       check_missings <- calculate_difference(
         results[[i]]$counts$source_data$cnt$missings,
-          results[[i]]$counts$target_data$cnt$missings
+        results[[i]]$counts$target_data$cnt$missings
       )
     }
 
