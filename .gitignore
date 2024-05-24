@@ -17,9 +17,11 @@ inst/doc
 !NAMESPACE
 !/R/
 !/README.md
+!/README.qmd
 !/tests/
 /tests/testthat/test_settings_use.yml
 /tests/testthat/testdata/
+/dqa-dqastats.wiki/
 /.Rhistory
 !/*.Rproj
 /.Rproj*
@@ -39,5 +41,3 @@ inst/doc
 .~lock.*.csv#
 !/manifests/
 !cran-comments.md
-.Rproj.user
-/dqa-dqastats.wiki/

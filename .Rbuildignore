@@ -23,6 +23,7 @@
 ^renovate\.json$
 ^NEWS\.md$
 ^README\.md$
+^README\.qmd$
 ^\.ccache$
 ^\.github$
 ^tic\.R$
@@ -33,5 +34,4 @@
 ^cran-comments\.md$
 ^man/figures$
 ^Rplots\.pdf$
-^\.Rproj\.user$
 ^/dqa-dqastats\.wiki$

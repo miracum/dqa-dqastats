@@ -192,6 +192,7 @@ usethis::use_build_ignore("build_image.sh")
 usethis::use_build_ignore("renovate.json")
 usethis::use_build_ignore("NEWS.md")
 usethis::use_build_ignore("README.md")
+usethis::use_build_ignore("README.qmd")
 usethis::use_build_ignore("docker")
 usethis::use_build_ignore(".ccache")
 usethis::use_build_ignore(".github")
@@ -230,6 +231,7 @@ usethis::use_git_ignore("!/man/")
 usethis::use_git_ignore("!NAMESPACE")
 usethis::use_git_ignore("!/R/")
 usethis::use_git_ignore("!/README.md")
+usethis::use_git_ignore("!/README.qmd")
 usethis::use_git_ignore("!/tests/")
 usethis::use_git_ignore("/tests/testthat/test_settings_use.yml")
 usethis::use_git_ignore("/tests/testthat/testdata/")
@@ -258,6 +260,8 @@ usethis::use_git_ignore("!cran-comments.md")
 
 
 usethis::use_tidy_description()
+
+quarto::quarto_render(input = "README.qmd")
 
 # create NEWS.md using the python-package "auto-changelog" (must be installed)
 # https://www.conventionalcommits.org/en/v1.0.0/
