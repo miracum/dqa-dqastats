@@ -511,7 +511,7 @@ dqa <- function(source_system_name,
     rv = rv
   )
 
-  create_markdown(
+  create_pdf_report(
     rv = rv,
     utils_path = rv$utilspath,
     outdir = output_dir,

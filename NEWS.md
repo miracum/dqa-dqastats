@@ -9,6 +9,8 @@
 
 #### Bug fixes
 
+-   specifing min required version for quarto
+    ([9cc7a55](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/9cc7a555dfe21396ce76530f25aa103e788ef0fe))
 -   updated code; moved template rmd to qmd
     ([b9a7530](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/b9a7530d6c21d1d86eddb84d93f4ce1f152b7591))
 -   no more filter error
@@ -72,7 +74,7 @@
     ([d1f2610](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d1f2610048a79b42b0a5036e12b25f87e3976d14))
 
 Full set of changes:
-[`v0.3.4...9b286bc`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.4...9b286bc)
+[`v0.3.4...9cc7a55`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.4...9cc7a55)
 
 ## v0.3.4 (2024-04-04)
 

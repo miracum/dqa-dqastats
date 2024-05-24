@@ -1,6 +1,6 @@
 Package: DQAstats
 Title: Core Functions for Data Quality Assessment
-Version: 0.3.4.9004
+Version: 0.3.4.9005
 Date: 2024-05-24
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut"),
@@ -43,3 +43,4 @@ Config/testthat/edition: 3
 Config/testthat/parallel: false
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
