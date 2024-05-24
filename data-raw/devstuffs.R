@@ -81,7 +81,7 @@ usethis::use_package("future.apply", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("kableExtra", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
-usethis::use_package("quarto", type = "Imports")
+usethis::use_package("quarto", type = "Imports", min_version = "1.4")
 usethis::use_package("magrittr", type = "Imports")
 usethis::use_package("parsedate", type = "Imports")
 usethis::use_package("stats", type = "Imports")
@@ -274,12 +274,6 @@ quarto::quarto_render(input = "README.qmd")
 # system(
 #   command = 'auto-changelog -u -t "DQAstats NEWS" --tag-prefix "v" -o "NEWS.md"'
 # )
-
-
-badger::badge_cran_download("DQAstats", "grand-total", "blue")
-badger::badge_cran_download("DQAstats", "last-month", "blue")
-badger::badge_dependencies("DQAstats")
-badger::badge_doi("10.1055/s-0041-1733847", color = "yellow")
 
 an <- autonewsmd::autonewsmd$new(repo_name = packagename)
 an$generate()

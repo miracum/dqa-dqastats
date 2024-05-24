@@ -1,6 +1,6 @@
 # DQAstats NEWS
 
-## Unreleased (2024-05-23)
+## Unreleased (2024-05-24)
 
 #### New features
 
@@ -54,6 +54,8 @@
 
 #### Other changes
 
+-   updated automated generation of readme
+    ([9b286bc](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/9b286bc2e8b7385097d79dc64583346511858df6))
 -   added dqa-dqastats.wiki to ignore
     ([3a80262](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/3a802627a211e634da214241c4cbb0166857a70d))
 -   updated desc and news.md
@@ -70,7 +72,7 @@
     ([d1f2610](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d1f2610048a79b42b0a5036e12b25f87e3976d14))
 
 Full set of changes:
-[`v0.3.4...3a80262`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.4...3a80262)
+[`v0.3.4...9b286bc`](https://gitlab.miracum.org/miracum/dqa/dqastats/compare/v0.3.4...9b286bc)
 
 ## v0.3.4 (2024-04-04)
 

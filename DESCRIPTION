@@ -28,7 +28,7 @@ Imports:
     knitr,
     magrittr,
     parsedate,
-    quarto,
+    quarto (>= 1.4),
     stats,
     tinytex,
     utils
