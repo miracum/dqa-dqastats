@@ -26,7 +26,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.3.4.9005")
+my_desc$set_version("0.3.4.9006")
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -44,12 +44,19 @@ my_desc$set("URL", "https://github.com/miracum/dqa-dqastats")
 my_desc$set("BugReports",
             "https://github.com/miracum/dqa-dqastats/issues")
 # Vignette Builder
-my_desc$set("VignetteBuilder" = "knitr")
+my_desc$set("VignetteBuilder" = "quarto")
+# Quarto
+my_desc$set("SystemRequirements" = paste0(
+  "Quarto command line tools ",
+  "(https://github.com/quarto-dev/quarto-cli).")
+)
+
 # Testthat stuff
 my_desc$set("Config/testthat/parallel" = "false")
 my_desc$set("Config/testthat/edition" = "3")
 # Roxygen
 my_desc$set("Roxygen" = "list(markdown = TRUE)")
+
 # License
 my_desc$set("License", "GPL-3")
 # Save everyting
