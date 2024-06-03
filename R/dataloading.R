@@ -231,9 +231,9 @@ load_csv <- function(rv,
         # workaround to hide shiny-stuff, when going headless
         msg <- paste("Transforming source variable types", i)
         DIZtools::feedback(msg, logjs = isFALSE(headless),
-                            findme = "776ba03cbf",
-                            logfile_dir = rv$log$logfile_dir,
-                            headless = rv$headless)
+                           findme = "776ba03cbf",
+                           logfile_dir = rv$log$logfile_dir,
+                           headless = rv$headless)
 
         for (j in col_names) {
           var_type <- rv$mdr[get("source_system_name") == system$system_name &
@@ -498,7 +498,7 @@ load_database <- function(rv,
         # raise error
         stop(msg)
       } else if (ncol(dat) == 3 & !"TIMESTAMP" %in% colnames(dat)) {
-         msg <- paste0(
+        msg <- paste0(
           "Table of data element '",
           i,
           "' has 3 columns but no TIMESTAMP column. Aborting session.\n",
@@ -606,10 +606,10 @@ load_database <- function(rv,
                            #get("key") == i &
                            get("variable_name") == j, get("variable_type")]
 
-    #Timestamp columns are not in MDR, give them type timestamp
-    if (j == "TIMESTAMP") {
-      var_type <- "timestamp"
-    }
+      #Timestamp columns are not in MDR, give them type timestamp
+      if (j == "TIMESTAMP") {
+        var_type <- "timestamp"
+      }
 
       if (var_type %in% c("enumerated", "string", "catalog")) {
         # transform to factor
@@ -651,7 +651,7 @@ load_database <- function(rv,
           outlist[[i]][["outdata"]][, (j) := as.POSIXct(
             as.character(get(j))
           )]
-       }
+        }
       }
     }
   }

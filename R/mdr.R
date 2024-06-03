@@ -67,17 +67,17 @@ read_mdr <- function(utils_path = NULL, mdr_filename = "mdr.csv") {
   # fix columns that contain json strings (due to multiple quotation marks)
   mdr[, ("constraints") := gsub("\"\"", "\"", get("constraints"))][
     get("constraints") == "", ("constraints") := NA
-    ]
+  ]
   mdr[, ("plausibility_relation") := gsub(
     "\"\"",
     "\"",
     get("plausibility_relation")
   )][
     get("plausibility_relation") == "", ("plausibility_relation") := NA
-    ]
+  ]
   mdr[, ("filter") := gsub("\"\"", "\"", get("filter"))][
     get("filter") == "", ("filter") := NA
-    ]
+  ]
 
   # fix representation of missing values in all columns
   mdr[mdr == ""] <- NA
@@ -200,7 +200,7 @@ create_helper_vars <- function(mdr,
         mdr[get("variable_name") != "undefined" & get("key") != "undefined", ][
           get("source_system_name") == eval(parse(text = paste0(f, "_db"))),
           unique(get("source_table_name"))
-          ]
+        ]
     } else if (mdr[get("source_system_name") ==
                    eval(parse(text = paste0(f, "_db"))),
                    unique(get("source_system_type"))] %in%
@@ -238,8 +238,8 @@ create_helper_vars <- function(mdr,
 
   for (f in c("source", "target")) {
     if ("csv" != mdr[get("source_system_name") ==
-                          eval(parse(text = paste0(f, "_db"))),
-                          unique(get("source_system_type"))]) {
+                     eval(parse(text = paste0(f, "_db"))),
+                     unique(get("source_system_type"))]) {
       outlist[[paste0("keys_", f)]] <-
         outlist[[paste0("keys_", f)]][outlist[[paste0("keys_", f)]] %in%
                                         dqa_assessment_intersect]
@@ -261,13 +261,13 @@ create_helper_vars <- function(mdr,
   pl_vars <-
     mdr[!is.na(get("plausibility_relation")) &
           get("source_system_name") == source_db,
-        ][
-          order(get("source_table_name")), c(
-            "designation",
-            "variable_name",
-            "variable_type",
-            "plausibility_relation"
-          ), with = FALSE]
+    ][
+      order(get("source_table_name")), c(
+        "designation",
+        "variable_name",
+        "variable_type",
+        "plausibility_relation"
+      ), with = FALSE]
   pl_vars <- pl_vars[!duplicated(pl_vars), ]
 
   # atemporal plausibility

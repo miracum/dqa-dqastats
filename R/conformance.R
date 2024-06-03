@@ -160,11 +160,11 @@
 #' @export
 #'
 value_conformance <- function(
-  rv,
-  results,
-  scope,
-  headless = FALSE,
-  logfile_dir) {
+    rv,
+    results,
+    scope,
+    headless = FALSE,
+    logfile_dir) {
 
   stopifnot(
     scope %in% c("plausibility", "descriptive")
@@ -456,7 +456,7 @@ value_conformance <- function(
                   ## in load_database(), search for 'datetime_format'):
                   constraints_names <- names(constraints)
                   if (length(constraints_names) == 1 &&
-                        constraints_names[[1]] == "datetime") {
+                      constraints_names[[1]] == "datetime") {
                     if (is.null(s_out) || nrow(s_out) == 0 ||
                         (any(is.na(s_out[, 2])) ||
                          (s_out[4, 2] == "NaN"))) {

@@ -149,8 +149,8 @@ completeness <- function(results, headless = FALSE, logfile_dir) {
   for (i in obj_names) {
     msg <- paste("Performing missing analysis", i)
     DIZtools::feedback(msg, findme = "7a28e87b30", logjs = isFALSE(headless),
-             logfile_dir = logfile_dir,
-             headless = headless)
+                       logfile_dir = logfile_dir,
+                       headless = headless)
 
     count_out <- results[[i]]$counts
 

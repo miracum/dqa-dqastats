@@ -1,12 +1,18 @@
 ---
 title: "DQAstats2SHIPdataset"
-output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{DQAstats2SHIPdataset}
   %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
 editor_options: 
   chunk_output_type: console
+
+execute:
+  echo: true
+  message: false
+  warning: false
+  collapse: true
+  comment: "#>"
 ---
 
 <style>
@@ -17,13 +23,6 @@ pre {
 
 ```{r, include = FALSE}
 # nolint start
-knitr::opts_chunk$set(
-  echo = TRUE,
-  message = FALSE,
-  warning = FALSE,
-  collapse = TRUE,
-  comment = "#>"
-)
 library(magrittr)
 ```
 

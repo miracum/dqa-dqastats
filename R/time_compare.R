@@ -225,10 +225,10 @@ time_compare <- function(
 
     #rearrange so that timestamp column is first
     suspect_data_source <- suspect_data_source[,
-      c("TIMESTAMP", setdiff(names(suspect_data_source), "TIMESTAMP"))]
+                                               c("TIMESTAMP", setdiff(names(suspect_data_source), "TIMESTAMP"))]
 
     suspect_data_target <- suspect_data_target[,
-      c("TIMESTAMP", setdiff(names(suspect_data_target), "TIMESTAMP"))]
+                                               c("TIMESTAMP", setdiff(names(suspect_data_target), "TIMESTAMP"))]
 
     #sort the TIMESTAMPS
     result_table <- result_table[order(result_table$Time), ]
@@ -240,12 +240,12 @@ time_compare <- function(
     # if there are dates columns, convert them to character. This is needed
     # for a proper display later on
     date_columns_source <- sapply(suspect_data_source,
-      function(x) inherits(x, "Date"))
+                                  function(x) inherits(x, "Date"))
     for (col in names(suspect_data_source)[date_columns_source]) {
       suspect_data_source[[col]] <- as.character(suspect_data_source[[col]])
     }
     date_columns_target <- sapply(suspect_data_target,
-      function(x) inherits(x, "Date"))
+                                  function(x) inherits(x, "Date"))
     for (col in names(suspect_data_target)[date_columns_target]) {
       suspect_data_target[[col]] <- as.character(suspect_data_target[[col]])
     }

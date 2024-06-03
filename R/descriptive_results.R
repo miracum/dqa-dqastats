@@ -266,10 +266,10 @@ descriptive_results <- function(rv,
         if (stat_dat[, unique(get("variable_type"))] %in%
             c("enumerated", "string")) {
           outlist$statistics <- calc_cat_stats(
-              stat_dat = stat_dat,
-              stat_key = rv$variable_list[[i]],
-              rv = rv
-            )
+            stat_dat = stat_dat,
+            stat_key = rv$variable_list[[i]],
+            rv = rv
+          )
           # for target_data; our data is in rv$list_target$key
         } else {
           outlist$statistics <- calc_num_stats(

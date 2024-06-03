@@ -20,10 +20,11 @@
 title: "Data Quality Report: Comparison of `r rv$source$system_name` and `r rv$target$system_name`"
 subtitle: "`r DQAstats:::get_restricting_date_info(restricting_date = rv$restricting_date, time = FALSE)`"
 author: "(c) Universitätsklinikum Erlangen"
-date: \today
-geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
+date: today
+
 output: 
-  pdf_document:
+  pdf:
+    geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
     toc: true
     toc_depth: 2
     number_sections: true

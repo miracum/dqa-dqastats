@@ -1,7 +1,7 @@
 Package: DQAstats
 Title: Core Functions for Data Quality Assessment
-Version: 0.3.4.9003
-Date: 2024-05-16
+Version: 0.3.4.9007
+Date: 2024-06-03
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
@@ -28,6 +28,7 @@ Imports:
     knitr,
     magrittr,
     parsedate,
+    quarto (>= 1.4),
     rmarkdown,
     stats,
     tinytex,
@@ -38,9 +39,11 @@ Suggests:
     remotes,
     testthat
 VignetteBuilder: 
-    knitr
+    quarto
 Config/testthat/edition: 3
 Config/testthat/parallel: false
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+SystemRequirements: Quarto command line tools
+    (https://github.com/quarto-dev/quarto-cli).
 RoxygenNote: 7.3.1

@@ -26,7 +26,8 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.3.4.9003")
+my_desc$set_version("0.3.4.9007")
+
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
 # The description of your package
@@ -44,12 +45,19 @@ my_desc$set("URL", "https://github.com/miracum/dqa-dqastats")
 my_desc$set("BugReports",
             "https://github.com/miracum/dqa-dqastats/issues")
 # Vignette Builder
-my_desc$set("VignetteBuilder" = "knitr")
+my_desc$set("VignetteBuilder" = "quarto")
+# Quarto
+my_desc$set("SystemRequirements" = paste0(
+  "Quarto command line tools ",
+  "(https://github.com/quarto-dev/quarto-cli).")
+)
+
 # Testthat stuff
 my_desc$set("Config/testthat/parallel" = "false")
 my_desc$set("Config/testthat/edition" = "3")
 # Roxygen
 my_desc$set("Roxygen" = "list(markdown = TRUE)")
+
 # License
 my_desc$set("License", "GPL-3")
 # Save everyting
@@ -81,6 +89,7 @@ usethis::use_package("future.apply", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("kableExtra", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
+usethis::use_package("quarto", type = "Imports", min_version = "1.4")
 usethis::use_package("magrittr", type = "Imports")
 usethis::use_package("parsedate", type = "Imports")
 usethis::use_package("rmarkdown", type = "Imports")
@@ -192,6 +201,7 @@ usethis::use_build_ignore("build_image.sh")
 usethis::use_build_ignore("renovate.json")
 usethis::use_build_ignore("NEWS.md")
 usethis::use_build_ignore("README.md")
+usethis::use_build_ignore("README.qmd")
 usethis::use_build_ignore("docker")
 usethis::use_build_ignore(".ccache")
 usethis::use_build_ignore(".github")
@@ -203,6 +213,7 @@ usethis::use_build_ignore("dqastats.Rproj")
 usethis::use_build_ignore("cran-comments.md")
 usethis::use_build_ignore("man/figures")
 usethis::use_build_ignore("Rplots.pdf")
+usethis::use_build_ignore("/dqa-dqastats.wiki/")
 
 
 ## .gitignore:
@@ -229,9 +240,11 @@ usethis::use_git_ignore("!/man/")
 usethis::use_git_ignore("!NAMESPACE")
 usethis::use_git_ignore("!/R/")
 usethis::use_git_ignore("!/README.md")
+usethis::use_git_ignore("!/README.qmd")
 usethis::use_git_ignore("!/tests/")
 usethis::use_git_ignore("/tests/testthat/test_settings_use.yml")
 usethis::use_git_ignore("/tests/testthat/testdata/")
+usethis::use_git_ignore("/dqa-dqastats.wiki/")
 usethis::use_git_ignore("/.Rhistory")
 usethis::use_git_ignore("!/*.Rproj")
 usethis::use_git_ignore("/.Rproj*")
@@ -257,6 +270,8 @@ usethis::use_git_ignore("!cran-comments.md")
 
 usethis::use_tidy_description()
 
+quarto::quarto_render(input = "README.qmd")
+
 # create NEWS.md using the python-package "auto-changelog" (must be installed)
 # https://www.conventionalcommits.org/en/v1.0.0/
 # build|ci|docs|feat|fix|perf|refactor|test
@@ -268,12 +283,6 @@ usethis::use_tidy_description()
 # system(
 #   command = 'auto-changelog -u -t "DQAstats NEWS" --tag-prefix "v" -o "NEWS.md"'
 # )
-
-
-badger::badge_cran_download("DQAstats", "grand-total", "blue")
-badger::badge_cran_download("DQAstats", "last-month", "blue")
-badger::badge_dependencies("DQAstats")
-badger::badge_doi("10.1055/s-0041-1733847", color = "yellow")
 
 an <- autonewsmd::autonewsmd$new(repo_name = packagename)
 an$generate()
