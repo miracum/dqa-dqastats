@@ -368,7 +368,6 @@ dqa <- function(source_system_name,
                 headless = rv$headless)
 
   # delete the TIMESTAMP columns
-  # ToDo: what happens if not deleted?
 
   fun <- function(x) {
 
