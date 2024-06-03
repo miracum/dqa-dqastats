@@ -234,6 +234,19 @@ create_pdf_report <- function(rv = rv,
         output_format = "pdf",
         metadata_file = params_file
       )
+
+      pdf_temp_file <- gsub("\\.Rmd$", ".pdf", template_file)
+
+      file.copy(
+        from = pdf_temp_file,
+        to = file.path(outdir, outfile),
+        overwrite = TRUE
+      )
+
+      message(paste0(
+        "Copied generated '", pdf_temp_file,
+        "' to '", file.path(outdir, outfile), "'."))
+
     }, error = function(e) {
       DIZtools::feedback(
         print_this = paste0(catch_msg, e),
