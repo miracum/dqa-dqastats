@@ -11,6 +11,10 @@
 
 #### Bug fixes
 
+-   specifing min required version for quarto
+    ([9cc7a55](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/9cc7a555dfe21396ce76530f25aa103e788ef0fe))
+-   updated code; moved template rmd to qmd
+    ([b9a7530](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/b9a7530d6c21d1d86eddb84d93f4ce1f152b7591))
 -   rmd file
     ([ae4f067](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/ae4f06740799745ac7f39cc0863bddbc06bfbfbd))
 -   no more filter error
@@ -56,6 +60,16 @@
 
 #### Other changes
 
+-   merged latest developments into colored_diff_summary
+    ([41da740](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/41da7405fa2fc981afe30d00c350a37c81cfcf69))
+-   moved vignette engine to quarto
+    ([87defba](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/87defbae5715a2124638743b23ee3f87dcdd5b5d))
+-   renamed create_markdown to create_pdf_report
+    ([dd26b08](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/dd26b08b0839ea6e2da1cf00c04239ddd7821a24))
+-   updated automated generation of readme
+    ([9b286bc](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/9b286bc2e8b7385097d79dc64583346511858df6))
+-   added dqa-dqastats.wiki to ignore
+    ([3a80262](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/3a802627a211e634da214241c4cbb0166857a70d))
 -   updated desc and news.md
     ([e0678bb](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/e0678bbdd334e547a9fc1f1c739af0a38fdb41ef))
 -   merged fixed ci into tc branch
@@ -70,7 +84,7 @@
     ([d1f2610](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d1f2610048a79b42b0a5036e12b25f87e3976d14))
 
 Full set of changes:
-[`v0.3.4...847d936`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...847d936)
+[`v0.3.4...41da740`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...41da740)
 
 ## v0.3.4 (2024-04-04)
 
