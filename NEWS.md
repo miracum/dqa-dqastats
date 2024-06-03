@@ -60,6 +60,10 @@
 
 #### Other changes
 
+-   added latest enhancements from dev-branch
+    ([55b011b](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/55b011b27c8535f82f3fbecd89529b728ae15452))
+-   updated dev-stuffs
+    ([50f0b51](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/50f0b517ca23937c2eef21a249dc7a5c0af2961d))
 -   updated tests
     ([546ad57](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/546ad5769dc6b43b0764bf5ec6d2bb8fe1ac82ac))
 -   merged latest developments into colored_diff_summary
@@ -86,7 +90,7 @@
     ([d1f2610](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d1f2610048a79b42b0a5036e12b25f87e3976d14))
 
 Full set of changes:
-[`v0.3.4...546ad57`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...546ad57)
+[`v0.3.4...55b011b`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...55b011b)
 
 ## v0.3.4 (2024-04-04)
 

@@ -197,7 +197,7 @@ create_pdf_report <- function(rv = rv,
       if (dir.exists(paste0(utils_path, "RMD/_header"))) {
         file.copy(
           paste0(utils_path, "RMD/_header"),
-          outdir,
+          tempdir(),
           recursive = TRUE
         )
       }
