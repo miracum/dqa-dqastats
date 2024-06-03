@@ -60,6 +60,8 @@
 
 #### Other changes
 
+-   updated tests
+    ([546ad57](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/546ad5769dc6b43b0764bf5ec6d2bb8fe1ac82ac))
 -   merged latest developments into colored_diff_summary
     ([41da740](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/41da7405fa2fc981afe30d00c350a37c81cfcf69))
 -   moved vignette engine to quarto
@@ -84,7 +86,7 @@
     ([d1f2610](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d1f2610048a79b42b0a5036e12b25f87e3976d14))
 
 Full set of changes:
-[`v0.3.4...41da740`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...41da740)
+[`v0.3.4...546ad57`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...546ad57)
 
 ## v0.3.4 (2024-04-04)
 

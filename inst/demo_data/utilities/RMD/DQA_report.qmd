@@ -17,8 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-title: "Data Quality Report: Comparison of `r rv$source$system_name` and `r rv$target$system_name`"
-subtitle: "`r DQAstats:::get_restricting_date_info(restricting_date = rv$restricting_date, time = FALSE)`"
+title: "Data Quality Report: Comparison of {{< meta source_system_name >}} and {{< meta target_system_name >}}"
+subtitle: "{{< meta restricting_date >}}"
 author: "(c) Universitätsklinikum Erlangen"
 date: today
 
@@ -42,6 +42,7 @@ output:
 # include this to compile pdf
 knitr::opts_chunk$set(echo = FALSE)
 options(tinytex.verbose = TRUE)
+load("./DQAstats.Rda")
 ```
 
 \newpage
@@ -116,7 +117,7 @@ Calculates the discrepancies between source (`r rv$source$system_name`) and targ
 
 ```{r results='asis'}
 if (!is.null(rv$checks$differences)) {
-   render_difference_check(rv$checks$differences)
+  render_difference_check(rv$checks$differences)
 } else {
   cat(no_data_to_display_msg)
 }
