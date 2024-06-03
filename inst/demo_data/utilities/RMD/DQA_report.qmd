@@ -49,22 +49,22 @@ load("./DQAstats.Rda")
 
 # Data Map
 
-## Target Database: `r rv_list$target$system_name`
+## Target Database: `r rv$target$system_name`
 
 ```{r results='asis'}
 no_data_to_display_msg <- "There is no data to display.\n\n"
-if (!is.null(rv_list$datamap$target_data)) {
-  render_data_map(rv_list$datamap$target_data)
+if (!is.null(rv$datamap$target_data)) {
+  render_data_map(rv$datamap$target_data)
 } else {
   cat(no_data_to_display_msg)
 }
 ```
 
-## Source Database: `r rv_list$source$system_name`
+## Source Database: `r rv$source$system_name`
 
 ```{r results='asis'}
-if (!is.null(rv_list$datamap$source_data)) {
-  render_data_map(rv_list$datamap$source_data)
+if (!is.null(rv$datamap$source_data)) {
+  render_data_map(rv$datamap$source_data)
 } else {
   cat(no_data_to_display_msg)
 }
@@ -79,14 +79,14 @@ if (!is.null(rv_list$datamap$source_data)) {
 Completeness checks (validation) evaluate the ETL (extract transform load) jobs. They compare for each variable the exact matching of the number of distinct values, the number of valid values (=n), and the number of missing values between the source database and the target database.
 
 ```{r results='asis'}
-kable_table(rv_list$checks$etl)
+kable_table(rv$checks$etl)
 ```
 
 ## Verification 
 
 ```{r results='asis'}
-if (!is.null(rv_list$completeness)) {
-  kable_table(rv_list$completeness[, c(1, 3, 5)])
+if (!is.null(rv$completeness)) {
+  kable_table(rv$completeness[, c(1, 3, 5)])
 } else {
   cat(no_data_to_display_msg)
 }
@@ -101,8 +101,8 @@ if (!is.null(rv_list$completeness)) {
 Value conformance checks (verification) compare for each variable the values of each database to predefined constraints. Those constraints can be defined for each variable and database individually in the metadata repository (MDR).
 
 ```{r results='asis'}
-if (!is.null(rv_list$checks$value_conformance)) {
-  kable_table(rv_list$checks$value_conformance)
+if (!is.null(rv$checks$value_conformance)) {
+  kable_table(rv$checks$value_conformance)
 } else {
   cat(no_data_to_display_msg)
 }
@@ -113,11 +113,11 @@ if (!is.null(rv_list$checks$value_conformance)) {
 
 # Difference Monitor
 
-Calculates the discrepancies between source (`r rv_list$source$system_name`) and target (`r rv_list$target$system_name`) database. Differences are shown in absolute values as well as percentage.
+Calculates the discrepancies between source (`r rv$source$system_name`) and target (`r rv$target$system_name`) database. Differences are shown in absolute values as well as percentage.
 
 ```{r results='asis'}
-if (!is.null(rv_list$checks$differences)) {
-  render_difference_check(rv_list$checks$differences)
+if (!is.null(rv$checks$differences)) {
+  render_difference_check(rv$checks$differences)
 } else {
   cat(no_data_to_display_msg)
 }
@@ -126,12 +126,12 @@ if (!is.null(rv_list$checks$differences)) {
 
 # Time-compare Results
 
-If the available resources for a given timestamp differ, it is likely that a resource is missing in either the source (`r rv_list$source$system_name`) or the target (`r rv_list$target$system_name`) database. 
+If the available resources for a given timestamp differ, it is likely that a resource is missing in either the source (`r rv$source$system_name`) or the target (`r rv$target$system_name`) database. 
 The following tables are limited to the first 30 timestamps.
 
 ```{r results='asis'}
-if (!is.null(rv_list$time_compare_results)) {
-  render_time_compare(rv_list$time_compare_results)
+if (!is.null(rv$time_compare_results)) {
+  render_time_compare(rv$time_compare_results)
 } else {
   cat(no_data_to_display_msg)
 }
@@ -142,10 +142,10 @@ if (!is.null(rv_list$time_compare_results)) {
 # Detailed Descriptive Analysis
 
 ```{r results='asis'}
-if (!is.null(rv_list$results_descriptive) &&
-    !is.null(rv_list$conformance$value_conformance)) {
-  render_results(rv_list$results_descriptive,
-                 rv_list$conformance$value_conformance)
+if (!is.null(rv$results_descriptive) &&
+    !is.null(rv$conformance$value_conformance)) {
+  render_results(rv$results_descriptive,
+                 rv$conformance$value_conformance)
 } else {
   cat(no_data_to_display_msg)
 }
@@ -159,10 +159,10 @@ if (!is.null(rv_list$results_descriptive) &&
 
 ```{r results='asis'}
 # plausi results
-if (!is.null(rv_list$results_plausibility_atemporal) &&
-    !is.null(rv_list$conformance$value_conformance)) {
-  render_atemp_plausis(rv_list$results_plausibility_atemporal,
-                       rv_list$conformance$value_conformance)
+if (!is.null(rv$results_plausibility_atemporal) &&
+    !is.null(rv$conformance$value_conformance)) {
+  render_atemp_plausis(rv$results_plausibility_atemporal,
+                       rv$conformance$value_conformance)
 } else {
   cat(no_data_to_display_msg)
 }
@@ -172,8 +172,8 @@ if (!is.null(rv_list$results_plausibility_atemporal) &&
 
 ```{r results='asis'}
 # plausi results
-if (!is.null(rv_list$results_plausibility_unique)) {
-  render_uniq_plausis(rv_list$results_plausibility_unique)
+if (!is.null(rv$results_plausibility_unique)) {
+  render_uniq_plausis(rv$results_plausibility_unique)
 } else {
   cat(no_data_to_display_msg)
 }
@@ -203,18 +203,18 @@ utils::packageVersion("DIZtools")
 
 
 ```{r}
-if (length(rv_list$source$sql) > 0 ||
-    length(rv_list$target$sql) > 0) {
+if (length(rv$source$sql) > 0 ||
+    length(rv$target$sql) > 0) {
   cat("\n## SQL Statments  \n")
 }
 ```
 
 ```{r}
-if (length(rv_list$source$sql) > 0) {
+if (length(rv$source$sql) > 0) {
   cat("\n### Source Database  \n")
-  for (i in names(rv_list$source$sql)) {
+  for (i in names(rv$source$sql)) {
     cat(paste0("  \nMDR key: ", i, "  \n  \n"))
-    cat(paste0(rv_list$source$sql[[i]]))
+    cat(paste0(rv$source$sql[[i]]))
     cat("  \n  \n")
   }
 } else {
@@ -225,11 +225,11 @@ if (length(rv_list$source$sql) > 0) {
   
 
 ```{r}
-if (length(rv_list$target$sql) > 0) {
+if (length(rv$target$sql) > 0) {
   cat("\n### Target Database  \n")
-  for (i in names(rv_list$target$sql)) {
+  for (i in names(rv$target$sql)) {
     cat(paste0("  \nMDR key: ", i, "  \n  \n"))
-    cat(paste0(rv_list$target$sql[[i]]))
+    cat(paste0(rv$target$sql[[i]]))
     cat("  \n  \n")
   }
 } else {
