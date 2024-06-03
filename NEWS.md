@@ -2,7 +2,7 @@
 
 # DQAstats NEWS
 
-## Unreleased (2024-05-24)
+## Unreleased (2024-05-29)
 
 #### New features
 
@@ -58,6 +58,8 @@
 
 #### Other changes
 
+-   moved vignette engine to quarto
+    ([87defba](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/87defbae5715a2124638743b23ee3f87dcdd5b5d))
 -   renamed create_markdown to create_pdf_report
     ([dd26b08](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/dd26b08b0839ea6e2da1cf00c04239ddd7821a24))
 -   updated automated generation of readme
@@ -78,7 +80,7 @@
     ([d1f2610](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d1f2610048a79b42b0a5036e12b25f87e3976d14))
 
 Full set of changes:
-[`v0.3.4...dd26b08`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...dd26b08)
+[`v0.3.4...87defba`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...87defba)
 
 ## v0.3.4 (2024-04-04)
 

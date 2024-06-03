@@ -1,7 +1,7 @@
 Package: DQAstats
 Title: Core Functions for Data Quality Assessment
 Version: 0.3.4.9006
-Date: 2024-05-29
+Date: 2024-06-03
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
