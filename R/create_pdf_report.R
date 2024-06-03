@@ -207,9 +207,10 @@ create_pdf_report <- function(rv = rv,
       ), ".pdf"))
 
       # save rv object for rendering document
+      rv_list <- as.list(rv)
       save(
         list = c(
-          "rv", ls(getNamespace("DQAstats"), all.names = TRUE)
+          "rv_list", ls(getNamespace("DQAstats"), all.names = TRUE)
         ),
         file = file.path(tempdir(), "DQAstats.Rda")
       )
