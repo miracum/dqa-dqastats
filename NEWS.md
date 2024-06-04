@@ -60,6 +60,20 @@
 
 #### Other changes
 
+-   reverted rv_list to rv again
+    ([f44a854](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f44a854c6b7e70ee23eb6baadde6ed55422c67b7))
+-   removed as.list(rv) again
+    ([017bb49](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/017bb49ecdd01d60015137119c2612a6a90213a7))
+-   changed report-generation
+    ([ac07d40](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/ac07d40f1145015051873ca08a0ea1590839b101))
+-   merged both branches
+    ([7aa766f](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/7aa766f0bf62f42c4e47ddcff775bfec74b42af6))
+-   fixed errors
+    ([8702985](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/870298524d5437a8896c128204acb85948e873ed))
+-   re-introduced missing pdf-copying
+    ([4f6a7d5](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/4f6a7d52c78b005a9bf0d2ebbb6e5c4f4562807f))
+-   fixed all changes that have not been merged before
+    ([d370e06](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d370e069d0c0cc1795ec54955a46aad24f9af27b))
 -   added latest enhancements from dev-branch
     ([55b011b](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/55b011b27c8535f82f3fbecd89529b728ae15452))
 -   updated dev-stuffs
@@ -90,7 +104,7 @@
     ([d1f2610](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d1f2610048a79b42b0a5036e12b25f87e3976d14))
 
 Full set of changes:
-[`v0.3.4...55b011b`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...55b011b)
+[`v0.3.4...f44a854`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...f44a854)
 
 ## v0.3.4 (2024-04-04)
 

@@ -235,7 +235,7 @@ create_pdf_report <- function(rv = rv,
         metadata_file = params_file
       )
 
-      pdf_temp_file <- gsub("\\.Rmd$", ".pdf", template_file)
+      pdf_temp_file <- gsub("\\.qmd$", ".pdf", template_file)
 
       file.copy(
         from = pdf_temp_file,
