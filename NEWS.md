@@ -2,7 +2,7 @@
 
 # DQAstats NEWS
 
-## Unreleased (2024-06-03)
+## Unreleased (2024-06-04)
 
 #### New features
 
@@ -11,6 +11,8 @@
 
 #### Bug fixes
 
+-   fixed issue with copying of final pdf-report
+    ([008dc28](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/008dc28a2df4bc8a4f067a28a2ea0e1e436e88a6))
 -   specifing min required version for quarto
     ([9cc7a55](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/9cc7a555dfe21396ce76530f25aa103e788ef0fe))
 -   updated code; moved template rmd to qmd
@@ -104,7 +106,7 @@
     ([d1f2610](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d1f2610048a79b42b0a5036e12b25f87e3976d14))
 
 Full set of changes:
-[`v0.3.4...f44a854`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...f44a854)
+[`v0.3.4...008dc28`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...008dc28)
 
 ## v0.3.4 (2024-04-04)
 

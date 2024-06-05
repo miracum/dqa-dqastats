@@ -26,7 +26,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.3.4.9008")
+my_desc$set_version("0.3.5")
 
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
@@ -92,7 +92,6 @@ usethis::use_package("knitr", type = "Imports")
 usethis::use_package("quarto", type = "Imports", min_version = "1.4")
 usethis::use_package("magrittr", type = "Imports")
 usethis::use_package("parsedate", type = "Imports")
-usethis::use_package("rmarkdown", type = "Imports")
 usethis::use_package("stats", type = "Imports")
 usethis::use_package("tinytex", type = "Imports")
 usethis::use_package("utils", type = "Imports")
