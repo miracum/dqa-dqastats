@@ -2,7 +2,14 @@
 
 # DQAstats NEWS
 
-## Unreleased (2024-06-04)
+## Unreleased (2024-06-06)
+
+#### Other changes
+
+-   updated gitignore
+    ([e53ad68](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/e53ad68ea2218f7a598cf1e30da753ff60406a8a))
+
+## v0.3.5 (2024-06-05)
 
 #### New features
 
@@ -62,6 +69,8 @@
 
 #### Other changes
 
+-   prepared cran-update
+    ([c2c33db](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/c2c33db5c67db6932701cc686c518b39f11023ed))
 -   reverted rv_list to rv again
     ([f44a854](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/f44a854c6b7e70ee23eb6baadde6ed55422c67b7))
 -   removed as.list(rv) again
@@ -106,7 +115,7 @@
     ([d1f2610](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/d1f2610048a79b42b0a5036e12b25f87e3976d14))
 
 Full set of changes:
-[`v0.3.4...008dc28`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...008dc28)
+[`v0.3.4...v0.3.5`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.4...v0.3.5)
 
 ## v0.3.4 (2024-04-04)
 
