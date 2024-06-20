@@ -17,24 +17,26 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-title: "Data Quality Report: Comparison of {{< meta source_system_name >}} and {{< meta target_system_name >}}"
-subtitle: "{{< meta restricting_date >}}"
+
+title: | 
+ | Data Quality Report: Comparison of {{< meta source_system_name >}} and {{< meta target_system_name >}}
+ |  \normalsize {{< meta restricting_date >}}
 author: "(c) Universitätsklinikum Erlangen"
 date: today
 
-output: 
+format: 
   pdf:
-    geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
     toc: true
-    toc_depth: 2
-    number_sections: true
-    includes:
-      in_header: "./_header/header.tex"
-    keep_tex: true
-    pandoc_args:  [
-                    "--variable", "graphics=yes",
-                    "--variable", "compact-title=yes"
-                  ]
+    toc-depth: 2
+    number-sections: true
+    keep-tex: true
+    include-in-header: "./_header/header.tex"
+    geometry: 
+    - left=25mm
+    - right=25mm
+    - top=20mm
+    - bottom=20mm
+    
 
 ---
 
