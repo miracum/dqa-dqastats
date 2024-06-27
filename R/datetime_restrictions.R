@@ -614,7 +614,7 @@ get_restricting_date_info <- function(restricting_date,
           "nkung. Alle vorliegenden Daten wurden analysiert"
         )
     } else {
-      res <- "No time restriction. All available data were analysed"
+      res <- "No time restriction. All available data were analyzed"
     }
   }
   return(res)
