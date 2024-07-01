@@ -204,7 +204,7 @@ create_helper_vars <- function(mdr,
     } else if (mdr[get("source_system_name") ==
                    eval(parse(text = paste0(f, "_db"))),
                    unique(get("source_system_type"))] %in%
-               c("postgres", "oracle")) {
+               c("postgres", "oracle", "presto")) {
       outlist[[paste0("keys_", f)]] <-
         mdr[get("variable_name") != "undefined" & get("key") != "undefined", ][
           get("source_system_name") == eval(parse(text = paste0(f, "_db"))),

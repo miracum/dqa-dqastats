@@ -25,8 +25,7 @@ load_csv_files <- function(mdr,
 
   # original beginning of function
   inputdir <- DIZtools::clean_path_name(inputdir)
-
-
+  
   available_systems <- mdr[get("source_system_name") == sourcesystem &
                              get("source_system_type") == "csv", ]
 
@@ -196,7 +195,7 @@ load_csv <- function(rv,
                      system) {
 
   stopifnot(is.character(system$settings$path))
-
+  
   # initialize outlist
   outlist <- list()
 
@@ -658,6 +657,7 @@ load_database <- function(rv,
   return(outlist)
 }
 
+
 #' @title data_loading helper function
 #'
 #' @description Internal function to load the source and target data
@@ -735,8 +735,7 @@ load_database <- function(rv,
 #' @export
 data_loading <- function(rv, system, keys_to_test) {
   # TODO: Test it!
-  #
-
+  
   # check if all now necessary parameters are correct:
   stopifnot(
     # rv:
@@ -830,7 +829,7 @@ data_loading <- function(rv, system, keys_to_test) {
     )
     outlist$sql_statements <- NA
 
-  } else if (system$system_type %in% c("oracle", "postgres")) {
+  } else if (system$system_type %in% c("oracle", "postgres", "presto")) {
 
     # import target SQL
     msg <- "Loaded SQL statements from "
@@ -916,6 +915,32 @@ data_loading <- function(rv, system, keys_to_test) {
           )
       }
       stopifnot(!is.null(db_con))
+    } else if (system$system_type == "presto") {
+
+      # test target_db
+      if (is.null(system$settings)) {
+        ## Use environment-settings:
+        db_con <-
+          DIZutils::db_connection(
+            system_name = system$system_name,
+            db_type = system$system_type,
+            headless = rv$headless,
+            logfile_dir = rv$log$logfile_dir
+          )
+      } else {
+        ## Use included settings:
+        db_con <-
+          DIZutils::db_connection(
+            system_name = system$system_name,
+            db_type = system$system_type,
+            headless = rv$headless,
+            logfile_dir = rv$log$logfile_dir,
+            from_env = FALSE,
+            settings = system$settings
+          )
+      }
+      stopifnot(!is.null(db_con))
+
     }
     # load target data
     loaded_from_db <- load_database(
@@ -948,5 +973,6 @@ data_loading <- function(rv, system, keys_to_test) {
   } else {
     stop("\nThis source_system_type is currently not implemented.\n\n")
   }
+  
   return(outlist)
 }
