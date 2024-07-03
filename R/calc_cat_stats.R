@@ -28,9 +28,7 @@ calc_cat_stats <- function(stat_dat,
   statistics <- list()
 
   key_cols <- get_key_col(rv)
-  print("key_cols")
   key_col_name_src <- key_cols$source
-  print("key_col_name_scr")
   key_col_name_tar <- key_cols$target
 
   statistics$source_data <- tryCatch(
