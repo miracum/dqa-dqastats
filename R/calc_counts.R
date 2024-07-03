@@ -30,6 +30,7 @@ calc_counts <- function(cnt_dat,
 
   key_cols <- get_key_col(rv)
   key_col_name_src <- key_cols$source
+  print("key_col_name_src")
   key_col_name_tar <- key_cols$target
 
   counts$source_data$cnt <- tryCatch(
