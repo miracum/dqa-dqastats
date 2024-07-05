@@ -273,7 +273,7 @@ apply_time_restriciton <- function(data,
     data[, (colname_tmp) := NULL]
     res <- data
     return(res)
-  } else if (system_type %in% c("postgres", "oracle")) {
+  } else if (system_type %in% c("postgres", "oracle", "presto")) {
     if (is.null(system_name) || is.null(mdr) || is.null(db_con)) {
       DIZtools::feedback(
         print_this = paste0(

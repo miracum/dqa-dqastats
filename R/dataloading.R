@@ -327,7 +327,6 @@ load_database <- function(rv,
 
   ## Initialize outlist:
   outlist <- list()
-
   ## Read data:
   outlist <- sapply(
     X = keys_to_test,
