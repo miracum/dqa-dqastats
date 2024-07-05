@@ -529,7 +529,6 @@ load_database <- function(rv,
     },
     simplify = FALSE,
     USE.NAMES = TRUE
-    print("end of load_database")
   )
 
   DIZutils::close_connection(db_con)
@@ -952,7 +951,7 @@ data_loading <- function(rv, system, keys_to_test) {
       db_name = system$system_name,
       db_type = system$system_type
     )
-    print("out of load_database in 954")
+
     outlist$outdata <- sapply(
       X = names(loaded_from_db),
       FUN = function(x) {
