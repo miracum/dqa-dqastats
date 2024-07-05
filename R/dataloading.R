@@ -25,7 +25,7 @@ load_csv_files <- function(mdr,
 
   # original beginning of function
   inputdir <- DIZtools::clean_path_name(inputdir)
-  
+
   available_systems <- mdr[get("source_system_name") == sourcesystem &
                              get("source_system_type") == "csv", ]
 
@@ -195,7 +195,7 @@ load_csv <- function(rv,
                      system) {
 
   stopifnot(is.character(system$settings$path))
-  
+
   # initialize outlist
   outlist <- list()
 
@@ -734,7 +734,7 @@ load_database <- function(rv,
 #' @export
 data_loading <- function(rv, system, keys_to_test) {
   # TODO: Test it!
-  
+
   # check if all now necessary parameters are correct:
   stopifnot(
     # rv:
@@ -951,6 +951,7 @@ data_loading <- function(rv, system, keys_to_test) {
       db_name = system$system_name,
       db_type = system$system_type
     )
+    print("out of load_database in 954")
     outlist$outdata <- sapply(
       X = names(loaded_from_db),
       FUN = function(x) {
@@ -972,6 +973,6 @@ data_loading <- function(rv, system, keys_to_test) {
   } else {
     stop("\nThis source_system_type is currently not implemented.\n\n")
   }
-  
+
   return(outlist)
 }
