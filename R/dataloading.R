@@ -328,7 +328,6 @@ load_database <- function(rv,
   ## Initialize outlist:
   outlist <- list()
   ## Read data:
-  print("before sapply in load_database in 331")
   outlist <- sapply(
     X = keys_to_test,
     FUN = function(i) {
@@ -336,7 +335,7 @@ load_database <- function(rv,
 
       msg <- paste("Getting", i, "from database", db_name)
       sql_extended <- NULL
-      print("line 339")
+      
       ## Apply time filtering (if needed):
       if (rv$restricting_date$use_it) {
         if (Sys.getenv(paste0(toupper(db_name), "_SQLMODIFY")) == "TRUE") {
@@ -530,6 +529,7 @@ load_database <- function(rv,
     },
     simplify = FALSE,
     USE.NAMES = TRUE
+    print("end of load_database")
   )
 
   DIZutils::close_connection(db_con)
