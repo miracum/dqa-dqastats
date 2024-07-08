@@ -373,6 +373,8 @@ load_database <- function(rv,
             " 23:59:59', 'YYYY-MM-DD HH24:MI:SS')"
           )
           sql <- gsub("AS r_intermediate", replace_string, sql_statements[[i]])
+          print("Ausgabe: ersetzen r_intermediate in Zeile 376")
+          print(sql)
           msg <- paste0(msg, " (using a MODIFIED SUBSELECT)")
         } else {
           ## Filter SQL
