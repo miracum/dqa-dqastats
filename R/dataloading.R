@@ -358,23 +358,52 @@ load_database <- function(rv,
           # blob/91a749cf1232b86af3d499c60b3cbb06dfe68618/R/
           # datetime_restrictions.R#L333
           # --> maybe try to resolve them / add replace string there
-          replace_string <- paste0(
-            "AS r_intermediate WHERE r_intermediate.",
-            restricting_date_var, " BETWEEN TO_TIMESTAMP('",
-            as.Date(
-              rv$restricting_date$start,
-              format = restricting_date_format
-            ),
-            "', 'YYYY-MM-DD') AND TO_TIMESTAMP('",
-            as.Date(
-              rv$restricting_date$end,
-              format = restricting_date_format
-            ),
-            " 23:59:59', 'YYYY-MM-DD HH24:MI:SS')"
-          )
+          if (db_type == "presto"){
+            replace_string <- paste0(
+              "AS r_intermediate WHERE r_intermediate.",
+              restricting_date_var, " BETWEEN TO_TIMESTAMP('",
+              as.Date(
+                rv$restricting_date$start,
+                format = restricting_date_format
+              ),
+              "', 'yyyy-mm-dd') AND TO_TIMESTAMP('",
+              as.Date(
+                rv$restricting_date$end,
+                format = restricting_date_format
+              ),
+              " 23:59:59', 'yyyy-mm-dd hh24:mi:ss')"
+            )
+          }else{
+            replace_string <- paste0(
+              "AS r_intermediate WHERE r_intermediate.",
+              restricting_date_var, " BETWEEN TO_TIMESTAMP('",
+              as.Date(
+                rv$restricting_date$start,
+                format = restricting_date_format
+              ),
+              "', 'YYYY-MM-DD') AND TO_TIMESTAMP('",
+              as.Date(
+                rv$restricting_date$end,
+                format = restricting_date_format
+              ),
+              " 23:59:59', 'YYYY-MM-DD HH24:MI:SS')"
+            )
+          }
+          # replace_string <- paste0(
+          #   "AS r_intermediate WHERE r_intermediate.",
+          #   restricting_date_var, " BETWEEN TO_TIMESTAMP('",
+          #   as.Date(
+          #     rv$restricting_date$start,
+          #     format = restricting_date_format
+          #   ),
+          #   "', 'YYYY-MM-DD') AND TO_TIMESTAMP('",
+          #   as.Date(
+          #     rv$restricting_date$end,
+          #     format = restricting_date_format
+          #   ),
+          #   " 23:59:59', 'YYYY-MM-DD HH24:MI:SS')"
+          # )
           sql <- gsub("AS r_intermediate", replace_string, sql_statements[[i]])
-          print("Ausgabe: ersetzen r_intermediate in Zeile 376")
-          print(sql)
           msg <- paste0(msg, " (using a MODIFIED SUBSELECT)")
         } else {
           ## Filter SQL
