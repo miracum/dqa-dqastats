@@ -6,6 +6,8 @@
 
 #### Other changes
 
+-   updated desc and news md, fixed typo
+    ([919018f](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/919018f4d90f0b8bcbeef62b6f42b8dd5cd0c951))
 -   merged fix for quarto pdf
     ([6aaae8d](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/6aaae8dac4584e7e1affaa9c5e875bceccec31cf))
 -   fix pdf generation with quarto
@@ -16,7 +18,7 @@
     ([e53ad68](https://gitlab.miracum.org/miracum/dqa/dqastats/tree/e53ad68ea2218f7a598cf1e30da753ff60406a8a))
 
 Full set of changes:
-[`v0.3.5...6aaae8d`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.5...6aaae8d)
+[`v0.3.5...919018f`](https://gitlab.miracum.org/miracum/dqa/dqastats/-/compare/v0.3.5...919018f)
 
 ## v0.3.5 (2024-06-05)
 
