@@ -358,7 +358,7 @@ load_database <- function(rv,
           # blob/91a749cf1232b86af3d499c60b3cbb06dfe68618/R/
           # datetime_restrictions.R#L333
           # --> maybe try to resolve them / add replace string there
-          if (db_type == "presto"){
+          if (db_type == "trino"){
             replace_string <- paste0(
               "AS r_intermediate WHERE r_intermediate.",
               restricting_date_var, " BETWEEN TO_TIMESTAMP('",
@@ -859,7 +859,7 @@ data_loading <- function(rv, system, keys_to_test) {
     )
     outlist$sql_statements <- NA
 
-  } else if (system$system_type %in% c("oracle", "postgres", "presto")) {
+  } else if (system$system_type %in% c("oracle", "postgres", "trino")) {
 
     # import target SQL
     msg <- "Loaded SQL statements from "
@@ -945,7 +945,7 @@ data_loading <- function(rv, system, keys_to_test) {
           )
       }
       stopifnot(!is.null(db_con))
-    } else if (system$system_type == "presto") {
+    } else if (system$system_type == "trino") {
 
       # test target_db
       if (is.null(system$settings)) {
