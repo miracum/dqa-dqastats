@@ -1,6 +1,6 @@
 # DQAstats - Perform data quality assessment (DQA) of electronic health
 # records (EHR)
-# Copyright (C) 2019-2022 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2024 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -335,7 +335,7 @@ load_database <- function(rv,
 
       msg <- paste("Getting", i, "from database", db_name)
       sql_extended <- NULL
-      
+
       ## Apply time filtering (if needed):
       if (rv$restricting_date$use_it) {
         if (Sys.getenv(paste0(toupper(db_name), "_SQLMODIFY")) == "TRUE") {
