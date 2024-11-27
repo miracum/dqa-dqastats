@@ -220,9 +220,11 @@ create_pdf_report <- function(rv = rv,
         tmpdir = tempdir(),
         fileext = "-params.yml"
       )
+
       writeLines(
         text = c(paste0("source_system_name: \"", rv$source$system_name, "\""),
                  paste0("target_system_name: \"", rv$target$system_name, "\""),
+                 paste0("sitename: \"", rv$sitename, "\""),
                  paste0("restricting_date: \"", get_restricting_date_info(
                    restricting_date = rv$restricting_date, time = FALSE), "\""
                  )),
