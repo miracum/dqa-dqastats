@@ -11,6 +11,8 @@
 
 #### Other changes
 
+-   updated news, descr and readme
+    ([cc70346](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/cc70346db9d92f572e37545def5d66982997e9f3))
 -   merged development into trino
     ([6c7e592](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/6c7e592240273f2c18a8c7b09dbb81eece651a08))
 -   merged fix-quarto-pdf into trino
@@ -29,7 +31,7 @@
     ([e53ad68](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/e53ad68ea2218f7a598cf1e30da753ff60406a8a))
 
 Full set of changes:
-[`v0.3.5...6c7e592`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.5...6c7e592)
+[`v0.3.5...cc70346`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.5...cc70346)
 
 ## v0.3.5 (2024-06-05)
 
