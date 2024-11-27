@@ -4,6 +4,11 @@
 
 <!-- badges: start -->
 
+    Warning: `git_branch_default()` was deprecated in usethis 2.1.0.
+    ℹ Please use `git_default_branch()` instead.
+    ℹ The deprecated feature was likely used in the badger package.
+      Please report the issue at <https://github.com/GuangchuangYu/badger/issues>.
+
 [![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![](https://www.r-pkg.org/badges/version/DQAstats)](https://cran.r-project.org/package=DQAstats)
 [![CRAN
@@ -17,7 +22,7 @@ status](https://github.com/miracum/dqa-dqastats/workflows/R%20CMD%20Check%20via%
 status](https://github.com/miracum/dqa-dqastats/workflows/lint/badge.svg)](https://github.com/miracum/dqa-dqastats/actions)
 [![R build
 status](https://github.com/miracum/dqa-dqastats/workflows/test-coverage/badge.svg)](https://github.com/miracum/dqa-dqastats/actions)
-[![](https://codecov.io/gh/https://github.com/miracum/dqa-dqastats/branch/master/graph/badge.svg)](https://codecov.io/gh/https://github.com/miracum/dqa-dqastats)
+[![](https://codecov.io/gh/https://github.com/miracum/dqa-dqastats/branch/master/graph/badge.svg)](https://app.codecov.io/gh/https://github.com/miracum/dqa-dqastats)
 [![](https://img.shields.io/badge/doi-10.1055/s--0041--1733847-yellow.svg)](https://doi.org/10.1055/s-0041-1733847)
 
 <!-- badges: end -->

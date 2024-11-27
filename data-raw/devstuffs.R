@@ -26,7 +26,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.3.5.9002")
+my_desc$set_version("0.3.5.9003")
 
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
@@ -109,7 +109,7 @@ usethis::use_package("DT", type = "Suggests")
 remotes_append_vector <- NULL
 
 # Development package
-tools_tag <- "dev" # e.g. "v0.1.7", "development" or "cran"
+tools_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (tools_tag == "cran") {
   install.packages("DIZtools")
 } else{
@@ -133,7 +133,7 @@ if (tools_tag == "cran") {
   }
 }
 
-utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   install.packages("DIZutils")
 } else{
