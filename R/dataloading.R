@@ -1,6 +1,6 @@
 # DQAstats - Perform data quality assessment (DQA) of electronic health
 # records (EHR)
-# Copyright (C) 2019-2022 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2024 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@ load_csv_files <- function(mdr,
 
   # original beginning of function
   inputdir <- DIZtools::clean_path_name(inputdir)
-
 
   available_systems <- mdr[get("source_system_name") == sourcesystem &
                              get("source_system_type") == "csv", ]
@@ -328,7 +327,6 @@ load_database <- function(rv,
 
   ## Initialize outlist:
   outlist <- list()
-
   ## Read data:
   outlist <- sapply(
     X = keys_to_test,
@@ -360,20 +358,51 @@ load_database <- function(rv,
           # blob/91a749cf1232b86af3d499c60b3cbb06dfe68618/R/
           # datetime_restrictions.R#L333
           # --> maybe try to resolve them / add replace string there
-          replace_string <- paste0(
-            "AS r_intermediate WHERE r_intermediate.",
-            restricting_date_var, " BETWEEN TO_TIMESTAMP('",
-            as.Date(
-              rv$restricting_date$start,
-              format = restricting_date_format
-            ),
-            "', 'YYYY-MM-DD') AND TO_TIMESTAMP('",
-            as.Date(
-              rv$restricting_date$end,
-              format = restricting_date_format
-            ),
-            " 23:59:59', 'YYYY-MM-DD HH24:MI:SS')"
-          )
+          if (db_type == "trino"){
+            replace_string <- paste0(
+              "AS r_intermediate WHERE r_intermediate.",
+              restricting_date_var, " BETWEEN TO_TIMESTAMP('",
+              as.Date(
+                rv$restricting_date$start,
+                format = restricting_date_format
+              ),
+              "', 'yyyy-mm-dd') AND TO_TIMESTAMP('",
+              as.Date(
+                rv$restricting_date$end,
+                format = restricting_date_format
+              ),
+              " 23:59:59', 'yyyy-mm-dd hh24:mi:ss')"
+            )
+          }else{
+            replace_string <- paste0(
+              "AS r_intermediate WHERE r_intermediate.",
+              restricting_date_var, " BETWEEN TO_TIMESTAMP('",
+              as.Date(
+                rv$restricting_date$start,
+                format = restricting_date_format
+              ),
+              "', 'YYYY-MM-DD') AND TO_TIMESTAMP('",
+              as.Date(
+                rv$restricting_date$end,
+                format = restricting_date_format
+              ),
+              " 23:59:59', 'YYYY-MM-DD HH24:MI:SS')"
+            )
+          }
+          # replace_string <- paste0(
+          #   "AS r_intermediate WHERE r_intermediate.",
+          #   restricting_date_var, " BETWEEN TO_TIMESTAMP('",
+          #   as.Date(
+          #     rv$restricting_date$start,
+          #     format = restricting_date_format
+          #   ),
+          #   "', 'YYYY-MM-DD') AND TO_TIMESTAMP('",
+          #   as.Date(
+          #     rv$restricting_date$end,
+          #     format = restricting_date_format
+          #   ),
+          #   " 23:59:59', 'YYYY-MM-DD HH24:MI:SS')"
+          # )
           sql <- gsub("AS r_intermediate", replace_string, sql_statements[[i]])
           msg <- paste0(msg, " (using a MODIFIED SUBSELECT)")
         } else {
@@ -658,6 +687,7 @@ load_database <- function(rv,
   return(outlist)
 }
 
+
 #' @title data_loading helper function
 #'
 #' @description Internal function to load the source and target data
@@ -735,7 +765,6 @@ load_database <- function(rv,
 #' @export
 data_loading <- function(rv, system, keys_to_test) {
   # TODO: Test it!
-  #
 
   # check if all now necessary parameters are correct:
   stopifnot(
@@ -830,7 +859,7 @@ data_loading <- function(rv, system, keys_to_test) {
     )
     outlist$sql_statements <- NA
 
-  } else if (system$system_type %in% c("oracle", "postgres")) {
+  } else if (system$system_type %in% c("oracle", "postgres", "trino")) {
 
     # import target SQL
     msg <- "Loaded SQL statements from "
@@ -916,6 +945,32 @@ data_loading <- function(rv, system, keys_to_test) {
           )
       }
       stopifnot(!is.null(db_con))
+    } else if (system$system_type == "trino") {
+
+      # test target_db
+      if (is.null(system$settings)) {
+        ## Use environment-settings:
+        db_con <-
+          DIZutils::db_connection(
+            system_name = system$system_name,
+            db_type = system$system_type,
+            headless = rv$headless,
+            logfile_dir = rv$log$logfile_dir
+          )
+      } else {
+        ## Use included settings:
+        db_con <-
+          DIZutils::db_connection(
+            system_name = system$system_name,
+            db_type = system$system_type,
+            headless = rv$headless,
+            logfile_dir = rv$log$logfile_dir,
+            from_env = FALSE,
+            settings = system$settings
+          )
+      }
+      stopifnot(!is.null(db_con))
+
     }
     # load target data
     loaded_from_db <- load_database(
@@ -927,6 +982,7 @@ data_loading <- function(rv, system, keys_to_test) {
       db_name = system$system_name,
       db_type = system$system_type
     )
+
     outlist$outdata <- sapply(
       X = names(loaded_from_db),
       FUN = function(x) {
@@ -948,5 +1004,6 @@ data_loading <- function(rv, system, keys_to_test) {
   } else {
     stop("\nThis source_system_type is currently not implemented.\n\n")
   }
+
   return(outlist)
 }

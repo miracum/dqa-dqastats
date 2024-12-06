@@ -16,7 +16,7 @@ invisible(gc()) # Garbage collector/Clear unused RAM
 # mdr_filename = "mdr_example_data.csv"
 # output_dir = "output/"
 
-
+#test
 devtools::load_all()
 ## using real data:
 #source_system_name = "i2b2"
@@ -28,10 +28,11 @@ source_system_name = "kdb"
 # target_system_name = "p21csv"
 # target_system_name = "p21staging"
 # target_system_name = "omop"
-target_system_name = "fhir_gw"
+target_system_name = "dwh"
 # config_file = "../demo_settings_INTERNAL.yml"
 #utils_path = system.file("application/_utilities/", package = "miRacumDQA")
 utils_path = "../ume_dqatool/inst/application/_utilities/"
+utils_path = "./inst/demo_data/utilities/"
 #mdr_filename = "samply_export.csv"
 mdr_filename = "mdr_mini.csv"
 #mdr_filename = "mdr_debug.csv"
@@ -48,8 +49,8 @@ DIZtools::setenv_file(
 )
 parallel = TRUE
 ncores = 4
-restricting_date_start = "2022-01-01"
-restricting_date_end = "2022-12-31"
+restricting_date_start = "2021-01-01"
+restricting_date_end = "2021-12-31"
 
 # Sys.setenv("P21CSV_PATH" = "~/development/_p21/data/2018_merged/")
 

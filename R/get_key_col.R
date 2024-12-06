@@ -1,6 +1,6 @@
 # DQAstats - Perform data quality assessment (DQA) of electronic health
 # records (EHR)
-# Copyright (C) 2019-2022 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2024 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,14 +25,14 @@ get_key_col <- function(rv) {
     # our table is the "variable_name" (correspondingly,
     # the variable_name is used to store the sql statements)
   } else if (rv$source$system_type %in%
-             c("postgres", "mysql", "fhir", "oracle")) {
+             c("postgres", "oracle", "trino")) {
     # Back to key: 'variable_name' was assigned here:
     key_col_name_src <- "key"
   }
   if (rv$target$system_type == "csv") {
     key_col_name_tar <- "source_table_name"
   } else if (rv$target$system_type %in%
-             c("postgres", "mysql", "fhir", "oracle")) {
+             c("postgres", "oracle", "trino")) {
     # Back to key: 'variable_name' was assigned here:
     key_col_name_tar <- "key"
   }

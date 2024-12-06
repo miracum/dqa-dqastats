@@ -1,6 +1,6 @@
 # DQAstats - Perform data quality assessment (DQA) of electronic health
 # records (EHR)
-# Copyright (C) 2019-2022 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2024 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -204,7 +204,7 @@ create_helper_vars <- function(mdr,
     } else if (mdr[get("source_system_name") ==
                    eval(parse(text = paste0(f, "_db"))),
                    unique(get("source_system_type"))] %in%
-               c("postgres", "oracle")) {
+               c("postgres", "oracle", "trino")) {
       outlist[[paste0("keys_", f)]] <-
         mdr[get("variable_name") != "undefined" & get("key") != "undefined", ][
           get("source_system_name") == eval(parse(text = paste0(f, "_db"))),

@@ -1,6 +1,6 @@
 # DQAstats - Perform data quality assessment (DQA) of electronic health
 # records (EHR)
-# Copyright (C) 2019-2022 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2024 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -273,7 +273,7 @@ apply_time_restriciton <- function(data,
     data[, (colname_tmp) := NULL]
     res <- data
     return(res)
-  } else if (system_type %in% c("postgres", "oracle")) {
+  } else if (system_type %in% c("postgres", "oracle", "trino")) {
     if (is.null(system_name) || is.null(mdr) || is.null(db_con)) {
       DIZtools::feedback(
         print_this = paste0(
@@ -614,7 +614,7 @@ get_restricting_date_info <- function(restricting_date,
           "nkung. Alle vorliegenden Daten wurden analysiert"
         )
     } else {
-      res <- "No time restriction. All available data were analysed"
+      res <- "No time restriction. All available data were analyzed"
     }
   }
   return(res)
