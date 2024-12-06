@@ -2,7 +2,7 @@
 
 # DQAstats NEWS
 
-## Unreleased (2024-11-27)
+## v0.3.6 (2024-11-27)
 
 #### Bug fixes
 
@@ -11,6 +11,12 @@
 
 #### Other changes
 
+-   updated copyright statement
+    ([834bc83](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/834bc83e0131d8ad298c0f4f20d7cc1dddf4ea0f))
+-   udpated readme.md
+    ([095df26](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/095df2682877947906adfb6501645cc6ac01ca9d))
+-   updated descr and news.md
+    ([1ca3d60](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/1ca3d609ea44fcf93ce79349bed363f13563772f))
 -   updated news, descr and readme
     ([cc70346](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/cc70346db9d92f572e37545def5d66982997e9f3))
 -   merged development into trino
@@ -31,7 +37,7 @@
     ([e53ad68](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/e53ad68ea2218f7a598cf1e30da753ff60406a8a))
 
 Full set of changes:
-[`v0.3.5...cc70346`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.5...cc70346)
+[`v0.3.5...v0.3.6`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.5...v0.3.6)
 
 ## v0.3.5 (2024-06-05)
 
