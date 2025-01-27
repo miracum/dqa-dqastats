@@ -2,6 +2,20 @@
 
 # DQAstats NEWS
 
+## Unreleased (2024-12-06)
+
+#### Other changes
+
+-   merged master into development
+    ([2061ab0](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/2061ab0b1859262e50f1a4f8d5a49b2dcfe78946))
+-   updated development-version
+    ([73c9fda](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/73c9fdadb62f9a325d4b72f58b784b9a9b7283aa))
+-   merged all into master
+    ([9ee9e59](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/9ee9e594d651dd048b6389ad96b1c6e761050435))
+
+Full set of changes:
+[`v0.3.6...2061ab0`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.6...2061ab0)
+
 ## v0.3.6 (2024-11-27)
 
 #### Bug fixes
@@ -23,8 +37,14 @@
     ([6c7e592](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/6c7e592240273f2c18a8c7b09dbb81eece651a08))
 -   merged fix-quarto-pdf into trino
     ([0d4b012](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/0d4b012a750425c24da7f350f90a3014cf40392e))
+-   update rocker/verse docker tag to v4.4.2
+    ([d209174](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/d20917429c461341fa6aaf21d667e38e4887036d))
 -   cleaning up
     ([a5bcbed](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/a5bcbedbe566ca566e9749985dc098b19e4d3402))
+-   update actions/cache action to v4
+    ([712dc88](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/712dc88937f457102fe18eb172f080a0ce462cbf))
+-   update rocker/verse docker tag to v4.4.1
+    ([5c6563c](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/5c6563c0899d26bd6b507fe3148c2df2332b77c0))
 -   updated desc and news md, fixed typo
     ([919018f](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/919018f4d90f0b8bcbeef62b6f42b8dd5cd0c951))
 -   merged fix for quarto pdf
