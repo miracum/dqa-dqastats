@@ -2,10 +2,12 @@
 
 # DQAstats NEWS
 
-## Unreleased (2024-12-06)
+## Unreleased (2025-01-27)
 
 #### Other changes
 
+-   prep new version bump
+    ([e8fd8ff](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/e8fd8ff9c0b2dc0cacd1ce9876a4135a73341c53))
 -   merged master into development
     ([2061ab0](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/2061ab0b1859262e50f1a4f8d5a49b2dcfe78946))
 -   updated development-version
@@ -14,7 +16,7 @@
     ([9ee9e59](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/9ee9e594d651dd048b6389ad96b1c6e761050435))
 
 Full set of changes:
-[`v0.3.6...2061ab0`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.6...2061ab0)
+[`v0.3.6...e8fd8ff`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.6...e8fd8ff)
 
 ## v0.3.6 (2024-11-27)
 

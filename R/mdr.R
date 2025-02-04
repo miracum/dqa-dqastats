@@ -61,7 +61,8 @@ read_mdr <- function(utils_path = NULL, mdr_filename = "mdr.csv") {
 
   mdr <- data.table::fread(
     file = mdr_path,
-    header = TRUE
+    header = TRUE,
+    colClasses = "character"
   )
 
   # fix columns that contain json strings (due to multiple quotation marks)
