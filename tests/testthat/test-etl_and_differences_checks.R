@@ -19,6 +19,7 @@ library(data.table)
 
 test_that("correct functioning of etl_checks and difference_checks", {
 
+  parallel(parallel = TRUE, logfile_dir = tempdir(), ncores = 2)
 
   utils_path <- system.file(
     "demo_data/utilities/",
