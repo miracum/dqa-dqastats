@@ -2,10 +2,21 @@
 
 # DQAstats NEWS
 
-## Unreleased (2025-02-04)
+## v0.3.7 (2025-02-05)
+
+#### New features
+
+-   adding thread limit for cran checks
+    ([8d45355](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/8d45355c8916c03eaf0d9cdce04b48c04d39947f))
 
 #### Bug fixes
 
+-   another try not going parallel on cran
+    ([6bba532](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/6bba532e3f610e67487f310e3a116d7353659aba))
+-   fixing yet another issue introduced with new r-devel #2
+    ([afe33b0](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/afe33b0cf23ce5d310a787eed76cd679ceebf015))
+-   fixing yet another issue introduced with new r-devel
+    ([36e7d3d](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/36e7d3d2a3238dd21d2b4b785fb75633d828d15d))
 -   fixed cran issue showing up in r-devel
     ([ae0ed6b](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/ae0ed6b69966eee8643ffa1341d083690ad5cb5f))
 
@@ -21,7 +32,7 @@
     ([9ee9e59](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/9ee9e594d651dd048b6389ad96b1c6e761050435))
 
 Full set of changes:
-[`v0.3.6...ae0ed6b`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.6...ae0ed6b)
+[`v0.3.6...v0.3.7`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.6...v0.3.7)
 
 ## v0.3.6 (2024-11-27)
 
