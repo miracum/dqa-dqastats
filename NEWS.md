@@ -2,7 +2,12 @@
 
 # DQAstats NEWS
 
-## Unreleased (2025-01-27)
+## Unreleased (2025-02-04)
+
+#### Bug fixes
+
+-   fixed cran issue showing up in r-devel
+    ([ae0ed6b](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/ae0ed6b69966eee8643ffa1341d083690ad5cb5f))
 
 #### Other changes
 
@@ -16,7 +21,7 @@
     ([9ee9e59](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/9ee9e594d651dd048b6389ad96b1c6e761050435))
 
 Full set of changes:
-[`v0.3.6...e8fd8ff`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.6...e8fd8ff)
+[`v0.3.6...ae0ed6b`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.6...ae0ed6b)
 
 ## v0.3.6 (2024-11-27)
 
