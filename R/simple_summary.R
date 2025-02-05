@@ -17,11 +17,7 @@
 #
 # simple summary
 simple_summary <- function(vector) {
-  ar <- data.table::as.data.table(
-    as.array(summary(vector)),
-    keep.rownames = TRUE,
-    na.rm = FALSE
-  )
+  ar <- array2DF(as.array(summary(vector)))
   ar[, 2] <- as.character(ar[, 2])
   colnames(ar) <- c(" ", " ")
   return(ar)
