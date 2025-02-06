@@ -7,4 +7,5 @@ if (getRversion() >= "2.15.1") {
 }
 # https://github.com/Rdatatable/data.table/issues/5658
 Sys.setenv("OMP_THREAD_LIMIT" = 2)
+Sys.setenv("Ncpu" = 2)
 test_check("DQAstats")
