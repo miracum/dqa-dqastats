@@ -19,8 +19,6 @@ library(data.table)
 
 test_that("correct functioning of descriptive results", {
 
-  parallel(parallel = TRUE, logfile_dir = tempdir(), ncores = 2)
-
   source_system_name <- "exampleCSV_source"
   target_system_name <- "exampleCSV_target"
 
@@ -168,8 +166,6 @@ test_that("correct functioning of descriptive results", {
 
 
 test_that("correct functioning of descriptive results - single source", {
-
-  parallel(parallel = TRUE, logfile_dir = tempdir(), ncores = 2)
 
   source_system_name <- "exampleCSV_source"
   target_system_name <- "exampleCSV_target"

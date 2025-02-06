@@ -74,87 +74,9 @@ get_where_filter <- function(filter) {
 #'
 #' @export
 parallel <- function(parallel, logfile_dir, ncores) {
-  if (isTRUE(parallel) && future::availableCores() > 1) {
-    if (ncores > future::availableCores()) {
-      ncores <- future::availableCores() %>%
-        unname()
-    }
-
-    if (.Platform$OS.type == "unix") {
-      DIZtools::feedback(
-        "using future::plan(\"multicore\")",
-        logjs = FALSE,
-        findme = "8e8817df64",
-        logfile_dir = logfile_dir,
-        headless = TRUE
-      )
-
-      fplan <- tryCatch(
-        expr = {
-          suppressWarnings(
-            fplan <- future::plan("multicore", workers = ncores)
-          )
-          fplan
-        }, error = function(e) {
-          DIZtools::feedback(
-            e,
-            logjs = FALSE,
-            findme = "8e8817df63",
-            logfile_dir = logfile_dir,
-            headless = TRUE
-          )
-          fplan <- "error"
-          fplan
-        }, finally = function(f) {
-          fplan
-        }
-      )
-
-    } else {
-      DIZtools::feedback(
-        "using future::plan(\"multisession\")",
-        logjs = FALSE,
-        findme = "d142855e3c",
-        logfile_dir = logfile_dir,
-        headless = TRUE
-      )
-      fplan <- tryCatch(
-        expr = {
-          suppressWarnings(
-            fplan <- future::plan("multisession", workers = ncores)
-          )
-          fplan
-        }, error = function(e) {
-          DIZtools::feedback(
-            e,
-            logjs = FALSE,
-            findme = "8e8817df62",
-            logfile_dir = logfile_dir,
-            headless = TRUE
-          )
-          fplan <- "error"
-          fplan
-        }, finally = function(f) {
-          fplan
-        }
-      )
-    }
-  }
-
-  if (isFALSE(parallel) || fplan == "error") {
-    DIZtools::feedback(
-      "using future::plan(\"sequential\")",
-      logjs = FALSE,
-      findme = "4294f43e54",
-      logfile_dir = logfile_dir,
-      headless = TRUE
-    )
-    suppressWarnings(
-      fplan <- future::plan("sequential")
-    )
-  }
-  # https://www.rdocumentation.org/packages/future/versions/1.24.0/topics/plan
-  on.exit(future::plan(fplan), add = TRUE)
+  message(paste0(
+    "Deprecation warning: `DQAstats::parallel` will ",
+    "be removed in a future release "))
 }
 
 #' @title Checks if there is a LaTeX installation available

@@ -20,6 +20,13 @@
 -   fixed cran issue showing up in r-devel
     ([ae0ed6b](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/ae0ed6b69966eee8643ffa1341d083690ad5cb5f))
 
+#### Tests
+
+-   added call to parallel before every test
+    ([96de8db](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/96de8db9415bf24d06e08449e716ac4fe550ed28))
+-   trying to fix tests to address parallelization on cran
+    ([16ad077](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/16ad077bb98209a842ee9ebdb43814a32247705f))
+
 #### Other changes
 
 -   prep new version bump

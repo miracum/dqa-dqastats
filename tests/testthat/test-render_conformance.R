@@ -19,8 +19,6 @@ library(data.table)
 
 test_that("correct functioning of rendering the conformance results", {
 
-  parallel(parallel = TRUE, logfile_dir = tempdir(), ncores = 2)
-
   utils_path <- system.file(
     "demo_data/utilities/",
     package = "DQAstats"
