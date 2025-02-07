@@ -37,11 +37,6 @@
 #'   be stored (default: `paste0(tempdir(), "/output/")`).
 #' @param logfile_dir The absolute path to folder where the logfile
 #'   will be stored default(`tempdir()`).
-#' @param parallel A boolean. If TRUE, initializing a `future::plan()`
-#'   for running the code (default: FALSE).
-#' @param ncores A integer. The number of cores to use. Caution: you would
-#'   probably like to choose a low number when operating on large datasets.
-#'   Default: 2.
 #' @param restricting_date_start The date as the lower limit against which
 #'   the data to be analyzed will be filtered. Your input must be able to be
 #'   recognized as a date by `parsedate::parse_date("2021-02-25")`.
@@ -88,8 +83,7 @@
 #'   target_system_name = "exampleCSV_target",
 #'   utils_path = utils_path,
 #'   mdr_filename = "mdr_example_data.csv",
-#'   output_dir = paste0(tempdir(), "/output/"),
-#'   parallel = FALSE
+#'   output_dir = paste0(tempdir(), "/output/")
 #' )
 #' }
 #' @export
@@ -100,8 +94,6 @@ dqa <- function(source_system_name,
                 mdr_filename = "mdr.csv",
                 output_dir = paste0(tempdir(), "/output/"),
                 logfile_dir = tempdir(),
-                parallel = FALSE,
-                ncores = 2,
                 restricting_date_start = NULL,
                 restricting_date_end = NULL,
                 restricting_date_format = NULL) {
@@ -126,9 +118,7 @@ dqa <- function(source_system_name,
     is.character(mdr_filename),
     is.character(output_dir),
     is.character(logfile_dir),
-    dir.exists(logfile_dir),
-    is.logical(parallel),
-    is.numeric(ncores)
+    dir.exists(logfile_dir)
   )
 
   # initialize rv-list
@@ -154,15 +144,6 @@ dqa <- function(source_system_name,
 
   # current date
   rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
-
-  # set parallel backend
-  rv$parallel <- parallel
-  rv$ncores <- ncores
-  parallel(
-    parallel = rv$parallel,
-    logfile_dir = rv$log$logfile_dir,
-    ncores = rv$ncores
-  )
 
   ## Save restricting date information to rv object:
   if (is.null(restricting_date_start) ||
@@ -523,16 +504,6 @@ dqa <- function(source_system_name,
   rv$duration <- difftime(rv$end_time,
                           rv$start_time,
                           units = "mins")
-
-  # parallel fallback
-  DIZtools::feedback(
-    "using future::plan(\"sequential\")",
-    logjs = FALSE,
-    findme = "0875ba600d",
-    logfile_dir = logfile_dir,
-    headless = TRUE
-  )
-  suppressWarnings(future::plan("sequential"))
 
   print(rv$duration)
   return(rv)

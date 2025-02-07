@@ -2,7 +2,7 @@
 
 # DQAstats NEWS
 
-## v0.3.7 (2025-02-05)
+## Unreleased (2025-02-06)
 
 #### New features
 
@@ -11,6 +11,8 @@
 
 #### Bug fixes
 
+-   removed every call to future plan to avoid going parallel
+    ([e570d40](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/e570d40047daba81dc04e388b606a0d2d16e173d))
 -   another try not going parallel on cran
     ([6bba532](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/6bba532e3f610e67487f310e3a116d7353659aba))
 -   fixing yet another issue introduced with new r-devel #2
@@ -29,6 +31,8 @@
 
 #### Other changes
 
+-   setenv ncpu to testthat.r
+    ([b9b4dd0](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/b9b4dd0a46b335a30d1aaca791e2f9079adbd672))
 -   prep new version bump
     ([e8fd8ff](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/e8fd8ff9c0b2dc0cacd1ce9876a4135a73341c53))
 -   merged master into development
@@ -39,7 +43,7 @@
     ([9ee9e59](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/9ee9e594d651dd048b6389ad96b1c6e761050435))
 
 Full set of changes:
-[`v0.3.6...v0.3.7`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.6...v0.3.7)
+[`v0.3.6...b9b4dd0`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.6...b9b4dd0)
 
 ## v0.3.6 (2024-11-27)
 

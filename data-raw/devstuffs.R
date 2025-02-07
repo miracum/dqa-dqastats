@@ -84,7 +84,6 @@ my_desc$write(file = "DESCRIPTION")
 
 # Imports
 usethis::use_package("data.table", type = "Imports")
-usethis::use_package("future", type = "Imports")
 usethis::use_package("future.apply", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("kableExtra", type = "Imports")

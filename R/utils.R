@@ -64,7 +64,13 @@ get_where_filter <- function(filter) {
 #'
 #' @description Internal function to initialize the parallel backend.
 #'
-#' @inheritParams dqa
+#' @param logfile_dir The absolute path to folder where the logfile
+#'   will be stored default(`tempdir()`).
+#' @param parallel A boolean. If TRUE, initializing a `future::plan()`
+#'   for running the code (default: FALSE).
+#' @param ncores A integer. The number of cores to use. Caution: you would
+#'   probably like to choose a low number when operating on large datasets.
+#'   Default: 2.
 #'
 #' @return No return value. Depending on the specified arguments, this function
 #'   enables a parallel backend for faster computations.

@@ -471,8 +471,7 @@ all_results <- DQAstats::dqa(
   utils_path = utils_path,
   mdr_filename = mdr_filename,
   output_dir = output_dir,
-  logfile_dir = logfile_dir,
-  parallel = FALSE
+  logfile_dir = logfile_dir
 )
 ```
 

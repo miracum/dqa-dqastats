@@ -11,8 +11,6 @@ dqa(
   mdr_filename = "mdr.csv",
   output_dir = paste0(tempdir(), "/output/"),
   logfile_dir = tempdir(),
-  parallel = FALSE,
-  ncores = 2,
   restricting_date_start = NULL,
   restricting_date_end = NULL,
   restricting_date_format = NULL
@@ -40,13 +38,6 @@ be stored (default: \code{paste0(tempdir(), "/output/")}).}
 
 \item{logfile_dir}{The absolute path to folder where the logfile
 will be stored default(\code{tempdir()}).}
-
-\item{parallel}{A boolean. If TRUE, initializing a \code{future::plan()}
-for running the code (default: FALSE).}
-
-\item{ncores}{A integer. The number of cores to use. Caution: you would
-probably like to choose a low number when operating on large datasets.
-Default: 2.}
 
 \item{restricting_date_start}{The date as the lower limit against which
 the data to be analyzed will be filtered. Your input must be able to be
@@ -101,8 +92,7 @@ results <- DQAstats::dqa(
   target_system_name = "exampleCSV_target",
   utils_path = utils_path,
   mdr_filename = "mdr_example_data.csv",
-  output_dir = paste0(tempdir(), "/output/"),
-  parallel = FALSE
+  output_dir = paste0(tempdir(), "/output/")
 )
 }
 }

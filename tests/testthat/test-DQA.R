@@ -38,12 +38,11 @@ test_that("correct functioning of DQA", {
     utils_path = utils_path,
     mdr_filename = mdr_filename,
     output_dir = output_dir,
-    logfile_dir = tempdir(),
-    parallel = FALSE
+    logfile_dir = tempdir()
   )
 
   expect_type(all_results, "list")
-  expect_length(all_results, 28)
+  expect_length(all_results, 26)
 
   # Remove the settings and output-folder:
   do.call(file.remove, list(list.files(

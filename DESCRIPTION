@@ -1,7 +1,7 @@
 Package: DQAstats
 Title: Core Functions for Data Quality Assessment
 Version: 0.3.7
-Date: 2025-02-06
+Date: 2025-02-07
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
@@ -21,7 +21,6 @@ Imports:
     data.table,
     DIZtools (>= 0.0.8),
     DIZutils (>= 0.1.2),
-    future,
     future.apply,
     jsonlite,
     kableExtra,

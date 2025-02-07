@@ -17,7 +17,7 @@
 
 library(data.table)
 
-test_that("correct functioning of readme example (parallel = FALSE)", {
+test_that("correct functioning of readme example", {
 
   # Set environment vars to demo files paths:
   Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file("demo_data",
@@ -34,12 +34,11 @@ test_that("correct functioning of readme example (parallel = FALSE)", {
     target_system_name = "exampleCSV_target",
     utils_path = utils_path,
     mdr_filename = "mdr_example_data.csv",
-    output_dir = paste0(tempdir(), "/output/"),
-    parallel = FALSE
+    output_dir = paste0(tempdir(), "/output/")
   )
 
   expect_type(results, "list")
-  expect_length(results, 28)
+  expect_length(results, 26)
 
   do.call(
     file.remove,
