@@ -140,6 +140,9 @@ results <- DQAstats::dqa(
 # The PDF report is stored at "./output/"
 ```
 
+For parallel processing, you need to set up a `future::plan()` before
+running `DQAstats::dqa()`.
+
 ## Demo Usage / Deployment Examples
 
 You can test the package without needing to install anything except

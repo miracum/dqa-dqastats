@@ -2,7 +2,7 @@
 
 # DQAstats NEWS
 
-## Unreleased (2025-02-06)
+## v0.3.7 (2025-02-07)
 
 #### New features
 
@@ -11,6 +11,8 @@
 
 #### Bug fixes
 
+-   also removed import of future pkg
+    ([4c88c25](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/4c88c2589a5162a38bb281e6b2a2e0f784848325))
 -   removed every call to future plan to avoid going parallel
     ([e570d40](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/e570d40047daba81dc04e388b606a0d2d16e173d))
 -   another try not going parallel on cran
@@ -43,7 +45,7 @@
     ([9ee9e59](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/9ee9e594d651dd048b6389ad96b1c6e761050435))
 
 Full set of changes:
-[`v0.3.6...b9b4dd0`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.6...b9b4dd0)
+[`v0.3.6...v0.3.7`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.6...v0.3.7)
 
 ## v0.3.6 (2024-11-27)
 

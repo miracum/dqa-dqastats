@@ -60,31 +60,6 @@ get_where_filter <- function(filter) {
 }
 
 
-#' @title parallel helper function
-#'
-#' @description Internal function to initialize the parallel backend.
-#'
-#' @param logfile_dir The absolute path to folder where the logfile
-#'   will be stored default(`tempdir()`).
-#' @param parallel A boolean. If TRUE, initializing a `future::plan()`
-#'   for running the code (default: FALSE).
-#' @param ncores A integer. The number of cores to use. Caution: you would
-#'   probably like to choose a low number when operating on large datasets.
-#'   Default: 2.
-#'
-#' @return No return value. Depending on the specified arguments, this function
-#'   enables a parallel backend for faster computations.
-#'
-#' @examples
-#' parallel(parallel = FALSE, logfile_dir = tempdir(), ncores = 1)
-#'
-#' @export
-parallel <- function(parallel, logfile_dir, ncores) {
-  message(paste0(
-    "Deprecation warning: `DQAstats::parallel` will ",
-    "be removed in a future release "))
-}
-
 #' @title Checks if there is a LaTeX installation available
 #'
 #' @description Internal function to determine if a LaTeX installation is
