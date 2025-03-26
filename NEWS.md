@@ -2,6 +2,18 @@
 
 # DQAstats NEWS
 
+## Unreleased (2025-02-07)
+
+#### Other changes
+
+-   updated namespace
+    ([700ae2d](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/700ae2db9fc7eb7ac0c67fed0903020b9932eb00))
+-   removed deprecated function parallel()
+    ([6e8f453](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/6e8f45324d3cae588148ca0f49c52fce05155cc3))
+
+Full set of changes:
+[`v0.3.7...700ae2d`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.7...700ae2d)
+
 ## v0.3.7 (2025-02-07)
 
 #### New features
