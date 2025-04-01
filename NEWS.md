@@ -2,7 +2,12 @@
 
 # DQAstats NEWS
 
-## Unreleased (2025-02-07)
+## v0.3.8 (2025-03-26)
+
+#### Bug fixes
+
+-   make vignette static to address cran errors
+    ([f427ca8](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/f427ca88709e9e8a7d4530ba49b0189a2064c823))
 
 #### Other changes
 
@@ -12,7 +17,7 @@
     ([6e8f453](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/6e8f45324d3cae588148ca0f49c52fce05155cc3))
 
 Full set of changes:
-[`v0.3.7...700ae2d`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.7...700ae2d)
+[`v0.3.7...v0.3.8`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.7...v0.3.8)
 
 ## v0.3.7 (2025-02-07)
 
