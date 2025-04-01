@@ -2,6 +2,18 @@
 
 # DQAstats NEWS
 
+## Unreleased (2025-04-01)
+
+#### Other changes
+
+-   merged remote into local
+    ([7e40ca1](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/7e40ca14ee4da0a74c2ea699036c08395ff3929f))
+-   updated news.md
+    ([574190c](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/574190ccdf8a474bb92df80dc5d7414a1764e683))
+
+Full set of changes:
+[`v0.3.8...7e40ca1`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.8...7e40ca1)
+
 ## v0.3.8 (2025-03-26)
 
 #### Bug fixes
@@ -11,6 +23,8 @@
 
 #### Other changes
 
+-   update rocker/verse docker tag to v4.4.3
+    ([75f4689](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/75f4689942f2cfb635710ef2b05384ec4fbfd380))
 -   updated namespace
     ([700ae2d](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/700ae2db9fc7eb7ac0c67fed0903020b9932eb00))
 -   removed deprecated function parallel()
