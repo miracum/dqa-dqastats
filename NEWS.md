@@ -6,13 +6,15 @@
 
 #### Other changes
 
+-   updated news.md
+    ([fe7390b](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/fe7390b01b77c84753df9e558e2d62a7f2ee2ce9))
 -   merged remote into local
     ([7e40ca1](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/7e40ca14ee4da0a74c2ea699036c08395ff3929f))
 -   updated news.md
     ([574190c](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/574190ccdf8a474bb92df80dc5d7414a1764e683))
 
 Full set of changes:
-[`v0.3.8...7e40ca1`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.8...7e40ca1)
+[`v0.3.8...fe7390b`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.8...fe7390b)
 
 ## v0.3.8 (2025-03-26)
 

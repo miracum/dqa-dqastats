@@ -19,6 +19,9 @@ library(data.table)
 
 test_that("correct functioning of datetime requirements", {
 
+  local_edition(3)
+  local_reproducible_output(rstudio = TRUE)
+
   utils_path <- system.file(
     "demo_data/utilities/",
     package = "DQAstats"
@@ -54,7 +57,10 @@ test_that("correct functioning of datetime requirements", {
 
 test_that("correct functioning of apply time restrictions", {
   skip_on_cran()
+
   local_edition(3)
+  local_reproducible_output(rstudio = TRUE)
+
   sql_statement <- "SELECT patient_num FROM i2b2miracum.patient_dimension;"
 
   fake_mdr <- data.table::data.table(
@@ -81,7 +87,11 @@ test_that("correct functioning of apply time restrictions", {
     verify_on_db = FALSE
   )
 
-  expect_snapshot(test)
+  expect_snapshot(
+    test,
+    cran = FALSE,
+    error = FALSE
+  )
 
   do.call(
     file.remove,
@@ -93,15 +103,22 @@ test_that("correct functioning of apply time restrictions", {
 
 
 test_that("correct functioning of get_restricting_date_info", {
-  local_edition(3)
   skip_on_cran()
+
+  local_edition(3)
+  local_reproducible_output(rstudio = TRUE)
+
   test <- get_restricting_date_info(
     restricting_date = list("use_it" = TRUE,
                             start = "2010-01-01",
                             end = "2011-01-01")
   )
 
-  expect_snapshot(test)
+  expect_snapshot(
+    test,
+    cran = FALSE,
+    error = FALSE
+  )
 
   do.call(
     file.remove,
