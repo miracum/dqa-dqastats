@@ -19,6 +19,9 @@ library(data.table)
 
 test_that("correct functioning of statistics", {
 
+  local_edition(3)
+  local_reproducible_output(rstudio = TRUE)
+
   set.seed(1)
   testdat <- data.table::data.table(
     "gender" = sample(x = c("m", "f", "u"),
@@ -44,7 +47,11 @@ test_that("correct functioning of statistics", {
     vector = testdat$age
   )
 
-  expect_snapshot_value(testres, style = "json2")
+  expect_snapshot(
+    testres,
+    cran = FALSE,
+    error = FALSE
+  )
 
   do.call(
     file.remove,

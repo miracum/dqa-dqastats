@@ -1,40 +1,20 @@
 # correct functioning of statistics
 
-    {
-      "type": "list",
-      "attributes": {
-        "names": {
-          "type": "character",
-          "attributes": {},
-          "value": [" ", " "]
-        },
-        "row.names": {
-          "type": "integer",
-          "attributes": {},
-          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        },
-        "class": {
-          "type": "character",
-          "attributes": {},
-          "value": ["data.table", "data.frame"]
-        },
-        ".internal.selfref": {
-          "type": "externalptr",
-          "attributes": {},
-          "value": {}
-        }
-      },
-      "value": [
-        {
-          "type": "character",
-          "attributes": {},
-          "value": ["Mean", "Minimum", "Median", "Maximum", "SD", "Negativ", "Zero", "Positive", "OutLo", "OutHi", "Variance", "Range"]
-        },
-        {
-          "type": "character",
-          "attributes": {},
-          "value": ["43.03", "32.15", "42.7", "55.86", "6.72", "0", "0", "20", "0", "0", "45.18", "23.7"]
-        }
-      ]
-    }
+    Code
+      testres
+    Output
+                         
+            <char> <char>
+       1:     Mean  43.03
+       2:  Minimum  32.15
+       3:   Median   42.7
+       4:  Maximum  55.86
+       5:       SD   6.72
+       6:  Negativ      0
+       7:     Zero      0
+       8: Positive     20
+       9:    OutLo      0
+      10:    OutHi      0
+      11: Variance  45.18
+      12:    Range   23.7
 

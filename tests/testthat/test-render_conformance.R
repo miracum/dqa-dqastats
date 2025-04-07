@@ -19,6 +19,9 @@ library(data.table)
 
 test_that("correct functioning of rendering the conformance results", {
 
+  local_edition(3)
+  local_reproducible_output(rstudio = TRUE)
+
   utils_path <- system.file(
     "demo_data/utilities/",
     package = "DQAstats"
@@ -152,8 +155,11 @@ test_that("correct functioning of rendering the conformance results", {
     }
   )
 
-  local_edition(3)
-  expect_snapshot(value_conformance_formatted, cran = FALSE)
+  expect_snapshot(
+    value_conformance_formatted,
+    cran = FALSE,
+    error = FALSE
+  )
 
   do.call(
     file.remove,

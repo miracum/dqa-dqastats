@@ -26,7 +26,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.3.8.9001")
+my_desc$set_version("0.3.9")
 
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
