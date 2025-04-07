@@ -6,8 +6,13 @@
 
 #### Other changes
 
+-   udpated description and news.md
+    ([5da6b2a](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/5da6b2a24ee2aa78bb1f16f5c49635872948cab0))
 -   updated newsmd
     ([a6ad8f4](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/a6ad8f478c1362aa1f4358d1c2c813374e9bda03))
+
+Full set of changes:
+[`v0.3.9...5da6b2a`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.9...5da6b2a)
 
 ## v0.3.9 (2025-04-07)
 
