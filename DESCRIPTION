@@ -1,12 +1,7 @@
 Package: DQAstats
 Title: Core Functions for Data Quality Assessment
-<<<<<<< HEAD
-Version: 0.3.8
-Date: 2025-04-01
-=======
 Version: 0.3.9
 Date: 2025-04-07
->>>>>>> development
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
@@ -49,4 +44,3 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 SystemRequirements: Quarto command line tools
     (https://github.com/quarto-dev/quarto-cli).
-RoxygenNote: 7.3.2

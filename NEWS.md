@@ -2,10 +2,24 @@
 
 # DQAstats NEWS
 
-## Unreleased (2025-04-01)
+## Unreleased (2025-04-07)
 
 #### Other changes
 
+-   updated newsmd
+    ([a6ad8f4](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/a6ad8f478c1362aa1f4358d1c2c813374e9bda03))
+
+## v0.3.9 (2025-04-07)
+
+#### Bug fixes
+
+-   fixing unittests for cran - get rid of expect_snapshot_value
+    ([2f1b8d0](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/2f1b8d0c703a47cd00e30d41d4619f648f063d52))
+
+#### Other changes
+
+-   updated new dev-version
+    ([4c895ab](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/4c895ab42784283745d9e2950d4474eae5b7c6e3))
 -   updated news.md
     ([fe7390b](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/fe7390b01b77c84753df9e558e2d62a7f2ee2ce9))
 -   merged remote into local
@@ -14,7 +28,7 @@
     ([574190c](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/tree/574190ccdf8a474bb92df80dc5d7414a1764e683))
 
 Full set of changes:
-[`v0.3.8...fe7390b`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.8...fe7390b)
+[`v0.3.8...v0.3.9`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqastats/compare/v0.3.8...v0.3.9)
 
 ## v0.3.8 (2025-03-26)
 
