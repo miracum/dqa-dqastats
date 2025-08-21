@@ -64,7 +64,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v2
         if: matrix.config.latex == 'true'
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         if: matrix.config.java == 'true'
         with:
           distribution: 'temurin'
