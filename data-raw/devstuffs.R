@@ -26,7 +26,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.3.9.9001")
+my_desc$set_version("0.3.9.9002")
 
 # The title of your package
 my_desc$set(Title = "Core Functions for Data Quality Assessment")
@@ -212,6 +212,7 @@ usethis::use_build_ignore("cran-comments.md")
 usethis::use_build_ignore("man/figures")
 usethis::use_build_ignore("Rplots.pdf")
 usethis::use_build_ignore("/dqa-dqastats.wiki/")
+usethis::use_build_ignore(".pre-commit-config.yaml")
 
 
 ## .gitignore:
@@ -263,6 +264,7 @@ usethis::use_git_ignore("!/docker/.env")
 usethis::use_git_ignore(".~lock.*.csv#")
 usethis::use_git_ignore("!/manifests/")
 usethis::use_git_ignore("!cran-comments.md")
+usethis::use_git_ignore("!.pre-commit-config.yaml")
 
 
 

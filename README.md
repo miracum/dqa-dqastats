@@ -19,7 +19,6 @@ status](https://github.com/miracum/dqa-dqastats/workflows/lint/badge.svg)](https
 status](https://github.com/miracum/dqa-dqastats/workflows/test-coverage/badge.svg)](https://github.com/miracum/dqa-dqastats/actions)
 [![](https://codecov.io/gh/https://github.com/miracum/dqa-dqastats/branch/master/graph/badge.svg)](https://app.codecov.io/gh/https://github.com/miracum/dqa-dqastats)
 [![](https://img.shields.io/badge/doi-10.1055/s--0041--1733847-yellow.svg)](https://doi.org/10.1055/s-0041-1733847)
-
 <!-- badges: end -->
 
 - [DQAstats](#dqastats)

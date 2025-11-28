@@ -1,0 +1,25 @@
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+  - post-commit
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+    - id: check-added-large-files
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+      args: [ --markdown-linebreak-ext=md ]
+    - id: detect-private-key
+
+  - repo: https://github.com/uker-troi-lab/commit_hooks.git
+    rev: v0.0.1
+    hooks:
+    - id: check-commit-msg
+
+  - repo: https://github.com/kapsner/autonewsmd
+    rev: 6cf561a825945de4c2a87a7a71bd5300a5a6e73c
+    hooks:
+    - id: changelog-helper
+    - id: recreate-changelog

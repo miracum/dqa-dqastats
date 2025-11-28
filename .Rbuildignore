@@ -35,4 +35,4 @@
 ^man/figures$
 ^Rplots\.pdf$
 ^/dqa-dqastats\.wiki$
-^\.Rproj\.user$
+^\.pre-commit-config\.yaml$
