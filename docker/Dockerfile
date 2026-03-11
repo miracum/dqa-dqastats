@@ -1,4 +1,4 @@
-FROM rocker/verse:4.5.2
+FROM rocker/verse:4.5.3
 
 ENV DEBIAN_FRONTEND=noninteractive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
